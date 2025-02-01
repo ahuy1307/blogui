@@ -3,9 +3,16 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            refetchInterval: false,
+        },
+    },
+})
 
-function QueryClientContext({ children }: { children: ReactNode }) {
+function QueryClientProviderWrapper({ children }: { children: ReactNode }) {
     return (
         <QueryClientProvider client={queryClient}>
             {children}
@@ -13,4 +20,4 @@ function QueryClientContext({ children }: { children: ReactNode }) {
     )
 }
 
-export default QueryClientContext
+export default QueryClientProviderWrapper

@@ -1,0 +1,7 @@
+{
+  "notFound404": {
+    "mainText": "Sorry, this page is currently unavailable.",
+    "subText": "We're sorry, but the webpage you're trying to reach doesn't exist or your link is incorrect.",
+    "returnHomeBtn": "Return to the home page"
+  }
+}

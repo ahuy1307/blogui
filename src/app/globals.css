@@ -1,3 +1,246 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        /* CSS Variable */
+        --background-white-default: #ffffff;
+        --background-white-hover: #f3f4f6;
+        --background-white-selected: #ffffff;
+        --background-white-pressed: #e5e7eb;
+        --background-white-disabled: #e5e7eb;
+
+        --background-white-opacity-default: 40%;
+        --background-white-opacity-hover: 50%;
+        --background-white-opacity-selected: 60%;
+        --background-white-opacity-pressed: 60%;
+        --background-white-opacity-disabled: 50%;
+
+        --background-gray-default: #f3f4f6;
+        --background-gray-hover: #e5e7eb;
+        --background-gray-selected: #f3f4f6;
+        --background-gray-pressed: #d1d5db;
+        --background-gray-disabled: #e5e7eb;
+
+        --background-black-default: #090d14;
+        --background-black-hover: #1f2937;
+        --background-black-selected: #4b5563;
+        --background-black-pressed: #4b5563;
+        --background-black-disabled: #e5e7eb;
+
+        --background-black-opacity-default: 40%;
+        --background-black-opacity-hover: 50%;
+        --background-black-opacity-selected: 60%;
+        --background-black-opacity-pressed: 60%;
+        --background-black-opacity-disabled: 50%;
+
+        --background-blue-default: #002d79;
+        --background-blue-hover: #2e6a9f;
+        --background-blue-selected: #1c4060;
+        --background-blue-pressed: #15314a;
+        --background-blue-disabled: #e5e7eb;
+
+        --background-light-blue-default: #c0d4e6;
+        --background-light-blue-primary: #eff8ff;
+        --background-light-blue-hover: #76a3c9;
+        --background-light-blue-selected: #c0d4e6;
+        --background-light-blue-pressed: #5c91bf;
+        --background-light-blue-disabled: #c0d4e6;
+        --background-light-blue-active: #ebf1f7;
+
+        --background-yollow-default: #fef3c7;
+        --background-yollow-hover: #fde68a;
+        --background-yollow-selected: #fef3c7;
+        --background-yollow-pressed: #fcd34d;
+        --background-yollow-disabled: #fef3c7;
+
+        --background-green-default: #d1fae5;
+        --background-green-hover: #a7f3d0;
+        --background-green-selected: #d1fae5;
+        --background-green-pressed: #6ee7b7;
+        --background-green-disabled: #d1fae5;
+
+        --background-blue-blue-2: #d1e9ff;
+        --background-white-gray-1: #f9f9f9;
+        --background-white-gray-2: #f1f1f1;
+        --background-white-gray-3: #f7f8fa;
+        --background-white-gray-4: #9ca3af;
+        --background-red-white: #fee2e2;
+
+        --background-orange-1: #ffead5;
+
+        --background-hightlight-yellow: #fedf89;
+
+        --background-soft-blue: #7b94be;
+
+        --background-avatar-user-default: #002d79;
+        --background-green-1: #059669;
+
+        --text-color-default: #ffffff;
+        --text-color-primary: #090d14;
+        --text-color-secondary: #6b7280;
+        --text-color-placeholder: #9ca3af;
+        --text-color-brand: #002d79;
+        --text-color-hyperlink: #24537c;
+        --text-color-disable: #9ca3af;
+
+        --text-color-hyperlink-auth: #1570ef;
+
+        --text-color-title-auth: #232323;
+
+        --text-color-red: #dc2626;
+        --text-color-red-disable: #fca5a5;
+        --text-color-orange: #d97706;
+        --text-color-orange-disable: #fcd34d;
+
+        --text-color-green: #059669;
+        --text-color-green-disable: #6ee7b7;
+        --text-color-blue-info-icon: #1570ef;
+        --text-color-red-warning: #ec4a0a;
+        --text-color-red-error: #b91c1c;
+
+        --text-color-blue: #24537c;
+        --text-color-blue-disable: #5c91bf;
+        --text-color-blue-two: #2b6395;
+
+        --text-menu-color: #667085;
+        --text-menu-active-color: #002d79;
+
+        --text-color-black-gray: #292929;
+        --text-color-gray-one: #7b7b7b;
+
+        --text-color-orange-1: #fb6514;
+
+        --text-color-green-1: #047857;
+
+        --text-color-soft-blue: #7b94be;
+
+        --divider-color: #e5e7eb;
+        --divider-color-white: #ffffff;
+        --divider-color-gray: #d1d5db;
+        --divider-color-red: #fca5a5;
+        --divider-color-yellow: #fcd34d;
+        --divider-color-green: #6ee7b7;
+        --divider-color-blue: #5c91bf;
+
+        --border-color-icon: #090d14;
+        --border-color-default: #d1d5db;
+        --border-color-hover: #9ca3af;
+        --border-color-active: #1f2937;
+        --border-color-disable: #e5e7eb;
+        --border-color-error: #dc2626;
+        --border-color-brand: #002d79;
+        --border-color-light-blue: #b2ddff;
+        --border-color-gray: #b7b7b7;
+        --border-color-gray-two: #6b7280;
+        --border-color-gray-three: #d9d9d9;
+        --border-color-light-blue-2: #d1e9ff;
+
+        --border-color-line: #e5e7eb;
+        --border-color-brand-4: #7ea8cd;
+
+        --border-radius-xxs: 2px;
+        --border-radius-xs: 4px;
+        --border-radius-s: 8px;
+        --border-radius-sm: 10px;
+        --border-radius-m: 12px;
+        --border-radius-ml: 16px;
+        --border-radius-md: 20px;
+        --border-radius-l: 24px;
+        --border-radius-xl: 32px;
+        --border-radius-xxl: 40px;
+        --border-radius-circle: 50%;
+
+        --font-weight-bold: 700;
+        --font-weight-semi-bold: 600;
+        --font-weight-medium: 500;
+        --font-weight-regular: 400;
+
+        --font-size-very-small: 10px;
+        --font-size-small: 12px;
+        --font-size-normal: 14px;
+        --font-size-medium: 16px;
+        --font-size-medium-large: 20px;
+        --font-size-large: 24px;
+        --font-size-very-large: 28px;
+        --font-size-extra-large: 32px;
+        --font-size-very-extra-large: 40px;
+
+        --font-size-avatar-xs: 12px;
+        --font-size-avatar-s: 14px;
+        --font-size-avatar-m: 16px;
+        --font-size-avatar-l: 18px;
+        --font-size-avatar-xl: 20px;
+        --font-size-avatar-xxl: 28px;
+        --font-size-avatar-xxxl: 36px;
+
+        --line-height-very-small: 12px;
+        --line-height-small: 16px;
+        --line-height-normal: 20px;
+        --line-height-medium: 24px;
+        --line-height-medium-large: 28px;
+        --line-height-large: 32px;
+        --line-height-hint: 18px;
+        --line-height-extra-large: 36px;
+        --line-height-very-large: 40px;
+        --line-height-very-extra-large: 52px;
+
+        /* Font size default. 1rem = 16px */
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 48px;
+        line-height: 60px;
+    }
+
+    h2 {
+        font-size: 40px;
+        line-height: 52px;
+    }
+
+    h3 {
+        font-size: 32px;
+        line-height: 40px;
+    }
+
+    h4 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    h5 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    h6 {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    @media (max-width: 320px) {
+        h1,
+        h2,
+        h3 {
+            font-size: 24px;
+            line-height: 32px;
+        }
+
+        h4 {
+            font-size: 20px;
+            line-height: 28px;
+        }
+
+        h5 {
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+        h6 {
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+}

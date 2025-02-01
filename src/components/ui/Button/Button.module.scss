@@ -1,0 +1,289 @@
+// !/usr/bin/env python
+//
+// All rights reserved.
+// @link hrforce.ai
+//
+// __author__ = "phamanhhuy22@gmail.com"
+// __date__ = "2025-02-01 12:41:42"
+//
+
+$veryLargeSizeSquare: 64px;
+
+$veryLargeSize: 48px;
+$verySmallSize: 28px;
+
+$paddingHorizontalS: 8px;
+$paddingHorizontalM: 12px;
+$paddingHorizontalL: 16px;
+
+$paddingVerticalXS: 4px;
+$paddingVerticalS: 6px;
+$paddingVerticalM: 8px;
+$paddingVerticalL: 10px;
+$paddingVerticalXL: 12px;
+
+$paddingXL: 18px;
+
+$widthSquareXL: 56px;
+
+$widthXL: 44px;
+$widthXXL: 58px;
+$widthL: 40px;
+$widthM: 32px;
+
+$fontSizeVeryLarge: 20px;
+
+.very_large_icon {
+    &.very_large_icon_sub {
+        width: $veryLargeSize;
+        height: $veryLargeSize;
+        gap: 0;
+    }
+
+    svg {
+        font-size: var(--font-size-avatar-xxl);
+    }
+}
+
+.very_small_icon {
+    &.very_small_icon_sub {
+        width: $verySmallSize !important;
+        height: $verySmallSize !important;
+        gap: 0;
+        padding: 0 !important;
+    }
+
+    svg {
+        font-size: var(--font-size-medium);
+    }
+}
+
+.very_large {
+    height: $veryLargeSize;
+    padding: $paddingVerticalXL $paddingHorizontalL !important;
+
+    &.square_button {
+        height: $veryLargeSizeSquare;
+        font-size: $fontSizeVeryLarge;
+        padding: $paddingVerticalL $paddingHorizontalL !important;
+
+        .sub_content {
+            font-size: var(--font-size-normal);
+        }
+
+        &.square_button_icon {
+            width: $veryLargeSizeSquare;
+            font-size: var(--font-size-avatar-xxl);
+            padding: $paddingXL !important;
+        }
+
+        svg {
+            font-size: 28px;
+        }
+    }
+
+    svg {
+        font-size: 24px;
+    }
+}
+
+.size_large {
+    padding: $paddingVerticalL $paddingHorizontalL !important;
+    gap: 0;
+
+    &.square_button {
+        padding: $paddingVerticalM $paddingHorizontalM !important;
+
+        .sub_content {
+            font-size: var(--font-size-normal);
+        }
+
+        &.square_button_icon {
+            width: $widthSquareXL !important;
+            padding: $paddingVerticalXL !important;
+
+            svg {
+                font-size: var(--line-height-large);
+            }
+        }
+    }
+
+    &.size_large_icon {
+        width: $widthXL;
+    }
+
+    svg {
+        font-size: var(--line-height-medium);
+    }
+}
+
+.size_middle {
+    padding: $paddingVerticalM $paddingHorizontalM !important;
+    gap: 0;
+
+    &.square_button {
+        padding: $paddingVerticalXS $paddingHorizontalM !important;
+
+        .sub_content {
+            font-size: var(--font-size-small);
+        }
+
+        &.square_button_icon {
+            width: 48px;
+            padding: $paddingHorizontalM !important;
+
+            svg {
+                font-size: var(--line-height-medium);
+            }
+        }
+    }
+
+    &.size_middle_icon {
+        width: $widthL !important;
+    }
+
+    svg {
+        font-size: var(--line-height-medium);
+    }
+}
+
+.size_small {
+    padding: $paddingVerticalS $paddingHorizontalS !important;
+    gap: 0;
+
+    &.square_button {
+        padding: $paddingVerticalXS $paddingHorizontalM !important;
+
+        .sub_content {
+            font-size: var(--font-size-small);
+        }
+
+        &.square_button_icon {
+            width: $widthXL;
+            padding: $paddingVerticalL !important;
+
+            svg {
+                font-size: var(--line-height-medium);
+            }
+        }
+    }
+
+    &.size_small_icon {
+        width: $widthM;
+    }
+
+    svg {
+        font-size: var(--font-size-avatar-xl);
+    }
+}
+
+.very_small {
+    height: $verySmallSize;
+    padding: $paddingVerticalS $paddingHorizontalS !important;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    svg {
+        font-size: var(--font-size-medium);
+    }
+}
+
+.black_primary {
+    background: var(--background-black-default);
+    color: var(--text-color-default) !important;
+    border-color: var(--background-black-default);
+
+    &:not([disabled]) {
+        &:hover {
+            background: var(--background-black-hover) !important;
+        }
+
+        &:active {
+            background: var(--background-black-pressed) !important;
+        }
+    }
+
+    &:disabled {
+        color: var(--text-color-disable) !important;
+        border-color: var(--border-color-disable);
+    }
+}
+
+.black_secondary {
+    background: var(--background-black-default) !important;
+    color: var(--text-color-default) !important;
+    border-color: var(--background-black-default);
+    opacity: var(--background-black-opacity-default);
+
+    &:not([disabled]) {
+        &:hover {
+            opacity: var(--background-black-opacity-hover);
+        }
+
+        &:active {
+            opacity: var(--background-black-opacity-pressed);
+        }
+    }
+
+    &:disabled {
+        opacity: var(--background-black-opacity-disabled);
+    }
+}
+
+.white_primary {
+    background: var(--background-white-default);
+    color: var(--text-color-primary) !important;
+    border-color: var(--background-white-default) !important;
+
+    &:not([disabled]) {
+        &:hover {
+            background: var(--background-white-hover) !important;
+        }
+
+        &:active {
+            background: var(--background-white-pressed) !important;
+        }
+    }
+
+    &:disabled {
+        color: var(--text-color-disable) !important;
+        border-color: var(--border-color-disable) !important;
+    }
+}
+
+.white_secondary {
+    background: var(--background-white-default);
+    color: var(--text-color-primary) !important;
+    border-color: var(--border-color-default);
+
+    &:not([disabled]) {
+        &:hover {
+            background: var(--background-white-hover) !important;
+            border-color: var(--border-color-hover) !important;
+        }
+
+        &:active {
+            background: var(--background-white-pressed) !important;
+            border-color: var(--border-color-hover) !important;
+        }
+    }
+
+    &:disabled {
+        color: var(--text-color-disable) !important;
+        border-color: var(--border-color-disable) !important;
+    }
+}
+
+.square_button {
+    flex-direction: column;
+    gap: 0;
+    border-radius: 8px;
+    font-weight: var(--font-weight-semi-bold);
+
+    .sub_content {
+        font-weight: var(--font-weight-regular);
+    }
+}
+
+.custom_button {
+    width: fit-content;
+}

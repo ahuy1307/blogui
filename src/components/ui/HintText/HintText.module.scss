@@ -1,0 +1,81 @@
+// !/usr/bin/env python
+//
+// All rights reserved.
+// @link hrforce.ai
+//
+// __author__ = "phamanhhuy22@gmail.com"
+// __date__ = "2025-02-01 12:41:42"
+//
+$gap: 5px;
+$marginS: 8px;
+
+.hint_text_container {
+    display: flex;
+    align-items: center;
+    column-gap: $gap;
+    margin: $marginS 0px;
+}
+
+.icon {
+    border-radius: var(--border-radius-circle);
+    color: var(--text-color-default);
+
+    &_success {
+        background-color: var(--text-color-green);
+    }
+
+    &_error {
+        background-color: var(--text-color-red);
+    }
+
+    &_info {
+        background-color: var(--text-color-blue);
+    }
+
+    &_warning {
+        background-color: var(--text-color-orange);
+    }
+
+    &_default {
+        background-color: var(--background-black-default);
+    }
+}
+
+.hint_text {
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-hint);
+
+    &_default {
+        color: var(--text-color-primary);
+    }
+
+    &_success {
+        color: var(--text-color-green);
+    }
+
+    &_error {
+        color: var(--text-color-red);
+    }
+
+    &_info {
+        color: var(--text-color-blue);
+    }
+
+    &_warning {
+        color: var(--text-color-orange);
+    }
+
+    &.text_size {
+        &_small {
+            font-size: var(--font-size-small) !important;
+        }
+
+        &_medium {
+            font-size: var(--font-size-normal) !important;
+        }
+
+        &_large {
+            font-size: var(--font-size-medium) !important;
+        }
+    }
+}
