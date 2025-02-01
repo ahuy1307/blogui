@@ -1,0 +1,61 @@
+$gap: 5px;
+$largeHeight: 48px;
+$mediumHeight: 44px;
+$iconHeight: 32px;
+$iconWidth: 32px;
+$iconBorderRadius: 10px;
+.large_tab {
+  > div {
+    height: $largeHeight;
+
+    > div {
+      > div {
+         > div {
+          > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+
+            > :first-child {
+              margin-right: 0 !important;
+            }
+
+          }
+         }
+      }
+    }
+  }
+}
+
+.medium_tab {
+  > div {
+    height: $mediumHeight;
+
+    > div {
+      > div {
+         > div {
+          > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: $gap;
+
+            > :first-child {
+              margin-right: 0 !important;
+            }
+
+          }
+         }
+      }
+    }
+  }
+
+}
+
+.icon {
+  height: $iconHeight;
+  width: $iconWidth;
+  border-radius: $iconBorderRadius;
+  border: 1px solid var(--border-color-hover);
+}

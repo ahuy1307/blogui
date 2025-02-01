@@ -4,6 +4,15 @@ import { routing } from './routing'
 export default getRequestConfig(async ({ requestLocale }) => {
     // This typically corresponds to the `[locale]` segment
     let locale = await requestLocale
+    const messages: { [key: string]: any } = {}
+
+    const sections = ['home', 'not_found']
+
+    for (const section of sections) {
+        messages[section] = (
+            await import(`../../messages/${section}/${locale}.json`)
+        ).default
+    }
 
     // Ensure that a valid locale is used
     if (!locale || !routing.locales.includes(locale as 'en' | 'vi')) {
@@ -12,6 +21,9 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
     return {
         locale,
-        messages: (await import(`../../messages/${locale}.json`)).default,
+        messages: {
+            ...messages,
+            ...(await import(`../../messages/${locale}.json`)).default,
+        },
     }
 })

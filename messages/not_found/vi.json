@@ -1,0 +1,7 @@
+{
+  "notFound404": {
+    "mainText": "Xin lỗi, trang này hiện không khả dụng.",
+    "subText": "Chúng tôi rất tiếc, nhưng trang web bạn đang cố truy cập hiện không tồn tại hoặc đường link của bạn không đúng.",
+    "returnHomeBtn": "Quay trở lại trang chủ"
+  }
+}

@@ -1,0 +1,66 @@
+// !/usr/bin/env python
+//
+// All rights reserved.
+// @link hrforce.ai
+//
+// __author__ = "phamanhhuy22@gmail.com"
+// __date__ = "2025-02-01 12:41:42"
+//
+$gapS: 8px;
+$gapM: 12px;
+
+$heightS: 20px;
+$heightDefault: 44px;
+
+$widthXL: 80px;
+$width3XL: 500px;
+
+.phone_number {
+    display: flex;
+    width: 100%;
+    gap: $gapM;
+    .phone_number {
+        &_select {
+            height: $heightDefault;
+            width: 70px;
+            div {
+                display: flex;
+                gap: $gapS;
+            }
+            .img_circle {
+                width: $heightS;
+                height: $heightS;
+                border-radius: 50%;
+                overflow: hidden;
+                position: relative;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    scale: 1.4;
+                }
+            }
+        }
+
+        &_input {
+            flex: 1;
+        }
+    }
+}
+.options_box_item {
+    div {
+        display: flex;
+        gap: $gapS;
+        width: $width3XL !important;
+        div {
+            width: $width3XL !important;
+        }
+    }
+    img {
+        border-radius: 50%;
+        object-fit: cover;
+        width: $heightS;
+        height: $heightS;
+    }
+}

@@ -1,0 +1,62 @@
+// !/usr/bin/env python
+//
+// All rights reserved.
+// @link hrforce.ai
+//
+// __author__ = "phamanhhuy22@gmail.com"
+// __date__ = "2025-02-01 12:41:42"
+//
+
+.item_border {
+    :global {
+        .ant-pagination-item,
+        .ant-pagination-next:not(.ant-pagination-disabled),
+        .ant-pagination-prev:not(.ant-pagination-disabled),
+        .ant-pagination-jump-next-custom-icon,
+        .ant-pagination-jump-prev-custom-icon {
+            &:hover {
+                border: 1px solid var(--border-color-default) !important;
+                box-sizing: border-box;
+            }
+        }
+
+        .ant-pagination-item-active {
+            &:hover {
+                border-color: var(--text-color-primary) !important;
+            }
+        }
+
+        .ant-pagination-disabled {
+            svg {
+                color: var(--text-color-disable) !important;
+            }
+        }
+    }
+}
+
+.item_border_gray {
+    :global {
+        .ant-pagination-item,
+        .ant-pagination-next:not(.ant-pagination-disabled),
+        .ant-pagination-prev:not(.ant-pagination-disabled),
+        .ant-pagination-jump-next-custom-icon,
+        .ant-pagination-jump-prev-custom-icon {
+            &:hover {
+                border: 1px solid var(--border-color-active) !important;
+                box-sizing: border-box;
+            }
+        }
+
+        .ant-pagination-item-active {
+            &:hover {
+                border-color: var(--text-color-primary) !important;
+            }
+        }
+
+        .ant-pagination-disabled {
+            svg {
+                color: var(--text-color-disable) !important;
+            }
+        }
+    }
+}

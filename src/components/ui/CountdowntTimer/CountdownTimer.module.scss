@@ -1,0 +1,59 @@
+$sizeL: 36px;
+$sizeS: 32px;
+
+$paddingL: 7px 8px;
+$paddingS: 4px;
+
+$backgroundDefault: #FFFFFF33;
+
+$colorTitle: rgba(0, 0, 0, 0.45);
+
+.box_countdown_value {
+  gap: 4px;
+  display: flex;
+  align-items: center;
+  .countdown_time {
+    color: var(--text-color-default);
+    border-radius: 8px;
+    align-content: center;
+    text-align: center;
+    font-weight: var(--font-weight-medium);
+
+    &.size {
+      &_default {
+        height: $sizeL;
+        min-width: $sizeL;
+        font-size: var(--font-size-medium);
+        padding: $paddingL;
+      }
+      &_small {
+        height: $sizeS;
+        min-width: $sizeS;
+        font-size: var(--font-size-normal);
+        padding: $paddingS;
+      }
+    }
+
+    &.type {
+      &_white {
+        background: $backgroundDefault;
+      }
+      &_black {
+        background: var(--background-black-default);
+      }
+
+    }
+  }
+  .countdown_separator {
+    &_white {
+      color: var(--text-color-default);
+    }
+    &_black {
+      color: var(--text-color-primary);
+    }
+  }
+}
+
+.countdown_title {
+  color: $colorTitle;
+}

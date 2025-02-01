@@ -1,0 +1,108 @@
+// !/usr/bin/env python
+//
+// All rights reserved.
+// @link hrforce.ai
+//
+// __author__ = "phamanhhuy22@gmail.com"
+// __date__ = "2025-02-01 12:41:42"
+//
+
+@keyframes slideUp {
+    0% {
+        visibility: visible;
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(0);
+        visibility: visible;
+    }
+}
+
+.cookie_consent {
+    position: fixed;
+    max-width: 416px;
+    max-height: 252px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    bottom: 32px;
+    left: 32px;
+    border: 1px solid var(--border-color-default);
+    border-radius: var(--border-radius-m);
+    background: var(--background-white-default);
+    visibility: hidden;
+    animation: slideUp 0.5s ease-out forwards;
+    animation-delay: 3s;
+
+    .content {
+        display: flex;
+        padding: 32px;
+        gap: 32px;
+        flex-direction: column;
+        max-width: 416px;
+        min-height: 252px;
+        width: 100%;
+        height: 100%;
+
+        .main_content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 352px;
+            min-height: 188px;
+            width: 100%;
+
+            .body {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                height: 132px;
+
+                .title {
+                    font-weight: var(--font-weight-semi-bold);
+                    font-size: var(--font-size-large);
+                    line-height: var(--line-height-large);
+                    letter-spacing: -0.01em;
+                    text-align: center;
+                    color: var(--text-color-primary);
+                }
+
+                .desc {
+                    font-size: var(--font-size-avatar-s);
+                    line-height: var(--line-height-normal);
+                    color: var(--text-color-secondary);
+
+                    .link {
+                        color: var(--text-color-hyperlink-auth);
+                        font-weight: var(--font-weight-medium);
+                    }
+                }
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    }
+
+    @media (max-width: 454px) {
+        left: 0;
+        right: 20px;
+        bottom: 0;
+        max-width: 321px;
+        max-height: 100%;
+        height: fit-content;
+        display: flex;
+        justify-content: center;
+        margin: 21px;
+
+        .content {
+            padding: 20px;
+        }
+
+        .body {
+            height: fit-content !important;
+        }
+    }
+}
