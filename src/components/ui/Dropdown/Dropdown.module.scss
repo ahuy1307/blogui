@@ -1,0 +1,31 @@
+$heightVeryLarge: 48px;
+$heightLarge: 44px !important;
+$heightMiddle: 40px;
+$heightSmall: 32px !important;
+$heightVerySmall: 28px;
+
+$widthDropdown: 200px;
+
+.dropdown {
+  width: $widthDropdown;
+
+  &_very_large {
+    height: $heightVeryLarge;
+  }
+
+  &_large {
+    height: $heightLarge;
+  }
+
+  &_middle {
+    height: $heightMiddle;
+  }
+
+  &_small {
+    height: $heightSmall;
+  }
+
+  &_very_small {
+    height: $heightVerySmall;
+  }
+}

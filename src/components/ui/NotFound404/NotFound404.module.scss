@@ -1,0 +1,86 @@
+// !/usr/bin/env python
+//
+// All rights reserved.
+// @link hrforce.ai
+//
+// __author__ = "phamanhhuy22@gmail.com"
+// __date__ = "2025-02-01 12:41:42"
+//
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .content_wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 32px;
+        max-width: 432px;
+        width: 100%;
+
+        @media (max-width: 576px) {
+            padding: 10px;
+            gap: 16px;
+        }
+
+        .image_wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: var(--background-white-default);
+        }
+
+        .image_wrapper img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .text_wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+            @media (max-width: 576px) {
+                gap: 8px;
+            }
+
+            .text_main {
+                font-size: var(--font-size-large);
+                font-weight: var(--font-weight-semi-bold);
+                line-height: var(--line-height-large);
+                color: var(--text-color-primary);
+                text-align: center;
+                white-space: nowrap;
+
+                @media (max-width: 576px) {
+                    white-space: normal;
+                    font-size: var(--font-size-medium-large);
+                }
+            }
+
+            .text_sub {
+                font-size: var(--font-size-medium);
+                font-weight: var(--font-weight-regular);
+                line-height: var(--line-height-medium);
+                color: var(--text-color-primary);
+                text-align: center;
+
+                @media (max-width: 576px) {
+                    font-size: var(--font-size-normal);
+                }
+            }
+        }
+
+        .button_wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

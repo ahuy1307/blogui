@@ -3,7 +3,10 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { Roboto, Roboto_Mono } from 'next/font/google'
-import QueryClientContext from '@/contexts/QueryClientProvider'
+import QueryClientProviderWrapper from '@/contexts/QueryClientProvider'
+import AuthProvider from '@/contexts/auth/AuthContext'
+import { Suspense } from 'react'
+import Loading from './loading'
 
 export const metadata = {
     title: 'Blog Creator',
@@ -46,9 +49,13 @@ export default async function LocaleLayout({
     return (
         <html lang={locale} suppressHydrationWarning>
             <body className={`${roboto.variable} ${robotoMono.variable}`}>
-                <NextIntlClientProvider messages={messages}>
-                    <QueryClientContext>{children}</QueryClientContext>
-                </NextIntlClientProvider>
+                <Suspense fallback={<Loading />}>
+                    <QueryClientProviderWrapper>
+                        <NextIntlClientProvider messages={messages}>
+                            <AuthProvider>{children}</AuthProvider>
+                        </NextIntlClientProvider>
+                    </QueryClientProviderWrapper>
+                </Suspense>
             </body>
         </html>
     )

@@ -1,0 +1,44 @@
+.avatar_custom {
+  background-color: var(--background-gray-pressed);
+  color: var(--text-color-secondary);
+  font-weight: var(--font-weight-semi-bold);
+  border: none;
+
+  &.avatar_custom_size {
+    &.size {
+      &_24 {
+        font-size: var(--font-size-avatar-xs) !important;
+      }
+
+      &_32,
+      &_36 {
+        font-size: 36px !important;
+      }
+
+      &_40 {
+        font-size: var(--font-size-avatar-s) !important;
+      }
+
+      &_44 {
+        font-size: var(--font-size-avatar-m) !important;
+      }
+
+      &_48,
+      &_52 {
+        font-size: var(--font-size-avatar-l) !important;
+      }
+
+      &_60 {
+        font-size: var(--font-size-avatar-xl) !important;
+      }
+
+      &_90 {
+        font-size: var(--font-size-avatar-xxl) !important;
+      }
+
+      &_120 {
+        font-size: var(--font-size-avatar-xxxl) !important;
+      }
+    }
+  }
+}
