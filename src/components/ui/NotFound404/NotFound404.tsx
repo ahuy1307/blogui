@@ -28,7 +28,7 @@ const NotFound404 = () => {
                         <Image
                             width={400}
                             height={240}
-                            src="/notfound404.webp"
+                            src="/images/404_notfound.webp"
                             alt=""
                             className={styles.image}
                         />
@@ -49,9 +49,7 @@ const NotFound404 = () => {
                     </div>
                     <div className={styles.button_wrapper}>
                         <Button
-                            data-testid="not-found-404-return-home-button"
                             onClick={handleClickButton}
-                            type="primary"
                             shape="square"
                             className={styles.return_btn}
                         >
