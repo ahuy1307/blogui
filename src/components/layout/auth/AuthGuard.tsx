@@ -13,7 +13,6 @@ import { useRouter } from '@/navigation'
 import { Layout, Spin } from 'antd'
 import { Content } from 'antd/es/layout/layout'
 import { FC, PropsWithChildren, useEffect } from 'react'
-import styles from './AuthGuard.module.scss'
 
 const AuthGuard: FC<PropsWithChildren> = ({ children }) => {
     const { isInitialized, isAuthenticated } = useAuth()

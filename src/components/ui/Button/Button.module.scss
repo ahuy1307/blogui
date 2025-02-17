@@ -273,8 +273,8 @@ $fontSizeVeryLarge: 20px;
 }
 
 .square_button {
-    flex-direction: column;
-    gap: 0;
+    flex-direction: row;
+    gap: 10px;
     border-radius: 8px;
     font-weight: var(--font-weight-semi-bold);
 

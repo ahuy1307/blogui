@@ -10,7 +10,7 @@ import React, { useState } from 'react'
 import { InputProps } from 'antd'
 import { VscEye, VscEyeClosed } from 'react-icons/vsc'
 import styles from './InputPassword.module.scss'
-import Input from '@/components/ui/Input/Input'
+import Input from '@/components/ui/TextField/TextField'
 
 interface InputPasswordProps extends Omit<InputProps, 'size'> {
     placeholder: string

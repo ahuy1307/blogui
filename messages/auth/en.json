@@ -1,0 +1,53 @@
+{
+    "Register": {
+        "createYourAccount": "Create your account",
+        "letGetStarted": "Let's get started",
+        "or": "or",
+        "emailPlaceholder": "Enter your email",
+        "firstNamePlaceholder": "Enter your first name",
+        "lastNamePlaceholder": "Enter your last name",
+        "agreePrivacyPolicy": "I agree to the",
+        "and": "and",
+        "termsOfService": "Terms of Service",
+        "privacyPolicy": "Privacy Policy",
+        "register": "Register",
+        "loginWithGoogle": "Login with Google",
+        "loginWithFacebook": "Login with Facebook",
+        "alreadyHaveAccount": "Already have an account?",
+        "login": "Login"
+    },
+    "Login": {
+        "loginYourAccount": "Login to your account",
+        "or": "or",
+        "emailPlaceholder": "Enter your email",
+        "passwordPlaceholder": "Enter your password",
+        "register": "Register",
+        "loginWithGoogle": "Login with Google",
+        "loginWithFacebook": "Login with Facebook",
+        "dontHaveAccount": "Don't have an account?",
+        "login": "Login",
+        "rememberLoginInfo": "Remember login information",
+        "forgotPassword": "Forgot password?"
+    },
+    "CheckEmailSignup": {
+        "checkYourEmail": "Check your email",
+        "weSentEmail": "We've sent an email to",
+        "pleaseCheckEmailProcess": "Please check your email to complete the registration process.",
+        "checkSpamFolder": "If you don't see the email, please check your spam folder.",
+        "resendEmail": "Resend email verification",
+        "or": "or",
+        "enterDifferentEmail": "Enter a different email address",
+        "loading": "Wait a moment..."
+    },
+    "SetPassword": {
+        "verifyingEmailLoading": "Verifying email, please wait...",
+        "setPasswordTitle": "Set you password for your account with email:",
+        "passwordPlaceholder": "Enter your password",
+        "confirmPasswordPlaceholder": "Confirm your password",
+        "setPassword": "Set password",
+        "passwordMismatchMessage": "Passwords do not match.",
+        "passwordExceedsLimit": "The entered password exceeds the 128-character limit.",
+        "reenterPasswordPlaceholder": "Please re-enter your password",
+        "pleaseEnterPassword": "Please re-enter your password."
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "home": "Home",
+    "blog": "Blog",
+    "search": "Search",
+    "login": "Login",
+    "register": "Register",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "rememberLoginInfo": "Remember login information",
+    "forgotPassword": "Forgot password?",
+    "orLoginWith": "Or login with",
+    "dontHaveAccount": "Don't have an account?",
+    "loginWithGoogle": "Google",
+    "loginWithFacebook": "Facebook",
+    "locales": {
+        "vi": "Vietnamese",
+        "en": "English"
+    },
+    "logout": "Logout",
+    "confirmLogout": "Are you sure you want to logout?",
+    "logoutSuccess": "Logout successfully!",
+    "loginSuccess": "Login successfully!",
+    "ModalConfirm": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+    }
+}

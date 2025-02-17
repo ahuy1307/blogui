@@ -3,14 +3,14 @@
 // All rights reserved.
 //
 // __author__ = "phamanhhuy22@gmail.com"
-// __date__ = "2025-02-01 12:38:06"
+// __date__ = "2025-02-17 21:52:06"
 //
 
 'use client'
 import { Dropdown, type MenuProps } from 'antd'
-import styles from './Header.module.scss'
-import LanguageIcon from 'public/icon/language-icon.svg'
-import ChevronDown from 'public/icon/chevron-down.svg'
+// import styles from './Header.module.scss'
+import { MdOutlineLanguage } from 'react-icons/md'
+import { FaAngleDown } from 'react-icons/fa'
 import { useLocale, useTranslations } from 'next-intl'
 import { Link, usePathname } from '@/navigation'
 import { AppConfig } from '@/core/config/appConfig'
@@ -23,7 +23,7 @@ const SwitchLanguage: React.FC = () => {
     const pathName = usePathname()
     const queryParams = useSearchParams()
 
-    const languageItems: MenuProps['items'] = locales.map((it: any) => {
+    const languageItems: MenuProps['items'] = locales.map((it) => {
         return {
             label: (
                 <Link
@@ -48,10 +48,10 @@ const SwitchLanguage: React.FC = () => {
             }}
             placement="bottomRight"
         >
-            <div className={styles.language_dropdown}>
-                <LanguageIcon />
-                {locale.toUpperCase()}
-                <ChevronDown />
+            <div className="flex items-center gap-2 font-bold border border-gray-300 rounded-lg p-2">
+                <MdOutlineLanguage size={20} />
+                <span className="text-[14px]">{locale.toUpperCase()}</span>
+                <FaAngleDown size={20} />
             </div>
         </Dropdown>
     )

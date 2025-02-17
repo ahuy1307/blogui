@@ -8,7 +8,7 @@ import {
     getAntdSizeProp,
     getBorderRadius,
     getSizeClassName,
-} from '../Input/ultils'
+} from '../TextField/ultils'
 import styles from '../TextField/TextField.module.scss'
 interface TextFieldProps extends Omit<InputNumberProps, 'size'> {
     size?: 'very_large' | 'large' | 'medium' | 'small' | 'very_small'

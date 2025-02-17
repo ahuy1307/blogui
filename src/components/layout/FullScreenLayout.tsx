@@ -20,7 +20,7 @@ const FullScreenLayout: React.FC<FullScreenLayoutProps> = ({
 }) => {
     return (
         <div
-            className={`min-h-[calc(100vh-64px)] bg-transparent ${isMarginTop ? 'mt-[64px]' : ''} md:min-h-[calc(100vh-60px)] ${isMarginTop ? 'md:mt-[60px]' : ''}`}
+            className={`${styles.layout_container} ${isMarginTop ? styles.layout_margin_top : ''}`}
         >
             {children}
         </div>
