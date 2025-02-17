@@ -10,7 +10,7 @@ import { Input as AntdInput, ConfigProvider, InputProps } from 'antd'
 import style from './Input.module.scss'
 import { getSizeClassName, getAntdSizeProp, getBorderRadius } from './ultils'
 
-interface IInputProps extends Omit<InputProps, 'size'> {
+interface TextFieldProps extends Omit<InputProps, 'size'> {
     size?: 'very_large' | 'large' | 'medium' | 'small' | 'very_small'
 }
 
@@ -20,7 +20,11 @@ interface IInputProps extends Omit<InputProps, 'size'> {
  * @param {"very_large" | "large" | "medium" | "small" | "very_small"} [size="medium"] - Size of the input.
  */
 
-const Input: FC<IInputProps> = ({ size = 'medium', className, ...rest }) => {
+const TextField: FC<TextFieldProps> = ({
+    size = 'medium',
+    className,
+    ...rest
+}) => {
     const sizeClassName = getSizeClassName(size)
     const antdSizeProp = getAntdSizeProp(size)
     const borderRadius = getBorderRadius(size)
@@ -63,4 +67,4 @@ const Input: FC<IInputProps> = ({ size = 'medium', className, ...rest }) => {
     )
 }
 
-export default Input
+export default TextField

@@ -10,6 +10,9 @@
 export const NAVIGATION_PATHS = {
     HOME: '/',
     PRIVACY: '#',
+    CHECK_EMAIL_SIGNUP: '/auth/check-email-signup',
+    VERIFY_EMAIL_FAILED: '/auth/verify-email-failed',
+    SET_PASSWORD: '/auth/set-password',
 }
 
 export const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/

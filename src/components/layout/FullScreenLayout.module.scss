@@ -1,0 +1,27 @@
+/*
+ * # -*- coding: utf-8 -*-
+ * # Copyright (C) 2024 HRForce
+ * #
+ * # All rights reserved.
+ * # @link hrforce.ai
+ * #
+ */
+
+.layout_container {
+  min-height: calc(100vh - 64px);
+  background: transparent;
+
+  &.layout_margin_top {
+    margin-top: 64px;
+  }
+
+  @media (max-width: 996px) {
+    min-height: calc(100vh - 60px);
+
+    &.layout_margin_top {
+      margin-top: 60px;
+    }
+
+
+  }
+}

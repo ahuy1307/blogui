@@ -8,6 +8,8 @@ import AuthProvider from '@/contexts/auth/AuthContext'
 import { Suspense } from 'react'
 import Loading from './loading'
 
+import '../globals.css'
+
 export const metadata = {
     title: 'Blog Creator',
     description: 'Create your own blog with ease',

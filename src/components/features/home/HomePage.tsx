@@ -7,9 +7,10 @@
 //
 
 import React from 'react'
+import { useTranslations } from 'next-intl'
 
 const HomePage = () => {
-    return <>Home Page</>
+    return <div>Home</div>
 }
 
 export default HomePage

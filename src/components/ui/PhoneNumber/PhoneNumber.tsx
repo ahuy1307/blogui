@@ -19,7 +19,7 @@ import {
 import { Typography } from 'antd'
 import styles from './PhoneNumber.module.scss'
 import { useTranslations } from 'next-intl'
-import Input from '@/components/ui/Input/Input'
+import Input from '@/components/ui/TextField/TextField'
 import Select from '../Select/Select'
 
 const { Option } = Select

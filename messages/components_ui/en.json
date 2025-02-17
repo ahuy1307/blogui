@@ -1,0 +1,46 @@
+{
+    "inputFormItem": {
+        "pleaseEnterInfo": "Please enter your information.",
+        "pleaseEnterFirstName": "Please enter your first name.",
+        "pleaseEnterLastName": "Please enter your last name.",
+        "nameExceedsLimit": "The name entered exceeds 255 characters.",
+        "invalidNameEntered": "The name entered is invalid.",
+        "pleaseEnterPassword": "Please enter your password.",
+        "passwordMinLength": "Password must be at least 8 characters long.",
+        "passwordExceedsLimit": "The password entered exceeds 128 characters.",
+        "passwordCharacterNumberRequirement": "Password must be at least 8 characters long and include both letters and numbers.",
+        "pleaseEnterEmail": "Please enter your email.",
+        "accountExceedsLimit": "The account entered exceeds 150 characters.",
+        "invalidEmailFormat": "Please enter a valid email address.",
+        "pleaseEnterWebsite": "Please enter your website.",
+        "invalidWebsiteFormat": "Please enter a valid website link.",
+        "websiteExceedsLimit": "The website link entered exceeds 2000 characters.",
+        "searchExceedsLimit": "The search keyword entered exceeds 255 characters.",
+        "pleaseEnterNumber": "Please enter a number.",
+        "invalidNumberFormat": "Invalid number format."
+    },
+    "captcha": {
+        "enterCaptchaCode": "Enter verification code",
+        "pleaseEnterCaptcha": "Please enter the captcha."
+    },
+    "cookieConsent": {
+        "title": "This website uses cookies",
+        "description": "To provide the best experience, we use technologies like cookies to store and/or access device information. Find out more in our",
+        "privacy": "Privacy Policy",
+        "our": "",
+        "buttonContent": "Ok, I understand"
+    },
+    "phoneNumber": {
+        "enterPhoneNumber": "Enter phone number"
+    },
+    "select": {
+        "noData": "No data available."
+    },
+    "uploadImage": {
+        "uploadLimitError": "You can only upload up to {{maxFiles}} images.",
+        "fileSizeError": "File {{fileName}} exceeds 5MB and will not be uploaded.",
+        "uploadNewImages": "Upload new images (up to 10 images)",
+        "addImage": "Add Image",
+        "invalidFileType": "Invalid file type. Please select an image file."
+    }
+}

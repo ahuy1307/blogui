@@ -7,7 +7,7 @@
 //
 'use client'
 import styles from './InputFormItem.module.scss'
-import Input from '../Input/Input'
+import Input from '../TextField/TextField'
 import { Form, InputProps } from 'antd'
 import HintText from '../HintText/HintText'
 import { ValidateService } from '@/core/services/Validate.service'
@@ -20,7 +20,14 @@ interface IInputProps extends Omit<InputProps, 'size'> {
     name: string
     classNameFormItem?: string
     classNameInput?: string
-    type?: 'default' | 'name' | 'password' | 'email' | 'website' | 'search'
+    type?:
+        | 'default'
+        | 'first_name'
+        | 'last_name'
+        | 'password'
+        | 'email'
+        | 'website'
+        | 'search'
     required?: boolean
     requiredMessage?: string
     newRules?: any
@@ -50,8 +57,30 @@ const InputFormItem = ({
             messageRequired: t('pleaseEnterInfo'),
             isInvalid: true,
         },
-        name: {
-            messageRequired: t('pleaseEnterName'),
+        first_name: {
+            messageRequired: t('pleaseEnterFirstName'),
+            isInvalid: (value: string) => {
+                if (!ValidateService.validateMaxLength(value, 255))
+                    return Promise.reject(
+                        <HintText
+                            size="small"
+                            type="error"
+                            text={t('nameExceedsLimit')}
+                        />
+                    )
+                return ValidateService.validateName(value)
+                    ? Promise.resolve()
+                    : Promise.reject(
+                          <HintText
+                              size="small"
+                              type="error"
+                              text={t('invalidNameEntered')}
+                          />
+                      )
+            },
+        },
+        last_name: {
+            messageRequired: t('pleaseEnterLastName'),
             isInvalid: (value: string) => {
                 if (!ValidateService.validateMaxLength(value, 255))
                     return Promise.reject(

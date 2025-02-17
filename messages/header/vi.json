@@ -1,0 +1,27 @@
+{
+    "home": "Trang chủ",
+    "blog": "Blog",
+    "search": "Tìm kiếm",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "emailPlaceholder": "Nhập email của bạn",
+    "passwordPlaceholder": "Nhập mật khẩu của bạn",
+    "rememberLoginInfo": "Ghi nhớ thông tin đăng nhập",
+    "forgotPassword": "Quên mật khẩu?",
+    "orLoginWith": "Hoặc đăng nhập bằng",
+    "dontHaveAccount": "Chưa có tài khoản?",
+    "loginWithGoogle": "Google",
+    "loginWithFacebook": "Facebook",
+    "locales": {
+        "vi": "Tiếng Việt",
+        "en": "Tiếng Anh"
+    },
+    "logout": "Đăng xuất",
+    "confirmLogout": "Bạn có chắc chắn muốn đăng xuất?",
+    "logoutSuccess": "Đăng xuất thành công!",
+    "loginSuccess": "Đăng nhập thành công!",
+    "ModalConfirm": {
+        "cancel": "Hủy",
+        "confirm": "Xác nhận"
+    }
+}

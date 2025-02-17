@@ -1,0 +1,52 @@
+{
+    "Register": {
+        "createYourAccount": "Tạo tài khoản của bạn",
+        "letGetStarted": "Hãy bắt đầu",
+        "or": "hoặc",
+        "emailPlaceholder": "Nhập email của bạn",
+        "firstNamePlaceholder": "Nhập họ của bạn",
+        "lastNamePlaceholder": "Nhập tên của bạn",
+        "agreePrivacyPolicy": "Tôi đồng ý với",
+        "and": "và",
+        "termsOfService": "Điều khoản dịch vụ",
+        "privacyPolicy": "Chính sách bảo mật",
+        "register": "Đăng ký",
+        "loginWithGoogle": "Đăng nhập bằng Google",
+        "loginWithFacebook": "Đăng nhập bằng Facebook",
+        "alreadyHaveAccount": "Đã có tài khoản?",
+        "login": "Đăng nhập"
+    },
+    "Login": {
+        "loginYourAccount": "Đăng nhập vào tài khoản của bạn",
+        "or": "hoặc",
+        "emailPlaceholder": "Nhập email của bạn",
+        "passwordPlaceholder": "Nhập mật khẩu của bạn",
+        "register": "Đăng ký",
+        "loginWithGoogle": "Đăng nhập bằng Google",
+        "loginWithFacebook": "Đăng nhập bằng Facebook",
+        "dontHaveAccount": "Không có tài khoản?",
+        "login": "Đăng nhập",
+        "rememberLoginInfo": "Nhớ thông tin đăng nhập",
+        "forgotPassword": "Quên mật khẩu?"
+    },
+    "CheckEmailSignup": {
+        "checkYourEmail": "Kiểm tra email của bạn",
+        "weSentEmail": "Chúng tôi đã gửi email đến",
+        "pleaseCheckEmailProcess": "Vui lòng kiểm tra email của bạn để hoàn tất quá trình đăng ký.",
+        "checkSpamFolder": "Nếu bạn không thấy email, vui lòng kiểm tra thư mục spam của bạn.",
+        "resendEmail": "Gửi lại email xác minh",
+        "or": "hoặc",
+        "enterDifferentEmail": "Nhập địa chỉ email khác",
+        "loading": "Vui lòng chờ một chút..."
+    },
+    "SetPassword": {
+        "verifyingEmailLoading": "Đang xác minh email, vui lòng chờ...",
+        "setPasswordTitle": "Đặt mật khẩu cho tài khoản của bạn với email:",
+        "passwordPlaceholder": "Nhập mật khẩu của bạn",
+        "setPassword": "Đặt mật khẩu",
+        "passwordMismatchMessage": "Mật khẩu không khớp.",
+        "passwordExceedsLimit": "Mật khẩu đã nhập vượt quá giới hạn 128 ký tự.",
+        "reenterPasswordPlaceholder": "Vui lòng nhập lại mật khẩu của bạn",
+        "pleaseEnterPassword": "Vui lòng nhập lại mật khẩu của bạn."
+    }
+}

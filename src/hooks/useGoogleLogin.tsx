@@ -1,8 +1,9 @@
 import React from 'react'
 import { useGoogleLogin } from '@react-oauth/google'
 import Button from '@/components/ui/Button/Button'
-import Google from 'public/icon/google-icon.svg'
+import { GoogleIcon } from '../../icon'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
 
 interface GoogleLoginButtonProps {
     callback: (result: {
@@ -11,11 +12,17 @@ interface GoogleLoginButtonProps {
         accessToken?: string
         error?: any
     }) => void
+    text?: string
 }
 
-const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ callback }) => {
+const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
+    callback,
+    text,
+}) => {
+    const t = useTranslations('header')
+
     const login = useGoogleLogin({
-        onSuccess: async (response) => {
+        onSuccess: async (response: any) => {
             const token = response.access_token
             try {
                 const res = await axios.get(
@@ -28,7 +35,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ callback }) => {
                 callback({ success: false, error })
             }
         },
-        onError: (error) => {
+        onError: (error: any) => {
             console.error('Google Login Failed:', error)
             callback({
                 success: false,
@@ -39,11 +46,16 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ callback }) => {
 
     return (
         <Button
-            icon={<Google />}
+            icon={<GoogleIcon />}
             type="white_secondary"
             size="very_large"
             onClick={() => login()}
-        />
+            style={{
+                border: '1px solid var(--text-color-hyperlink-auth)',
+            }}
+        >
+            {text || t('loginWithGoogle')}
+        </Button>
     )
 }
 
