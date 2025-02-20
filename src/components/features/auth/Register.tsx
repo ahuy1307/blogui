@@ -40,7 +40,7 @@ const Register = () => {
             mutationFn: authenticationService.signupEmail,
             onSuccess: async (res, { email }) => {
                 router.push(
-                    `${NAVIGATION_PATHS.CHECK_EMAIL_SIGNUP}?email=${email}`
+                    `${NAVIGATION_PATHS.CHECK_EMAIL_SIGNUP}?email=${email.replace('+', '%2B')}&type=signup`
                 )
             },
             onError: (error: any) => {

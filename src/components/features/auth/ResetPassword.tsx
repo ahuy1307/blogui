@@ -3,74 +3,45 @@
 // All rights reserved.
 //
 // __author__ = "phamanhhuy22@gmail.com"
-// __date__ = "2025-02-16 12:23:05"
+// __date__ = "2025-02-16 12:35:57"
 //
 
 'use client'
 
-import React, { use } from 'react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Link, useRouter } from '@/navigation'
-import { useMutation } from '@tanstack/react-query'
-import { NAVIGATION_PATHS } from '@/constants/constants'
-import { Form, Checkbox, ConfigProvider, Spin } from 'antd'
-
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
-import { localStorageService } from '@/core/services/LocalStorage.service'
-import HintText from '@/components/ui/HintText/HintText'
+import { useMutation } from '@tanstack/react-query'
+import { Spin, Form } from 'antd'
+import { useSearchParams } from 'next/navigation'
+
 import Button from '@/components/ui/Button/Button'
 import InputFormItem from '@/components/ui/InputFormItem/InputFormItem'
+import Alert from '@/components/ui/Alert/Alert'
 import Logo from '../home/Logo'
 import InputPassword from '@/components/ui/InputPassword/InputPassword'
+import HintText from '@/components/ui/HintText/HintText'
+import { NAVIGATION_PATHS } from '@/constants/constants'
 import { ValidateService } from '@/core/services/Validate.service'
-import Alert from '@/components/ui/Alert/Alert'
-import { useAuth } from '@/contexts/auth/AuthContext'
-import { signIn } from '@/contexts/auth/reducers'
+import { message } from 'antd'
 
-const SetPassword = () => {
+const ResetPassword = () => {
+    const t = useTranslations('auth.ResetPassword')
     const email = useSearchParams().get('email')
     const token = useSearchParams().get('token')
-    const t = useTranslations('auth.SetPassword')
-    const [error, setError] = useState('')
     const router = useRouter()
-    const { dispatch } = useAuth()
+    const [error, setError] = useState('')
 
-    const { mutate: verifySignupEmail, isPending } = useMutation({
-        mutationFn: authenticationService.verifySignupEmail,
-        onSuccess: (res: any) => {},
-        onError: (error: any) => {
-            router.push(
-                NAVIGATION_PATHS.VERIFY_EMAIL_FAILED +
-                    `?email=${email}&message=${error.response.data.errors.other}`
-            )
-        },
-    })
-
-    async function handleSignIn() {
-        try {
-            const userInformation =
-                await authenticationService.getInformationUser()
-            await dispatch(
-                signIn({ isAuthenticated: true, user: userInformation })
-            )
-            setTimeout(() => {
-                router.push(`${NAVIGATION_PATHS.HOME}`)
-            }, 300)
-        } catch (error) {
-            console.error('Error fetching user information:', error)
-        }
-    }
-
-    const { mutate: setPasswordMutation, isPending: isPendingSetPassword } =
+    const { mutate: resetPasswordMutation, isPending: isPendingResetPassword } =
         useMutation({
-            mutationFn: authenticationService.setPassword,
+            mutationFn: authenticationService.resetPassword,
             onSuccess: async (res: any) => {
-                localStorageService.setToken(res.data.access)
-                localStorageService.setRefreshToken(res.data.refresh)
-                await handleSignIn()
+                message.success(res.data.message)
+                setTimeout(() => {
+                    router.push(NAVIGATION_PATHS.HOME)
+                }, 1000)
             },
             onError: (error: any) => {
                 setError(
@@ -80,18 +51,38 @@ const SetPassword = () => {
             },
         })
 
-    const onFinish = (values: any) => {
-        if (email && token) {
-            setPasswordMutation({
+    const {
+        mutate: verifyResetPassword,
+        isPending: isPendingVerifyResetPassword,
+    } = useMutation({
+        mutationFn: authenticationService.verifyResetPassword,
+        onSuccess: (res: any, { email }) => {},
+        onError: (error: any) => {
+            router.push(
+                NAVIGATION_PATHS.VERIFY_EMAIL_FAILED +
+                    `?email=${email}&message=${error.response.data.errors.other}`
+            )
+        },
+    })
+
+    const resendEmailHandler = (password: string) => {
+        if (email && token)
+            resetPasswordMutation({
                 email: email,
                 token: token,
-                password: values.password,
+                password: password,
             })
-        }
+    }
+
+    const onFinish = (values: any) => {
+        const { password } = values
+        resendEmailHandler(password)
     }
 
     useEffect(() => {
-        if (email && token) verifySignupEmail({ email: email, token: token })
+        if (email && token) {
+            verifyResetPassword({ email: email, token: token })
+        }
     }, [])
 
     return (
@@ -103,21 +94,20 @@ const SetPassword = () => {
                 <Logo />
             </div>
             <div className="flex-1">
-                {isPending ? (
-                    <div className="w-[600px] mx-auto flex flex-col gap-9 p-4 rounded-2xl">
+                {isPendingVerifyResetPassword ? (
+                    <div className="w-[600px] mx-auto flex flex-col gap-6 bg-gray-100 p-4 rounded-2xl">
                         <Spin size="large" />
-                        <p className="text-center text-2xl font-bold italic">
-                            {t('verifyingEmailLoading')}
-                        </p>
                     </div>
                 ) : (
-                    <div className="w-[600px] mx-auto flex flex-col gap-6 p-4 rounded-2xl">
-                        <p className="text-center text-2xl font-bold">
-                            {t('setPasswordTitle')}{' '}
-                            <span className="text-[var(--text-color-brand)]">
-                                {email}
-                            </span>
-                        </p>
+                    <div className="w-[600px] mx-auto flex flex-col gap-6 bg-gray-100 p-6 rounded-2xl">
+                        <div className="flex flex-col items-center gap-4">
+                            <p className="font-bold text-3xl">
+                                {t('resetPassword')}
+                            </p>
+                            <p className="text-center">
+                                {t('resetPasswordDescription')}{' '}
+                            </p>
+                        </div>
                         <Form className="mt-4" onFinish={onFinish}>
                             <div className="flex justify-center pb-6"></div>
                             <InputFormItem
@@ -201,9 +191,9 @@ const SetPassword = () => {
                                     type="primary"
                                     shape="square"
                                     style={{ width: '100%' }}
-                                    loading={isPendingSetPassword}
+                                    loading={isPendingResetPassword}
                                 >
-                                    {t('setPassword')}
+                                    {t('resetPassword')}
                                 </Button>
                             </Form.Item>
                         </Form>
@@ -223,4 +213,4 @@ const SetPassword = () => {
     )
 }
 
-export default SetPassword
+export default ResetPassword

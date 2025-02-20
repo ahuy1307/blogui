@@ -55,6 +55,11 @@ interface ILoginRequest {
     isRemember: boolean
 }
 
+interface IForgotPasswordRequest {
+    email: string
+    type: string
+}
+
 interface IAuthentication {
     signupEmail({ email, accountType }: ISignupEmailRequest): Promise<any>
     resendEmail({ email, type }: IResendEmailRequest): Promise<any>
