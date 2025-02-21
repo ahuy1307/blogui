@@ -32,9 +32,11 @@
     "CheckEmailSignup": {
         "checkYourEmail": "Check your email",
         "weSentEmail": "We've sent an email to",
-        "pleaseCheckEmailProcess": "Please check your email to complete the registration process.",
+        "pleaseCheckVerifyEmail": "Please check your email to complete the registration process.",
+        "pleaseCheckForgotPassword": "Please check your email to reset your password.",
         "checkSpamFolder": "If you don't see the email, please check your spam folder.",
-        "resendEmail": "Resend email verification",
+        "resendVerifyEmail": "Resend verification email",
+        "resendForgotPasswordEmail": "Resend forgot password email",
         "or": "or",
         "enterDifferentEmail": "Enter a different email address",
         "loading": "Wait a moment..."
@@ -42,6 +44,27 @@
     "SetPassword": {
         "verifyingEmailLoading": "Verifying email, please wait...",
         "setPasswordTitle": "Set you password for your account with email:",
+        "passwordPlaceholder": "Enter your password",
+        "confirmPasswordPlaceholder": "Confirm your password",
+        "setPassword": "Set password",
+        "passwordMismatchMessage": "Passwords do not match.",
+        "passwordExceedsLimit": "The entered password exceeds the 128-character limit.",
+        "reenterPasswordPlaceholder": "Please re-enter your password",
+        "pleaseEnterPassword": "Please re-enter your password."
+    },
+    "VerifyEmailFailed": {
+        "verifyEmailFailed": "Verify failed with email:",
+        "contactAdmin": "Please contact the administrator for assistance or",
+        "forgotPassword": "forgot password?"
+    },
+    "ForgotPassword": {
+        "forgotPassword": "Forgot password",
+        "forgotPasswordDescription": "Enter your email address and we'll send you a link to reset your password.",
+        "emailPlaceholder": "Enter your email"
+    },
+    "ResetPassword": {
+        "resetPassword": "Reset password",
+        "resetPasswordDescription": "Enter your new password and confirm it to reset your password.",
         "passwordPlaceholder": "Enter your password",
         "confirmPasswordPlaceholder": "Confirm your password",
         "setPassword": "Set password",

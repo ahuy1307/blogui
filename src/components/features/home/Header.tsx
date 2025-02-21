@@ -99,6 +99,7 @@ const Header = () => {
                     <>
                         <Button
                             type="primary"
+                            size="small"
                             shape="square"
                             onClick={showModal}
                         >
@@ -106,6 +107,7 @@ const Header = () => {
                         </Button>
                         <Button
                             type="primary"
+                            size="small"
                             shape="square"
                             onClick={() => {
                                 router.push('/auth/register')
@@ -119,7 +121,7 @@ const Header = () => {
                         <Dropdown menu={{ items }} placement="bottomRight">
                             <Avatar
                                 size={36}
-                                className="bg-[var(--text-color-brand)]"
+                                className="bg-[var(--text-color-brand)] cursor-pointer"
                                 src={
                                     user?.avatar && user.avatar !== ''
                                         ? user.avatar

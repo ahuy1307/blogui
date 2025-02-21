@@ -7,7 +7,8 @@
 //
 
 import React from 'react'
+import VerifyEmailFailed from '@/components/features/auth/VerifyEmailFailed'
 
 export default function Page() {
-    return <div>Page</div>
+    return <VerifyEmailFailed />
 }

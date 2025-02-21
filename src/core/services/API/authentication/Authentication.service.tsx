@@ -80,6 +80,42 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.get('/auth/profile')
         return res.data
     }
+    async forgotPassword({
+        email,
+        type,
+    }: IForgotPasswordRequest): Promise<any> {
+        const data: { email: string; type: string } = { email, type }
+        const res = await httpService.post('/auth/resend-email', data)
+        return res
+    }
+    async verifyResetPassword({
+        email,
+        token,
+    }: IVerifySignupEmailRequest): Promise<any> {
+        const data: { email: string; token: string } = { email, token }
+        const res = await httpService.post('/auth/verify-reset-password', data)
+        return res
+    }
+    async resetPassword({
+        email,
+        token,
+        password,
+    }: ISetPasswordRequest): Promise<any> {
+        const deviceID = await getFingerprint()
+
+        const data: { email: string; token: string; password: string } = {
+            email,
+            token,
+            password,
+        }
+        const headers = {
+            'Device-ID': deviceID,
+        }
+        const res = await httpService.post('/auth/reset-password', data, {
+            headers,
+        })
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

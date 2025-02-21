@@ -106,7 +106,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
                         </Form.Item>
                     </ConfigProvider>
                     <Link
-                        href={'/'}
+                        href={'/auth/forgot-password'}
                         className="font-bold h-fit text-[var(--text-color-hyperlink-auth)] relative top-[4px]"
                     >
                         {t('forgotPassword')}{' '}

@@ -32,9 +32,11 @@
     "CheckEmailSignup": {
         "checkYourEmail": "Kiểm tra email của bạn",
         "weSentEmail": "Chúng tôi đã gửi email đến",
-        "pleaseCheckEmailProcess": "Vui lòng kiểm tra email của bạn để hoàn tất quá trình đăng ký.",
+        "pleaseCheckVerifyEmail": "Vui lòng kiểm tra email của bạn để hoàn tất quá trình đăng ký.",
+        "pleaseCheckForgotPassword": "Vui lòng kiểm tra email của bạn để đặt lại mật khẩu.",
         "checkSpamFolder": "Nếu bạn không thấy email, vui lòng kiểm tra thư mục spam của bạn.",
-        "resendEmail": "Gửi lại email xác minh",
+        "resendVerifyEmail": "Gửi lại email xác minh",
+        "resendForgotPasswordEmail": "Gửi lại email đặt lại mật khẩu",
         "or": "hoặc",
         "enterDifferentEmail": "Nhập địa chỉ email khác",
         "loading": "Vui lòng chờ một chút..."
@@ -43,6 +45,27 @@
         "verifyingEmailLoading": "Đang xác minh email, vui lòng chờ...",
         "setPasswordTitle": "Đặt mật khẩu cho tài khoản của bạn với email:",
         "passwordPlaceholder": "Nhập mật khẩu của bạn",
+        "setPassword": "Đặt mật khẩu",
+        "passwordMismatchMessage": "Mật khẩu không khớp.",
+        "passwordExceedsLimit": "Mật khẩu đã nhập vượt quá giới hạn 128 ký tự.",
+        "reenterPasswordPlaceholder": "Vui lòng nhập lại mật khẩu của bạn",
+        "pleaseEnterPassword": "Vui lòng nhập lại mật khẩu của bạn."
+    },
+    "VerifyEmailFailed": {
+        "verifyEmailFailed": "Xác minh thất bại với email:",
+        "contactAdmin": "Vui lòng liên hệ quản trị viên để được hỗ trợ hoặc",
+        "forgotPassword": "quên mật khẩu?"
+    },
+    "ForgotPassword": {
+        "forgotPassword": "Quên mật khẩu",
+        "forgotPasswordDescription": "Nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn một liên kết để đặt lại mật khẩu.",
+        "emailPlaceholder": "Nhập email của bạn"
+    },
+    "ResetPassword": {
+        "resetPassword": "Đặt lại mật khẩu",
+        "resetPasswordDescription": "Nhập mật khẩu mới của bạn và xác nhận để đặt lại mật khẩu.",
+        "passwordPlaceholder": "Nhập mật khẩu của bạn",
+        "confirmPasswordPlaceholder": "Xác nhận mật khẩu của bạn",
         "setPassword": "Đặt mật khẩu",
         "passwordMismatchMessage": "Mật khẩu không khớp.",
         "passwordExceedsLimit": "Mật khẩu đã nhập vượt quá giới hạn 128 ký tự.",
