@@ -16,15 +16,15 @@
  */
 
 interface IInforUser {
-    dateOfBirth?: string
-    gender?: string
-    name?: string
-    phone?: string
-    country?: string
-    city?: string
-    avatar?: any
+    ngaySinh?: string
+    gioiTinh?: string
+    ho?: string
+    ten?: string
+    soDienThoai?: string
+    quocGia?: string
+    thanhPho?: string
+    avatar_file?: any
     action?: string
-    prefer_language?: string
 }
 
 interface ISignupEmailRequest {

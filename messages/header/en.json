@@ -17,6 +17,8 @@
         "en": "English"
     },
     "logout": "Logout",
+    "personalInfomation": "Personal Information",
+    "manageDevices": "Manage Devices",
     "confirmLogout": "Are you sure you want to logout?",
     "logoutSuccess": "Logout successfully!",
     "loginSuccess": "Login successfully!",

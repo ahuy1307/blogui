@@ -1,0 +1,42 @@
+{
+    "hello": "Hello",
+    "personalInformation": "Personal Information",
+    "manageDevices": "Manage Devices",
+    "AvatarUploadModal": {
+        "invalidImageFileType": "Only support file types: jpg, jpeg, png",
+        "uploadFailed": "Upload failed",
+        "noAvatar": "No Avatar",
+        "chooseImage": "Choose Image",
+        "removeAvatar": "Remove Avatar",
+        "uploadAvatar": "Upload Avatar",
+        "removeAvatarSuccess": "Remove avatar successfully",
+        "uploadSuccess": "Upload successfully"
+    },
+    "updatePersonalInfo": "Update Personal Information",
+    "PersonalInfomation": {
+        "ho": "First Name",
+        "ten": "Last Name",
+        "ngaySinh": "Date of Birth",
+        "gioiTinh": "Gender",
+        "soDienThoai": "Phone Number",
+        "saveInfo": "Save Information",
+        "countryOrTerritory": "Country",
+        "city": "City",
+        "next": "Next",
+        "chooseOrEnterCity": "Choose or enter your city",
+        "personalInformation": "Personal Information",
+        "updateSuccessful": "Information saved successfully",
+        "updateFailed": "Information saved failed",
+        "stateOrProvince": "State/Province",
+        "pleaseSelectStateOrProvince": "Please select a state/province",
+        "genderOptions": {
+            "male": "Male",
+            "female": "Female",
+            "other": "Other"
+        },
+        "noData": "No data available."
+    },
+    "DeviceDetail": {
+        "currentDevice": "This Device"
+    }
+}

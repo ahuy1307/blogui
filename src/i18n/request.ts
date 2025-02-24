@@ -6,7 +6,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     let locale = await requestLocale
     const messages: { [key: string]: any } = {}
 
-    const sections = ['header', 'not_found', 'components_ui', 'auth']
+    const sections = ['header', 'not_found', 'components_ui', 'auth', 'profile']
 
     for (const section of sections) {
         messages[section] = (
