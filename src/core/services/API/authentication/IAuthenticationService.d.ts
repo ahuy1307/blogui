@@ -24,7 +24,12 @@ interface IInforUser {
     quocGia?: string
     thanhPho?: string
     avatar_file?: any
-    action?: string
+    avatar_action?: string
+    diaChi?: string
+    ngheNghiep?: string
+    mangXaHoi?: {}
+    cover_file?: any
+    cover_action?: string
 }
 
 interface ISignupEmailRequest {
@@ -58,6 +63,10 @@ interface ILoginRequest {
 interface IForgotPasswordRequest {
     email: string
     type: string
+}
+
+interface ILogoutOptionsRequest {
+    device_ids: string[]
 }
 
 interface IAuthentication {

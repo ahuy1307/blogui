@@ -60,8 +60,8 @@ const PersonalInfomation = () => {
             quocGia: values.quocGia,
             thanhPho: values.thanhPho,
             diaChi: values.diaChi,
+            ngheNghiep: values.ngheNghiep,
         }
-        console.log(data)
         SetInformationMutation(data)
     }
 
@@ -81,6 +81,7 @@ const PersonalInfomation = () => {
                     quocGia: user?.quocGia || 'VN',
                     thanhPho: user?.thanhPho || 'DN',
                     diaChi: user?.diaChi,
+                    ngheNghiep: user?.ngheNghiep,
                 }}
             >
                 <Form.Item>
@@ -121,6 +122,18 @@ const PersonalInfomation = () => {
                                 placeholder={user?.email}
                             />
                         </div>
+                    </div>
+                    <div>
+                        <span className="font-bold text-base pb-1 block">
+                            {t('role')}
+                        </span>
+                        <InputFormItem
+                            name="ngheNghiep"
+                            placeholder={t('role')}
+                            style={{ height: '44px', fontSize: '16px' }}
+                            maxLength={255}
+                            value={user?.ngheNghiep}
+                        />
                     </div>
                     <div className="flex items-start gap-6 mb-1">
                         <div className="w-[25%]">
@@ -186,14 +199,24 @@ const PersonalInfomation = () => {
                             </Form.Item>
                         </div>
                     </div>
-                    <div>
-                        <CountryStateCitySelector
-                            initialCountry={user?.quocGia || 'VN'}
-                            initialState={user?.thanhPho || 'DN'}
-                            form={form}
-                        />
-                    </div>
+                    <CountryStateCitySelector
+                        initialCountry={user?.quocGia || 'VN'}
+                        initialState={user?.thanhPho || 'DN'}
+                        form={form}
+                    />
                 </Form.Item>
+                <div>
+                    <span className="font-bold text-base pb-1 block">
+                        {t('address')}
+                    </span>
+                    <InputFormItem
+                        name="diaChi"
+                        placeholder={t('address')}
+                        style={{ height: '44px', fontSize: '16px' }}
+                        maxLength={255}
+                        value={user?.diaChi}
+                    />
+                </div>
                 <Form.Item className="text-right">
                     <Button type="primary" shape="square" htmlType="submit">
                         {t('saveInfo')}

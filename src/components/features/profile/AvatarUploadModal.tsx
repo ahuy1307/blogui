@@ -24,6 +24,7 @@ export default function AvatarUploadModal({
     const { user, dispatch } = useAuth()
     const [preview, setPreview] = useState<string | undefined>(user?.avatar)
     const [file, setFile] = useState<File | null>(null)
+    const [success, setSuccess] = useState(false)
 
     useEffect(() => {
         if (user) setPreview(user.avatar)
@@ -47,13 +48,9 @@ export default function AvatarUploadModal({
 
     const handleRemoveAvatar = () => {
         if (user) {
-            const userData = { ...user, avatar: '', action: 'delete' }
-            dispatch(signIn({ isAuthenticated: true, user: userData }))
-            userData.avatar = base64ToFile(
-                userData.avatar,
-                'avatar_user',
-                'delete'
-            )
+            const userData = {
+                avatar_action: 'delete',
+            }
             SetInformationMutation(userData)
             setTimeout(() => {
                 setPreview('')
@@ -76,6 +73,7 @@ export default function AvatarUploadModal({
     const { mutate: SetInformationMutation, isPending } = useMutation({
         mutationFn: authenticationService.setInformationUser,
         onSuccess: async (res) => {
+            setSuccess(true)
             handleSignIn()
         },
         onError: () => {
@@ -85,12 +83,16 @@ export default function AvatarUploadModal({
 
     const handleUpload = () => {
         if (user) {
-            const userData = { ...user, avatar_file: file, action: 'update' }
+            const userData = {
+                avatar_file: file,
+                avatar_action: 'update',
+            }
             SetInformationMutation(userData)
-            setTimeout(() => {
-                message.success(t('uploadSuccess'))
-                onClose()
-            }, 1000)
+            if (success)
+                setTimeout(() => {
+                    message.success(t('uploadSuccess'))
+                    onClose()
+                }, 1000)
         }
     }
 
@@ -143,7 +145,7 @@ export default function AvatarUploadModal({
                 <Button
                     size="small"
                     onClick={handleUpload}
-                    disabled={isPending}
+                    disabled={isPending || !file}
                 >
                     {t('uploadAvatar')}
                 </Button>

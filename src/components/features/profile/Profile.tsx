@@ -119,7 +119,7 @@ const Profile = () => {
                         }}
                     >
                         <FaRegUser className="inline-block mr-2" size={18} />
-                        {t('personalInformation')}
+                        {t('updatePersonalInformation')}
                     </li>
                     <li
                         className={`flex items-center p-4 rounded-md cursor-pointer ${
@@ -154,6 +154,7 @@ const Profile = () => {
                             <ManageDevices
                                 currentDevice={currentDevice}
                                 otherDevices={otherDevices}
+                                refetch={refetch}
                             />
                         )}
                     </>

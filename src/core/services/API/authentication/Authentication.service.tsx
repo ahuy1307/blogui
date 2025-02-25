@@ -76,6 +76,11 @@ class AuthenticationService implements IAuthentication {
         }
         return undefined
     }
+    async logoutOptions({ device_ids }: ILogoutOptionsRequest): Promise<any> {
+        const data: { device_ids: string[] } = { device_ids }
+        const res = await httpService.post('/auth/logout-option', data)
+        return res
+    }
     async getInformationUser(): Promise<any> {
         const res = await httpService.get('/auth/profile')
         return res.data

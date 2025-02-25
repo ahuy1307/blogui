@@ -2,6 +2,8 @@
     "hello": "Hello",
     "personalInformation": "Personal Information",
     "manageDevices": "Manage Devices",
+    "updatePersonalInformation": "Update Personal Information",
+    "updateSocialLinks": "Update Social Links",
     "AvatarUploadModal": {
         "invalidImageFileType": "Only support file types: jpg, jpeg, png",
         "uploadFailed": "Upload failed",
@@ -24,7 +26,7 @@
         "city": "City",
         "next": "Next",
         "chooseOrEnterCity": "Choose or enter your city",
-        "personalInformation": "Personal Information",
+        "updatePersonalInformation": "Update Personal Information",
         "updateSuccessful": "Information saved successfully",
         "updateFailed": "Information saved failed",
         "stateOrProvince": "State/Province",
@@ -34,9 +36,26 @@
             "female": "Female",
             "other": "Other"
         },
-        "noData": "No data available."
+        "noData": "No data available.",
+        "address": "Address",
+        "role": "Role"
     },
     "DeviceDetail": {
         "currentDevice": "This Device"
+    },
+    "ManageDevices": {
+        "currentDevice": "You are using this device",
+        "otherDevices": "Logins on other devices",
+        "selectDevicesLogout": "Select devices to log out",
+        "back": "Back",
+        "noOtherDevices": "No other devices"
+    },
+    "DeviceLogoutCheckbox": {
+        "logoutDevices": "Log out of this device",
+        "logoutDeviceDescription": "You will be logged out of your account on all selected devices. We'll help you secure your account in case you see a login you don't recognize.",
+        "devicesSelected": "devices selected",
+        "selectAllDevices": "Select all",
+        "logout": "Log out",
+        "logoutFailed": "Log out failed"
     }
 }
