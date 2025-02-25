@@ -76,6 +76,11 @@ class AuthenticationService implements IAuthentication {
         }
         return undefined
     }
+    async logoutOptions({ device_ids }: ILogoutOptionsRequest): Promise<any> {
+        const data: { device_ids: string[] } = { device_ids }
+        const res = await httpService.post('/auth/logout-option', data)
+        return res
+    }
     async getInformationUser(): Promise<any> {
         const res = await httpService.get('/auth/profile')
         return res.data
@@ -115,6 +120,39 @@ class AuthenticationService implements IAuthentication {
             headers,
         })
         return res
+    }
+    async setInformationUser(data: IInforUser): Promise<any> {
+        const formData = new FormData()
+
+        for (const key in data) {
+            if (
+                (key === 'avatar' || key === 'action') &&
+                !data[key as keyof IInforUser]
+            ) {
+                continue
+            }
+            if (key === 'ngaySinh' && !data.ngaySinh) {
+                continue
+            }
+            if (key in data && data[key as keyof IInforUser]) {
+                formData.append(key, data[key as keyof IInforUser])
+            } else {
+                formData.append(key, '')
+            }
+        }
+
+        const headers = {
+            'Content-Type': 'multipart/form-data',
+        }
+
+        const res = await httpService.patch('/auth/profile', formData, {
+            headers: headers,
+        })
+        return res
+    }
+    async getAllDevices(): Promise<any> {
+        const res = await httpService.get('/auth/devices')
+        return res.data
     }
 }
 

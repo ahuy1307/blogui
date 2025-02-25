@@ -148,3 +148,22 @@ export const detectDateFormat = (dateString: any) => {
 }
 
 export const DATE_FORMAT_DISPLAY = 'DD/MM/YYYY'
+
+export function base64ToFile(
+    base64: string,
+    filename: string,
+    action = 'update'
+): any {
+    if (action === 'delete') return null
+    const arr = base64.split(',')
+    const mime = arr[0].match(/:(.*?);/)?.[1] || ''
+    const binaryStr = atob(arr[1])
+    const len = binaryStr.length
+    const uint8Array = new Uint8Array(len)
+
+    for (let i = 0; i < len; i++) {
+        uint8Array[i] = binaryStr.charCodeAt(i)
+    }
+
+    return new File([uint8Array], filename, { type: mime })
+}

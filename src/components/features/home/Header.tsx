@@ -59,8 +59,36 @@ const Header = () => {
 
     const items: IDropdownMenu['items'] = [
         {
+            key: '0',
+            label: <p>{t('personalInfomation')}</p>,
+            onClick: () => {
+                router.push(`/profile/${user?.slug}`)
+            },
+        },
+        {
             key: '1',
-            label: <p>Logout</p>,
+            label: <p>{t('updatePersonalInformation')}</p>,
+            onClick: () => {
+                router.push('/profile?tab=profile')
+            },
+        },
+        {
+            key: '2',
+            label: <p>{t('updateSocialLinks')}</p>,
+            onClick: () => {
+                router.push('/profile?tab=social')
+            },
+        },
+        {
+            key: '3',
+            label: <p>{t('manageDevices')}</p>,
+            onClick: () => {
+                router.push('/profile?tab=device')
+            },
+        },
+        {
+            key: '4',
+            label: <p>{t('logout')}</p>,
             onClick: () => {
                 setIsConfirmLogout(true)
             },

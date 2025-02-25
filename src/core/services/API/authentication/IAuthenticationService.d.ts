@@ -16,15 +16,20 @@
  */
 
 interface IInforUser {
-    dateOfBirth?: string
-    gender?: string
-    name?: string
-    phone?: string
-    country?: string
-    city?: string
-    avatar?: any
-    action?: string
-    prefer_language?: string
+    ngaySinh?: string
+    gioiTinh?: string
+    ho?: string
+    ten?: string
+    soDienThoai?: string
+    quocGia?: string
+    thanhPho?: string
+    avatar_file?: any
+    avatar_action?: string
+    diaChi?: string
+    ngheNghiep?: string
+    mangXaHoi?: {}
+    cover_file?: any
+    cover_action?: string
 }
 
 interface ISignupEmailRequest {
@@ -58,6 +63,10 @@ interface ILoginRequest {
 interface IForgotPasswordRequest {
     email: string
     type: string
+}
+
+interface ILogoutOptionsRequest {
+    device_ids: string[]
 }
 
 interface IAuthentication {

@@ -1,0 +1,61 @@
+{
+    "hello": "Xin chào",
+    "personalInformation": "Thông tin cá nhân",
+    "manageDevices": "Quản lý thiết bị",
+    "updatePersonalInformation": "Cập nhật thông tin cá nhân",
+    "updateSocialLinks": "Cập nhật liên kết mạng xã hội",
+    "AvatarUploadModal": {
+        "invalidImageFileType": "Chỉ hỗ trợ các loại tệp: jpg, jpeg, png",
+        "uploadFailed": "Tải lên thất bại",
+        "noAvatar": "Không có ảnh đại diện",
+        "chooseImage": "Chọn ảnh",
+        "removeAvatar": "Xóa ảnh đại diện",
+        "uploadAvatar": "Tải lên ảnh đại diện",
+        "removeAvatarSuccess": "Xóa ảnh đại diện thành công",
+        "uploadSuccess": "Tải lên thành công"
+    },
+    "updatePersonalInfo": "Cập nhật thông tin cá nhân",
+    "PersonalInfomation": {
+        "ho": "Họ",
+        "ten": "Tên",
+        "ngaySinh": "Ngày sinh",
+        "gioiTinh": "Giới tính",
+        "soDienThoai": "Số điện thoại",
+        "saveInfo": "Lưu thông tin",
+        "countryOrTerritory": "Quốc gia",
+        "city": "Thành phố",
+        "next": "Tiếp theo",
+        "chooseOrEnterCity": "Chọn hoặc nhập thành phố của bạn",
+        "updatePersonalInformation": "Cập nhật thông tin cá nhân",
+        "updateSuccessful": "Lưu thông tin thành công",
+        "updateFailed": "Lưu thông tin thất bại",
+        "stateOrProvince": "Bang/Tỉnh",
+        "pleaseSelectStateOrProvince": "Vui lòng chọn bang/tỉnh",
+        "genderOptions": {
+            "male": "Nam",
+            "female": "Nữ",
+            "other": "Khác"
+        },
+        "noData": "Không có dữ liệu.",
+        "address": "Địa chỉ",
+        "role": "Nghề nghiệp"
+    },
+    "DeviceDetail": {
+        "currentDevice": "Thiết bị này"
+    },
+    "ManageDevices": {
+        "currentDevice": "Bạn đang sử dụng thiết bị này",
+        "otherDevices": "Đăng nhập trên các thiết bị khác",
+        "selectDevicesLogout": "Chọn thiết bị để đăng xuất",
+        "back": "Quay lại",
+        "noOtherDevices": "Không có thiết bị nào khác"
+    },
+    "DeviceLogoutCheckbox": {
+        "logoutDevices": "Đăng xuất khỏi thiết bị",
+        "logoutDeviceDescription": "Bạn sẽ bị đăng xuất khỏi tài khoản của mình trên tất cả các thiết bị đã chọn. Chúng tôi sẽ giúp bạn bảo vệ tài khoản của mình trong trường hợp bạn thấy một đăng nhập mà bạn không nhận ra.",
+        "devicesSelected": "thiết bị đã chọn",
+        "selectAllDevices": "Chọn tất cả",
+        "logout": "Đăng xuất",
+        "logoutFailed": "Đăng xuất thất bại"
+    }
+}

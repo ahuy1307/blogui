@@ -19,6 +19,9 @@ interface IUser {
     diaChi?: string
     canhBaoThietBi: boolean
     daDatMatKhau?: boolean
+    ngheNghiep?: string
+    mangXaHoi?: {}
+    slug: string
     email: string
 }
 interface IMenuItem {

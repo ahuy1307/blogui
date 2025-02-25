@@ -17,6 +17,10 @@
         "en": "Tiếng Anh"
     },
     "logout": "Đăng xuất",
+    "personalInfomation": "Xem thông tin cá nhân",
+    "manageDevices": "Quản lý thiết bị",
+    "updatePersonalInformation": "Cập nhật thông tin cá nhân",
+    "updateSocialLinks": "Cập nhật liên kết mạng xã hội",
     "confirmLogout": "Bạn có chắc chắn muốn đăng xuất?",
     "logoutSuccess": "Đăng xuất thành công!",
     "loginSuccess": "Đăng nhập thành công!",
