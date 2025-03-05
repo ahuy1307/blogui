@@ -20,7 +20,8 @@ interface IUser {
     canhBaoThietBi: boolean
     daDatMatKhau?: boolean
     ngheNghiep?: string
-    mangXaHoi?: {}
+    congTy?: string
+    mangXaHoi?: any
     slug: string
     email: string
 }
