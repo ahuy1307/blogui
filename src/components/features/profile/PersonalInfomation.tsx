@@ -61,6 +61,7 @@ const PersonalInfomation = () => {
             thanhPho: values.thanhPho,
             diaChi: values.diaChi,
             ngheNghiep: values.ngheNghiep,
+            congTy: values.congTy,
         }
         SetInformationMutation(data)
     }
@@ -82,6 +83,7 @@ const PersonalInfomation = () => {
                     thanhPho: user?.thanhPho || 'DN',
                     diaChi: user?.diaChi,
                     ngheNghiep: user?.ngheNghiep,
+                    congTy: user?.congTy,
                 }}
             >
                 <Form.Item>
@@ -123,17 +125,31 @@ const PersonalInfomation = () => {
                             />
                         </div>
                     </div>
-                    <div>
-                        <span className="font-bold text-base pb-1 block">
-                            {t('role')}
-                        </span>
-                        <InputFormItem
-                            name="ngheNghiep"
-                            placeholder={t('role')}
-                            style={{ height: '44px', fontSize: '16px' }}
-                            maxLength={255}
-                            value={user?.ngheNghiep}
-                        />
+                    <div className="flex justify-between gap-6">
+                        <div className="w-[50%]">
+                            <span className="font-bold text-base pb-1 block">
+                                {t('role')}
+                            </span>
+                            <InputFormItem
+                                name="ngheNghiep"
+                                placeholder={t('role')}
+                                style={{ height: '44px', fontSize: '16px' }}
+                                maxLength={255}
+                                value={user?.ngheNghiep}
+                            />
+                        </div>
+                        <div className="w-[50%]">
+                            <span className="font-bold text-base pb-1 block">
+                                {t('company')}
+                            </span>
+                            <InputFormItem
+                                name="congTy"
+                                placeholder={t('company')}
+                                style={{ height: '44px', fontSize: '16px' }}
+                                maxLength={255}
+                                value={user?.congTy}
+                            />
+                        </div>
                     </div>
                     <div className="flex items-start gap-6 mb-1">
                         <div className="w-[25%]">

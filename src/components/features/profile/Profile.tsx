@@ -25,6 +25,8 @@ import { authenticationService } from '@/core/services/API/authentication/Authen
 import { getFingerprint } from '@/helper/utils'
 import ManageDevices from './ManageDevices'
 import { useRouter } from '@/navigation'
+import { IoShareSocialOutline } from 'react-icons/io5'
+import UpdateSocialLinks from './UpdateSocialLinks'
 
 const Profile = () => {
     const t = useTranslations('profile')
@@ -135,17 +137,35 @@ const Profile = () => {
                         <MdDevices className="inline-block mr-2" size={20} />
                         {t('manageDevices')}
                     </li>
+                    <li
+                        className={`flex items-center p-4 rounded-md cursor-pointer ${
+                            selectedItem === 'social'
+                                ? 'bg-black text-white'
+                                : 'hover:bg-gray-200'
+                        }`}
+                        onClick={() => {
+                            setSelectedItem('social')
+                            router.push('/profile?tab=social')
+                        }}
+                    >
+                        <IoShareSocialOutline
+                            className="inline-block mr-2"
+                            size={20}
+                        />
+                        {t('socialLinks')}
+                    </li>
                 </ul>
             </div>
             <div className="flex-1">
-                {selectedItem === 'profile' ? (
+                {selectedItem === 'profile' && (
                     <>
                         <p className="font-bold text-2xl pb-2">
                             {t('updatePersonalInfo')}
                         </p>
                         <PersonalInfomation />
                     </>
-                ) : (
+                )}
+                {selectedItem === 'device' && (
                     <>
                         <p className="font-bold text-2xl pb-2">
                             {t('manageDevices')}
@@ -157,6 +177,14 @@ const Profile = () => {
                                 refetch={refetch}
                             />
                         )}
+                    </>
+                )}
+                {selectedItem === 'social' && (
+                    <>
+                        <p className="font-bold text-2xl pb-2">
+                            {t('socialLinks')}
+                        </p>
+                        <UpdateSocialLinks />
                     </>
                 )}
             </div>
