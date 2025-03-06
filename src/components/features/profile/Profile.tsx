@@ -27,6 +27,8 @@ import ManageDevices from './ManageDevices'
 import { useRouter } from '@/navigation'
 import { IoShareSocialOutline } from 'react-icons/io5'
 import UpdateSocialLinks from './UpdateSocialLinks'
+import { IoIosLock } from 'react-icons/io'
+import ChangePassword from './ChangePassword'
 
 const Profile = () => {
     const t = useTranslations('profile')
@@ -120,7 +122,7 @@ const Profile = () => {
                             router.push('/profile?tab=profile')
                         }}
                     >
-                        <FaRegUser className="inline-block mr-2" size={18} />
+                        <FaRegUser className="inline-block mr-4" size={18} />
                         {t('updatePersonalInformation')}
                     </li>
                     <li
@@ -134,7 +136,7 @@ const Profile = () => {
                             router.push('/profile?tab=device')
                         }}
                     >
-                        <MdDevices className="inline-block mr-2" size={20} />
+                        <MdDevices className="inline-block mr-4" size={20} />
                         {t('manageDevices')}
                     </li>
                     <li
@@ -149,10 +151,27 @@ const Profile = () => {
                         }}
                     >
                         <IoShareSocialOutline
-                            className="inline-block mr-2"
+                            className="inline-block mr-4"
                             size={20}
                         />
                         {t('socialLinks')}
+                    </li>
+                    <li
+                        className={`flex items-center p-4 rounded-md cursor-pointer ${
+                            selectedItem === 'change-password'
+                                ? 'bg-black text-white'
+                                : 'hover:bg-gray-200'
+                        }`}
+                        onClick={() => {
+                            setSelectedItem('change-password')
+                            router.push('/profile?tab=change-password')
+                        }}
+                    >
+                        <IoIosLock
+                            className="inline-block mr-4 relative top-[-2px]"
+                            size={20}
+                        />
+                        {t('changePassword')}
                     </li>
                 </ul>
             </div>
@@ -185,6 +204,14 @@ const Profile = () => {
                             {t('socialLinks')}
                         </p>
                         <UpdateSocialLinks />
+                    </>
+                )}
+                {selectedItem === 'change-password' && (
+                    <>
+                        <p className="font-bold text-2xl pb-2">
+                            {t('changePassword')}
+                        </p>
+                        <ChangePassword />
                     </>
                 )}
             </div>

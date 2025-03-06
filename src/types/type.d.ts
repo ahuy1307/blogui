@@ -23,6 +23,7 @@ interface IUser {
     congTy?: string
     mangXaHoi?: any
     slug: string
+    daDatMatKhau: boolean
     email: string
 }
 interface IMenuItem {

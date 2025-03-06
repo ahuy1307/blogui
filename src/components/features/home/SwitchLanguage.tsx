@@ -28,6 +28,7 @@ const SwitchLanguage: React.FC = () => {
             label: (
                 <Link
                     href={`${pathName}?${queryParams.toString()}`}
+                    className="text-base"
                     onClick={() => {
                         localStorage.setItem('language', it)
                     }}
@@ -50,7 +51,7 @@ const SwitchLanguage: React.FC = () => {
         >
             <div className="flex items-center gap-2 font-bold border border-gray-300 rounded-lg p-2">
                 <MdOutlineLanguage size={20} />
-                <span className="text-[14px]">{locale.toUpperCase()}</span>
+                <span className="text-base">{locale.toUpperCase()}</span>
                 <FaAngleDown size={20} />
             </div>
         </Dropdown>

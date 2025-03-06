@@ -77,9 +77,15 @@ const ForgotPassword = () => {
                             </p>
                         </div>
                         <Form className="mt-2" onFinish={onFinish}>
-                            <div className="flex justify-center pb-6">
-                                <Spin size="large" spinning={isPending} />
-                            </div>
+                            <Spin
+                                size="large"
+                                spinning={isPending}
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    paddingBottom: '16px',
+                                }}
+                            />
                             <InputFormItem
                                 required
                                 placeholder={t('emailPlaceholder')}

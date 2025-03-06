@@ -69,6 +69,11 @@ interface ILogoutOptionsRequest {
     device_ids: string[]
 }
 
+interface IChangePasswordRequest {
+    oldPassword: string
+    newPassword: string
+}
+
 interface IAuthentication {
     signupEmail({ email, accountType }: ISignupEmailRequest): Promise<any>
     resendEmail({ email, type }: IResendEmailRequest): Promise<any>
