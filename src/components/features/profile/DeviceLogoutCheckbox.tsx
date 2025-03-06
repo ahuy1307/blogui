@@ -63,7 +63,7 @@ const DeviceLogoutCheckbox = ({ otherDevices, refetch }: any) => {
                     {selectedDevices.length} {t('devicesSelected')}
                 </p>
                 <p
-                    className="font-bold text-[var(--text-color-hyperlink)]"
+                    className="font-bold text-[var(--text-color-hyperlink)] cursor-pointer"
                     onClick={handleSelectAllDevices}
                 >
                     {t('selectAllDevices')}

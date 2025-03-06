@@ -118,7 +118,7 @@ const Header = () => {
             <div className="flex items-center gap-4">
                 <SwitchLanguage />
                 <TextField
-                    style={{ width: '400px' }}
+                    style={{ width: '400px', fontSize: '16px' }}
                     placeholder="Search"
                     prefix={<IoSearchOutline />}
                     size="large"
@@ -127,7 +127,7 @@ const Header = () => {
                     <>
                         <Button
                             type="primary"
-                            size="small"
+                            size="middle"
                             shape="square"
                             onClick={showModal}
                         >
@@ -135,7 +135,7 @@ const Header = () => {
                         </Button>
                         <Button
                             type="primary"
-                            size="small"
+                            size="middle"
                             shape="square"
                             onClick={() => {
                                 router.push('/auth/register')

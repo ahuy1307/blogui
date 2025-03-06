@@ -92,7 +92,7 @@ export default function AvatarUploadModal({
                 setTimeout(() => {
                     message.success(t('uploadSuccess'))
                     onClose()
-                }, 1000)
+                }, 2000)
         }
     }
 
