@@ -74,6 +74,10 @@ interface IChangePasswordRequest {
     newPassword: string
 }
 
+interface ISignupSocialRequest {
+    accessToken: string
+    type: string
+}
 interface IAuthentication {
     signupEmail({ email, accountType }: ISignupEmailRequest): Promise<any>
     resendEmail({ email, type }: IResendEmailRequest): Promise<any>

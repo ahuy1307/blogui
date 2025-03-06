@@ -30,10 +30,12 @@ const Header = () => {
     const { user, dispatch, isAuthenticated } = useAuth()
     const t = useTranslations('header')
     const router = useRouter()
+    const fullName = `${user?.ho ?? ''} ${user?.ten ?? ''}`.trim()
     const firstCharName =
-        user && (user?.ho + ' ' + user?.ten).trim() !== ''
-            ? getInitials(user?.ho + ' ' + user?.ten, user.email)
+        fullName !== ''
+            ? getInitials(fullName, user?.email ?? '')
             : getInitials('', user?.email ?? '')
+
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false)
     const [isConfirmLogout, setIsConfirmLogout] = useState(false)
 
