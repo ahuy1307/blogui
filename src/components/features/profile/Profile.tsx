@@ -42,9 +42,10 @@ const Profile = () => {
     const [currentDevice, setCurrentDevice] = useState<any>(null)
     const [otherDevices, setOtherDevices] = useState([])
 
+    const fullName = `${user?.ho ?? ''} ${user?.ten ?? ''}`.trim()
     const firstCharName =
-        user && (user?.ho + ' ' + user?.ten).trim() !== ''
-            ? getInitials(user?.ho + ' ' + user?.ten, user.email)
+        fullName !== ''
+            ? getInitials(fullName, user?.email ?? '')
             : getInitials('', user?.email ?? '')
 
     const { data, isLoading, refetch } = useQuery({

@@ -161,6 +161,23 @@ class AuthenticationService implements IAuthentication {
         })
         return res
     }
+    async signupSocial({
+        type,
+        accessToken,
+    }: ISignupSocialRequest): Promise<any> {
+        const data: { type: string; accessToken: string } = {
+            type,
+            accessToken,
+        }
+        const finger = await getFingerprint()
+        const headers = {
+            'Device-ID': finger,
+        }
+        const res = await httpService.post('/auth/signup-social', data, {
+            headers,
+        })
+        return res
+    }
     async getAllDevices(): Promise<any> {
         const res = await httpService.get('/auth/devices')
         return res.data

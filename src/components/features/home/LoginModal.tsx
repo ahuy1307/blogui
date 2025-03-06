@@ -16,6 +16,7 @@ import { localStorageService } from '@/core/services/LocalStorage.service'
 import { useAuth } from '@/contexts/auth/AuthContext'
 import { signIn } from '@/contexts/auth/reducers'
 import { message } from 'antd'
+import useFacebookLogin from '@/hooks/useFacebookLogin'
 
 interface LoginModalProps {
     visible: boolean
@@ -28,8 +29,74 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
     const { dispatch } = useAuth()
     const clientId = `${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`
     const [error, setError] = useState('')
-    const handleGoogleLogin = () => {}
-    const handleFacebookLogin = () => {}
+    const { mutate: googleLoginMutation, isPending: isPendingGoogleLogin } =
+        useMutation({
+            mutationFn: authenticationService.signupSocial,
+            onSuccess: async (res: any) => {
+                const { email, access } = res.data
+                localStorageService.setToken(access)
+                localStorageService.setRefreshToken(res.data.refresh)
+                await handleSignIn()
+                onCancel()
+                message.success(t('loginSuccess'))
+            },
+            onError: (err: any) => {
+                console.error('Google Login Failed:', err)
+            },
+        })
+
+    const handleGoogleLogin = ({
+        success,
+        accessToken,
+        error,
+    }: {
+        success: boolean
+        accessToken?: string
+        error?: any
+    }) => {
+        if (success && accessToken) {
+            googleLoginMutation({
+                accessToken: accessToken,
+                type: 'google',
+            })
+        } else {
+            console.error('Google Login Failed:', error)
+        }
+    }
+
+    const { mutate: facebookLoginMutation, isPending: isPendingFacebookLogin } =
+        useMutation({
+            mutationFn: authenticationService.signupSocial,
+            onSuccess: async (res: any) => {
+                const { email, access } = res.data
+                localStorageService.setToken(access)
+                localStorageService.setRefreshToken(res.data.refresh)
+                await handleSignIn()
+                message.success(t('loginSuccess'))
+                onCancel()
+            },
+            onError: (error: any) => {
+                setError(
+                    error.response.data.errors.other ||
+                        error.response.data.errors.email
+                )
+            },
+        })
+
+    const handleFacebookLogin = useFacebookLogin(
+        `${process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}`,
+        (response: any) => {
+            if (response.status === 'connected') {
+                const { accessToken } = response.authResponse
+                facebookLoginMutation({
+                    accessToken: accessToken,
+                    type: 'facebook',
+                })
+            } else {
+                console.log('User cancelled login or did not fully authorize.')
+            }
+        }
+    )
 
     async function handleSignIn() {
         try {
