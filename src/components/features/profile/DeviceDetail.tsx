@@ -43,7 +43,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = ({
     }
 
     return (
-        <div className="border border-[var(--border-color-default)] rounded-lg px-10 py-4">
+        <div className="border border-[var(--border-color-default)] rounded-lg px-10 py-2">
             <div className="flex gap-10 items-center">
                 {renderIcon()}
                 <div className="flex flex-col gap-1 flex-1">

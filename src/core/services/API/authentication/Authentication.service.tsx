@@ -121,6 +121,17 @@ class AuthenticationService implements IAuthentication {
         })
         return res
     }
+    async changePassword({
+        oldPassword,
+        newPassword,
+    }: IChangePasswordRequest): Promise<any> {
+        const data: { oldPassword: string; newPassword: string } = {
+            oldPassword,
+            newPassword,
+        }
+        const res = await httpService.put('/auth/change-password', data)
+        return res
+    }
     async setInformationUser(data: IInforUser): Promise<any> {
         const formData = new FormData()
 

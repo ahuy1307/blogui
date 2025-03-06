@@ -4,6 +4,7 @@
     "manageDevices": "Manage Devices",
     "updatePersonalInformation": "Update Personal Information",
     "socialLinks": "Social Links",
+    "changePassword": "Change Password",
     "updateSocialLinks": "Update Social Links",
     "AvatarUploadModal": {
         "invalidImageFileType": "Only support file types: jpg, jpeg, png",
@@ -72,5 +73,23 @@
         "invalidGithubLink": "Invalid Github link.",
         "invalidBehanceLink": "Invalid Behance link.",
         "error": "An error occurred."
+    },
+    "ChangePassword": {
+        "changePassword": "Change Password",
+        "passwordNotEmpty": "Please enter the current password.",
+        "enterCurrentPassword": "Enter current password",
+        "currentPasswordLabel": "Current Password",
+        "newPasswordLabel": "New Password",
+        "pleaseEnterPassword": "Please enter a new password.",
+        "passwordHint": "Password must be at least 8 characters long, including at least 1 letter and 1 number.",
+        "enterNewPassword": "Enter your new password.",
+        "passwordInstruction": "Password must be at least 8 characters long, including letters and numbers.",
+        "confirmNewPassword": "Confirm New Password",
+        "reenterNewPassword": "Please re-enter your new password.",
+        "passwordMismatch": "Passwords do not match.",
+        "confirmPassword": "Confirm Password",
+        "confirmButton": "Confirm",
+        "incorrectOldPassword": "The current password is incorrect. Please try again.",
+        "passwordExceedsLimit": "The entered password exceeds the 128-character limit."
     }
 }
