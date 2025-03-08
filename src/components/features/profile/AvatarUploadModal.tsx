@@ -34,7 +34,7 @@ export default function AvatarUploadModal({
         const latestFile = fileList[fileList.length - 1] // Get the latest uploaded file
         if (latestFile && latestFile.originFileObj) {
             if (
-                ['image/png', 'image/jpeg'].includes(
+                ['image/png', 'image/jpeg', 'image/webp'].includes(
                     latestFile.originFileObj.type
                 )
             ) {

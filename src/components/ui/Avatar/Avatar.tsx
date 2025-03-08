@@ -10,7 +10,7 @@ import React from 'react'
 import styles from './Avatar.module.scss'
 
 interface IAvatar extends AvatarProps {
-    size?: 24 | 32 | 36 | 40 | 44 | 48 | 50 | 52 | 60 | 80 | 90 | 120 | 200
+    size?: number
     src?: string | React.ReactNode
 }
 

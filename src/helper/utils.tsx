@@ -167,3 +167,7 @@ export function base64ToFile(
 
     return new File([uint8Array], filename, { type: mime })
 }
+
+export const formatNumber = (number: number) => {
+    return new Intl.NumberFormat().format(number)
+}
