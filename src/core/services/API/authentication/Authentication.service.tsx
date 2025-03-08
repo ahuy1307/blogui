@@ -122,12 +122,12 @@ class AuthenticationService implements IAuthentication {
         return res
     }
     async changePassword({
-        oldPassword,
-        newPassword,
+        old_password,
+        new_password,
     }: IChangePasswordRequest): Promise<any> {
-        const data: { oldPassword: string; newPassword: string } = {
-            oldPassword,
-            newPassword,
+        const data: { old_password: string; new_password: string } = {
+            old_password,
+            new_password,
         }
         const res = await httpService.put('/auth/change-password', data)
         return res
@@ -156,7 +156,7 @@ class AuthenticationService implements IAuthentication {
             'Content-Type': 'multipart/form-data',
         }
 
-        const res = await httpService.patch('/auth/profile', formData, {
+        const res = await httpService.put('/auth/profile', formData, {
             headers: headers,
         })
         return res
@@ -181,6 +181,10 @@ class AuthenticationService implements IAuthentication {
     async getAllDevices(): Promise<any> {
         const res = await httpService.get('/auth/devices')
         return res.data
+    }
+    async getUserProfileBySlug({ slug }: { slug: any }): Promise<any> {
+        const res = await httpService.get(`/auth/profile/${slug}`)
+        return res
     }
 }
 

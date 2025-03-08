@@ -64,7 +64,7 @@ const Header = () => {
             key: '0',
             label: <p>{t('personalInfomation')}</p>,
             onClick: () => {
-                router.push(`/profile/${user?.slug}`)
+                router.push(`/info/${user?.slug}`)
             },
         },
         {

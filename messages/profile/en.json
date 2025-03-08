@@ -6,6 +6,12 @@
     "socialLinks": "Social Links",
     "changePassword": "Change Password",
     "updateSocialLinks": "Update Social Links",
+    "uploadSuccess": "Upload successfully",
+    "uploadFailed": "Upload failed",
+    "at": "at",
+    "blogs": "Blogs",
+    "likes": "Likes",
+    "socialLinkNotFound": "Social link not found",
     "AvatarUploadModal": {
         "invalidImageFileType": "Only support file types: jpg, jpeg, png",
         "uploadFailed": "Upload failed",

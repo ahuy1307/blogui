@@ -86,7 +86,7 @@ const Profile = () => {
                         onClick={() => setShowModalUploadAvatar(true)}
                     >
                         <Avatar
-                            size={80}
+                            size={120}
                             className="bg-[var(--text-color-brand)] cursor-pointer"
                             src={
                                 user?.avatar && user.avatar !== ''
@@ -100,7 +100,7 @@ const Profile = () => {
                                     : firstCharName}
                             </p>
                         </Avatar>
-                        <div className="bg-gray-200 flex justify-center items-center shadow-lg rounded-full w-fit p-2 absolute -bottom-2 -right-2">
+                        <div className="bg-gray-200 border border-gray-400 flex justify-center items-center shadow-lg rounded-full w-fit p-2 absolute -bottom-2 right-0">
                             <MdOutlineEdit size={20} />
                         </div>
                     </div>

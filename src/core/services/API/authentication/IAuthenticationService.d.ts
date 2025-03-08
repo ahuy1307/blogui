@@ -6,13 +6,12 @@
 // __date__ = "2025-02-01 12:30:37"
 //
 
-/*
- * # -*- coding: utf-8 -*-
- * # Copyright (C) 2024 HRForce
- * #
- * # All rights reserved.
- * # @link hrforce.ai
- * #
+/* -*- coding: utf-8 -*-
+ * //
+ * // All rights reserved.
+ * //
+ * // __author__ = "phamanhhuy22@gmail.com"
+ * // __date__ = "2025-03-08 19:09:14"
  */
 
 interface IInforUser {
@@ -70,8 +69,8 @@ interface ILogoutOptionsRequest {
 }
 
 interface IChangePasswordRequest {
-    oldPassword: string
-    newPassword: string
+    old_password: string
+    new_password: string
 }
 
 interface ISignupSocialRequest {

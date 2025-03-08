@@ -62,14 +62,14 @@ export const ChangePassword = () => {
         setErrorOldPassword('')
         if (!user?.daDatMatKhau && values.newpassword) {
             changePasswordMutation({
-                oldPassword: '',
-                newPassword: values.newpassword,
+                old_password: '',
+                new_password: values.newpassword,
             })
         }
         if (values.oldpassword && values.newpassword) {
             changePasswordMutation({
-                oldPassword: values.oldpassword,
-                newPassword: values.newpassword,
+                old_password: values.oldpassword,
+                new_password: values.newpassword,
             })
         }
     }

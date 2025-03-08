@@ -10,7 +10,7 @@ import { useTranslations } from 'next-intl'
 import { useMutation } from '@tanstack/react-query'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import Button from '@/components/ui/Button/Button'
-import { Form } from 'antd'
+import { Form, message } from 'antd'
 import HintText from '@/components/ui/HintText/HintText'
 import { ValidateService } from '@/core/services/Validate.service'
 import Input from '@/components/ui/TextField/TextField'
@@ -49,7 +49,9 @@ const UpdateSocialLinks = () => {
 
     const { mutate } = useMutation({
         mutationFn: authenticationService.setInformationUser,
-        onSuccess: () => {},
+        onSuccess: () => {
+            message.success(t('saveSuccessMessage'))
+        },
         onError: (err) => {},
     })
 
