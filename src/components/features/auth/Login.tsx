@@ -97,7 +97,7 @@ const Login = () => {
                                 }}
                             >
                                 <Form.Item
-                                    name="isRemember"
+                                    name="is_remember"
                                     valuePropName="checked"
                                 >
                                     <Checkbox className="">

@@ -53,13 +53,14 @@ class AuthenticationService implements IAuthentication {
         })
         return res
     }
-    async login({ email, password, isRemember }: ILoginRequest): Promise<any> {
+    async login({ email, password, is_remember }: ILoginRequest): Promise<any> {
         const deviceID = await getFingerprint()
-        const data: { email: string; password: string; isRemember: boolean } = {
-            email,
-            password,
-            isRemember,
-        }
+        const data: { email: string; password: string; is_remember: boolean } =
+            {
+                email,
+                password,
+                is_remember,
+            }
         const headers = {
             'Device-ID': deviceID,
         }
@@ -163,11 +164,11 @@ class AuthenticationService implements IAuthentication {
     }
     async signupSocial({
         type,
-        accessToken,
+        access_token,
     }: ISignupSocialRequest): Promise<any> {
-        const data: { type: string; accessToken: string } = {
+        const data: { type: string; access_token: string } = {
             type,
-            accessToken,
+            access_token,
         }
         const finger = await getFingerprint()
         const headers = {

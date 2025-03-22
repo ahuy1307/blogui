@@ -56,7 +56,7 @@ interface ISetPasswordRequest {
 interface ILoginRequest {
     email: string
     password: string
-    isRemember: boolean
+    is_remember: boolean
 }
 
 interface IForgotPasswordRequest {
@@ -74,7 +74,7 @@ interface IChangePasswordRequest {
 }
 
 interface ISignupSocialRequest {
-    accessToken: string
+    access_token: string
     type: string
 }
 interface IAuthentication {

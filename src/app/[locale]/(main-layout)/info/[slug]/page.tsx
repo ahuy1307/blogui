@@ -170,10 +170,12 @@ export default function Page({ params }: any) {
                                         : undefined
                                 }
                             >
-                                {profileData?.avatar &&
-                                profileData.avatar !== ''
-                                    ? null
-                                    : firstCharName}
+                                <p className="text-6xl">
+                                    {profileData?.avatar &&
+                                    profileData.avatar !== ''
+                                        ? null
+                                        : firstCharName}
+                                </p>
                             </Avatar>
                         </div>
                         {user && (
@@ -192,29 +194,40 @@ export default function Page({ params }: any) {
                             </p>
                             <div className="flex items-center gap-2">
                                 <PiBuildingApartmentFill />
-                                <p className="text-lg">
-                                    {profileData.ngheNghiep} {t('at')}{' '}
-                                    {profileData.congTy}
-                                </p>
+                                {profileData.ngheNghiep &&
+                                profileData.congTy ? (
+                                    <p className="text-lg">
+                                        {profileData.ngheNghiep} {t('at')}{' '}
+                                        {profileData.congTy}
+                                    </p>
+                                ) : (
+                                    <p>{t('undefined')}</p>
+                                )}
                             </div>
                             <div className="flex items-center gap-2 text-base pt-1">
                                 <FaLocationDot />
-                                <p>
-                                    {profileData.diaChi}
-                                    {', '}
-                                    {
-                                        State.getStateByCodeAndCountry(
-                                            profileData.thanhPho,
-                                            profileData.quocGia
-                                        )?.name
-                                    }
-                                    {', '}
-                                    {
-                                        Country.getCountryByCode(
-                                            profileData.quocGia
-                                        )?.name
-                                    }
-                                </p>
+                                {profileData.diaChi &&
+                                profileData.thanhPho &&
+                                profileData.quocGia ? (
+                                    <p>
+                                        {profileData.diaChi}
+                                        {', '}
+                                        {
+                                            State.getStateByCodeAndCountry(
+                                                profileData.thanhPho,
+                                                profileData.quocGia
+                                            )?.name
+                                        }
+                                        {', '}
+                                        {
+                                            Country.getCountryByCode(
+                                                profileData.quocGia
+                                            )?.name
+                                        }
+                                    </p>
+                                ) : (
+                                    <p>{t('undefined')}</p>
+                                )}
                             </div>
                         </div>
                         <div className="flex flex-col gap-6 items-center">

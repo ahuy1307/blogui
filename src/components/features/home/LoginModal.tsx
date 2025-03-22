@@ -56,7 +56,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
     }) => {
         if (success && accessToken) {
             googleLoginMutation({
-                accessToken: accessToken,
+                access_token: accessToken,
                 type: 'google',
             })
         } else {
@@ -89,7 +89,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
             if (response.status === 'connected') {
                 const { accessToken } = response.authResponse
                 facebookLoginMutation({
-                    accessToken: accessToken,
+                    access_token: accessToken,
                     type: 'facebook',
                 })
             } else {
@@ -121,8 +121,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
     })
 
     const onFinish = (values: any) => {
-        const { email, password, isRemember } = values
-        loginMutation({ email, password, isRemember })
+        const { email, password, is_remember } = values
+        loginMutation({ email, password, is_remember })
     }
 
     return (
@@ -166,7 +166,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
                             },
                         }}
                     >
-                        <Form.Item name="isRemember" valuePropName="checked">
+                        <Form.Item name="is_remember" valuePropName="checked">
                             <Checkbox className="">
                                 {t('rememberLoginInfo')}
                             </Checkbox>
