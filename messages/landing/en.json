@@ -1,0 +1,18 @@
+{
+    "HeroSection": {
+        "tagline": "The Future of Blogging",
+        "title": "Explore the World of",
+        "highlight": "Knowledge and Insights",
+        "description": "Deep insights into various fields including technology, health, finance, and more. Join our community of enthusiasts and experts.",
+        "exploreBlog": "Explore Blog",
+        "joinNewsletter": "Join Newsletter",
+        "writeBlog": "Write a Blog",
+        "technology": "Technology",
+        "entertainment": "Entertainment",
+        "health": "Health",
+        "finance": "Finance",
+        "blog": "Blog",
+        "readers": "Readers",
+        "contributors": "Contributors"
+    }
+}

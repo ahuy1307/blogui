@@ -1,0 +1,18 @@
+{
+    "HeroSection": {
+        "tagline": "Tương lai của việc viết blog",
+        "title": "Khám phá thế giới của",
+        "highlight": "Kiến thức và Hiểu biết",
+        "description": "Các thông tin sâu sắc về nhiều lĩnh vực bao gồm công nghệ, sức khỏe, tài chính và nhiều hơn nữa. Tham gia cộng đồng của chúng tôi với những người đam mê và chuyên gia.",
+        "exploreBlog": "Khám phá Blog",
+        "joinNewsletter": "Tham gia bản tin",
+        "writeBlog": "Viết Blog",
+        "technology": "Công nghệ",
+        "entertainment": "Giải trí",
+        "health": "Sức khỏe",
+        "finance": "Tài chính",
+        "blog": "Blog",
+        "readers": "Độc giả",
+        "contributors": "Người đóng góp"
+    }
+}
