@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, type FormEvent } from 'react'
-import { Input } from '@/components/other-ui/input'
-import { Button } from '@/components/other-ui/button'
-import { useToast } from '@/components/other-ui/use-toast'
+import { Input } from '@/components/other-ui/Input'
+import { Button } from '@/components/other-ui/Button'
+import { useToast } from '@/components/other-ui/useToast'
 import { useTranslations } from 'next-intl'
 
 export function NewsletterSection() {

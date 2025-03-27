@@ -7,7 +7,7 @@ import {
     TabsContent,
     TabsList,
     TabsTrigger,
-} from '@/components/other-ui/tabs'
+} from '@/components/other-ui/Tabs'
 import { BlogFeatureCard } from '../blog/FeaturedCard'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { useQuery } from '@tanstack/react-query'

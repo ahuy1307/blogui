@@ -8,7 +8,7 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '@/components/other-ui/card'
+} from '@/components/other-ui/Card'
 import { Clock, Eye, Heart } from 'lucide-react'
 import { Blog } from '@/types/interface'
 import { useLocale } from 'next-intl'

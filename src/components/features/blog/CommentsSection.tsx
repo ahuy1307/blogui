@@ -3,15 +3,15 @@
 import type React from 'react'
 
 import { useState, useRef, memo } from 'react'
-import { Button } from '@/components/other-ui/button'
-import { Textarea } from '@/components/other-ui/textarea'
+import { Button } from '@/components/other-ui/Button'
+import { Textarea } from '@/components/other-ui/Textarea'
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from '@/components/other-ui/avatar'
+} from '@/components/other-ui/Avatar'
 import { MessageCircle, CornerDownRight, Send, X, AtSign } from 'lucide-react'
-import { useToast } from '@/components/other-ui/use-toast'
+import { useToast } from '@/components/other-ui/useToast'
 
 interface CommentAuthor {
     name: string

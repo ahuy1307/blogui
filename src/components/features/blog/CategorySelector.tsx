@@ -4,9 +4,9 @@ import type React from 'react'
 
 import { useState } from 'react'
 import { X, Plus } from 'lucide-react'
-import { Button } from '@/components/other-ui/button'
-import { Input } from '@/components/other-ui/input'
-import { Badge } from '@/components/other-ui/badge'
+import { Button } from '@/components/other-ui/Button'
+import { Input } from '@/components/other-ui/Input'
+import { Badge } from '@/components/other-ui/Badge'
 
 // Sample categories - in a real app, these would come from your backend
 const AVAILABLE_CATEGORIES = [

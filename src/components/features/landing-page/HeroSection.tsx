@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Button } from '@/components/other-ui/button'
+import { Button } from '@/components/other-ui/Button'
 import {
     Pencil,
     ArrowRight,

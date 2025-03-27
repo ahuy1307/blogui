@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react'
-import { Button } from '@/components/other-ui/button'
+import { Button } from '@/components/other-ui/Button'
 import { useTranslations } from 'next-intl'
 import { brandName } from '@/core/config/appConfig'
 

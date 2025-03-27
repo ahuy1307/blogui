@@ -6,7 +6,7 @@ import QueryClientProviderWrapper from '@/contexts/QueryClientProvider'
 import AuthProvider from '@/contexts/auth/AuthContext'
 import { Suspense } from 'react'
 import Loading from './loading'
-import { Toaster } from '@/components/other-ui/toaster'
+import { Toaster } from '@/components/other-ui/Toaster'
 
 import '../globals.css'
 

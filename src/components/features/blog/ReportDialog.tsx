@@ -7,12 +7,12 @@ import {
     DialogHeader,
     DialogTitle,
     DialogFooter,
-} from '@/components/other-ui/dialog'
-import { Button } from '@/components/other-ui/button'
-import { Label } from '@/components/other-ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/other-ui/radio-group'
-import { Textarea } from '@/components/other-ui/textarea'
-import { useToast } from '@/components/other-ui/use-toast'
+} from '@/components/other-ui/Dialog'
+import { Button } from '@/components/other-ui/Button'
+import { Label } from '@/components/other-ui/Label'
+import { RadioGroup, RadioGroupItem } from '@/components/other-ui/RadioGroup'
+import { Textarea } from '@/components/other-ui/Textarea'
+import { useToast } from '@/components/other-ui/useToast'
 
 interface ReportDialogProps {
     isOpen: boolean
