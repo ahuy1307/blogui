@@ -77,6 +77,16 @@ interface ISignupSocialRequest {
     access_token: string
     type: string
 }
+
+interface ISearchBlogsRequest {
+    search?: string
+    type?: string
+    start_date?: string
+    end_date?: string
+    page?: number
+    limit?: number
+}
+
 interface IAuthentication {
     signupEmail({ email, accountType }: ISignupEmailRequest): Promise<any>
     resendEmail({ email, type }: IResendEmailRequest): Promise<any>

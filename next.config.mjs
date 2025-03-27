@@ -3,6 +3,26 @@ import createNextIntlPlugin from 'next-intl/plugin'
 
 const withNextIntl = createNextIntlPlugin()
 
-const nextConfig = {}
+const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'randomuser.me',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'blog-suyndy.s3.ap-southeast-1.amazonaws.com',
+                pathname: '**',
+            },
+        ],
+    },
+}
 
 export default withNextIntl(nextConfig)

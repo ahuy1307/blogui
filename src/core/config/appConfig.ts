@@ -9,6 +9,7 @@
 import type { LocalePrefix } from 'next-intl/routing'
 
 const localePrefix: LocalePrefix = 'always'
+export const brandName = 'Suyndy'
 
 // FIXME: Update this configuration file based on your project information
 export const AppConfig = {

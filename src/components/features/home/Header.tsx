@@ -98,7 +98,7 @@ const Header = () => {
     ]
 
     return (
-        <div className="fixed left-0 right-0 top-0 border-[var(--border-color-default)] border-b flex justify-between items-center pl-4 pr-5 h-[70px] xl:px-[120px] md:px-[36px] bg-white lg:backdrop-blur-xl lg:bg-white/50 gap-4">
+        <div className="fixed left-0 right-0 top-0 border-[var(--border-color-default)] border-b flex justify-between items-center pl-4 pr-5 h-[70px] xl:px-[120px] md:px-[36px] bg-white lg:backdrop-blur-xl lg:bg-white/50 gap-4 z-50">
             <ModalConfirm
                 open={isConfirmLogout}
                 onCancel={setIsConfirmLogout}
@@ -109,10 +109,16 @@ const Header = () => {
 
             <div className="flex items-center gap-10">
                 <Logo />
-                <Link href={`/`} className="text-base">
+                <Link
+                    href={`/`}
+                    className="text-base hover:text-purple-500 font-bold"
+                >
                     {t('home')}
                 </Link>
-                <Link href={`/`} className="text-base">
+                <Link
+                    href={`/`}
+                    className="text-base hover:text-purple-500 font-bold"
+                >
                     {t('blog')}
                 </Link>
             </div>

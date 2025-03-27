@@ -6,11 +6,41 @@
 // __date__ = "2025-02-01 12:38:16"
 //
 
+'use client'
+
 import React from 'react'
-import { useTranslations } from 'next-intl'
+import { useRef, useEffect } from 'react'
+import { FeaturesSection } from '../landing-page/FeaturesSection'
+import { NewsletterSection } from '../landing-page/NewsletterSection'
+import { TestimonialsSection } from '../landing-page/TestimonialsSection'
+import { HeroSection } from '../landing-page/HeroSection'
+import { Footer } from './Footer'
+import { useAppData } from '@/contexts/AppDataProvider'
+import { FeaturedBlogSection } from '../landing-page/FeaturedBlogSection'
 
 const HomePage = () => {
-    return <div>Home</div>
+    const newsletterRef = useRef<HTMLDivElement>(null)
+    const { topics, isLoading, error } = useAppData()
+
+    const scrollToNewsletter = () => {
+        newsletterRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    return (
+        <div className="min-h-screen bg-white text-gray-900">
+            <div>
+                <HeroSection onSubscribeClick={scrollToNewsletter} />
+                <FeaturesSection />
+                <FeaturedBlogSection />
+                <TestimonialsSection />
+                <div ref={newsletterRef}>
+                    <NewsletterSection />
+                </div>
+            </div>
+
+            <Footer topics={topics.slice(0, 6)} />
+        </div>
+    )
 }
 
 export default HomePage
