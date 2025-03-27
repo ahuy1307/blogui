@@ -6,6 +6,7 @@ import QueryClientProviderWrapper from '@/contexts/QueryClientProvider'
 import AuthProvider from '@/contexts/auth/AuthContext'
 import { Suspense } from 'react'
 import Loading from './loading'
+import { Toaster } from '@/components/other-ui/toaster'
 
 import '../globals.css'
 
@@ -35,6 +36,7 @@ export default async function LocaleLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning>
+            {/* <Toaster /> */}
             <body>
                 <Suspense fallback={<Loading />}>
                     <QueryClientProviderWrapper>

@@ -21,7 +21,7 @@ const NotFound404 = () => {
         router.push(NAVIGATION_PATHS.HOME)
     }
     return (
-        <>
+        <div>
             <div className={styles.container}>
                 <div className={styles.content_wrapper}>
                     <div className={styles.image_wrapper}>
@@ -58,7 +58,7 @@ const NotFound404 = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

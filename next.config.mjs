@@ -5,7 +5,23 @@ const withNextIntl = createNextIntlPlugin()
 
 const nextConfig = {
     images: {
-        domains: ['images.unsplash.com', 'randomuser.me'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'randomuser.me',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'blog-suyndy.s3.ap-southeast-1.amazonaws.com',
+                pathname: '**',
+            },
+        ],
     },
 }
 

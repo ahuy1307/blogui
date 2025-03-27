@@ -6,15 +6,8 @@
 // __date__ = "2025-02-01 13:05:45"
 //
 
-import NotFound404 from '@/components/ui/NotFound404/NotFound404'
-import React from 'react'
+import { notFound } from 'next/navigation'
 
-const NotFoundPage = () => {
-    return (
-        <>
-            <NotFound404 />
-        </>
-    )
+export default function NotFoundCatchAll() {
+    notFound()
 }
-
-export default NotFoundPage

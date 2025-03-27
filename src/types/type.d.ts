@@ -25,6 +25,9 @@ interface IUser {
     slug: string
     daDatMatKhau: boolean
     email: string
+    soLuongBaiViet: number
+    soLuongThichBaiViet: number
+    soLuongThongBao: number
 }
 interface IMenuItem {
     key: string

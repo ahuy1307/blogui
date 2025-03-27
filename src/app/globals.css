@@ -1,3 +1,22 @@
+/* Add custom scrollbar styling */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.8);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -331,6 +350,7 @@ a:hover {
 body {
     background-color: white;
     color: black;
+    scroll-behavior: smooth;
 }
 
 /* Code editor styles */

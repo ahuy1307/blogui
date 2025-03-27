@@ -14,5 +14,52 @@
         "blog": "Blog",
         "readers": "Độc giả",
         "contributors": "Người đóng góp"
+    },
+    "FeaturesSection": {
+        "creativation": "Sáng tạo",
+        "writePublish": "Viết & Xuất bản",
+        "communityEngagement": "Tương tác cộng đồng",
+        "earnRewards": "Kiếm phần thưởng",
+        "aiPoweredTools": "Công cụ AI",
+        "curatedContent": "Nội dung được chọn lọc",
+        "whyChoose": "Tại sao chọn",
+        "ourPlatformDescription": "Chúng tôi cung cấp một nền tảng độc đáo cho các tác giả, độc giả và chuyên gia AI để chia sẻ kiến thức và kinh nghiệm của mình.",
+        "creativationDescription": "Khám phá sự sáng tạo của bạn bằng cách viết và chia sẻ những bài viết độc đáo với cộng đồng.",
+        "writePublishDescription": "Viết và xuất bản bài viết của bạn trên nền tảng của chúng tôi để chia sẻ kiến thức và kinh nghiệm của bạn với cộng đồng.",
+        "communityEngagementDescription": "Tham gia vào cộng đồng của chúng tôi để tương tác với các tác giả, độc giả và chuyên gia khác.",
+        "earnRewardsDescription": "Kiếm phần thưởng từ việc viết bài viết chất lượng và tham gia vào cộng đồng của chúng tôi.",
+        "aiPoweredToolsDescription": "Sử dụng các công cụ AI tiên tiến để tối ưu hóa quá trình viết và xuất bản bài viết của bạn.",
+        "curatedContentDescription": "Khám phá nội dung được chọn lọc từ các tác giả và chuyên gia hàng đầu trong nhiều lĩnh vực khác nhau."
+    },
+    "TestimonialsSection": {
+        "whatOurUsersSay": "Những gì người dùng của chúng tôi nói",
+        "joinThousands": "Tham gia hàng ngàn người dùng hài lòng đã thay đổi quá trình viết của họ với"
+    },
+    "Footer": {
+        "description": "Website viết blog cho tất cả các lĩnh vực, chia sẻ kiến thức cho mọi người.",
+        "topics": "Chủ đề",
+        "others": "Khác",
+        "tutorials": "Hướng dẫn",
+        "researchPapers": "Bài báo nghiên cứu",
+        "aboutUs": "Về chúng tôi",
+        "contact": "Liên hệ"
+    },
+    "NewsletterSection": {
+        "invalidEmail": "Địa chỉ email không hợp lệ",
+        "invalidEmailDescription": "Vui lòng nhập địa chỉ email hợp lệ.",
+        "subscribed": "Đã đăng ký",
+        "subscribedDescription": "Cảm ơn bạn đã đăng ký nhận bản tin của chúng tôi. Hãy chờ đón những cập nhật mới nhất.",
+        "subscribe": "Đăng ký",
+        "subscribing": "Đang đăng ký...",
+        "emailPlaceholder": "Nhập email của bạn",
+        "stayUpdated": "Luôn Cập Nhật với Các Bài Viết Mới Nhất",
+        "joinCommunity": "Tham gia cộng đồng của chúng tôi. Nhận thông tin cập nhật hàng tuần về các chủ đề thịnh hành, mẹo viết và những câu chuyện truyền cảm hứng từ nhiều lĩnh vực.",
+        "privacy": "Chúng tôi tôn trọng quyền riêng tư của bạn. Có thể hủy đăng ký bất cứ lúc nào."
+    },
+    "FeaturedBlogSection": {
+        "title": "Bài viết nổi bật",
+        "mostViewed": "Xem nhiều nhất",
+        "mostLiked": "Thích nhiều nhất",
+        "latest": "Mới nhất"
     }
 }

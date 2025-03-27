@@ -9,16 +9,18 @@
 'use client'
 
 import React from 'react'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { FeaturesSection } from '../landing-page/FeaturesSection'
-import { FeaturedArticlesSection } from '../landing-page/FeaturedArticlesSection'
 import { NewsletterSection } from '../landing-page/NewsletterSection'
 import { TestimonialsSection } from '../landing-page/TestimonialsSection'
 import { HeroSection } from '../landing-page/HeroSection'
 import { Footer } from './Footer'
+import { useAppData } from '@/contexts/AppDataProvider'
+import { FeaturedBlogSection } from '../landing-page/FeaturedBlogSection'
 
 const HomePage = () => {
     const newsletterRef = useRef<HTMLDivElement>(null)
+    const { topics, isLoading, error } = useAppData()
 
     const scrollToNewsletter = () => {
         newsletterRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -26,17 +28,17 @@ const HomePage = () => {
 
     return (
         <div className="min-h-screen bg-white text-gray-900">
-            <main>
+            <div>
                 <HeroSection onSubscribeClick={scrollToNewsletter} />
                 <FeaturesSection />
-                <FeaturedArticlesSection />
+                <FeaturedBlogSection />
                 <TestimonialsSection />
                 <div ref={newsletterRef}>
                     <NewsletterSection />
                 </div>
-            </main>
+            </div>
 
-            <Footer />
+            <Footer topics={topics.slice(0, 6)} />
         </div>
     )
 }

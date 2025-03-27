@@ -5,21 +5,23 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 import { Button } from '@/components/other-ui/button'
+import { useTranslations } from 'next-intl'
+import { brandName } from '@/core/config/appConfig'
 
 export function TestimonialsSection() {
+    const t = useTranslations('landing.TestimonialsSection')
+
     const testimonials = [
         {
             id: 1,
-            content:
-                'NeuralPulse has been an invaluable resource for staying updated on AI advancements. The articles are well-researched and the community is incredibly supportive.',
+            content: `${brandName} has been an invaluable resource for staying updated on AI advancements. The articles are well-researched and the community is incredibly supportive.`,
             author: 'Dr. Sarah Johnson',
             role: 'AI Researcher at Stanford',
             avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
         },
         {
             id: 2,
-            content:
-                'As someone new to the field of AI, NeuralPulse has been my go-to platform for learning. The content is accessible yet in-depth, perfect for beginners and experts alike.',
+            content: `As someone new to the field of AI, ${brandName} has been my go-to platform for learning. The content is accessible yet in-depth, perfect for beginners and experts alike.`,
             author: 'Michael Chen',
             role: 'Software Engineer',
             avatar: 'https://randomuser.me/api/portraits/men/22.jpg',
@@ -57,11 +59,10 @@ export function TestimonialsSection() {
                     transition={{ duration: 0.5 }}
                 >
                     <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                        What Our Users Say
+                        {t('whatOurUsersSay')}
                     </h2>
                     <p className="text-gray-600 max-w-2xl mx-auto">
-                        Join thousands of AI enthusiasts who trust NeuralPulse
-                        for their AI content needs.
+                        {t('joinThousands')} {brandName}.
                     </p>
                 </motion.div>
 

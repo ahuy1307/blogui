@@ -1,5 +1,6 @@
 'use client'
 
+import { de } from 'date-fns/locale'
 import { motion } from 'framer-motion'
 import {
     Lightbulb,
@@ -9,44 +10,41 @@ import {
     Sparkles,
     BookOpen,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { brandName } from '@/core/config/appConfig'
 
 export function FeaturesSection() {
+    const t = useTranslations('landing.FeaturesSection')
     const features = [
         {
             icon: <Lightbulb className="h-6 w-6 text-purple-600" />,
-            title: 'Cutting-Edge Insights',
-            description:
-                'Stay updated with the latest advancements in AI, machine learning, and deep learning technologies.',
+            title: t('creativation'),
+            description: t('creativationDescription'),
         },
         {
             icon: <PenTool className="h-6 w-6 text-purple-600" />,
-            title: 'Write & Publish',
-            description:
-                'Share your knowledge by writing and publishing articles on our platform with our easy-to-use editor.',
+            title: t('writePublish'),
+            description: t('writePublishDescription'),
         },
         {
             icon: <Users className="h-6 w-6 text-purple-600" />,
-            title: 'Community Engagement',
-            description:
-                'Engage with a community of AI enthusiasts through comments, likes, and discussions.',
+            title: t('communityEngagement'),
+            description: t('communityEngagementDescription'),
         },
         {
             icon: <Award className="h-6 w-6 text-purple-600" />,
-            title: 'Earn Rewards',
-            description:
-                'Complete missions and earn coins that can be redeemed for exclusive content and features.',
+            title: t('earnRewards'),
+            description: t('earnRewardsDescription'),
         },
         {
             icon: <Sparkles className="h-6 w-6 text-purple-600" />,
-            title: 'AI-Powered Tools',
-            description:
-                'Use our AI-powered tools to generate blog ideas, improve your writing, and create engaging content.',
+            title: t('aiPoweredTools'),
+            description: t('aiPoweredToolsDescription'),
         },
         {
             icon: <BookOpen className="h-6 w-6 text-purple-600" />,
-            title: 'Curated Content',
-            description:
-                "Discover curated articles organized by topics to help you find exactly what you're looking for.",
+            title: t('curatedContent'),
+            description: t('curatedContentDescription'),
         },
     ]
 
@@ -61,8 +59,9 @@ export function FeaturesSection() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        Why Choose{' '}
-                        <span className="text-purple-600">NeuralPulse</span>
+                        {t('whyChoose')}
+                        {` `}
+                        <span className="text-purple-600">{brandName}</span>
                     </motion.h2>
                     <motion.p
                         className="text-gray-600 max-w-2xl mx-auto"
@@ -71,9 +70,7 @@ export function FeaturesSection() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                     >
-                        Our platform offers a comprehensive set of features
-                        designed to enhance your AI learning and sharing
-                        experience.
+                        {t('ourPlatformDescription')}
                     </motion.p>
                 </div>
 
