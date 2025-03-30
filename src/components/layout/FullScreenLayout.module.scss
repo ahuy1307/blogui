@@ -9,18 +9,18 @@
 .layout_container {
     min-height: calc(100vh - 64px);
     background: transparent;
-    padding: 32px 120px;
+    padding: 0 120px;
 
-    &.layout_margin_top {
-        margin-top: 64px;
-    }
+    // &.layout_margin_top {
+    //     margin-top: 64px;
+    // }
 
-    @media (max-width: 996px) {
-        min-height: calc(100vh - 60px);
-        padding: 0 36px;
+    // @media (max-width: 996px) {
+    //     min-height: calc(100vh - 60px);
+    //     padding: 0 36px;
 
-        &.layout_margin_top {
-            margin-top: 60px;
-        }
-    }
+    //     &.layout_margin_top {
+    //         margin-top: 60px;
+    //     }
+    // }
 }

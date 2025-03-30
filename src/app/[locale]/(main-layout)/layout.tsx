@@ -9,8 +9,13 @@
 import MainLayout from '@/components/layout/MainLayout'
 import type { PropsWithChildren } from 'react'
 import robotoFont from '@/core/config/fontConfig'
+import { AppDataProvider } from '@/contexts/AppDataProvider'
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
-    return <MainLayout fontClass={robotoFont.className}>{children}</MainLayout>
+    return (
+        <MainLayout fontClass={robotoFont.className}>
+            <AppDataProvider>{children}</AppDataProvider>
+        </MainLayout>
+    )
 }
 export default Layout

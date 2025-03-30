@@ -91,7 +91,11 @@ const CheckEmailSignup = () => {
                             </p>
                             <p>{t('or')}</p>
                             <Link
-                                href={'/auth/register'}
+                                href={
+                                    type === 'signup'
+                                        ? '/auth/register'
+                                        : '/auth/forgot-password'
+                                }
                                 className="font-bold text-[var(--text-color-hyperlink-auth)]"
                             >
                                 {t('enterDifferentEmail')}
