@@ -30,7 +30,11 @@ export const AppDataProvider: React.FC<{ children: React.ReactNode }> = ({
         const fetchData = async () => {
             try {
                 const [topicsRes] = await Promise.all([
-                    httpService.get('/blogs/topics'),
+                    httpService.get('/blogs/topics', {
+                        params: {
+                            have_blog: true,
+                        },
+                    }),
                     // httpService.get('/blogs/categories'),
                 ])
 

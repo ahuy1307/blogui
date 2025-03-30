@@ -13,6 +13,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
         'auth',
         'profile',
         'landing',
+        'topic',
     ]
 
     for (const section of sections) {

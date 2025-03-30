@@ -7,7 +7,8 @@ export interface LanguageTranslations {
 export interface Topic {
     id: number
     tenChuDe: LanguageTranslations
-    moTa: LanguageTranslations
+    noiDung: LanguageTranslations
+    soLuongBaiViet: number
 }
 
 export interface BlogContent {

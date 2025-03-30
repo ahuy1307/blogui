@@ -17,6 +17,7 @@ import { HeroSection } from '../landing-page/HeroSection'
 import { Footer } from './Footer'
 import { useAppData } from '@/contexts/AppDataProvider'
 import { FeaturedBlogSection } from '../landing-page/FeaturedBlogSection'
+import Header from './Header'
 
 const HomePage = () => {
     const newsletterRef = useRef<HTMLDivElement>(null)
@@ -28,6 +29,7 @@ const HomePage = () => {
 
     return (
         <div className="min-h-screen bg-white text-gray-900">
+            <Header />
             <div>
                 <HeroSection onSubscribeClick={scrollToNewsletter} />
                 <FeaturesSection />

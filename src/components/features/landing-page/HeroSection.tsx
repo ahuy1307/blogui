@@ -24,7 +24,7 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
     const [isHovered, setIsHovered] = useState(false)
 
     return (
-        <section className="relative overflow-hidden py-20 bg-gradient-to-b from-purple-50 to-white">
+        <section className="relative overflow-hidden py-28 bg-gradient-to-b from-purple-50 to-white">
             {/* Decorative elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-20 left-10 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>

@@ -116,6 +116,12 @@ const Header = () => {
                     {t('home')}
                 </Link>
                 <Link
+                    href={`/topics`}
+                    className="text-base hover:text-purple-500 font-bold"
+                >
+                    {t('topics')}
+                </Link>
+                <Link
                     href={`/`}
                     className="text-base hover:text-purple-500 font-bold"
                 >
@@ -141,16 +147,11 @@ const Header = () => {
                         >
                             {t('login')}
                         </Button>
-                        <Button
-                            type="primary"
-                            size="middle"
-                            shape="square"
-                            onClick={() => {
-                                router.push('/auth/register')
-                            }}
-                        >
-                            {t('register')}
-                        </Button>
+                        <Link href={'/auth/register'}>
+                            <Button type="primary" size="middle" shape="square">
+                                {t('register')}
+                            </Button>
+                        </Link>
                     </>
                 ) : (
                     <>

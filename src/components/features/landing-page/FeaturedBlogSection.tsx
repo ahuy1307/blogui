@@ -8,7 +8,7 @@ import {
     TabsList,
     TabsTrigger,
 } from '@/components/other-ui/Tabs'
-import { BlogFeatureCard } from '../blog/FeaturedCard'
+import { BlogFeatureCard } from '../blog/BlogFeatureCard'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { useQuery } from '@tanstack/react-query'
 import { Blog } from '@/types/interface'
