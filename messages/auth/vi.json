@@ -14,7 +14,8 @@
         "loginWithGoogle": "Đăng nhập bằng Google",
         "loginWithFacebook": "Đăng nhập bằng Facebook",
         "alreadyHaveAccount": "Đã có tài khoản?",
-        "login": "Đăng nhập"
+        "login": "Đăng nhập",
+        "loginSuccess": "Đăng nhập thành công"
     },
     "Login": {
         "loginYourAccount": "Đăng nhập vào tài khoản của bạn",
@@ -27,7 +28,8 @@
         "dontHaveAccount": "Không có tài khoản?",
         "login": "Đăng nhập",
         "rememberLoginInfo": "Nhớ thông tin đăng nhập",
-        "forgotPassword": "Quên mật khẩu?"
+        "forgotPassword": "Quên mật khẩu?",
+        "loginSuccess": "Đăng nhập thành công"
     },
     "CheckEmailSignup": {
         "checkYourEmail": "Kiểm tra email của bạn",

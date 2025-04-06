@@ -18,6 +18,7 @@ import { Footer } from './Footer'
 import { useAppData } from '@/contexts/AppDataProvider'
 import { FeaturedBlogSection } from '../landing-page/FeaturedBlogSection'
 import Header from './Header'
+import { Toaster } from '@/components/other-ui/Toaster'
 
 const HomePage = () => {
     const newsletterRef = useRef<HTMLDivElement>(null)
@@ -30,6 +31,7 @@ const HomePage = () => {
     return (
         <div className="min-h-screen bg-white text-gray-900">
             <Header />
+            <Toaster />
             <div>
                 <HeroSection onSubscribeClick={scrollToNewsletter} />
                 <FeaturesSection />

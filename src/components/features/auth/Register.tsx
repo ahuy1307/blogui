@@ -14,26 +14,98 @@ import { useTranslations } from 'next-intl'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { Link, useRouter } from '@/navigation'
 import { IoCloseCircleSharp } from 'react-icons/io5'
-import { Form, Checkbox, ConfigProvider, Spin } from 'antd'
+import { Form, Checkbox, ConfigProvider, Spin, message } from 'antd'
 
 import Logo from '../home/Logo'
 import GoogleLoginButton from '@/hooks/useGoogleLogin'
 import InputFormItem from '@/components/ui/InputFormItem/InputFormItem'
 import Button from '@/components/ui/Button/Button'
 import { FacebookIcon } from '../../../../icon'
-import { useMutation } from '@tanstack/react-query'
-import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { NAVIGATION_PATHS } from '@/constants/constants'
 import Alert from '@/components/ui/Alert/Alert'
+import { useMutation } from '@tanstack/react-query'
+import { localStorageService } from '@/core/services/LocalStorage.service'
+import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
+import useFacebookLogin from '@/hooks/useFacebookLogin'
+import { useAuth } from '@/contexts/auth/AuthContext'
+import { signIn } from '@/contexts/auth/reducers'
 
 const Register = () => {
     const t = useTranslations('auth.Register')
+    const { dispatch } = useAuth()
     const clientId = `${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`
     const [error, setError] = useState('')
     const router = useRouter()
 
-    const handleGoogleLogin = () => {}
-    const handleFacebookLogin = () => {}
+    async function handleSignIn() {
+        try {
+            const userInformation =
+                await authenticationService.getInformationUser()
+            dispatch(signIn({ isAuthenticated: true, user: userInformation }))
+        } catch (error) {}
+    }
+
+    const { mutate: googleLoginMutation, isPending: isPendingGoogleLogin } =
+        useMutation({
+            mutationFn: authenticationService.signupSocial,
+            onSuccess: async (res: any) => {
+                const { email, access } = res.data
+                localStorageService.setToken(access)
+                localStorageService.setRefreshToken(res.data.refresh)
+                await handleSignIn()
+                message.success(t('loginSuccess'))
+            },
+            onError: (err: any) => {
+                console.error('Google Login Failed:', err)
+            },
+        })
+
+    const handleGoogleLogin = ({
+        success,
+        accessToken,
+        error,
+    }: {
+        success: boolean
+        accessToken?: string
+        error?: any
+    }) => {
+        if (success && accessToken) {
+            googleLoginMutation({
+                access_token: accessToken,
+                type: 'google',
+            })
+        } else {
+            console.error('Google Login Failed:', error)
+        }
+    }
+
+    const { mutate: facebookLoginMutation, isPending: isPendingFacebookLogin } =
+        useMutation({
+            mutationFn: authenticationService.signupSocial,
+            onSuccess: async (res: any) => {
+                const { email, access } = res.data
+                localStorageService.setToken(access)
+                localStorageService.setRefreshToken(res.data.refresh)
+                await handleSignIn()
+                message.success(t('loginSuccess'))
+            },
+            onError: (error: any) => {},
+        })
+
+    const handleFacebookLogin = useFacebookLogin(
+        `${process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}`,
+        (response: any) => {
+            if (response.status === 'connected') {
+                const { accessToken } = response.authResponse
+                facebookLoginMutation({
+                    access_token: accessToken,
+                    type: 'facebook',
+                })
+            } else {
+                console.log('User cancelled login or did not fully authorize.')
+            }
+        }
+    )
 
     const { mutate: signUpEmailMutation, isPending: isPendingSignUpEmail } =
         useMutation({

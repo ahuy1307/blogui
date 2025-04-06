@@ -207,6 +207,38 @@ class AuthenticationService implements IAuthentication {
         })
         return res
     }
+    async getAllBlogMedias({ type }: { type: string }): Promise<any> {
+        const res = await httpService.get('/blogs/medias', {
+            params: {
+                type,
+            },
+        })
+        return res
+    }
+    async deleteBlogMedia({ id }: { id: string }): Promise<any> {
+        const res = await httpService.delete(`/blogs/medias/${id}`)
+        return res
+    }
+    async uploadBlogMedia({ formData }: { formData: FormData }): Promise<any> {
+        const res = await httpService.post('/blogs/medias', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        return res
+    }
+    async getTopics({ have_blog }: { have_blog?: boolean }): Promise<any> {
+        const res = await httpService.get('/blogs/topics', {
+            params: {
+                have_blog,
+            },
+        })
+        return res
+    }
+    async saveBlog({ blogData }: { blogData: ISaveBlogRequest }): Promise<any> {
+        const res = await httpService.post('/blogs', blogData)
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

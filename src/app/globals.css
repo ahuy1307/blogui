@@ -49,6 +49,11 @@
 
 body {
     font-family: 'Roboto', sans-serif;
+    pointer-events: visible !important;
+}
+
+body[data-scroll-locked] {
+    overflow: auto !important;
 }
 
 @layer base {
@@ -85,7 +90,7 @@ body {
         --background-black-opacity-disabled: 50%;
 
         --background-blue-default: #9333ea;
-        --background-blue-hover: #8848c4;
+        --background-blue-hover: #8e4bcc;
         --background-blue-selected: #6f1ebc;
         --background-blue-pressed: #9c65d0;
         --background-blue-disabled: #7b32bf;

@@ -45,3 +45,14 @@ export interface Blog {
         slug: string
     }[]
 }
+
+export interface BlogMedia {
+    id: string // Add optional id field
+    loaiMedia: string
+    noiDungMedia: {
+        url: string
+        date: string
+        name: string
+        size: number
+    }
+}

@@ -36,7 +36,6 @@ export default async function LocaleLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning>
-            {/* <Toaster /> */}
             <body>
                 <Suspense fallback={<Loading />}>
                     <QueryClientProviderWrapper>
