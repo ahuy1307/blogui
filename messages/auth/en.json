@@ -14,7 +14,8 @@
         "loginWithGoogle": "Login with Google",
         "loginWithFacebook": "Login with Facebook",
         "alreadyHaveAccount": "Already have an account?",
-        "login": "Login"
+        "login": "Login",
+        "loginSuccess": "Login successfully"
     },
     "Login": {
         "loginYourAccount": "Login to your account",
@@ -27,7 +28,8 @@
         "dontHaveAccount": "Don't have an account?",
         "login": "Login",
         "rememberLoginInfo": "Remember login information",
-        "forgotPassword": "Forgot password?"
+        "forgotPassword": "Forgot password?",
+        "loginSuccess": "Login successfully"
     },
     "CheckEmailSignup": {
         "checkYourEmail": "Check your email",

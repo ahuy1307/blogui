@@ -112,7 +112,7 @@ export default function Page({ params }: any) {
     }, [])
 
     return (
-        <div className="bg-gray-200 py-4 rounded-xl">
+        <div className="bg-gray-200 py-4 rounded-xl mt-[100px]">
             {isPending || !profileData ? (
                 <div className="flex items-center justify-center">
                     <Spin size="large" />

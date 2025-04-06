@@ -87,7 +87,7 @@ export function TestimonialsSection() {
                                 <Image
                                     src={
                                         testimonials[activeIndex].avatar ||
-                                        '/placeholder.svg'
+                                        '/images/default_image.jpg'
                                     }
                                     alt={testimonials[activeIndex].author}
                                     width={60}

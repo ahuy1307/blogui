@@ -22,3 +22,6 @@ export const FORMAT_DATE_TIME = {
     DATE_FORMAT_SECOND: 'YYYY-MM-DD',
     DATE_TIME_FULL: 'h:mma - dd/MM/yyyy',
 }
+
+export const MAX_IMAGE_SIZE = 10 * 1024 * 1024 // 10MB in bytes
+export const MAX_VIDEO_SIZE = 50 * 1024 * 1024

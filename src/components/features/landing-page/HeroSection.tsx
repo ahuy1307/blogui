@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/navigation'
 import Image from 'next/image'
 import { Button } from '@/components/other-ui/Button'
 import {
@@ -39,7 +39,7 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <div className="inline-block px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium mb-2">
+                        <div className="inline-block px-3 py-1 text-base bg-purple-100 text-purple-800 rounded-full font-medium mb-2">
                             {t('tagline')}
                         </div>
                         <h1 className="text-4xl md:text-6xl font-bold leading-tight text-gray-900">
@@ -65,7 +65,7 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Link
-                                href="/articles/"
+                                href="/articles"
                                 className="flex items-center gap-2"
                             >
                                 <Button
@@ -94,7 +94,7 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                                 size="lg"
                             >
                                 <Link
-                                    href="/write/"
+                                    href="/write"
                                     className="flex items-center gap-2"
                                 >
                                     <Pencil className="h-4 w-4" />

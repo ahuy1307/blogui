@@ -92,7 +92,7 @@ const Button: React.FC<IButton> = ({
                 components: {
                     Button: {
                         controlHeightLG: isSquareShape ? 56 : 44,
-                        controlHeight: isSquareShape ? 48 : 40,
+                        controlHeight: isSquareShape ? 44 : 40,
                         controlHeightSM: isSquareShape ? 44 : 32,
                         contentFontSize: 16,
                         contentFontSizeLG: 16,

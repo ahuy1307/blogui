@@ -74,7 +74,7 @@ const Profile = () => {
     }, [tabSelected])
 
     return (
-        <div className="flex gap-14">
+        <div className="flex gap-14 mt-[100px]">
             <div className="w-[30%]">
                 <div className="flex gap-8 items-center border border-[var(--border-color-default)] p-4 rounded-tl-md rounded-tr-md">
                     <AvatarUploadModal

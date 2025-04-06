@@ -25,8 +25,10 @@ import ModalConfirm from './ModalConfirm'
 import { signOut } from '@/contexts/auth/reducers'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { message } from 'antd'
+import { Button as OtherButton } from '@/components/other-ui/Button'
+import { Pencil } from 'lucide-react'
 
-const Header = () => {
+const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
     const { user, dispatch, isAuthenticated } = useAuth()
     const t = useTranslations('header')
     const router = useRouter()
@@ -108,7 +110,9 @@ const Header = () => {
             />
 
             <div className="flex items-center gap-10">
-                <Logo />
+                <Link href={`/`}>
+                    <Logo />
+                </Link>
                 <Link
                     href={`/`}
                     className="text-base hover:text-purple-500 font-bold"
@@ -131,6 +135,21 @@ const Header = () => {
 
             <div className="flex items-center gap-4">
                 <SwitchLanguage />
+                {!isWrite && (
+                    <Button
+                        type="default"
+                        size="middle"
+                        shape="square"
+                        onClick={
+                            isAuthenticated
+                                ? () => router.push('/write')
+                                : showModal
+                        }
+                    >
+                        <Pencil className="h-4 w-4" />
+                        {t('writeBlog')}
+                    </Button>
+                )}
                 <TextField
                     style={{ width: '400px', fontSize: '16px' }}
                     placeholder="Search"

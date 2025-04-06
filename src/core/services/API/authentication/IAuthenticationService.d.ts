@@ -87,6 +87,21 @@ interface ISearchBlogsRequest {
     limit?: number
 }
 
+interface ISaveBlogRequest {
+    tieuDe: string
+    noiDungNgan: string
+    anhBia: string
+    daXuatBan: boolean
+    chuDes: string[]
+    thanhPhans: {
+        id?: string
+        loaiThanhPhan: string
+        noiDung: string
+        dinhDang: object
+        hang: number
+        cot: number
+    }
+}
 interface IAuthentication {
     signupEmail({ email, accountType }: ISignupEmailRequest): Promise<any>
     resendEmail({ email, type }: IResendEmailRequest): Promise<any>
