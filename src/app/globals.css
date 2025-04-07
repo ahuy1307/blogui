@@ -56,6 +56,18 @@ body[data-scroll-locked] {
     overflow: auto !important;
 }
 
+.avatar-user .ant-image .ant-image-mask {
+    border-radius: 100% !important;
+}
+
+.avatar-user .ant-image .ant-image-mask:hover {
+    border-radius: 100% !important;
+}
+
+.avatar-user .ant-image .ant-image-mask:focus {
+    border-radius: 100% !important;
+}
+
 @layer base {
     :root {
         /* CSS Variable */

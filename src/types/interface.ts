@@ -37,13 +37,18 @@ export interface Blog {
     noiDungTomTat: string
     slug: string
     daXuatBan: boolean
+    ngayXuatBan: string
     tacGia: IUser
     chuDes: Topic[]
+    thanhPhans: BlogContent[]
     nguoiDungYeuThich: {
         hoTen: string
         avatar: string
         slug: string
     }[]
+    daYeuThich: boolean
+    daLuu: boolean
+    blogCuaBan: boolean
 }
 
 export interface BlogMedia {

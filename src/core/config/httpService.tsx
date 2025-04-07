@@ -10,7 +10,7 @@ import { localStorageService } from '../services/LocalStorage.service'
 import { AppConfig } from './appConfig'
 
 const BLOG_URL: string =
-    process.env.NEXT_PUBLIC_BLOG_URL || 'http://localhost:8000'
+    process.env.NEXT_PUBLIC_BLOGSAPI_URL || 'http://localhost:8000'
 
 const httpService = axios.create({
     baseURL: `${BLOG_URL}/api/v1`,

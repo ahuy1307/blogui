@@ -10,6 +10,7 @@ interface IUser {
     id: string // Added missing field
     ho: string
     ten: string
+    fullName: string
     gioiTinh: 'male' | 'female' | 'other'
     soDienThoai?: string
     ngaySinh: string

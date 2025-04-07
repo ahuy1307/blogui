@@ -159,10 +159,13 @@ export default function Page({ params }: any) {
                                 />
                             </>
                         )}
-                        <div className="absolute -bottom-12 left-6 z-20">
-                            <Avatar
-                                size={200}
-                                className="bg-[var(--text-color-brand)] cursor-pointer"
+                        <div className="absolute -bottom-12 left-6 z-20 avatar-user">
+                            <Image
+                                alt=""
+                                width={200}
+                                height={200}
+                                // size={200}
+                                className="bg-[var(--text-color-brand)] cursor-pointer rounded-full object-cover"
                                 src={
                                     profileData?.avatar &&
                                     profileData.avatar !== ''
@@ -176,7 +179,7 @@ export default function Page({ params }: any) {
                                         ? null
                                         : firstCharName}
                                 </p>
-                            </Avatar>
+                            </Image>
                         </div>
                         {user && (
                             <div

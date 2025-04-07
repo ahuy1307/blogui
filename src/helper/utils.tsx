@@ -3,8 +3,8 @@ import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import dayjs from 'dayjs'
 
 export const getBaseUrl = () => {
-    if (process.env.NEXT_PUBLIC_BASE_URL) {
-        return process.env.NEXT_PUBLIC_BASE_URL
+    if (process.env.NEXT_PUBLIC_BLOGSUI_URL) {
+        return process.env.NEXT_PUBLIC_BLOGSUI_URL
     }
 
     return 'http://localhost:3000'
