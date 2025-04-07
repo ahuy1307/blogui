@@ -239,6 +239,51 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.post('/blogs', blogData)
         return res
     }
+    async getBlogBySlug({ slug }: { slug: string }): Promise<any> {
+        const res = await httpService.get(`/blogs/slug/${slug}`)
+        return res
+    }
+    async getBlogsByTopic({ blog_id }: { blog_id: string }): Promise<any> {
+        const res = await httpService.get('/blogs/by-topic', {
+            params: {
+                blog_id,
+            },
+        })
+        return res
+    }
+    async saveOrLikeBlog({
+        baiViet,
+        loaiDanhDau,
+    }: {
+        baiViet: string
+        loaiDanhDau: string
+    }): Promise<any> {
+        const res = await httpService.post('/user-blogs', {
+            baiViet,
+            loaiDanhDau,
+        })
+        return res
+    }
+    async getBlogReportOptions(): Promise<any> {
+        const res = await httpService.get('/blog-reports/options')
+        return res
+    }
+    async reportBlog({
+        baiViet,
+        loaiBaoCao,
+        lyDoBaoCao,
+    }: {
+        baiViet: string
+        loaiBaoCao: number
+        lyDoBaoCao: string
+    }): Promise<any> {
+        const res = await httpService.post('/blog-reports', {
+            baiViet,
+            loaiBaoCao,
+            lyDoBaoCao,
+        })
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

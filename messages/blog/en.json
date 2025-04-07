@@ -1,0 +1,40 @@
+{
+    "readMore": "Read more",
+    "ReportDialog": {
+        "title": "Report Content",
+        "reasonLabel": "Reason for reporting",
+        "detailsLabel": "Additional details (optional)",
+        "detailsPlaceholder": "Please provide any additional information that might help us understand the issue",
+        "cancel": "Cancel",
+        "submit": "Submit Report",
+        "missingReasonTitle": "Please select a reason",
+        "missingReasonDescription": "You must select a reason for your report",
+        "successTitle": "Report submitted",
+        "successDescription": "Thank you for your feedback. Our team will review this content.",
+        "reportErrorTitle": "Report submission failed"
+    },
+    "BlogDetail": {
+        "successTitle": "Success",
+        "errorTitle": "Error",
+        "justNow": "Just now",
+        "mentionCommentMessage": "You mentioned users in a comment",
+        "mentionReplyMessage": "You mentioned users in a reply",
+        "notFoundTitle": "Post Not Found",
+        "notFoundDescription": "The blog post you are looking for does not exist or has been moved.",
+        "returnHome": "Return Home",
+        "linkCopiedTitle": "Link copied",
+        "linkCopiedDescription": "The article link has been copied to your clipboard.",
+        "back_to_blogs": "Back to blogs",
+        "summary": "Summary",
+        "author": "Author",
+        "share": "Share",
+        "favorite": "Favorite",
+        "favorited": "Favorited",
+        "save": "Save",
+        "saved": "Saved",
+        "report": "Report",
+        "copy_link": "Copy link",
+        "related_articles": "Related Blogs",
+        "more": "More"
+    }
+}

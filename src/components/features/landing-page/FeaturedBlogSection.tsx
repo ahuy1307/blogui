@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Eye, Heart, Clock, BrainCircuit } from 'lucide-react'
+import { Eye, Heart, Clock } from 'lucide-react'
 import {
     Tabs,
     TabsContent,
@@ -10,7 +10,7 @@ import {
 } from '@/components/other-ui/Tabs'
 import { BlogFeatureCard } from '../blog/BlogFeatureCard'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Blog } from '@/types/interface'
 import { Spin } from 'antd'
 import { useTranslations } from 'next-intl'
@@ -18,11 +18,13 @@ import { useTranslations } from 'next-intl'
 export function FeaturedBlogSection() {
     const t = useTranslations('landing.FeaturedBlogSection')
     const [activeTab, setActiveTab] = useState('most_viewed')
+    const queryClient = useQueryClient()
 
     const {
         data: blogPosts = [],
         isLoading,
         error,
+        refetch,
     } = useQuery({
         queryKey: ['blogs', activeTab],
         queryFn: async () => {
@@ -33,6 +35,11 @@ export function FeaturedBlogSection() {
         },
         staleTime: 1000 * 60 * 5, // 5 minutes
     })
+
+    // Always refetch blogs when the component is mounted
+    useEffect(() => {
+        refetch()
+    }, [refetch])
 
     return (
         <section className="py-20 bg-white">

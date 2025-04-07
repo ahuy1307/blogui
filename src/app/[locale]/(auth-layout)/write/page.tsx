@@ -528,15 +528,6 @@ export default function WritePage() {
             return
         }
 
-        if (!shortDescription.trim()) {
-            toast({
-                title: t('missingDescription'),
-                description: t('addDescription'),
-                variant: 'destructive',
-            })
-            return
-        }
-
         if (!coverImage) {
             toast({
                 title: t('missingCoverImage'),
@@ -567,7 +558,7 @@ export default function WritePage() {
 
                 switch (section.type) {
                     case 'text':
-                        loaiThanhPhan = 'paragraph'
+                        loaiThanhPhan = 'text'
                         if (
                             typeof section.content === 'string' &&
                             section.content.startsWith('{') &&
@@ -615,12 +606,18 @@ export default function WritePage() {
                         break
                     case 'numbered-list':
                         loaiThanhPhan = 'numbered-list'
-                        noiDung = JSON.stringify(section.items)
+                        noiDung = JSON.stringify({
+                            title: section.title,
+                            items: section.items,
+                        })
                         dinhDang = { fontSize: section.fontSize || 'normal' }
                         break
                     case 'bullet-list':
                         loaiThanhPhan = 'bullet-list'
-                        noiDung = JSON.stringify(section.items)
+                        noiDung = JSON.stringify({
+                            title: section.title,
+                            items: section.items,
+                        })
                         dinhDang = { fontSize: section.fontSize || 'normal' }
                         break
                     case 'quote':
@@ -827,14 +824,14 @@ export default function WritePage() {
                                     </Button>
                                     <Button
                                         variant="outline"
-                                        onClick={() => saveBlogPost(true)}
+                                        onClick={() => saveBlogPost(false)}
                                         className="border-purple-300 text-purple-700 hover:bg-purple-50"
                                     >
                                         <Pencil className="h-4 w-4 mr-2" />
                                         {t('saveDraft')}
                                     </Button>
                                     <Button
-                                        onClick={() => saveBlogPost(false)}
+                                        onClick={() => saveBlogPost(true)}
                                         className="bg-purple-600 hover:bg-purple-700 text-white"
                                     >
                                         <Save className="h-4 w-4 mr-2" />
@@ -932,32 +929,6 @@ export default function WritePage() {
                                                     'titlePlaceholder'
                                                 )}
                                                 className="w-full text-xl font-bold p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <Label
-                                                htmlFor="short-description"
-                                                className="text-lg font-medium mb-2 block"
-                                            >
-                                                {t('shortDescription')}{' '}
-                                                <span className="text-red-500">
-                                                    *
-                                                </span>
-                                            </Label>
-                                            <textarea
-                                                id="short-description"
-                                                value={shortDescription}
-                                                style={{ borderRadius: '6px' }}
-                                                onChange={(e) =>
-                                                    setShortDescription(
-                                                        e.target.value
-                                                    )
-                                                }
-                                                placeholder={t(
-                                                    'descriptionPlaceholder'
-                                                )}
-                                                className="w-full text-base p-3 min-h-[120px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
                                             />
                                         </div>
 
