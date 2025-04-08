@@ -35,6 +35,9 @@
         "report": "Report",
         "copy_link": "Copy link",
         "related_articles": "Related Blogs",
-        "more": "More"
+        "more": "More",
+        "seeWhoLikes": "See who likes this",
+        "totalLikes": "Likes",
+        "noLikes": "No likes yet"
     }
 }

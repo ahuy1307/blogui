@@ -35,6 +35,9 @@
         "report": "Báo cáo",
         "copy_link": "Sao chép liên kết",
         "related_articles": "Bài viết liên quan",
-        "more": "Thêm"
+        "more": "Thêm",
+        "seeWhoLikes": "Xem ai thích bài viết này",
+        "totalLikes": "Lượt thích",
+        "noLikes": "Chưa có lượt thích nào"
     }
 }
