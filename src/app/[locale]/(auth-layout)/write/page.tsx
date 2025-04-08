@@ -40,12 +40,6 @@ import {
     Sparkles,
     SquareArrowDown,
 } from 'lucide-react'
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/other-ui/Dialog'
 import { Tabs, TabsList, TabsTrigger } from '@/components/other-ui/Tabs'
 import { SortableSection } from '@/components/editor/SortableSection'
 import { PreviewSection } from '@/components/editor/PreviewSection'
@@ -57,7 +51,6 @@ import { TopicSelector } from '@/components/features/blog/TopicSelector'
 import { VideoUploadModal } from '@/components/features/blog/VideoUploadModal'
 import { MediaLibrary } from '@/components/media-library/MediaLibrary'
 import { BlogGenerator } from '@/components/blog-generator/BlogGenerator'
-import Logo from '@/components/features/home/Logo'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import Header from '@/components/features/home/Header'

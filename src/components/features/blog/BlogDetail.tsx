@@ -1,5 +1,5 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Link } from '@/navigation'
 import {
     ArrowLeft,
@@ -49,7 +49,18 @@ import { authenticationService } from '@/core/services/API/authentication/Authen
 import { useAppData } from '@/contexts/AppDataProvider'
 import { useAuth } from '@/contexts/auth/AuthContext'
 import LoginModal from '../home/LoginModal'
-
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/other-ui/Tooltip'
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/other-ui/Popover'
+import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 // Helper function to convert API component to SectionType
 const convertToSectionType = (component: any): SectionType | null => {
     const { loaiThanhPhan, noiDung, dinhDang, hang, cot, id } = component
@@ -200,8 +211,8 @@ export function BlogDetail({
 }) {
     const t = useTranslations('blog.BlogDetail')
     const { topics, isLoading, error } = useAppData()
-    const {user} = useAuth()
-    
+    const { user } = useAuth()
+
     const { toast } = useToast()
     const locale = useLocale()
     const [comments, setComments] = useState<Comment[]>([])
@@ -212,6 +223,12 @@ export function BlogDetail({
     const shareUrl = `${getBaseUrl()}/${locale}/blog/${blogDetail?.slug}`
 
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false)
+
+    useUnlockBodyScroll()
+
+    useEffect(() => {
+        refetch()
+    }, [user])
 
     const showModal = () => {
         setIsLoginModalVisible(true)
@@ -460,7 +477,7 @@ export function BlogDetail({
                                 <AvatarImage
                                     src={
                                         blogDetail.tacGia.avatar ||
-                                        '/placeholder.svg?height=64&width=64'
+                                        '/images/default_avatar.jpg'
                                     }
                                     alt={blogDetail.tacGia.fullName}
                                 />
@@ -537,10 +554,99 @@ export function BlogDetail({
                                             <Heart
                                                 className={`h-4 w-4 mr-1 ${blogDetail.daYeuThich ? 'fill-white' : ''}`}
                                             />
-                                            {blogDetail.daYeuThich
+                                            {/* {blogDetail.daYeuThich
                                                 ? t('favorited')
-                                                : t('favorite')}
+                                                : t('favorite')} */}
                                         </Button>
+                                        <Popover>
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <PopoverTrigger asChild>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                className="px-3 border text-sm text-gray-600 hover:text-black h-full"
+                                                            >
+                                                                {
+                                                                    blogDetail.luotYeuThich
+                                                                }
+                                                            </Button>
+                                                        </PopoverTrigger>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <p>
+                                                            {t('seeWhoLikes')}
+                                                        </p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+
+                                            <PopoverContent className="w-64 p-0 mt-4 mr-4 shadow-xl">
+                                                <div className="p-3 border-b ">
+                                                    <p className="font-bold">
+                                                        {t('totalLikes')}
+                                                    </p>
+                                                </div>
+                                                <div className="max-h-[300px] overflow-y-auto">
+                                                    {blogDetail
+                                                        .nguoiDungYeuThich
+                                                        .length > 0 ? (
+                                                        blogDetail.nguoiDungYeuThich.map(
+                                                            (liker, index) => (
+                                                                <Link
+                                                                    href={`/info/${liker.slug}`}
+                                                                    key={index}
+                                                                    className="flex items-center gap-3 p-3 hover:bg-gray-200 transition-colors"
+                                                                >
+                                                                    <div className="relative rounded-full overflow-hidden">
+                                                                        <Avatar className="border-2 border-white shadow-sm">
+                                                                            <AvatarImage
+                                                                                src={
+                                                                                    liker.avatar ||
+                                                                                    '/images/default_avatar.jpg'
+                                                                                }
+                                                                                alt={
+                                                                                    blogDetail
+                                                                                        .tacGia
+                                                                                        .fullName
+                                                                                }
+                                                                            />
+                                                                            <AvatarFallback>
+                                                                                {liker.hoTen !==
+                                                                                ''
+                                                                                    ? getInitials(
+                                                                                          liker.hoTen,
+                                                                                          ''
+                                                                                      )
+                                                                                    : getInitials(
+                                                                                          '',
+                                                                                          ''
+                                                                                      )}
+                                                                            </AvatarFallback>
+                                                                        </Avatar>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p className="font-medium">
+                                                                            {
+                                                                                liker.hoTen
+                                                                            }
+                                                                        </p>
+                                                                    </div>
+                                                                </Link>
+                                                            )
+                                                        )
+                                                    ) : (
+                                                        <div className="p-4 text-center text-gray-500">
+                                                            <p className="text-sm">
+                                                                {t('noLikes')}
+                                                            </p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </PopoverContent>
+                                        </Popover>
+
                                         <Button
                                             variant={
                                                 blogDetail.daLuu
@@ -684,10 +790,10 @@ export function BlogDetail({
                     blogId={blogDetail.id}
                 />
                 <LoginModal
-                visible={isLoginModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            />
+                    visible={isLoginModalVisible}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                />
             </div>
             <Footer topics={topics} />
         </>
