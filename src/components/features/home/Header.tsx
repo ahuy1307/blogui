@@ -131,6 +131,14 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                 >
                     {t('blog')}
                 </Link>
+                {isAuthenticated && (
+                    <Link
+                        href={`/library`}
+                        className="text-base hover:text-purple-500 font-bold"
+                    >
+                        {t('library')}
+                    </Link>
+                )}
             </div>
 
             <div className="flex items-center gap-4">

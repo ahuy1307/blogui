@@ -1,5 +1,9 @@
 {
     "readMore": "Đọc thêm",
+    "unLike": "Bỏ thích",
+    "unSave": "Bỏ lưu",
+    "successTitle": "Thành công",
+    "errorTitle": "Lỗi",
     "ReportDialog": {
         "title": "Báo cáo nội dung",
         "reasonLabel": "Lý do báo cáo",
@@ -36,8 +40,19 @@
         "copy_link": "Sao chép liên kết",
         "related_articles": "Bài viết liên quan",
         "more": "Thêm",
+        "you": "Bạn",
         "seeWhoLikes": "Xem ai thích bài viết này",
         "totalLikes": "Lượt thích",
         "noLikes": "Chưa có lượt thích nào"
+    },
+    "BlogLibrary": {
+        "title": "Thư viện",
+        "liked": "Đã thích",
+        "saved": "Đã lưu",
+        "noBlogsLiked": "Chưa có bài viết nào được thích",
+        "noBlogsSaved": "Chưa có bài viết nào được lưu",
+        "noBlogsLikedDescription": "Bạn chưa thích bài viết nào. Hãy thể hiện tình cảm với những bài viết bạn yêu thích!",
+        "noBlogsSavedDescription": "Bạn chưa lưu bài viết nào. Hãy lưu lại những bài viết bạn yêu thích để đọc sau!",
+        "discoverBlogs": "Khám phá Bài viết"
     }
 }

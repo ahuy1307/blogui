@@ -1,5 +1,9 @@
 {
     "readMore": "Read more",
+    "unLike": "Unlike",
+    "unSave": "Unsave",
+    "successTitle": "Success",
+    "errorTitle": "Error",
     "ReportDialog": {
         "title": "Report Content",
         "reasonLabel": "Reason for reporting",
@@ -36,8 +40,19 @@
         "copy_link": "Copy link",
         "related_articles": "Related Blogs",
         "more": "More",
+        "you": "You",
         "seeWhoLikes": "See who likes this",
         "totalLikes": "Likes",
         "noLikes": "No likes yet"
+    },
+    "BlogLibrary": {
+        "title": "Library",
+        "liked": "Liked",
+        "saved": "Saved",
+        "noBlogsLiked": "No liked blogs",
+        "noBlogsSaved": "No saved blogs",
+        "noBlogsLikedDescription": "You haven't liked any blogs yet. Show some love to the articles you enjoy!",
+        "noBlogsSavedDescription": "You haven't saved any blogs yet. Save the articles you love to read later!",
+        "discoverBlogs": "Discover Blogs"
     }
 }

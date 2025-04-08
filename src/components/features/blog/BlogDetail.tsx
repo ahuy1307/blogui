@@ -8,6 +8,7 @@ import {
     Bookmark,
     Heart,
     AlertTriangle,
+    Calendar,
 } from 'lucide-react'
 import { LuFacebook } from 'react-icons/lu'
 import { SlSocialLinkedin } from 'react-icons/sl'
@@ -61,6 +62,7 @@ import {
     PopoverTrigger,
 } from '@/components/other-ui/Popover'
 import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
+import ScrollToTop from '../home/ScrollToTop'
 // Helper function to convert API component to SectionType
 const convertToSectionType = (component: any): SectionType | null => {
     const { loaiThanhPhan, noiDung, dinhDang, hang, cot, id } = component
@@ -251,10 +253,10 @@ export function BlogDetail({
             })
             refetch()
         },
-        onError: (error) => {
+        onError: (res: any) => {
             toast({
                 title: t('errorTitle'),
-                description: error.message,
+                description: res.response.data.errors.other[0],
                 variant: 'destructive',
             })
         },
@@ -410,6 +412,7 @@ export function BlogDetail({
             <div className="min-h-screen bg-white text-gray-900">
                 <Header />
                 <Toaster />
+                <ScrollToTop />
                 <main className="container mx-auto px-4 py-12 mt-[90px]">
                     <div className="max-w-5xl mx-auto">
                         {/* Example button to trigger refetch */}
@@ -449,10 +452,13 @@ export function BlogDetail({
                                     )}
                                 </span>
                             </div>
-                            <div>
-                                {new Date(
-                                    blogDetail.ngayXuatBan
-                                ).toLocaleDateString()}
+                            <div className="flex items-center gap-2">
+                                <Calendar className="h-4 w-4" />
+                                <span>
+                                    {new Date(
+                                        blogDetail.ngayXuatBan
+                                    ).toLocaleDateString()}
+                                </span>
                             </div>
                         </div>
 
@@ -539,142 +545,142 @@ export function BlogDetail({
                                 </LinkedinShareButton>
                             </div>
                             <div className="flex gap-2">
-                                {!blogDetail.blogCuaBan && (
-                                    <div className="flex gap-2">
-                                        <Button
-                                            variant={
-                                                blogDetail.daYeuThich
-                                                    ? 'default'
-                                                    : 'outline'
-                                            }
-                                            size="sm"
-                                            className={`h-8 px-3 ${blogDetail.daYeuThich ? 'bg-red-500 text-white hover:bg-red-400 border-red-500' : 'border-gray-300 hover:bg-gray-50 text-gray-700'}`}
-                                            onClick={handleFavorite}
-                                        >
-                                            <Heart
-                                                className={`h-4 w-4 mr-1 ${blogDetail.daYeuThich ? 'fill-white' : ''}`}
-                                            />
-                                            {/* {blogDetail.daYeuThich
-                                                ? t('favorited')
-                                                : t('favorite')} */}
-                                        </Button>
-                                        <Popover>
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <PopoverTrigger asChild>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="sm"
-                                                                className="px-3 border text-sm text-gray-600 hover:text-black h-full"
+                                <div className="flex gap-2">
+                                    <Button
+                                        variant={
+                                            blogDetail.daYeuThich
+                                                ? 'default'
+                                                : 'outline'
+                                        }
+                                        size="sm"
+                                        className={`h-8 px-3 ${blogDetail.daYeuThich ? 'bg-red-500 text-white hover:bg-red-400 border-red-500' : 'border-gray-300 hover:bg-gray-50 text-gray-700'}`}
+                                        onClick={handleFavorite}
+                                    >
+                                        <Heart
+                                            className={`h-4 w-4 mr-1 ${blogDetail.daYeuThich ? 'fill-white' : ''}`}
+                                        />
+                                        {/* {blogDetail.daYeuThich
+                                            ? t('favorited')
+                                            : t('favorite')} */}
+                                    </Button>
+                                    <Popover>
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <PopoverTrigger asChild>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="px-3 border text-sm text-gray-600 hover:text-black h-full"
+                                                        >
+                                                            {
+                                                                blogDetail.luotYeuThich
+                                                            }
+                                                        </Button>
+                                                    </PopoverTrigger>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>{t('seeWhoLikes')}</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+
+                                        <PopoverContent className="w-64 p-0 mt-4 mr-4 shadow-xl">
+                                            <div className="p-3 border-b ">
+                                                <p className="font-bold">
+                                                    {t('totalLikes')}
+                                                </p>
+                                            </div>
+                                            <div className="max-h-[300px] overflow-y-auto">
+                                                {blogDetail.nguoiDungYeuThich
+                                                    .length > 0 ? (
+                                                    blogDetail.nguoiDungYeuThich.map(
+                                                        (liker, index) => (
+                                                            <Link
+                                                                href={`/info/${liker.slug}`}
+                                                                key={index}
+                                                                className="flex items-center gap-3 p-3 hover:bg-gray-200 transition-colors"
                                                             >
-                                                                {
-                                                                    blogDetail.luotYeuThich
-                                                                }
-                                                            </Button>
-                                                        </PopoverTrigger>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent>
-                                                        <p>
-                                                            {t('seeWhoLikes')}
-                                                        </p>
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-
-                                            <PopoverContent className="w-64 p-0 mt-4 mr-4 shadow-xl">
-                                                <div className="p-3 border-b ">
-                                                    <p className="font-bold">
-                                                        {t('totalLikes')}
-                                                    </p>
-                                                </div>
-                                                <div className="max-h-[300px] overflow-y-auto">
-                                                    {blogDetail
-                                                        .nguoiDungYeuThich
-                                                        .length > 0 ? (
-                                                        blogDetail.nguoiDungYeuThich.map(
-                                                            (liker, index) => (
-                                                                <Link
-                                                                    href={`/info/${liker.slug}`}
-                                                                    key={index}
-                                                                    className="flex items-center gap-3 p-3 hover:bg-gray-200 transition-colors"
-                                                                >
-                                                                    <div className="relative rounded-full overflow-hidden">
-                                                                        <Avatar className="border-2 border-white shadow-sm">
-                                                                            <AvatarImage
-                                                                                src={
-                                                                                    liker.avatar ||
-                                                                                    '/images/default_avatar.jpg'
-                                                                                }
-                                                                                alt={
-                                                                                    blogDetail
-                                                                                        .tacGia
-                                                                                        .fullName
-                                                                                }
-                                                                            />
-                                                                            <AvatarFallback>
-                                                                                {liker.hoTen !==
-                                                                                ''
-                                                                                    ? getInitials(
-                                                                                          liker.hoTen,
-                                                                                          ''
-                                                                                      )
-                                                                                    : getInitials(
-                                                                                          '',
-                                                                                          ''
-                                                                                      )}
-                                                                            </AvatarFallback>
-                                                                        </Avatar>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p className="font-medium">
-                                                                            {
-                                                                                liker.hoTen
+                                                                <div className="relative rounded-full overflow-hidden">
+                                                                    <Avatar className="border-2 border-white shadow-sm">
+                                                                        <AvatarImage
+                                                                            src={
+                                                                                liker.avatar ||
+                                                                                '/images/default_avatar.jpg'
                                                                             }
-                                                                        </p>
-                                                                    </div>
-                                                                </Link>
-                                                            )
+                                                                            alt={
+                                                                                blogDetail
+                                                                                    .tacGia
+                                                                                    .fullName
+                                                                            }
+                                                                        />
+                                                                        <AvatarFallback>
+                                                                            {liker.hoTen !==
+                                                                            ''
+                                                                                ? getInitials(
+                                                                                      liker.hoTen,
+                                                                                      ''
+                                                                                  )
+                                                                                : getInitials(
+                                                                                      '',
+                                                                                      ''
+                                                                                  )}
+                                                                        </AvatarFallback>
+                                                                    </Avatar>
+                                                                </div>
+                                                                <div>
+                                                                    <p className="font-medium">
+                                                                        {!liker.nguoiDungHienTai
+                                                                            ? liker.hoTen
+                                                                            : t(
+                                                                                  'you'
+                                                                              )}
+                                                                    </p>
+                                                                </div>
+                                                            </Link>
                                                         )
-                                                    ) : (
-                                                        <div className="p-4 text-center text-gray-500">
-                                                            <p className="text-sm">
-                                                                {t('noLikes')}
-                                                            </p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </PopoverContent>
-                                        </Popover>
-
-                                        <Button
-                                            variant={
-                                                blogDetail.daLuu
-                                                    ? 'default'
-                                                    : 'outline'
-                                            }
-                                            size="sm"
-                                            className={`h-8 px-3 ${blogDetail.daLuu ? 'bg-purple-600 text-white' : 'border-gray-300 hover:bg-gray-50 text-gray-700'}`}
-                                            onClick={handleSave}
-                                        >
-                                            <Bookmark
-                                                className={`h-4 w-4 mr-1 ${blogDetail.daLuu ? 'fill-white' : ''}`}
-                                            />
-                                            {blogDetail.daLuu
-                                                ? t('saved')
-                                                : t('save')}
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            className="h-8 px-3 border-gray-300 hover:bg-red-50 text-gray-700 hover:text-red-500 hover:border-red-200"
-                                            onClick={handleReport}
-                                        >
-                                            <AlertTriangle className="h-4 w-4 mr-1" />
-                                            {t('report')}
-                                        </Button>
-                                    </div>
-                                )}
+                                                    )
+                                                ) : (
+                                                    <div className="p-4 text-center text-gray-500">
+                                                        <p className="text-sm">
+                                                            {t('noLikes')}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </PopoverContent>
+                                    </Popover>
+                                    {!blogDetail.blogCuaBan && (
+                                        <>
+                                            <Button
+                                                variant={
+                                                    blogDetail.daLuu
+                                                        ? 'default'
+                                                        : 'outline'
+                                                }
+                                                size="sm"
+                                                className={`h-8 px-3 ${blogDetail.daLuu ? 'bg-purple-600 text-white' : 'border-gray-300 hover:bg-gray-50 text-gray-700'}`}
+                                                onClick={handleSave}
+                                            >
+                                                <Bookmark
+                                                    className={`h-4 w-4 mr-1 ${blogDetail.daLuu ? 'fill-white' : ''}`}
+                                                />
+                                                {blogDetail.daLuu
+                                                    ? t('saved')
+                                                    : t('save')}
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="h-8 px-3 border-gray-300 hover:bg-red-50 text-gray-700 hover:text-red-500 hover:border-red-200"
+                                                onClick={handleReport}
+                                            >
+                                                <AlertTriangle className="h-4 w-4 mr-1" />
+                                                {t('report')}
+                                            </Button>
+                                        </>
+                                    )}
+                                </div>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button

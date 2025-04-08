@@ -264,6 +264,24 @@ class AuthenticationService implements IAuthentication {
         })
         return res
     }
+    async getSavedLikedBlogs({
+        type,
+        page,
+        limit,
+    }: {
+        type: string
+        page?: number
+        limit?: number
+    }): Promise<any> {
+        const res = await httpService.get('/user-blogs', {
+            params: {
+                type,
+                page,
+                limit,
+            },
+        })
+        return res
+    }
     async getBlogReportOptions(): Promise<any> {
         const res = await httpService.get('/blog-reports/options')
         return res

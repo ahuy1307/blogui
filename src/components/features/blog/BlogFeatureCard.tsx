@@ -36,15 +36,16 @@ export function BlogFeatureCard({
                 </div>
                 <CardHeader className="flex-grow">
                     <div className="flex gap-2">
-                        {blog.chuDes.slice(0, 4).map((chuDe) => (
-                            <span
-                                key={chuDe.id}
-                                className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full"
-                            >
-                                {chuDe.tenChuDe[locale]}
-                            </span>
-                        ))}
-                        {blog.chuDes.length > 4 && (
+                        {blog.chuDes &&
+                            blog.chuDes.slice(0, 4).map((chuDe) => (
+                                <span
+                                    key={chuDe.id}
+                                    className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full"
+                                >
+                                    {chuDe.tenChuDe[locale]}
+                                </span>
+                            ))}
+                        {blog.chuDes && blog.chuDes.length > 4 && (
                             <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
                                 +{blog.chuDes.length - 4}{' '}
                                 {locale === 'en' ? 'more' : 'khác'}
