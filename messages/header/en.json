@@ -6,6 +6,7 @@
     "writeBlog": "Write Blog",
     "login": "Login",
     "register": "Register",
+    "library": "Library",
     "emailPlaceholder": "Enter your email",
     "passwordPlaceholder": "Enter your password",
     "rememberLoginInfo": "Remember login information",

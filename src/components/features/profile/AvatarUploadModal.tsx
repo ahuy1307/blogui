@@ -9,7 +9,6 @@ import { authenticationService } from '@/core/services/API/authentication/Authen
 import { useAuth } from '@/contexts/auth/AuthContext'
 import Button from '@/components/ui/Button/Button'
 import { signIn } from '@/contexts/auth/reducers'
-import { base64ToFile } from '@/helper/utils'
 
 interface AvatarUploadModalProps {
     isOpen: boolean
@@ -92,7 +91,7 @@ export default function AvatarUploadModal({
                 setTimeout(() => {
                     message.success(t('uploadSuccess'))
                     onClose()
-                }, 2000)
+                }, 1000)
         }
     }
 

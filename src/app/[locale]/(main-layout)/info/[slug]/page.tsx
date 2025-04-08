@@ -170,16 +170,9 @@ export default function Page({ params }: any) {
                                     profileData?.avatar &&
                                     profileData.avatar !== ''
                                         ? profileData.avatar
-                                        : undefined
+                                        : '/images/default_avatar.jpg'
                                 }
-                            >
-                                <p className="text-6xl">
-                                    {profileData?.avatar &&
-                                    profileData.avatar !== ''
-                                        ? null
-                                        : firstCharName}
-                                </p>
-                            </Image>
+                            ></Image>
                         </div>
                         {user && (
                             <div

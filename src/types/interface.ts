@@ -45,6 +45,7 @@ export interface Blog {
         hoTen: string
         avatar: string
         slug: string
+        nguoiDungHienTai: boolean
     }[]
     daYeuThich: boolean
     daLuu: boolean

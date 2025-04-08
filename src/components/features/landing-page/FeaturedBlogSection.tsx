@@ -18,7 +18,6 @@ import { useTranslations } from 'next-intl'
 export function FeaturedBlogSection() {
     const t = useTranslations('landing.FeaturedBlogSection')
     const [activeTab, setActiveTab] = useState('most_viewed')
-    const queryClient = useQueryClient()
 
     const {
         data: blogPosts = [],
