@@ -30,5 +30,16 @@
     "ModalConfirm": {
         "cancel": "Hủy",
         "confirm": "Xác nhận"
+    },
+    "Notification": {
+        "notificationLabel": "Thông báo",
+        "markAllAsRead": "Đánh dấu tất cả là đã đọc",
+        "clearAll": "Xóa tất cả",
+        "all": "Tất cả",
+        "unread": "Chưa đọc",
+        "noNotifications": "Chưa có thông báo nào",
+        "notificationDescription": "Khi bạn nhận được thông báo, chúng sẽ xuất hiện ở đây",
+        "new": "Mới",
+        "on": "vào"
     }
 }

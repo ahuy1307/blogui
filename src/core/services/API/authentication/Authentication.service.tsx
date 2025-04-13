@@ -302,6 +302,24 @@ class AuthenticationService implements IAuthentication {
         })
         return res
     }
+    async getNotifications(): Promise<any> {
+        const res = await httpService.get('/blogs/notifications')
+        return res
+    }
+    async markAsReadAllNotifications(): Promise<any> {
+        const res = await httpService.put(
+            '/blogs/notifications/mark-all-as-read'
+        )
+        return res
+    }
+    async markAsReadNotification({ id }: { id: string }): Promise<any> {
+        const res = await httpService.put(`/blogs/notifications/read/${id}`)
+        return res
+    }
+    async clearAllNotifications(): Promise<any> {
+        const res = await httpService.delete('/blogs/notifications/clear')
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

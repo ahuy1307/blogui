@@ -136,7 +136,7 @@ export default function Page({ params }: any) {
                                 spinning={isUpdateProfilePending}
                             />
                         </div>
-                        {user && (
+                        {user && user.slug === profileData.slug && (
                             <>
                                 <div
                                     className={`bg-gray-200 flex justify-center items-center shadow-lg rounded-full w-fit p-3 border border-gray-400 hover:opacity-70 absolute top-4 right-10 cursor-pointer z-30 ${
@@ -174,7 +174,7 @@ export default function Page({ params }: any) {
                                 }
                             ></Image>
                         </div>
-                        {user && (
+                        {user && user.slug === profileData.slug && (
                             <div
                                 className="bg-gray-200 flex justify-center items-center shadow-lg rounded-full w-fit p-3 border border-gray-400 hover:opacity-70 absolute -bottom-12 right-10 cursor-pointer z-30"
                                 onClick={() => router.push(`/profile`)}
