@@ -30,5 +30,16 @@
     "ModalConfirm": {
         "cancel": "Cancel",
         "confirm": "Confirm"
+    },
+    "Notification": {
+        "notificationLabel": "Notifications",
+        "markAllAsRead": "Mark all as read",
+        "clearAll": "Clear all",
+        "all": "All",
+        "unread": "Unread",
+        "noNotifications": "No notifications yet",
+        "notificationDescription": "When you receive notifications, they will appear here",
+        "new": "New",
+        "on": "on"
     }
 }

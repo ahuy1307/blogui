@@ -1,66 +1,85 @@
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
-import type { Notification } from "@/types/notification"
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import type { Notification } from '@/types/notification'
+import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 
 interface NotificationState {
-  notifications: Notification[]
-  unreadCount: number
-  addNotification: (notification: Omit<Notification, "id" | "timestamp" | "read">) => void
-  markAsRead: (id: string) => void
-  markAllAsRead: () => void
-  clearNotifications: () => void
+    notifications: Notification[]
+    unreadCount: number
+    markAllAsRead: () => void
+    markAsRead: (id: string) => void
+    clearNotifications: () => void
+    fetchNotifications: () => Promise<void>
 }
 
 export const useNotificationStore = create<NotificationState>()(
-  persist(
-    (set, get) => ({
-      notifications: [],
-      unreadCount: 0,
+    persist(
+        (set, get) => ({
+            notifications: [],
+            unreadCount: 0,
 
-      addNotification: (notification) => {
-        const newNotification: Notification = {
-          ...notification,
-          id: Math.random().toString(36).substring(2, 9),
-          timestamp: new Date().toISOString(),
-          read: false,
+            markAllAsRead: async () => {
+                await authenticationService.markAsReadAllNotifications()
+                set((state) => ({
+                    notifications: state.notifications.map((notification) => ({
+                        ...notification,
+                        daDoc: true,
+                    })),
+                    unreadCount: 0,
+                }))
+            },
+
+            clearNotifications: async () => {
+                await authenticationService.clearAllNotifications()
+                set({
+                    notifications: [],
+                    unreadCount: 0,
+                })
+            },
+
+            fetchNotifications: async () => {
+                try {
+                    const response =
+                        await authenticationService.getNotifications()
+                    set({
+                        notifications: response.data.results,
+                        unreadCount: response.data.results.filter(
+                            (notification: Notification) => !notification.daDoc
+                        ).length,
+                    })
+                } catch (error) {
+                    console.error('Failed to fetch notifications:', error)
+                }
+            },
+
+            markAsRead: async (id: string) => {
+                try {
+                    await authenticationService.markAsReadNotification({ id })
+                    set((state) => {
+                        const notification = state.notifications.find(
+                            (n) => n.id === id
+                        )
+                        const wasUnread = notification?.daDoc === false
+
+                        return {
+                            notifications: state.notifications.map(
+                                (notification) =>
+                                    notification.id === id
+                                        ? { ...notification, daDoc: true }
+                                        : notification
+                            ),
+                            unreadCount: wasUnread
+                                ? state.unreadCount - 1
+                                : state.unreadCount,
+                        }
+                    })
+                } catch (error) {
+                    console.error('Failed to mark notification as read:', error)
+                }
+            },
+        }),
+        {
+            name: 'notification-storage',
         }
-
-        set((state) => ({
-          notifications: [newNotification, ...state.notifications],
-          unreadCount: state.unreadCount + 1,
-        }))
-      },
-
-      markAsRead: (id) => {
-        set((state) => {
-          const updatedNotifications = state.notifications.map((notification) =>
-            notification.id === id ? { ...notification, read: true } : notification,
-          )
-
-          return {
-            notifications: updatedNotifications,
-            unreadCount: state.unreadCount - 1 >= 0 ? state.unreadCount - 1 : 0,
-          }
-        })
-      },
-
-      markAllAsRead: () => {
-        set((state) => ({
-          notifications: state.notifications.map((notification) => ({ ...notification, read: true })),
-          unreadCount: 0,
-        }))
-      },
-
-      clearNotifications: () => {
-        set({
-          notifications: [],
-          unreadCount: 0,
-        })
-      },
-    }),
-    {
-      name: "notification-storage",
-    },
-  ),
+    )
 )
-

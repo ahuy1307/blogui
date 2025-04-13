@@ -27,6 +27,7 @@ import { authenticationService } from '@/core/services/API/authentication/Authen
 import { message } from 'antd'
 import { Button as OtherButton } from '@/components/other-ui/Button'
 import { Pencil } from 'lucide-react'
+import { NotificationDropdown } from '@/components/notifications/NotificationDropdown'
 
 const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
     const { user, dispatch, isAuthenticated } = useAuth()
@@ -182,6 +183,7 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                     </>
                 ) : (
                     <>
+                        <NotificationDropdown />
                         <Dropdown menu={{ items }} placement="bottomRight">
                             <Avatar
                                 size={36}
