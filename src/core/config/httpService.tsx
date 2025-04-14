@@ -1,7 +1,6 @@
 // !/usr/bin/env python
 //
 // All rights reserved.
-// @link hrforce.ai
 //
 // __author__ = "phamanhhuy22@gmail.com"
 // __date__ = "2025-02-01 12:41:42"
@@ -11,7 +10,7 @@ import { localStorageService } from '../services/LocalStorage.service'
 import { AppConfig } from './appConfig'
 
 const BLOG_URL: string =
-    process.env.NEXT_PUBLIC_BLOG_URL || 'http://localhost:8001'
+    process.env.NEXT_PUBLIC_BLOGSAPI_URL || 'http://localhost:8000'
 
 const httpService = axios.create({
     baseURL: `${BLOG_URL}/api/v1`,
@@ -36,7 +35,7 @@ httpService.interceptors.request.use(
                 const refreshToken = await localStorageService.getRefreshToken()
                 try {
                     const { data } = await axios.post(
-                        `${BLOG_URL}/api/v1/auth-jwt/refresh`,
+                        `${BLOG_URL}/api/v1/auth/refresh-token`,
                         { refresh: refreshToken }
                     )
                     localStorageService.setToken(data.access)

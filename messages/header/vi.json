@@ -1,0 +1,45 @@
+{
+    "home": "Trang chủ",
+    "blog": "Blog",
+    "topics": "Chủ đề",
+    "writeBlog": "Viết Blog",
+    "search": "Tìm kiếm",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "library": "Thư viện",
+    "emailPlaceholder": "Nhập email của bạn",
+    "passwordPlaceholder": "Nhập mật khẩu của bạn",
+    "rememberLoginInfo": "Ghi nhớ thông tin đăng nhập",
+    "forgotPassword": "Quên mật khẩu?",
+    "orLoginWith": "Hoặc đăng nhập bằng",
+    "dontHaveAccount": "Chưa có tài khoản?",
+    "loginWithGoogle": "Google",
+    "loginWithFacebook": "Facebook",
+    "locales": {
+        "vi": "Tiếng Việt",
+        "en": "Tiếng Anh"
+    },
+    "logout": "Đăng xuất",
+    "personalInfomation": "Xem thông tin cá nhân",
+    "manageDevices": "Quản lý thiết bị",
+    "updatePersonalInformation": "Cập nhật thông tin cá nhân",
+    "updateSocialLinks": "Cập nhật liên kết mạng xã hội",
+    "confirmLogout": "Bạn có chắc chắn muốn đăng xuất?",
+    "logoutSuccess": "Đăng xuất thành công!",
+    "loginSuccess": "Đăng nhập thành công!",
+    "ModalConfirm": {
+        "cancel": "Hủy",
+        "confirm": "Xác nhận"
+    },
+    "Notification": {
+        "notificationLabel": "Thông báo",
+        "markAllAsRead": "Đánh dấu tất cả là đã đọc",
+        "clearAll": "Xóa tất cả",
+        "all": "Tất cả",
+        "unread": "Chưa đọc",
+        "noNotifications": "Chưa có thông báo nào",
+        "notificationDescription": "Khi bạn nhận được thông báo, chúng sẽ xuất hiện ở đây",
+        "new": "Mới",
+        "on": "vào"
+    }
+}

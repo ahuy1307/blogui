@@ -1,14 +1,13 @@
 // !/usr/bin/env python
 //
 // All rights reserved.
-// @link hrforce.ai
 //
 // __author__ = "phamanhhuy22@gmail.com"
 // __date__ = "2025-02-01 12:41:42"
 //
 'use client'
 import styles from './InputFormItem.module.scss'
-import Input from '../Input/Input'
+import Input from '../TextField/TextField'
 import { Form, InputProps } from 'antd'
 import HintText from '../HintText/HintText'
 import { ValidateService } from '@/core/services/Validate.service'
@@ -21,7 +20,14 @@ interface IInputProps extends Omit<InputProps, 'size'> {
     name: string
     classNameFormItem?: string
     classNameInput?: string
-    type?: 'default' | 'name' | 'password' | 'email' | 'website' | 'search'
+    type?:
+        | 'default'
+        | 'first_name'
+        | 'last_name'
+        | 'password'
+        | 'email'
+        | 'website'
+        | 'search'
     required?: boolean
     requiredMessage?: string
     newRules?: any
@@ -51,14 +57,15 @@ const InputFormItem = ({
             messageRequired: t('pleaseEnterInfo'),
             isInvalid: true,
         },
-        name: {
-            messageRequired: t('pleaseEnterName'),
+        first_name: {
+            messageRequired: t('pleaseEnterFirstName'),
             isInvalid: (value: string) => {
                 if (!ValidateService.validateMaxLength(value, 255))
                     return Promise.reject(
                         <HintText
-                            size="small"
+                            size="medium"
                             type="error"
+                            style={{ paddingBottom: '10px' }}
                             text={t('nameExceedsLimit')}
                         />
                     )
@@ -66,8 +73,33 @@ const InputFormItem = ({
                     ? Promise.resolve()
                     : Promise.reject(
                           <HintText
-                              size="small"
+                              size="medium"
                               type="error"
+                              style={{ paddingBottom: '10px' }}
+                              text={t('invalidNameEntered')}
+                          />
+                      )
+            },
+        },
+        last_name: {
+            messageRequired: t('pleaseEnterLastName'),
+            isInvalid: (value: string) => {
+                if (!ValidateService.validateMaxLength(value, 255))
+                    return Promise.reject(
+                        <HintText
+                            size="medium"
+                            type="error"
+                            style={{ paddingBottom: '10px' }}
+                            text={t('nameExceedsLimit')}
+                        />
+                    )
+                return ValidateService.validateName(value)
+                    ? Promise.resolve()
+                    : Promise.reject(
+                          <HintText
+                              size="medium"
+                              type="error"
+                              style={{ paddingBottom: '10px' }}
                               text={t('invalidNameEntered')}
                           />
                       )
@@ -79,8 +111,9 @@ const InputFormItem = ({
                 if (!ValidateService.validateMaxLength(value, 128))
                     return Promise.reject(
                         <HintText
-                            size="small"
+                            size="medium"
                             type="error"
+                            style={{ paddingBottom: '10px' }}
                             text={t('passwordExceedsLimit')}
                         />
                     )
@@ -88,8 +121,9 @@ const InputFormItem = ({
                     ? Promise.resolve()
                     : Promise.reject(
                           <HintText
-                              size="small"
+                              size="medium"
                               type="error"
+                              style={{ paddingBottom: '10px' }}
                               text={t('passwordCharacterNumberRequirement')}
                           />
                       )
@@ -101,8 +135,9 @@ const InputFormItem = ({
                 if (!ValidateService.validateLength(value, 0, 150))
                     return Promise.reject(
                         <HintText
-                            size="small"
+                            size="medium"
                             type="error"
+                            style={{ paddingBottom: '10px' }}
                             text={t('accountExceedsLimit')}
                         />
                     )
@@ -110,8 +145,9 @@ const InputFormItem = ({
                     ? Promise.resolve()
                     : Promise.reject(
                           <HintText
-                              size="small"
+                              size="medium"
                               type="error"
+                              style={{ paddingBottom: '10px' }}
                               text={t('invalidEmailFormat')}
                           />
                       )
@@ -123,8 +159,9 @@ const InputFormItem = ({
                 if (!ValidateService.validateLength(value, 0, 2000))
                     return Promise.reject(
                         <HintText
-                            size="small"
+                            size="medium"
                             type="error"
+                            style={{ paddingBottom: '10px' }}
                             text={t('websiteExceedsLimit')}
                         />
                     )
@@ -132,8 +169,9 @@ const InputFormItem = ({
                     ? Promise.resolve()
                     : Promise.reject(
                           <HintText
-                              size="small"
+                              size="medium"
                               type="error"
+                              style={{ paddingBottom: '10px' }}
                               text={t('invalidWebsiteFormat')}
                           />
                       )
@@ -146,7 +184,7 @@ const InputFormItem = ({
                     ? Promise.resolve()
                     : Promise.reject(
                           <HintText
-                              size="small"
+                              size="medium"
                               type="error"
                               text={t('searchExceedsLimit')}
                           />
@@ -165,7 +203,8 @@ const InputFormItem = ({
                     required,
                     message: (
                         <HintText
-                            size="small"
+                            size="medium"
+                            style={{ paddingBottom: '10px' }}
                             type="error"
                             text={
                                 requiredMessage || rules[type]?.messageRequired
@@ -185,7 +224,8 @@ const InputFormItem = ({
                                 ? Promise.resolve()
                                 : Promise.reject(
                                       <HintText
-                                          size="small"
+                                          size="medium"
+                                          style={{ paddingBottom: '10px' }}
                                           type="error"
                                           text={''}
                                       />
@@ -200,6 +240,7 @@ const InputFormItem = ({
                 <Input
                     type={showPassword ? 'text' : 'password'}
                     className={classNameInput}
+                    style={{ height: '44px', fontSize: '16px' }}
                     suffix={
                         type === 'password' && showPassword ? (
                             <VscEye
@@ -216,7 +257,12 @@ const InputFormItem = ({
                     {...rest}
                 />
             ) : (
-                <Input className={classNameInput} type={typeInput} {...rest} />
+                <Input
+                    className={classNameInput}
+                    type={typeInput}
+                    {...rest}
+                    style={{ height: '44px', fontSize: '16px' }}
+                />
             )}
         </Form.Item>
     )

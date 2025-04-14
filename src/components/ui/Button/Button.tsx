@@ -1,7 +1,6 @@
 // !/usr/bin/env python
 //
 // All rights reserved.
-// @link hrforce.ai
 //
 // __author__ = "phamanhhuy22@gmail.com"
 // __date__ = "2025-02-01 12:41:42"
@@ -93,7 +92,7 @@ const Button: React.FC<IButton> = ({
                 components: {
                     Button: {
                         controlHeightLG: isSquareShape ? 56 : 44,
-                        controlHeight: isSquareShape ? 48 : 40,
+                        controlHeight: isSquareShape ? 44 : 40,
                         controlHeightSM: isSquareShape ? 44 : 32,
                         contentFontSize: 16,
                         contentFontSizeLG: 16,

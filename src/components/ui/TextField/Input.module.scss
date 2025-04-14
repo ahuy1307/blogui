@@ -1,0 +1,57 @@
+// !/usr/bin/env python
+//
+// All rights reserved.
+//
+// __author__ = "phamanhhuy22@gmail.com"
+// __date__ = "2025-02-01 12:41:42"
+//
+
+$heightVeryLarge: 48px;
+$heightLarge: 44px;
+$heightMedium: 40px;
+$heightSmall: 32px;
+$heightVerySmall: 28px;
+
+$paddingBlockVeryLarge: 12px;
+$paddingInlineVeryLarge: 12px;
+$paddingBlockVerySmall: 4px;
+$paddingInlineVerySmall: 8px;
+
+$width-input: 100%;
+
+.warning {
+    border-color: var(--border-color-error);
+
+    &:hover {
+        border-color: var(--border-color-hover);
+    }
+}
+
+.input {
+    width: $width-input;
+    font-size: var(--font-size-normal);
+    &_very_large {
+        height: $heightVeryLarge;
+        padding-block: $paddingBlockVeryLarge;
+        padding-inline: $paddingInlineVeryLarge;
+        font-size: var(--font-size-medium);
+    }
+
+    &_very_small {
+        height: $heightVerySmall;
+        padding-block: $paddingBlockVerySmall;
+        padding-inline: $paddingInlineVerySmall;
+    }
+
+    &_large {
+        height: $heightLarge;
+    }
+
+    &_medium {
+        height: $heightMedium;
+    }
+
+    &_small {
+        height: $heightSmall;
+    }
+}

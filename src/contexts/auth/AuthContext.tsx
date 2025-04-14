@@ -1,7 +1,6 @@
 // !/usr/bin/env python
 //
 // All rights reserved.
-// @link hrforce.ai
 //
 // __author__ = "phamanhhuy22@gmail.com"
 // __date__ = "2025-02-01 12:41:42"
@@ -19,6 +18,7 @@ import {
 } from 'react'
 import { initialize, reducer, signOut } from './reducers'
 import { localStorageService } from '@/core/services/LocalStorage.service'
+import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 
 export enum AuthActionType {
     INITIALIZE = 'INITIALIZE',
@@ -61,14 +61,15 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     useEffect(() => {
         ;(async () => {
             const accessToken = localStorageService.getToken()
+
             if (!accessToken) {
                 return dispatch(
                     initialize({ isAuthenticated: false, user: null })
                 )
             }
             try {
-                // const user = await authenticationService.getInformationUser(); //FIXME: Change this to your profile API
-                // dispatch(initialize({ isAuthenticated: true, user: user }));
+                const user = await authenticationService.getInformationUser()
+                dispatch(initialize({ isAuthenticated: true, user: user }))
             } catch (error) {
                 dispatch(initialize({ isAuthenticated: false, user: null }))
                 dispatch(signOut())

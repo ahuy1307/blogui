@@ -1,6 +1,72 @@
+/* Add custom scrollbar styling */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.8);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ant-image .ant-image-mask {
+    height: 100%;
+}
+
+.ant-image {
+    height: 100%;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src:
+        url('/public/assets/fonts/Roboto-Regular.ttf') format('ttf'),
+        url('/public/assets/fonts/Roboto-Regular.ttf') format('ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src:
+        url('/public/assets/fonts/Roboto-Medium.ttf') format('ttf'),
+        url('/public/assets/fonts/Roboto-Medium.ttf') format('ttf');
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    pointer-events: visible !important;
+}
+
+body[data-scroll-locked] {
+    overflow: auto !important;
+}
+
+.avatar-user .ant-image .ant-image-mask {
+    border-radius: 100% !important;
+}
+
+.avatar-user .ant-image .ant-image-mask:hover {
+    border-radius: 100% !important;
+}
+
+.avatar-user .ant-image .ant-image-mask:focus {
+    border-radius: 100% !important;
+}
 
 @layer base {
     :root {
@@ -35,17 +101,17 @@
         --background-black-opacity-pressed: 60%;
         --background-black-opacity-disabled: 50%;
 
-        --background-blue-default: #002d79;
-        --background-blue-hover: #2e6a9f;
-        --background-blue-selected: #1c4060;
-        --background-blue-pressed: #15314a;
-        --background-blue-disabled: #e5e7eb;
+        --background-blue-default: #9333ea;
+        --background-blue-hover: #8e4bcc;
+        --background-blue-selected: #6f1ebc;
+        --background-blue-pressed: #9c65d0;
+        --background-blue-disabled: #7b32bf;
 
         --background-light-blue-default: #c0d4e6;
         --background-light-blue-primary: #eff8ff;
-        --background-light-blue-hover: #76a3c9;
+        --background-light-blue-hover: #9333ea;
         --background-light-blue-selected: #c0d4e6;
-        --background-light-blue-pressed: #5c91bf;
+        --background-light-blue-pressed: #9333ea;
         --background-light-blue-disabled: #c0d4e6;
         --background-light-blue-active: #ebf1f7;
 
@@ -61,7 +127,7 @@
         --background-green-pressed: #6ee7b7;
         --background-green-disabled: #d1fae5;
 
-        --background-blue-blue-2: #d1e9ff;
+        --background-blue-blue-2: #9333ea;
         --background-white-gray-1: #f9f9f9;
         --background-white-gray-2: #f1f1f1;
         --background-white-gray-3: #f7f8fa;
@@ -72,20 +138,20 @@
 
         --background-hightlight-yellow: #fedf89;
 
-        --background-soft-blue: #7b94be;
+        --background-soft-blue: #9333ea;
 
-        --background-avatar-user-default: #002d79;
+        --background-avatar-user-default: #9333ea;
         --background-green-1: #059669;
 
         --text-color-default: #ffffff;
         --text-color-primary: #090d14;
         --text-color-secondary: #6b7280;
         --text-color-placeholder: #9ca3af;
-        --text-color-brand: #002d79;
-        --text-color-hyperlink: #24537c;
+        --text-color-brand: #9333ea;
+        --text-color-hyperlink: #9333ea;
         --text-color-disable: #9ca3af;
 
-        --text-color-hyperlink-auth: #1570ef;
+        --text-color-hyperlink-auth: #9333ea;
 
         --text-color-title-auth: #232323;
 
@@ -100,12 +166,12 @@
         --text-color-red-warning: #ec4a0a;
         --text-color-red-error: #b91c1c;
 
-        --text-color-blue: #24537c;
-        --text-color-blue-disable: #5c91bf;
-        --text-color-blue-two: #2b6395;
+        --text-color-blue: #9333ea;
+        --text-color-blue-disable: #9333ea;
+        --text-color-blue-two: #9333ea;
 
         --text-menu-color: #667085;
-        --text-menu-active-color: #002d79;
+        --text-menu-active-color: #9333ea;
 
         --text-color-black-gray: #292929;
         --text-color-gray-one: #7b7b7b;
@@ -114,7 +180,7 @@
 
         --text-color-green-1: #047857;
 
-        --text-color-soft-blue: #7b94be;
+        --text-color-soft-blue: #9333ea;
 
         --divider-color: #e5e7eb;
         --divider-color-white: #ffffff;
@@ -130,7 +196,7 @@
         --border-color-active: #1f2937;
         --border-color-disable: #e5e7eb;
         --border-color-error: #dc2626;
-        --border-color-brand: #002d79;
+        --border-color-brand: #9333ea;
         --border-color-light-blue: #b2ddff;
         --border-color-gray: #b7b7b7;
         --border-color-gray-two: #6b7280;
@@ -138,7 +204,7 @@
         --border-color-light-blue-2: #d1e9ff;
 
         --border-color-line: #e5e7eb;
-        --border-color-brand-4: #7ea8cd;
+        --border-color-brand-4: #9333ea;
 
         --border-radius-xxs: 2px;
         --border-radius-xs: 4px;
@@ -243,4 +309,298 @@
             line-height: 24px;
         }
     }
+}
+
+a:hover {
+    text-decoration: none;
+    color: #8848c4;
+    opacity: 0.9;
+}
+
+:root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 267 100% 61%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 267 100% 61%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+}
+
+.dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 267 100% 61%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 267 100% 61%;
+}
+
+body {
+    background-color: white;
+    color: black;
+    scroll-behavior: smooth;
+}
+
+/* Code editor styles */
+.code-editor {
+    font-family: 'Fira Code', monospace;
+    line-height: 1.5;
+}
+
+.code-editor pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.code-editor .line-numbers {
+    counter-reset: line;
+    padding-right: 1rem;
+    color: #6b7280;
+    text-align: right;
+    user-select: none;
+}
+
+.code-editor .line-numbers span {
+    counter-increment: line;
+}
+
+.code-editor .line-numbers span::before {
+    content: counter(line);
+    display: block;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* Droppable area highlight */
+.droppable-active {
+    @apply border-2 border-dashed border-purple-500 bg-purple-50 rounded-md;
+}
+
+/* Draggable item styles */
+.dragging {
+    @apply opacity-50 border-purple-500 shadow-md;
+}
+
+/* Fixed navigation */
+.fixed-tabs-nav {
+    @apply sticky top-0 z-20 bg-white shadow-sm;
+}
+
+/* Add styles for dragging */
+[data-dragging='true'] {
+    @apply border-purple-500 shadow-md z-10;
+}
+
+/* Improve code block styling */
+.syntax-highlighter {
+    font-family: 'Fira Code', monospace;
+    border-radius: 0.375rem;
+    margin: 0 !important;
+}
+
+.syntax-highlighter code {
+    font-family: inherit !important;
+    white-space: pre !important;
+    line-height: 1.5 !important;
+}
+
+/* Fix overlapping text in code editor */
+.syntax-highlight-container pre {
+    font-family: 'Fira Code', monospace !important;
+    line-height: 1.5 !important;
+    tab-size: 2;
+}
+
+.syntax-highlight-container code span {
+    white-space: pre !important;
+}
+
+/* Improve text formatting in preview */
+.preview-text {
+    @apply whitespace-pre-wrap break-words;
+}
+
+/* Animation for hover states */
+.sidebar-item {
+    @apply transition-all duration-200 ease-in-out;
+}
+
+.sidebar-item:hover {
+    @apply transform scale-105;
+}
+
+/* Button animation */
+button {
+    @apply transition-all duration-200;
+}
+
+button:active:not(:disabled) {
+    @apply transform scale-95;
+}
+
+.btn-fancy {
+    @apply bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700;
+}
+
+/* Enhanced Card Shadows */
+.card-fancy {
+    @apply shadow-md hover:shadow-lg transition-shadow duration-300;
+}
+
+/* Glossy effect for certain UI elements */
+.glossy {
+    @apply bg-opacity-90 backdrop-filter backdrop-blur-sm;
+}
+
+/* Fix tabs to remain visible while scrolling */
+.tabs-fixed {
+    position: sticky;
+    top: 73px;
+    z-index: 20;
+    background-color: white;
+    border-bottom: 1px solid rgba(229, 231, 235, 1);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Fixed sidebar */
+.sidebar-fixed {
+    position: fixed;
+    height: calc(100vh - 73px);
+    overflow-y: auto;
+    top: 73px;
+}
+
+/* Code themes */
+.code-light {
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.code-dark {
+    background-color: #1e1e1e;
+    color: #f8f8f8;
+}
+
+/* Add section button */
+.add-section-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 30;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Section removal animation */
+.section-removing {
+    animation: section-fade-out 0.3s ease-out forwards;
+    overflow: hidden;
+}
+
+@keyframes section-fade-out {
+    0% {
+        opacity: 1;
+        max-height: 1000px;
+        margin-bottom: 1.5rem;
+    }
+    100% {
+        opacity: 0;
+        max-height: 0;
+        margin-bottom: 0;
+        padding: 0;
+        border-width: 0;
+    }
+}
+
+/* Section addition animation */
+.section-container {
+    animation: section-fade-in 0.3s ease-out;
+}
+
+@keyframes section-fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Comment thread styling */
+.comment-replies {
+    border-left: 2px solid #f3f4f6;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+}
+
+/* Divider styles */
+.divider-solid {
+    border-top-style: solid;
+}
+
+.divider-dashed {
+    border-top-style: dashed;
+}
+
+.divider-dotted {
+    border-top-style: dotted;
+}
+
+.divider-double {
+    border-top-style: double;
+}
+
+.divider-gradient {
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        currentColor,
+        transparent
+    );
 }

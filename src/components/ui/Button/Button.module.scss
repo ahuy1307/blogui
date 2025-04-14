@@ -1,7 +1,6 @@
 // !/usr/bin/env python
 //
 // All rights reserved.
-// @link hrforce.ai
 //
 // __author__ = "phamanhhuy22@gmail.com"
 // __date__ = "2025-02-01 12:41:42"
@@ -13,7 +12,7 @@ $veryLargeSize: 48px;
 $verySmallSize: 28px;
 
 $paddingHorizontalS: 8px;
-$paddingHorizontalM: 12px;
+$paddingHorizontalM: 14px;
 $paddingHorizontalL: 16px;
 
 $paddingVerticalXS: 4px;
@@ -37,7 +36,7 @@ $fontSizeVeryLarge: 20px;
     &.very_large_icon_sub {
         width: $veryLargeSize;
         height: $veryLargeSize;
-        gap: 0;
+        gap: 10px;
     }
 
     svg {
@@ -49,7 +48,7 @@ $fontSizeVeryLarge: 20px;
     &.very_small_icon_sub {
         width: $verySmallSize !important;
         height: $verySmallSize !important;
-        gap: 0;
+        gap: 10px;
         padding: 0 !important;
     }
 
@@ -89,7 +88,7 @@ $fontSizeVeryLarge: 20px;
 
 .size_large {
     padding: $paddingVerticalL $paddingHorizontalL !important;
-    gap: 0;
+    gap: 10px;
 
     &.square_button {
         padding: $paddingVerticalM $paddingHorizontalM !important;
@@ -119,7 +118,7 @@ $fontSizeVeryLarge: 20px;
 
 .size_middle {
     padding: $paddingVerticalM $paddingHorizontalM !important;
-    gap: 0;
+    gap: 10px;
 
     &.square_button {
         padding: $paddingVerticalXS $paddingHorizontalM !important;
@@ -149,7 +148,7 @@ $fontSizeVeryLarge: 20px;
 
 .size_small {
     padding: $paddingVerticalS $paddingHorizontalS !important;
-    gap: 0;
+    gap: 10px;
 
     &.square_button {
         padding: $paddingVerticalXS $paddingHorizontalM !important;
@@ -274,8 +273,8 @@ $fontSizeVeryLarge: 20px;
 }
 
 .square_button {
-    flex-direction: column;
-    gap: 0;
+    flex-direction: row;
+    gap: 10px;
     border-radius: 8px;
     font-weight: var(--font-weight-semi-bold);
 

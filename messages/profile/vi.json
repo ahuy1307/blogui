@@ -1,0 +1,102 @@
+{
+    "hello": "Xin chào",
+    "personalInformation": "Thông tin cá nhân",
+    "manageDevices": "Quản lý thiết bị",
+    "updatePersonalInformation": "Cập nhật thông tin cá nhân",
+    "updateSocialLinks": "Cập nhật liên kết mạng xã hội",
+    "socialLinks": "Liên kết mạng xã hội",
+    "changePassword": "Đổi mật khẩu",
+    "undefined": "Không xác định",
+    "at": "tại",
+    "blogs": "Bài viết",
+    "likes": "Thích",
+    "uploadSuccess": "Tải lên thành công",
+    "uploadFailed": "Tải lên thất bại",
+    "socialLinkNotFound": "Không tìm thấy liên kết mạng xã hội",
+    "AvatarUploadModal": {
+        "invalidImageFileType": "Chỉ hỗ trợ các loại tệp: jpg, jpeg, png",
+        "uploadFailed": "Tải lên thất bại",
+        "noAvatar": "Không có ảnh đại diện",
+        "chooseImage": "Chọn ảnh",
+        "removeAvatar": "Xóa ảnh đại diện",
+        "uploadAvatar": "Tải lên ảnh đại diện",
+        "removeAvatarSuccess": "Xóa ảnh đại diện thành công",
+        "uploadSuccess": "Tải lên thành công"
+    },
+    "updatePersonalInfo": "Cập nhật thông tin cá nhân",
+    "PersonalInfomation": {
+        "ho": "Họ",
+        "ten": "Tên",
+        "ngaySinh": "Ngày sinh",
+        "gioiTinh": "Giới tính",
+        "soDienThoai": "Số điện thoại",
+        "saveInfo": "Lưu thông tin",
+        "countryOrTerritory": "Quốc gia",
+        "city": "Thành phố",
+        "next": "Tiếp theo",
+        "chooseOrEnterCity": "Chọn hoặc nhập thành phố của bạn",
+        "updatePersonalInformation": "Cập nhật thông tin cá nhân",
+        "updateSuccessful": "Lưu thông tin thành công",
+        "updateFailed": "Lưu thông tin thất bại",
+        "stateOrProvince": "Bang/Tỉnh",
+        "pleaseSelectStateOrProvince": "Vui lòng chọn bang/tỉnh",
+        "genderOptions": {
+            "male": "Nam",
+            "female": "Nữ",
+            "other": "Khác"
+        },
+        "noData": "Không có dữ liệu.",
+        "address": "Địa chỉ",
+        "role": "Nghề nghiệp",
+        "company": "Công ty"
+    },
+    "DeviceDetail": {
+        "currentDevice": "Thiết bị này"
+    },
+    "ManageDevices": {
+        "currentDevice": "Bạn đang sử dụng thiết bị này",
+        "otherDevices": "Đăng nhập trên các thiết bị khác",
+        "selectDevicesLogout": "Chọn thiết bị để đăng xuất",
+        "back": "Quay lại",
+        "noOtherDevices": "Không có thiết bị nào khác"
+    },
+    "DeviceLogoutCheckbox": {
+        "logoutDevices": "Đăng xuất khỏi thiết bị",
+        "logoutDeviceDescription": "Bạn sẽ bị đăng xuất khỏi tài khoản của mình trên tất cả các thiết bị đã chọn. Chúng tôi sẽ giúp bạn bảo vệ tài khoản của mình trong trường hợp bạn thấy một đăng nhập mà bạn không nhận ra.",
+        "devicesSelected": "thiết bị đã chọn",
+        "selectAllDevices": "Chọn tất cả",
+        "logout": "Đăng xuất",
+        "logoutFailed": "Đăng xuất thất bại"
+    },
+    "UpdateSocialLinks": {
+        "socialNetwork": "Mạng xã hội",
+        "enterLink": "Nhập liên kết",
+        "invalidUrl": "Liên kết không hợp lệ",
+        "save": "Lưu",
+        "saveSuccessMessage": "Lưu thông tin thành công",
+        "companyPage": "Trang việc làm",
+        "invalidFacebookLink": "Liên kết Facebook không hợp lệ.",
+        "invalidLinkedInLink": "Liên kết LinkedIn không hợp lệ.",
+        "invalidGithubLink": "Liên kết Github không hợp lệ.",
+        "invalidBehanceLink": "Liên kết Behance không hợp lệ.",
+        "error": "Đã có lỗi xảy ra."
+    },
+    "ChangePassword": {
+        "changePassword": "Đổi mật khẩu",
+        "passwordNotEmpty": "Vui lòng nhập mật khẩu hiện tại.",
+        "enterCurrentPassword": "Nhập mật khẩu hiện tại",
+        "currentPasswordLabel": "Mật khẩu hiện tại",
+        "newPasswordLabel": "Mật khẩu mới",
+        "pleaseEnterPassword": "Vui lòng nhập mật khẩu mới.",
+        "passwordHint": "Mật khẩu cần có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ cái và 1 số.",
+        "enterNewPassword": "Nhập mật khẩu mới.",
+        "passwordInstruction": "Mật khẩu cần có ít nhất 8 ký tự, bao gồm chữ cái và số.",
+        "confirmNewPassword": "Xác nhận mật khẩu mới",
+        "reenterNewPassword": "Vui lòng nhập lại mật khẩu mới.",
+        "passwordMismatch": "Mật khẩu không trùng khớp.",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "confirmButton": "Xác nhận",
+        "incorrectOldPassword": "Mật khẩu hiện tại không chính xác. Vui lòng nhập lại.",
+        "passwordExceedsLimit": "Mật khẩu vượt quá 128 ký tự."
+    }
+}

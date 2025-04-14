@@ -1,0 +1,102 @@
+{
+    "hello": "Hello",
+    "personalInformation": "Personal Information",
+    "manageDevices": "Manage Devices",
+    "updatePersonalInformation": "Update Personal Information",
+    "socialLinks": "Social Links",
+    "changePassword": "Change Password",
+    "updateSocialLinks": "Update Social Links",
+    "uploadSuccess": "Upload successfully",
+    "uploadFailed": "Upload failed",
+    "undefined": "Undefined",
+    "at": "at",
+    "blogs": "Blogs",
+    "likes": "Likes",
+    "socialLinkNotFound": "Social link not found",
+    "AvatarUploadModal": {
+        "invalidImageFileType": "Only support file types: jpg, jpeg, png",
+        "uploadFailed": "Upload failed",
+        "noAvatar": "No Avatar",
+        "chooseImage": "Choose Image",
+        "removeAvatar": "Remove Avatar",
+        "uploadAvatar": "Upload Avatar",
+        "removeAvatarSuccess": "Remove avatar successfully",
+        "uploadSuccess": "Upload successfully"
+    },
+    "updatePersonalInfo": "Update Personal Information",
+    "PersonalInfomation": {
+        "ho": "First Name",
+        "ten": "Last Name",
+        "ngaySinh": "Date of Birth",
+        "gioiTinh": "Gender",
+        "soDienThoai": "Phone Number",
+        "saveInfo": "Save Information",
+        "countryOrTerritory": "Country",
+        "city": "City",
+        "next": "Next",
+        "chooseOrEnterCity": "Choose or enter your city",
+        "updatePersonalInformation": "Update Personal Information",
+        "updateSuccessful": "Information saved successfully",
+        "updateFailed": "Information saved failed",
+        "stateOrProvince": "State/Province",
+        "pleaseSelectStateOrProvince": "Please select a state/province",
+        "genderOptions": {
+            "male": "Male",
+            "female": "Female",
+            "other": "Other"
+        },
+        "noData": "No data available.",
+        "address": "Address",
+        "role": "Role",
+        "company": "Company"
+    },
+    "DeviceDetail": {
+        "currentDevice": "This Device"
+    },
+    "ManageDevices": {
+        "currentDevice": "You are using this device",
+        "otherDevices": "Logins on other devices",
+        "selectDevicesLogout": "Select devices to log out",
+        "back": "Back",
+        "noOtherDevices": "No other devices"
+    },
+    "DeviceLogoutCheckbox": {
+        "logoutDevices": "Log out of this device",
+        "logoutDeviceDescription": "You will be logged out of your account on all selected devices. We'll help you secure your account in case you see a login you don't recognize.",
+        "devicesSelected": "devices selected",
+        "selectAllDevices": "Select all",
+        "logout": "Log out",
+        "logoutFailed": "Log out failed"
+    },
+    "UpdateSocialLinks": {
+        "socialNetwork": "Social Network",
+        "enterLink": "Enter link",
+        "invalidUrl": "Invalid link",
+        "save": "Save",
+        "saveSuccessMessage": "Information saved successfully",
+        "companyPage": "Career Page",
+        "invalidFacebookLink": "Invalid Facebook link.",
+        "invalidLinkedInLink": "Invalid LinkedIn link.",
+        "invalidGithubLink": "Invalid Github link.",
+        "invalidBehanceLink": "Invalid Behance link.",
+        "error": "An error occurred."
+    },
+    "ChangePassword": {
+        "changePassword": "Change Password",
+        "passwordNotEmpty": "Please enter the current password.",
+        "enterCurrentPassword": "Enter current password",
+        "currentPasswordLabel": "Current Password",
+        "newPasswordLabel": "New Password",
+        "pleaseEnterPassword": "Please enter a new password.",
+        "passwordHint": "Password must be at least 8 characters long, including at least 1 letter and 1 number.",
+        "enterNewPassword": "Enter your new password.",
+        "passwordInstruction": "Password must be at least 8 characters long, including letters and numbers.",
+        "confirmNewPassword": "Confirm New Password",
+        "reenterNewPassword": "Please re-enter your new password.",
+        "passwordMismatch": "Passwords do not match.",
+        "confirmPassword": "Confirm Password",
+        "confirmButton": "Confirm",
+        "incorrectOldPassword": "The current password is incorrect. Please try again.",
+        "passwordExceedsLimit": "The entered password exceeds the 128-character limit."
+    }
+}

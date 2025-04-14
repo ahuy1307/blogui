@@ -1,0 +1,65 @@
+{
+    "HeroSection": {
+        "tagline": "The Future of Blogging",
+        "title": "Explore the World of",
+        "highlight": "Knowledge and Insights",
+        "description": "Deep insights into various fields including technology, health, finance, and more. Join our community of enthusiasts and experts.",
+        "exploreBlog": "Explore Blog",
+        "joinNewsletter": "Join Newsletter",
+        "writeBlog": "Write a Blog",
+        "technology": "Technology",
+        "entertainment": "Entertainment",
+        "health": "Health",
+        "finance": "Finance",
+        "blog": "Blog",
+        "readers": "Readers",
+        "contributors": "Contributors"
+    },
+    "FeaturesSection": {
+        "creativation": "Creativation",
+        "writePublish": "Write & Publish",
+        "communityEngagement": "Community Engagement",
+        "earnRewards": "Earn Rewards",
+        "aiPoweredTools": "AI-Powered Tools",
+        "curatedContent": "Curated Content",
+        "whyChoose": "Why Choose",
+        "ourPlatformDescription": "Our platform offers comprehensive set of features designed to enhance your AI learning and sharing experience.",
+        "creativationDescription": "Unleash your creativity and explore the latest trends in AI through our platform.",
+        "writePublishDescription": "Share your knowledge by writing and publishing articles on our platform with our easy-to-use editor.",
+        "communityEngagementDescription": "Engage with a community of other enthusiasts through comments, likes, and discussions.",
+        "earnRewardsDescription": "Complete missions and earn coins that can be redeemed for exclusive content and features.",
+        "aiPoweredToolsDescription": "Use our AI-powered tools to generate blog ideas, improve your writing, and create engaging content.",
+        "curatedContentDescription": "Discover curated articles organized by topics to help you find exactly what you're looking for."
+    },
+    "TestimonialsSection": {
+        "whatOurUsersSay": "What Our Users Say",
+        "joinThousands": "Join thousands of satisfied users who have transformed their writing process with"
+    },
+    "Footer": {
+        "description": "Website write blog for all fields, share knowledge to everyone.",
+        "topics": "Topics",
+        "others": "Others",
+        "tutorials": "Tutorials",
+        "researchPapers": "Research Papers",
+        "aboutUs": "About Us",
+        "contact": "Contact"
+    },
+    "NewsletterSection": {
+        "invalidEmail": "Invalid email address",
+        "invalidEmailDescription": "Please enter a valid email address.",
+        "subscribed": "Subscribed",
+        "subscribedDescription": "Thank you for subscribing to our newsletter. Stay tuned for the latest updates.",
+        "subscribe": "Subscribe",
+        "subscribing": "Subscribing...",
+        "emailPlaceholder": "Enter your email",
+        "stayUpdated": "Stay Connected with Latest Blogs",
+        "joinCommunity": "Join our community of writers and readers. Get weekly updates on trending topics, writing tips, and inspiring stories from diverse fields.",
+        "privacy": "We respect your privacy. Unsubscribe at any time."
+    },
+    "FeaturedBlogSection": {
+        "title": "Featured Blogs",
+        "mostViewed": "Most Viewed",
+        "mostLiked": "Most Liked",
+        "latest": "Latest"
+    }
+}

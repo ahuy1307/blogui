@@ -1,0 +1,45 @@
+{
+    "home": "Home",
+    "blog": "Blog",
+    "topics": "Topics",
+    "search": "Search",
+    "writeBlog": "Write Blog",
+    "login": "Login",
+    "register": "Register",
+    "library": "Library",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "rememberLoginInfo": "Remember login information",
+    "forgotPassword": "Forgot password?",
+    "orLoginWith": "Or login with",
+    "dontHaveAccount": "Don't have an account?",
+    "loginWithGoogle": "Google",
+    "loginWithFacebook": "Facebook",
+    "locales": {
+        "vi": "Vietnamese",
+        "en": "English"
+    },
+    "logout": "Logout",
+    "personalInfomation": "Personal Information",
+    "manageDevices": "Manage Devices",
+    "updatePersonalInformation": "Update Personal Information",
+    "updateSocialLinks": "Update Social Links",
+    "confirmLogout": "Are you sure you want to logout?",
+    "logoutSuccess": "Logout successfully!",
+    "loginSuccess": "Login successfully!",
+    "ModalConfirm": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+    },
+    "Notification": {
+        "notificationLabel": "Notifications",
+        "markAllAsRead": "Mark all as read",
+        "clearAll": "Clear all",
+        "all": "All",
+        "unread": "Unread",
+        "noNotifications": "No notifications yet",
+        "notificationDescription": "When you receive notifications, they will appear here",
+        "new": "New",
+        "on": "on"
+    }
+}

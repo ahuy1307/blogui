@@ -1,7 +1,6 @@
 // !/usr/bin/env python
 //
 // All rights reserved.
-// @link hrforce.ai
 //
 // __author__ = "phamanhhuy22@gmail.com"
 // __date__ = "2025-02-01 12:41:42"
@@ -11,7 +10,7 @@ import React from 'react'
 import styles from './Avatar.module.scss'
 
 interface IAvatar extends AvatarProps {
-    size?: 24 | 32 | 36 | 40 | 44 | 48 | 50 | 52 | 60 | 90 | 120 | 200
+    size?: number
     src?: string | React.ReactNode
 }
 

@@ -1,7 +1,6 @@
 // !/usr/bin/env python
 //
 // All rights reserved.
-// @link hrforce.ai
 //
 // __author__ = "phamanhhuy22@gmail.com"
 // __date__ = "2025-02-01 12:41:42"
@@ -22,14 +21,14 @@ const NotFound404 = () => {
         router.push(NAVIGATION_PATHS.HOME)
     }
     return (
-        <>
+        <div>
             <div className={styles.container}>
                 <div className={styles.content_wrapper}>
                     <div className={styles.image_wrapper}>
                         <Image
                             width={400}
                             height={240}
-                            src="/notfound404.webp"
+                            src="/images/404_notfound.webp"
                             alt=""
                             className={styles.image}
                         />
@@ -50,9 +49,7 @@ const NotFound404 = () => {
                     </div>
                     <div className={styles.button_wrapper}>
                         <Button
-                            data-testid="not-found-404-return-home-button"
                             onClick={handleClickButton}
-                            type="primary"
                             shape="square"
                             className={styles.return_btn}
                         >
@@ -61,7 +58,7 @@ const NotFound404 = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

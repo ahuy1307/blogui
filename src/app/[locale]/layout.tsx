@@ -2,30 +2,18 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
-import { Roboto, Roboto_Mono } from 'next/font/google'
 import QueryClientProviderWrapper from '@/contexts/QueryClientProvider'
 import AuthProvider from '@/contexts/auth/AuthContext'
 import { Suspense } from 'react'
 import Loading from './loading'
+import { Toaster } from '@/components/other-ui/Toaster'
+
+import '../globals.css'
 
 export const metadata = {
     title: 'Blog Creator',
     description: 'Create your own blog with ease',
 }
-
-// Define fonts
-const roboto = Roboto({
-    subsets: ['latin'],
-    weight: ['400', '700'], // Include weights you need
-    variable: '--font-roboto', // Optional CSS variable name
-    display: 'swap',
-})
-
-const robotoMono = Roboto_Mono({
-    subsets: ['latin'],
-    weight: ['400', '500'], // Include weights you need
-    variable: '--font-roboto-mono', // Optional CSS variable name
-})
 
 type Params = Promise<{ locale: string }>
 
@@ -48,7 +36,7 @@ export default async function LocaleLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning>
-            <body className={`${roboto.variable} ${robotoMono.variable}`}>
+            <body>
                 <Suspense fallback={<Loading />}>
                     <QueryClientProviderWrapper>
                         <NextIntlClientProvider messages={messages}>

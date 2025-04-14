@@ -1,0 +1,26 @@
+/* -*- coding: utf-8 -*-
+* //
+* // All rights reserved.
+* //
+* // __author__ = "phamanhhuy22@gmail.com"
+* // __date__ = "2025-03-08 19:09:14"
+*/
+
+.layout_container {
+    min-height: calc(100vh - 64px);
+    background: transparent;
+    padding: 0 120px;
+
+    // &.layout_margin_top {
+    //     margin-top: 64px;
+    // }
+
+    // @media (max-width: 996px) {
+    //     min-height: calc(100vh - 60px);
+    //     padding: 0 36px;
+
+    //     &.layout_margin_top {
+    //         margin-top: 60px;
+    //     }
+    // }
+}

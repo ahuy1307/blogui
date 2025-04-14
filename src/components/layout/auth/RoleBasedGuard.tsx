@@ -1,7 +1,6 @@
 // !/usr/bin/env python
 //
 // All rights reserved.
-// @link hrforce.ai
 //
 // __author__ = "phamanhhuy22@gmail.com"
 // __date__ = "2025-02-01 12:41:42"
@@ -28,10 +27,10 @@ const RoleBasedGuard: FC<RoleBasedGuardProps> = ({
 }) => {
     const { user } = useAuth()
     const router = useRouter()
-    if (!accessibleRoles.includes(user?.accountType)) {
-        router.push(NAVIGATION_PATHS.HOME)
-        return null
-    }
+    // if (!accessibleRoles.includes(user?.accountType)) {
+    //     router.push(NAVIGATION_PATHS.HOME)
+    //     return null
+    // }
     return <>{children}</>
 }
 export default RoleBasedGuard

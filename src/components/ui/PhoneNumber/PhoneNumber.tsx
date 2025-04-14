@@ -1,7 +1,6 @@
 // !/usr/bin/env python
 //
 // All rights reserved.
-// @link hrforce.ai
 //
 // __author__ = "phamanhhuy22@gmail.com"
 // __date__ = "2025-02-01 12:41:42"
@@ -20,7 +19,7 @@ import {
 import { Typography } from 'antd'
 import styles from './PhoneNumber.module.scss'
 import { useTranslations } from 'next-intl'
-import Input from '@/components/ui/Input/Input'
+import Input from '@/components/ui/TextField/TextField'
 import Select from '../Select/Select'
 
 const { Option } = Select
@@ -77,6 +76,7 @@ export const PhoneNumber: React.FC<PhoneProps> = ({
                 value={country.iso2}
                 onChange={(value) => setCountry(value as CountryIso2)}
                 className={styles.phone_number_select}
+                style={{ fontSize: '16px' }}
                 showSearch
                 onFocus={() => setIsSelectFocused(true)}
                 onBlur={() => setIsSelectFocused(false)}
@@ -97,11 +97,20 @@ export const PhoneNumber: React.FC<PhoneProps> = ({
                             className={styles.options_box_item}
                             key={country.iso2}
                             value={country.iso2}
+                            style={{ fontSize: '16px' }}
                         >
-                            <FlagImage iso2={country.iso2} />
+                            <FlagImage
+                                iso2={country.iso2}
+                                style={{ fontSize: '16px' }}
+                            />
 
-                            <Typography.Text>{country.name}</Typography.Text>
-                            <Typography.Text type="secondary">
+                            <Typography.Text style={{ fontSize: '16px' }}>
+                                {country.name}
+                            </Typography.Text>
+                            <Typography.Text
+                                type="secondary"
+                                style={{ fontSize: '16px' }}
+                            >
                                 &#40;+{country.dialCode}&#41;
                             </Typography.Text>
                         </Option>
@@ -109,6 +118,7 @@ export const PhoneNumber: React.FC<PhoneProps> = ({
                 })}
             </Select>
             <Input
+                style={{ fontSize: '16px' }}
                 className={styles.phone_number_input}
                 value={inputValue}
                 onChange={handleInputChange}
