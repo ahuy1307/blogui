@@ -320,6 +320,36 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.delete('/blogs/notifications/clear')
         return res
     }
+    async getAllBlogs({
+        page,
+        limit,
+        sort,
+        search,
+        start_date,
+        end_date,
+        published,
+    }: {
+        page?: number
+        limit?: number
+        sort?: string
+        search?: string
+        start_date?: string
+        end_date?: string
+        published?: boolean
+    }): Promise<any> {
+        const res = await httpService.get('/blogs', {
+            params: {
+                page,
+                limit,
+                sort,
+                search,
+                start_date,
+                end_date,
+                published,
+            },
+        })
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

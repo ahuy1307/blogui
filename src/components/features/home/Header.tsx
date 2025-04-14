@@ -25,7 +25,6 @@ import ModalConfirm from './ModalConfirm'
 import { signOut } from '@/contexts/auth/reducers'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { message } from 'antd'
-import { Button as OtherButton } from '@/components/other-ui/Button'
 import { Pencil } from 'lucide-react'
 import { NotificationDropdown } from '@/components/notifications/NotificationDropdown'
 
@@ -79,9 +78,9 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
         },
         {
             key: '2',
-            label: <p>{t('updateSocialLinks')}</p>,
+            label: <p>{t('myBlogs')}</p>,
             onClick: () => {
-                router.push('/profile?tab=social')
+                router.push('/profile/blogs')
             },
         },
         {

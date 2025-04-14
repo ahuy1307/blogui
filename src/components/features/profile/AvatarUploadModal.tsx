@@ -120,6 +120,7 @@ export default function AvatarUploadModal({
                     beforeUpload={() => false}
                     showUploadList={false}
                     onChange={handleFileChange}
+                    accept="image/png, image/jpeg, image/webp"
                 >
                     <Button
                         size="small"
