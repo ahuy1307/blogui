@@ -13,6 +13,8 @@
     "uploadSuccess": "Tải lên thành công",
     "uploadFailed": "Tải lên thất bại",
     "socialLinkNotFound": "Không tìm thấy liên kết mạng xã hội",
+    "recentBlogs": "Bài viết gần đây",
+    "readMore": "Đọc thêm",
     "AvatarUploadModal": {
         "invalidImageFileType": "Chỉ hỗ trợ các loại tệp: jpg, jpeg, png",
         "uploadFailed": "Tải lên thất bại",
@@ -98,5 +100,24 @@
         "confirmButton": "Xác nhận",
         "incorrectOldPassword": "Mật khẩu hiện tại không chính xác. Vui lòng nhập lại.",
         "passwordExceedsLimit": "Mật khẩu vượt quá 128 ký tự."
+    },
+    "BlogPage": {
+        "title": "Blog của tôi",
+        "allBlogs": "Tất cả blog",
+        "draft": "Bản nháp",
+        "published": "Đã xuất bản",
+        "clearFilters": "Xóa bộ lọc",
+        "noBlogsFound": "Không tìm thấy blog nào",
+        "createFirstBlog": "Tạo blog đầu tiên của bạn",
+        "view": "Xem",
+        "edit": "Chỉnh sửa",
+        "delete": "Xóa",
+        "publish": "Xuất bản",
+        "startDate": "Ngày bắt đầu",
+        "endDate": "Ngày kết thúc",
+        "searchPlaceholder": "Tìm kiếm blog...",
+        "likes": "thích",
+        "comments": "bình luận",
+        "views": "lượt xem"
     }
 }

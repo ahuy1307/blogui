@@ -12,6 +12,8 @@
     "at": "at",
     "blogs": "Blogs",
     "likes": "Likes",
+    "recentBlogs": "Recent Blogs",
+    "readMore": "Read more",
     "socialLinkNotFound": "Social link not found",
     "AvatarUploadModal": {
         "invalidImageFileType": "Only support file types: jpg, jpeg, png",
@@ -98,5 +100,24 @@
         "confirmButton": "Confirm",
         "incorrectOldPassword": "The current password is incorrect. Please try again.",
         "passwordExceedsLimit": "The entered password exceeds the 128-character limit."
+    },
+    "BlogPage": {
+        "title": "My Blogs",
+        "allBlogs": "All Blogs",
+        "draft": "Draft",
+        "published": "Published",
+        "clearFilters": "Clear Filters",
+        "noBlogsFound": "No blogs found",
+        "createFirstBlog": "Create your first blog",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete",
+        "publish": "Publish",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "searchPlaceholder": "Search blogs...",
+        "likes": "likes",
+        "comments": "comments",
+        "views": "views"
     }
 }
