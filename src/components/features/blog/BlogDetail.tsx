@@ -220,7 +220,6 @@ export function BlogDetail({
     const [comments, setComments] = useState<Comment[]>([])
     const [reportDialogOpen, setReportDialogOpen] = useState(false)
     const { incrementMissionProgress } = useMissionStore()
-    const { addNotification } = useNotificationStore()
     const [commentIdCounter, setCommentIdCounter] = useState(1)
     const shareUrl = `${getBaseUrl()}/${locale}/blog/${blogDetail?.slug}`
 
@@ -279,19 +278,18 @@ export function BlogDetail({
             setComments((prev) => [...prev, comment])
             incrementMissionProgress('comment')
 
-            if (newComment.mentions?.length && blogDetail) {
-                addNotification({
-                    type: 'mention',
-                    message: t('mentionCommentMessage'),
-                    blogSlug: blogDetail.slug,
-                    blogTitle: blogDetail.tieuDe,
-                })
-            }
+            // if (newComment.mentions?.length && blogDetail) {
+            //     addNotification({
+            //         type: 'mention',
+            //         message: t('mentionCommentMessage'),
+            //         blogSlug: blogDetail.slug,
+            //         blogTitle: blogDetail.tieuDe,
+            //     })
+            // }
         },
         [
             generateCommentId,
             incrementMissionProgress,
-            addNotification,
             blogDetail,
             t,
         ]
@@ -309,27 +307,26 @@ export function BlogDetail({
                 prevComments.map((comment) =>
                     comment.id === parentId
                         ? {
-                              ...comment,
-                              replies: [...(comment.replies || []), reply],
-                          }
+                            ...comment,
+                            replies: [...(comment.replies || []), reply],
+                        }
                         : comment
                 )
             )
             incrementMissionProgress('comment')
 
-            if (newReply.mentions?.length && blogDetail) {
-                addNotification({
-                    type: 'mention',
-                    message: t('mentionReplyMessage'),
-                    blogSlug: blogDetail.slug,
-                    blogTitle: blogDetail.tieuDe,
-                })
-            }
+            // if (newReply.mentions?.length && blogDetail) {
+            //     addNotification({
+            //         type: 'mention',
+            //         message: t('mentionReplyMessage'),
+            //         blogSlug: blogDetail.slug,
+            //         blogTitle: blogDetail.tieuDe,
+            //     })
+            // }
         },
         [
             generateCommentId,
             incrementMissionProgress,
-            addNotification,
             blogDetail,
             t,
         ]
@@ -354,9 +351,9 @@ export function BlogDetail({
     const firstCharName =
         blogDetail.tacGia.fullName !== ''
             ? getInitials(
-                  blogDetail.tacGia.fullName,
-                  blogDetail.tacGia?.email ?? ''
-              )
+                blogDetail.tacGia.fullName,
+                blogDetail.tacGia?.email ?? ''
+            )
             : getInitials('', blogDetail.tacGia?.email ?? '')
 
     const handleShare = (platform: string) => {
@@ -495,7 +492,7 @@ export function BlogDetail({
                                 </h3>
                                 <p className="text-gray-500 text-sm">
                                     {blogDetail.tacGia.ngheNghiep &&
-                                    blogDetail.tacGia.congTy
+                                        blogDetail.tacGia.congTy
                                         ? `${blogDetail.tacGia.ngheNghiep} - ${blogDetail.tacGia.congTy}`
                                         : t('author')}
                                 </p>
@@ -616,15 +613,15 @@ export function BlogDetail({
                                                                         />
                                                                         <AvatarFallback>
                                                                             {liker.hoTen !==
-                                                                            ''
+                                                                                ''
                                                                                 ? getInitials(
-                                                                                      liker.hoTen,
-                                                                                      ''
-                                                                                  )
+                                                                                    liker.hoTen,
+                                                                                    ''
+                                                                                )
                                                                                 : getInitials(
-                                                                                      '',
-                                                                                      ''
-                                                                                  )}
+                                                                                    '',
+                                                                                    ''
+                                                                                )}
                                                                         </AvatarFallback>
                                                                     </Avatar>
                                                                 </div>
@@ -633,8 +630,8 @@ export function BlogDetail({
                                                                         {!liker.nguoiDungHienTai
                                                                             ? liker.hoTen
                                                                             : t(
-                                                                                  'you'
-                                                                              )}
+                                                                                'you'
+                                                                            )}
                                                                     </p>
                                                                 </div>
                                                             </Link>

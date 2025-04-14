@@ -53,7 +53,7 @@ export function SectionPicker({ onSelect }: SectionPickerProps) {
                                     <div className="text-purple-500">
                                         {section.icon}
                                     </div>
-                                    <span>{section.label}</span>
+                                    <span>{section.labelKey}</span>
                                 </CommandItem>
                             ))}
                         </CommandGroup>

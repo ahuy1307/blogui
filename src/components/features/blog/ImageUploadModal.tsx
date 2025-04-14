@@ -53,7 +53,7 @@ export function ImageUploadModal({
         }
         const fetchImages = async () => {
             try {
-                const res = await authenticationService.getAllBlogMedias()
+                const res = await authenticationService.getAllBlogMedias({ type: 'image' })
                 setUploadedImages(res.data.results) // Populate uploadedImages with API data
             } catch (error) {
                 toast({
