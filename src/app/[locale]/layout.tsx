@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 import Loading from './loading'
 import { Toaster } from '@/components/other-ui/Toaster'
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import '../globals.css'
 
@@ -46,6 +47,7 @@ export default async function LocaleLayout({
                     </QueryClientProviderWrapper>
                 </Suspense>
                 <Analytics />
+                <SpeedInsights />
             </body>
         </html>
     )
