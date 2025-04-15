@@ -7,6 +7,7 @@ import AuthProvider from '@/contexts/auth/AuthContext'
 import { Suspense } from 'react'
 import Loading from './loading'
 import { Toaster } from '@/components/other-ui/Toaster'
+import { Analytics } from '@vercel/analytics/next';
 
 import '../globals.css'
 
@@ -44,6 +45,7 @@ export default async function LocaleLayout({
                         </NextIntlClientProvider>
                     </QueryClientProviderWrapper>
                 </Suspense>
+                <Analytics />
             </body>
         </html>
     )
