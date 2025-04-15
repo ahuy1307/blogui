@@ -55,7 +55,7 @@ export function SavedLikeBlog({
     }
 
     return (
-        <Card className="bg-white border-gray-200 overflow-hidden hover:border-purple-500/50 transition-all shadow-sm h-full flex flex-col duration-300">
+        <Card className="bg-white border-gray-200 overflow-hidden hover:border-purple-500/50 transition-all shadow-sm h-full flex flex-col duration-300 rounded-xl">
             <div className="relative h-52">
                 <Image
                     src={blog.anhBia}

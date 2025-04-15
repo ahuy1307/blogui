@@ -320,6 +320,58 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.delete('/blogs/notifications/clear')
         return res
     }
+    async getAllBlogs({
+        page,
+        limit,
+        sort,
+        search,
+        start_date,
+        end_date,
+        published,
+    }: {
+        page?: number
+        limit?: number
+        sort?: string
+        search?: string
+        start_date?: string
+        end_date?: string
+        published?: boolean
+    }): Promise<any> {
+        const res = await httpService.get('/blogs', {
+            params: {
+                page,
+                limit,
+                sort,
+                search,
+                start_date,
+                end_date,
+                published,
+            },
+        })
+        return res
+    }
+    async deleteBlog({ id }: { id: string }): Promise<any> {
+        const res = await httpService.delete(`/blogs/${id}`)
+        return res
+    }
+    async updateBlog({
+        id,
+        blogData,
+    }: {
+        id: string
+        blogData: ISaveBlogRequest
+    }): Promise<any> {
+        const res = await httpService.put(`/blogs/${id}`, blogData)
+        return res
+    }
+    async getBlogById({ id }: { id: string }): Promise<any> {
+        const res = await httpService.get(`/blogs/${id}`)
+        return res
+    }
+    async publishOrDraftBlog({ id }: { id: string }): Promise<any> {
+        const res = await httpService.put(`/blogs/${id}/publish`)
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()
