@@ -596,6 +596,7 @@ export default function WritePage() {
                             content: section.content,
                             language: section.language,
                         })
+                        dinhDang = {}
                         break
                     case 'numbered-list':
                         loaiThanhPhan = 'numbered-list'
@@ -636,8 +637,7 @@ export default function WritePage() {
                             url: section.url,
                             caption: section.caption,
                         })
-                        dinhDang: {
-                        }
+                        dinhDang = {}
                         break
                     default:
                         loaiThanhPhan = 'unknown'

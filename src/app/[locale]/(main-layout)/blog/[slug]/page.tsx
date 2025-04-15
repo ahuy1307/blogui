@@ -5,9 +5,9 @@ import { authenticationService } from '@/core/services/API/authentication/Authen
 import { useQuery } from '@tanstack/react-query'
 import { Spin } from 'antd'
 import { AppDataProvider } from '@/contexts/AppDataProvider'
+import { useEffect } from 'react'
 
 export default function BlogPost({ params }: any) {
-
     const { slug } = params
 
     // Fetch blog details
@@ -43,6 +43,12 @@ export default function BlogPost({ params }: any) {
     const refetchAll = () => {
         refetchBlogDetail()
     }
+
+    useEffect(() => {
+        if (blogDetail?.tieuDe) {
+            document.title = `${blogDetail.tieuDe} | Suyndy Blog`
+        }
+    }, [blogDetail?.tieuDe])
 
     if (isBlogDetailLoading || isBlogsByTopicLoading) {
         return (

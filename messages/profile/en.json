@@ -118,6 +118,12 @@
         "searchPlaceholder": "Search blogs...",
         "likes": "likes",
         "comments": "comments",
-        "views": "views"
+        "views": "views",
+        "deleteBlog": "Delete blog",
+        "deleteBlogSuccess": "Blog deleted successfully",
+        "publishBlog": "Publish blog",
+        "publishBlogSuccess": "Blog published successfully",
+        "draftBlog": "Draft",
+        "draftBlogMessage": "Draft blog"
     }
 }
