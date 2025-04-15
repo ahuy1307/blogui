@@ -1,7 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useQuery, keepPreviousData } from '@tanstack/react-query'
+import {
+    useQuery,
+    keepPreviousData,
+    useQueryClient,
+} from '@tanstack/react-query'
 import { Filter, Search } from 'lucide-react'
 import { Input } from '@/components/other-ui/Input'
 import { Button } from '@/components/other-ui/Button'
@@ -29,14 +33,18 @@ import {
     DropdownMenuItem,
 } from '@/components/other-ui/DropdownMenu'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { Blog } from '@/types/interface'
+import { Toaster } from '@/components/other-ui/Toaster'
 
 type BlogStatus = 'all' | 'draft' | 'published'
 const { RangePicker } = DatePicker
 
 export default function BlogPage() {
     const t = useTranslations('profile.BlogPage')
+    const locale = useLocale()
     const { toast } = useToast()
     const router = useRouter()
+    const queryClient = useQueryClient()
     const [searchTerm, setSearchTerm] = useState('')
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
     const [page, setPage] = useState(1)
@@ -91,15 +99,29 @@ export default function BlogPage() {
         router.push(`/write?edit=${blogId}`)
     }
 
-    const handleDelete = (blogId: string) => {
+    const handleDelete = async (blogId: string) => {
+        await authenticationService.deleteBlog({ id: blogId })
         toast({
-            title: 'Blog deleted',
-            description: 'Your blog has been successfully deleted.',
+            title: t('deleteBlog'),
+            description: t('deleteBlogSuccess'),
         })
+        // Refetch blogs after deletion
+        queryClient.invalidateQueries({ queryKey: ['userBlogs'] })
     }
 
     const handleView = (slug: string) => {
-        router.push(`/blog/${slug}`)
+        router.push(`/${locale}/blog/${slug}`)
+    }
+
+    const handlePusblish = async (blogId: string, publish: boolean) => {
+        const res = await authenticationService.publishOrDraftBlog({
+            id: blogId,
+        })
+        queryClient.invalidateQueries({ queryKey: ['userBlogs'] })
+        toast({
+            title: !publish ? t('publishBlog') : t('draftBlogMessage'),
+            description: res.data.message,
+        })
     }
 
     if (isLoading) {
@@ -112,6 +134,7 @@ export default function BlogPage() {
 
     return (
         <div className="container mx-auto py-8 px-4 md:px-6 mt-[80px]">
+            <Toaster />
             <h1 className="text-3xl font-bold mb-8 text-center md:text-left">
                 {t('title')}
             </h1>
@@ -209,6 +232,9 @@ export default function BlogPage() {
                             onEdit={() => handleEdit(blog.id)}
                             onDelete={() => handleDelete(blog.id)}
                             onView={() => handleView(blog.slug)}
+                            onPublishOrDraft={() =>
+                                handlePusblish(blog.id, blog.daXuatBan)
+                            }
                         />
                     ))
                 ) : (
@@ -222,7 +248,7 @@ export default function BlogPage() {
                                 ? 'Try a different search term'
                                 : "You haven't created any blogs yet"}
                         </p>
-                        <Button onClick={() => router.push('/write')}>
+                        <Button onClick={() => router.push(`/${locale}/write`)}>
                             {t('createFirstBlog')}
                         </Button>
                     </div>
@@ -250,11 +276,13 @@ function BlogItem({
     onEdit,
     onDelete,
     onView,
+    onPublishOrDraft,
 }: {
     blog: any
     onEdit: () => void
     onDelete: () => void
     onView: () => void
+    onPublishOrDraft: () => void
 }) {
     const locale = useLocale()
     const t = useTranslations('profile.BlogPage')
@@ -314,14 +342,23 @@ function BlogItem({
                     </div>
 
                     <div className="flex items-center space-x-2">
-                        {!blog.daXuatBan && (
+                        {!blog.daXuatBan ? (
                             <Button
                                 variant="outline"
                                 size="sm"
                                 className="text-emerald-500 border-emerald-500 hover:bg-emerald-500 hover:text-white"
-                                // onClick={onEdit}
+                                onClick={onPublishOrDraft}
                             >
                                 {t('publish')}
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-amber-500 border-amber-500 hover:bg-amber-500 hover:text-white"
+                                onClick={onPublishOrDraft}
+                            >
+                                {t('draftBlog')}
                             </Button>
                         )}
                         <DropdownMenu>
@@ -331,12 +368,14 @@ function BlogItem({
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="start" sideOffset={5}>
-                                <DropdownMenuItem
-                                    onClick={onView}
-                                    className="text-gray-800 focus:text-gray-800 font-semibold"
-                                >
-                                    {t('view')}
-                                </DropdownMenuItem>
+                                {blog.daXuatBan && (
+                                    <DropdownMenuItem
+                                        onClick={onView}
+                                        className="text-gray-800 focus:text-gray-800 font-semibold"
+                                    >
+                                        {t('view')}
+                                    </DropdownMenuItem>
+                                )}
                                 <DropdownMenuItem
                                     onClick={onEdit}
                                     className="text-blue-600 focus:text-blue-600 font-semibold"

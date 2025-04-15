@@ -6,15 +6,28 @@ import QueryClientProviderWrapper from '@/contexts/QueryClientProvider'
 import AuthProvider from '@/contexts/auth/AuthContext'
 import { Suspense } from 'react'
 import Loading from './loading'
-import { Toaster } from '@/components/other-ui/Toaster'
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import '../globals.css'
 
 export const metadata = {
-    title: 'Blog Creator',
+    title: 'Suyndy Blog',
     description: 'Create your own blog with ease',
+    icons: {
+        icon: [
+            {
+                media: '(prefers-color-scheme: light)',
+                url: '/images/logo-icon.png',
+                href: '/images/logo-icon.png',
+            },
+            {
+                media: '(prefers-color-scheme: dark)',
+                url: '/images/logo-icon.png',
+                href: '/images/logo-icon.png',
+            },
+        ],
+    },
 }
 
 type Params = Promise<{ locale: string }>
@@ -38,6 +51,10 @@ export default async function LocaleLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning>
+            <head>
+                {/* <link rel="icon" href="/logo.png" sizes="any" /> */}
+                <link rel="icon" href="/favicon.ico" sizes="any" />
+            </head>
             <body>
                 <Suspense fallback={<Loading />}>
                     <QueryClientProviderWrapper>

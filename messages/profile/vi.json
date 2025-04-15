@@ -118,6 +118,12 @@
         "searchPlaceholder": "Tìm kiếm blog...",
         "likes": "thích",
         "comments": "bình luận",
-        "views": "lượt xem"
+        "views": "lượt xem",
+        "deleteBlog": "Xóa blog",
+        "deleteBlogSuccess": "Xóa blog thành công",
+        "publishBlog": "Xuất bản blog",
+        "publishBlogSuccess": "Xuất bản blog thành công",
+        "draftBlog": "Nháp",
+        "draftBlogMessage": "Nháp blog"
     }
 }
