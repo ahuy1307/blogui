@@ -66,10 +66,10 @@ export function NotificationDropdown() {
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="default" className="relative">
+                <Button variant="ghost" size="sm" className="relative">
                     <Bell
-                        className="h-8 w-8"
-                        style={{ width: '20px', height: '20px' }}
+                        className="h-2 w-2"
+                        style={{ width: '21px', height: '21px' }}
                     />
                     {unreadCount > 0 && (
                         <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">

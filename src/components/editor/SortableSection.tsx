@@ -37,6 +37,7 @@ import {
     PopoverTrigger,
 } from '@/components/other-ui/Popover'
 import { SIDEBAR_SECTIONS } from '@/components/editor/constants'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface SortableSectionProps {
     section: SectionType
@@ -72,13 +73,15 @@ export function SortableSection({
         transition,
         isDragging,
     } = useSortable({ id: section.id })
+    const t = useTranslations('write.SortableSection')
     const [showAddMenu, setShowAddMenu] = useState(false)
     const [showPositionMenu, setShowPositionMenu] = useState(false)
     const [isRemoving, setIsRemoving] = useState(false)
+    const locale = useLocale()
 
     const positionOptions = Array.from({ length: totalSections }, (_, i) => ({
         value: i.toString(),
-        label: `Position ${i + 1}`,
+        label: `${t('position')} ${i + 1}`,
     }))
 
     const style = {
@@ -99,11 +102,11 @@ export function SortableSection({
     const renderSpacingControls = () => {
         return (
             <div className="space-y-2 mt-4 pt-4 border-t border-gray-200">
-                <h4 className="text-sm font-medium">Spacing</h4>
+                <h4 className="text-sm font-medium">{t('spacing')}</h4>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label className="text-xs text-gray-500">
-                            Top Margin
+                            {t('topMargin')}
                         </Label>
                         <Select
                             value={section.marginTop?.toString() || '0'}
@@ -219,15 +222,13 @@ export function SortableSection({
                                 onClick={openImageModal}
                             >
                                 <ImageIcon className="h-10 w-10 mx-auto text-gray-400 mb-2" />
-                                <p className="text-gray-500">
-                                    Click to add an image
-                                </p>
+                                <p className="text-gray-500">{t('addImage')}</p>
                             </div>
                         )}
 
                         <div className="flex items-center gap-2 mb-2">
                             <Label className="text-sm font-medium">
-                                Image Size:
+                                {t('imageSize')}:
                             </Label>
                             <Select
                                 value={section.size || 'medium'}
@@ -239,13 +240,15 @@ export function SortableSection({
                                     <SelectValue placeholder="Image Size" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="small">Small</SelectItem>
+                                    <SelectItem value="small">
+                                        {t('small')}
+                                    </SelectItem>
                                     <SelectItem value="medium">
-                                        Medium
+                                        {t('medium')}
                                     </SelectItem>
                                     <SelectItem value="large">Large</SelectItem>
                                     <SelectItem value="full">
-                                        Full Width
+                                        {t('full')}
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
@@ -268,7 +271,7 @@ export function SortableSection({
                                 onClick={openImageModal}
                                 className="border-gray-300 hover:bg-gray-100"
                             >
-                                Change Image
+                                {t('changeImage')}
                             </Button>
                         </div>
                     </div>
@@ -302,12 +305,18 @@ export function SortableSection({
                             }
                         >
                             <SelectTrigger className="w-[180px] border-gray-300 focus:ring-purple-500">
-                                <SelectValue placeholder="Heading Level" />
+                                <SelectValue placeholder={t('headingLevel')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="1">Heading 1</SelectItem>
-                                <SelectItem value="2">Heading 2</SelectItem>
-                                <SelectItem value="3">Heading 3</SelectItem>
+                                <SelectItem value="1">
+                                    {t('heading1')}
+                                </SelectItem>
+                                <SelectItem value="2">
+                                    {t('heading2')}
+                                </SelectItem>
+                                <SelectItem value="3">
+                                    {t('heading3')}
+                                </SelectItem>
                             </SelectContent>
                         </Select>
                         <Input
@@ -317,7 +326,7 @@ export function SortableSection({
                                     content: e.target.value,
                                 })
                             }
-                            placeholder="Heading text"
+                            placeholder={t('headingText')}
                             className="border-gray-300 focus-visible:ring-purple-500 font-bold"
                             style={{
                                 fontSize:
@@ -336,7 +345,7 @@ export function SortableSection({
                     <div className="space-y-3">
                         <div className="flex items-center gap-2 mb-2">
                             <Label className="text-base font-medium block w-[100px]">
-                                List Title:
+                                {t('listTitle')}:
                             </Label>
                             <Input
                                 value={section.title || ''}
@@ -345,7 +354,7 @@ export function SortableSection({
                                         title: e.target.value,
                                     })
                                 }
-                                placeholder="List title (optional)"
+                                placeholder={t('listTitleOptional')}
                                 className="border-gray-300 focus-visible:ring-purple-500"
                                 style={{
                                     fontSize: 16,
@@ -362,16 +371,20 @@ export function SortableSection({
                                 }
                             >
                                 <SelectTrigger className="w-[120px] border-gray-300 focus:ring-purple-500">
-                                    <SelectValue placeholder="Font Size" />
+                                    <SelectValue placeholder={t('fontSize')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="small">Small</SelectItem>
-                                    <SelectItem value="normal">
-                                        Normal
+                                    <SelectItem value="small">
+                                        {t('small')}
                                     </SelectItem>
-                                    <SelectItem value="large">Large</SelectItem>
+                                    <SelectItem value="normal">
+                                        {t('normal')}
+                                    </SelectItem>
+                                    <SelectItem value="large">
+                                        {t('large')}
+                                    </SelectItem>
                                     <SelectItem value="xlarge">
-                                        Extra Large
+                                        {t('extraLarge')}
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
@@ -394,7 +407,7 @@ export function SortableSection({
                                             items: newItems,
                                         })
                                     }}
-                                    placeholder="List item"
+                                    placeholder={t('listItem')}
                                     className={cn(
                                         'border-gray-300 focus-visible:ring-purple-500',
                                         section.fontSize === 'small' &&
@@ -434,7 +447,7 @@ export function SortableSection({
                             }}
                             className="border-gray-300 hover:bg-gray-100"
                         >
-                            Add Item
+                            {t('addItem')}
                         </Button>
                     </div>
                 )
@@ -444,7 +457,7 @@ export function SortableSection({
                     <div className="space-y-3">
                         <div className="flex items-center gap-2 mb-2">
                             <Label className="text-base font-medium w-[100px]">
-                                List Title:
+                                {t('listTitle')}:
                             </Label>
                             <Input
                                 value={section.title || ''}
@@ -453,7 +466,7 @@ export function SortableSection({
                                         title: e.target.value,
                                     })
                                 }
-                                placeholder="List title (optional)"
+                                placeholder={t('listTitleOptional')}
                                 className="border-gray-300 focus-visible:ring-purple-500"
                                 style={{
                                     fontSize: 16,
@@ -470,16 +483,20 @@ export function SortableSection({
                                 }
                             >
                                 <SelectTrigger className="w-[120px] border-gray-300 focus:ring-purple-500">
-                                    <SelectValue placeholder="Font Size" />
+                                    <SelectValue placeholder={t('fontSize')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="small">Small</SelectItem>
-                                    <SelectItem value="normal">
-                                        Normal
+                                    <SelectItem value="small">
+                                        {t('small')}
                                     </SelectItem>
-                                    <SelectItem value="large">Large</SelectItem>
+                                    <SelectItem value="normal">
+                                        {t('normal')}
+                                    </SelectItem>
+                                    <SelectItem value="large">
+                                        {t('large')}
+                                    </SelectItem>
                                     <SelectItem value="xlarge">
-                                        Extra Large
+                                        {t('extraLarge')}
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
@@ -542,7 +559,7 @@ export function SortableSection({
                             }}
                             className="border-gray-300 hover:bg-gray-100"
                         >
-                            Add Item
+                            {t('addItem')}
                         </Button>
                     </div>
                 )
@@ -560,16 +577,20 @@ export function SortableSection({
                                 }
                             >
                                 <SelectTrigger className="w-[120px] border-gray-300 focus:ring-purple-500">
-                                    <SelectValue placeholder="Font Size" />
+                                    <SelectValue placeholder={t('fontSize')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="small">Small</SelectItem>
-                                    <SelectItem value="normal">
-                                        Normal
+                                    <SelectItem value="small">
+                                        {t('small')}
                                     </SelectItem>
-                                    <SelectItem value="large">Large</SelectItem>
+                                    <SelectItem value="normal">
+                                        {t('normal')}
+                                    </SelectItem>
+                                    <SelectItem value="large">
+                                        {t('large')}
+                                    </SelectItem>
                                     <SelectItem value="xlarge">
-                                        Extra Large
+                                        {t('extraLarge')}
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
@@ -582,7 +603,7 @@ export function SortableSection({
                                     content: e.target.value,
                                 })
                             }
-                            placeholder="Quote text"
+                            placeholder={t('quoteText')}
                             className={cn(
                                 'min-h-[100px] border-gray-300 focus-visible:ring-purple-500 hide-scrollbar',
                                 section.fontSize === 'small' && 'text-sm',
@@ -597,7 +618,7 @@ export function SortableSection({
                                     citation: e.target.value,
                                 })
                             }
-                            placeholder="Citation (optional)"
+                            placeholder={t('citationOptional')}
                             className="border-gray-300 focus-visible:ring-purple-500 italic"
                         />
                     </div>
@@ -656,9 +677,7 @@ export function SortableSection({
                                 onClick={openVideoModal}
                             >
                                 <Video className="h-10 w-10 mx-auto text-gray-400 mb-2" />
-                                <p className="text-gray-500">
-                                    Click to add a video
-                                </p>
+                                <p className="text-gray-500">{t('addVideo')}</p>
                             </div>
                         )}
 
@@ -681,7 +700,7 @@ export function SortableSection({
                                     onClick={openVideoModal}
                                     className="border-gray-300 hover:bg-gray-100"
                                 >
-                                    Change Video
+                                    {t('changeVideo')}
                                 </Button>
                             </div>
                         )}
@@ -726,10 +745,11 @@ export function SortableSection({
                         <GripVertical className="h-5 w-5 text-gray-400" />
                     </div>
                     <span className="font-medium capitalize text-gray-700">
-                        {section.type.replace('-', ' ')} Section
+                        {section.type.replace('-', ' ')}
                     </span>
                     <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                        Position {sectionIndex + 1} of {totalSections}
+                        {t('position')} {sectionIndex + 1} {t('of')}{' '}
+                        {totalSections}
                     </span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -739,7 +759,7 @@ export function SortableSection({
                                 variant="ghost"
                                 size="sm"
                                 className="text-gray-500 hover:text-purple-500 hover:bg-purple-50 transition-colors h-8 w-8 p-0"
-                                title="Add section after"
+                                title={t('addSectionAfter')}
                             >
                                 <Plus className="h-4 w-4" />
                             </Button>
@@ -747,7 +767,7 @@ export function SortableSection({
                         <PopoverContent className="w-64 p-2">
                             <div className="space-y-2">
                                 <h3 className="text-sm font-medium px-2 py-1">
-                                    Add section after
+                                    {t('addSectionAfter')}
                                 </h3>
                                 <div className="grid grid-cols-2 gap-1">
                                     {SIDEBAR_SECTIONS.map((sectionType) => (
@@ -767,7 +787,13 @@ export function SortableSection({
                                             <div className="mr-2">
                                                 {sectionType.icon}
                                             </div>
-                                            {sectionType.label}
+                                            <p className="truncate text-clip">
+                                                {
+                                                    sectionType.label[
+                                                        locale as 'en' | 'vi'
+                                                    ]
+                                                }
+                                            </p>
                                         </Button>
                                     ))}
                                 </div>
@@ -785,7 +811,7 @@ export function SortableSection({
                                 variant="ghost"
                                 size="sm"
                                 className="text-gray-500 hover:text-purple-500 hover:bg-purple-50 transition-colors h-8 w-8 p-0"
-                                title="Change position"
+                                title={t('changePosition')}
                             >
                                 <ArrowDown className="h-4 w-4" />
                             </Button>
@@ -793,7 +819,7 @@ export function SortableSection({
                         <PopoverContent className="w-48 p-2">
                             <div className="space-y-2">
                                 <h3 className="text-sm font-medium px-2 py-1">
-                                    Move to position
+                                    {t('moveToNewPosition')}
                                 </h3>
                                 <div className="max-h-48 overflow-y-auto">
                                     {positionOptions.map((option) => (
@@ -838,7 +864,7 @@ export function SortableSection({
                                 variant="ghost"
                                 size="sm"
                                 className="text-gray-500 hover:text-purple-500 hover:bg-purple-50 transition-colors h-8 w-8 p-0"
-                                title="Spacing settings"
+                                title={t('spacingSettings')}
                             >
                                 <Settings className="h-4 w-4" />
                             </Button>
@@ -852,7 +878,7 @@ export function SortableSection({
                         size="sm"
                         onClick={handleDelete}
                         className="text-gray-500 hover:text-red-500 hover:bg-red-50 transition-colors h-8 w-8 p-0"
-                        title="Delete section"
+                        title={t('deleteSection')}
                     >
                         <Trash2 className="h-4 w-4" />
                     </Button>

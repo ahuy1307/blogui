@@ -20,6 +20,7 @@ import { cpp } from '@codemirror/lang-cpp'
 import { lineNumbers, highlightActiveLine } from '@codemirror/view'
 import { keymap } from '@codemirror/view'
 import { defaultKeymap } from '@codemirror/commands'
+import { useTranslations } from 'next-intl'
 
 interface CodeBlockEditorProps {
     code: string
@@ -64,6 +65,7 @@ export function CodeBlockEditor({
     language,
     onLanguageChange,
 }: CodeBlockEditorProps) {
+    const t = useTranslations('write')
     const [localCode, setLocalCode] = useState(code || '')
     const [searchTerm, setSearchTerm] = useState('')
     const [filteredLanguages, setFilteredLanguages] = useState(LANGUAGE_OPTIONS)
@@ -91,10 +93,12 @@ export function CodeBlockEditor({
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target as Node)
-            ) {
+            const targetNode = event.target as Node
+
+            if (!dropdownRef.current) return
+            if (!targetNode) return
+
+            if (!dropdownRef.current.contains(targetNode)) {
                 setIsDropdownOpen(false)
             }
         }
@@ -109,18 +113,20 @@ export function CodeBlockEditor({
         navigator.clipboard.writeText(localCode)
         setIsCopied(true)
         toast({
-            title: 'Code copied to clipboard',
-            description: 'You can now paste it anywhere you need.',
+            title: t('copyCodeToClipboard'),
+            description: t('youCanPasteCode'),
         })
-
-        setTimeout(() => {
-            setIsCopied(false)
-        }, 2000)
+        setTimeout(() => setIsCopied(false), 2000)
     }
 
     const handleLanguageSelect = (value: string) => {
+        const selectedLanguage = LANGUAGE_OPTIONS.find(
+            (option) => option.value === value
+        )
+        if (selectedLanguage) {
+            setSearchTerm(selectedLanguage.label) // Set the input value to the selected language's label
+        }
         onLanguageChange(value) // Notify parent component
-        setSearchTerm('') // Clear search term after selection
         setIsDropdownOpen(false) // Close dropdown
     }
 
@@ -160,7 +166,7 @@ export function CodeBlockEditor({
                             value={searchTerm} // Only show search term
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onFocus={() => setIsDropdownOpen(true)} // Open dropdown on focus
-                            placeholder="Search language..."
+                            placeholder={t('searchLanguage')}
                             className="w-[180px] h-[32px] pl-[32px] border-gray-300 focus:ring-purple-500"
                         />
                         <Search className="absolute left-[8px] top-1/2 transform -translate-y-1/2 h-[16px] w-[16px] text-gray-400" />
@@ -184,7 +190,7 @@ export function CodeBlockEditor({
                                     </ul>
                                 ) : (
                                     <div className="p-[12px] text-[12px] text-gray-500">
-                                        No matching languages found.
+                                        {t('noLanguageFound')}
                                     </div>
                                 )}
                             </div>
@@ -193,9 +199,7 @@ export function CodeBlockEditor({
                 </div>
 
                 <div className="flex items-center gap-[4px]">
-                    <Button
-                        variant="ghost"
-                        size="sm"
+                    {/* <button
                         onClick={copyToClipboard}
                         className="p-[4px] h-[28px] text-[10px] flex items-center gap-[4px]"
                     >
@@ -204,8 +208,8 @@ export function CodeBlockEditor({
                         ) : (
                             <Copy className="h-[14px] w-[14px]" />
                         )}
-                        {isCopied ? 'Copied' : 'Copy'}
-                    </Button>
+                        {isCopied ? t('copied') : t('copy')}
+                    </button> */}
                     <Button
                         variant="ghost"
                         size="sm"
@@ -238,7 +242,7 @@ export function CodeBlockEditor({
                     <div className="flex items-center gap-[8px]">
                         <BookOpen className="h-[16px] w-[16px]" />
                         {LANGUAGE_OPTIONS.find((opt) => opt.value === language)
-                            ?.label || 'Unknown'}
+                            ?.label || t('unKnown')}
                     </div>
                 </div>
 
@@ -259,10 +263,10 @@ export function CodeBlockEditor({
 
             <div className="flex justify-between text-[10px] text-gray-500">
                 <div>
-                    {localCode.split('\n').length} lines | {localCode.length}{' '}
-                    characters
+                    {localCode.split('\n').length} {t('lines')} |{' '}
+                    {localCode.length} {t('characters')}
                 </div>
-                <div className="text-right">Press Tab to indent</div>
+                <div className="text-right">{t('pressTabToIndent')}</div>
             </div>
         </div>
     )

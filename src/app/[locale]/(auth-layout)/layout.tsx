@@ -10,12 +10,17 @@ import type { PropsWithChildren } from 'react'
 import robotoFont from '@/core/config/fontConfig'
 import AuthGuard from '@/components/layout/auth/AuthGuard'
 import Header from '@/components/features/home/Header'
+import { AppDataProvider } from '@/contexts/AppDataProvider'
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <AuthGuard>
-            <Header />
-            <MainLayout fontClass={robotoFont.className}>{children}</MainLayout>
+            <AppDataProvider>
+                <Header />
+                <MainLayout fontClass={robotoFont.className}>
+                    {children}
+                </MainLayout>
+            </AppDataProvider>
         </AuthGuard>
     )
 }
