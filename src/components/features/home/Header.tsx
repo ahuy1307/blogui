@@ -25,8 +25,9 @@ import ModalConfirm from './ModalConfirm'
 import { signOut } from '@/contexts/auth/reducers'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { message } from 'antd'
-import { Pencil } from 'lucide-react'
+import { Pencil, Book } from 'lucide-react'
 import { NotificationDropdown } from '@/components/notifications/NotificationDropdown'
+import { Button as OtherButton } from '@/components/other-ui/Button'
 
 const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
     const { user, dispatch, isAuthenticated } = useAuth()
@@ -131,14 +132,6 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                 >
                     {t('blog')}
                 </Link>
-                {isAuthenticated && (
-                    <Link
-                        href={`/library`}
-                        className="text-base hover:text-purple-500 font-bold"
-                    >
-                        {t('library')}
-                    </Link>
-                )}
             </div>
 
             <div className="flex items-center gap-4">
@@ -182,6 +175,20 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                     </>
                 ) : (
                     <>
+                        <Link href={`/library`}>
+                            <OtherButton
+                                variant="ghost"
+                                size="sm"
+                                className="relative"
+                            >
+                                <Book
+                                    style={{
+                                        width: '20px',
+                                        height: '20px',
+                                    }}
+                                />
+                            </OtherButton>
+                        </Link>
                         <NotificationDropdown />
                         <Dropdown menu={{ items }} placement="bottomRight">
                             <Avatar

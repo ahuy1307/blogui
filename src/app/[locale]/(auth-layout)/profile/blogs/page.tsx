@@ -96,7 +96,7 @@ export default function BlogPage() {
     })
 
     const handleEdit = (blogId: string) => {
-        router.push(`/write?edit=${blogId}`)
+        router.push(`/${locale}/edit/${blogId}`)
     }
 
     const handleDelete = async (blogId: string) => {

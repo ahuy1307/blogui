@@ -14,7 +14,8 @@ import {
 } from '@/components/other-ui/Popover'
 import { Button } from '@/components/other-ui/Button'
 import { Plus, ChevronDown } from 'lucide-react'
-import { SIDEBAR_SECTIONS } from '@/components/editor/EditorSidebar'
+import { SIDEBAR_SECTIONS } from '@/components/editor/constants'
+import { useLocale } from 'next-intl'
 
 interface SectionPickerProps {
     onSelect: (type: string) => void
@@ -22,6 +23,7 @@ interface SectionPickerProps {
 
 export function SectionPicker({ onSelect }: SectionPickerProps) {
     const [open, setOpen] = React.useState(false)
+    const locale = useLocale()
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -41,7 +43,7 @@ export function SectionPicker({ onSelect }: SectionPickerProps) {
                 <Command>
                     <CommandList>
                         <CommandGroup heading="Choose a section type">
-                            {SIDEBAR_SECTIONS.map((section) => (
+                            {SIDEBAR_SECTIONS.map((section: any) => (
                                 <CommandItem
                                     key={section.type}
                                     onSelect={() => {
@@ -53,7 +55,9 @@ export function SectionPicker({ onSelect }: SectionPickerProps) {
                                     <div className="text-purple-500">
                                         {section.icon}
                                     </div>
-                                    <span>{section.labelKey}</span>
+                                    <span>
+                                        {section.label[locale as 'en' | 'vi']}
+                                    </span>
                                 </CommandItem>
                             ))}
                         </CommandGroup>

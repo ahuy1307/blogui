@@ -12,6 +12,8 @@ import { Input } from '@/components/other-ui/Input'
 import { Slider } from '@/components/other-ui/Slider'
 import { useState, useRef, useEffect } from 'react'
 import { cn } from '@/lib/utils'
+import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 
 interface DividerSectionProps {
     dividerType: string
@@ -27,12 +29,48 @@ interface DividerSectionProps {
 }
 
 const DIVIDER_TYPES = [
-    { value: 'solid', label: 'Solid Line' },
-    { value: 'dashed', label: 'Dashed Line' },
-    { value: 'dotted', label: 'Dotted Line' },
-    { value: 'double', label: 'Double Line' },
-    { value: 'space', label: 'Empty Space' },
-    { value: 'gradient', label: 'Gradient' },
+    {
+        value: 'solid',
+        label: {
+            en: 'Solid Line',
+            vi: 'Dòng liền',
+        },
+    },
+    {
+        value: 'dashed',
+        label: {
+            en: 'Dashed Line',
+            vi: 'Dòng đứt',
+        },
+    },
+    {
+        value: 'dotted',
+        label: {
+            en: 'Dotted Line',
+            vi: 'Dòng chấm',
+        },
+    },
+    {
+        value: 'double',
+        label: {
+            en: 'Double Line',
+            vi: 'Dòng đôi',
+        },
+    },
+    {
+        value: 'space',
+        label: {
+            en: 'Space',
+            vi: 'Khoảng cách',
+        },
+    },
+    {
+        value: 'gradient',
+        label: {
+            en: 'Gradient Line',
+            vi: 'Dòng gradient',
+        },
+    },
 ]
 
 const COLORS = [
@@ -63,6 +101,8 @@ export function DividerSection({
     color = '#e5e7eb',
     onUpdate,
 }: DividerSectionProps) {
+    const t = useTranslations('write')
+    const locale = useLocale()
     const [showColorPicker, setShowColorPicker] = useState(false)
     const colorPickerRef = useRef<HTMLDivElement>(null)
     const toggleButtonRef = useRef<HTMLDivElement>(null)
@@ -93,7 +133,7 @@ export function DividerSection({
                     htmlFor="divider-type"
                     className="text-sm font-medium w-24"
                 >
-                    Type:
+                    {t('type')}
                 </Label>
                 <Select
                     value={dividerType}
@@ -103,12 +143,12 @@ export function DividerSection({
                         id="divider-type"
                         className="w-[150px] border-gray-300 focus:ring-purple-500"
                     >
-                        <SelectValue placeholder="Select type" />
+                        <SelectValue placeholder={t('selectType')} />
                     </SelectTrigger>
                     <SelectContent>
                         {DIVIDER_TYPES.map((type) => (
                             <SelectItem key={type.value} value={type.value}>
-                                {type.label}
+                                {type.label[locale as 'vi' | 'en']}
                             </SelectItem>
                         ))}
                     </SelectContent>
@@ -121,7 +161,7 @@ export function DividerSection({
                         htmlFor="divider-color"
                         className="text-sm font-medium w-24"
                     >
-                        Color:
+                        {t('color')}:
                     </Label>
                     <div
                         ref={toggleButtonRef}
@@ -168,7 +208,7 @@ export function DividerSection({
                     htmlFor="divider-spacing"
                     className="text-sm font-medium w-24"
                 >
-                    Spacing:
+                    {t('spacing')}:
                 </Label>
                 <div className="flex-1 flex items-center gap-2">
                     <Slider
@@ -194,7 +234,7 @@ export function DividerSection({
                         htmlFor="divider-thickness"
                         className="text-sm font-medium w-24"
                     >
-                        Thickness:
+                        {t('thickness')}:
                     </Label>
                     <div className="flex-1 flex items-center gap-2">
                         <Slider

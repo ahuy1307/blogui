@@ -11,6 +11,7 @@ import {
     Video,
     Columns,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface DragPreviewProps {
     type: string
@@ -19,6 +20,7 @@ interface DragPreviewProps {
 
 export function DragPreview({ type, section }: DragPreviewProps) {
     // Get the appropriate icon based on section type
+    const t = useTranslations('write')
     const getIcon = () => {
         switch (type) {
             case 'text':
@@ -58,7 +60,7 @@ export function DragPreview({ type, section }: DragPreviewProps) {
 
         switch (section.type) {
             case 'text':
-                let displayText = 'Text content'
+                let displayText = t('textContent')
                 try {
                     if (
                         typeof section.content === 'string' &&
@@ -82,42 +84,44 @@ export function DragPreview({ type, section }: DragPreviewProps) {
             case 'heading':
                 return (
                     <span className="text-sm font-bold">
-                        {section.content || 'Heading'}
+                        {section.content || t('heading')}
                     </span>
                 )
             case 'image':
                 return (
                     <span className="text-sm">
-                        {section.caption || 'Image'}
+                        {section.caption || t('image')}
                     </span>
                 )
             case 'code':
                 return (
                     <span className="text-sm font-mono">
-                        {section.language || 'Code'}
+                        {section.language || t('code')}
                     </span>
                 )
             case 'numbered-list':
-                return <span className="text-sm">Numbered list</span>
+                return <span className="text-sm">{t('numberedList')}</span>
             case 'bullet-list':
-                return <span className="text-sm">Bullet list</span>
+                return <span className="text-sm">{t('bulletList')}</span>
             case 'quote':
                 return (
                     <span className="text-sm italic">
-                        {section.content.substring(0, 30) || 'Quote'}
+                        {section.content.substring(0, 30) || t('quote')}
                     </span>
                 )
             case 'divider':
-                return <span className="text-sm">Divider</span>
+                return <span className="text-sm">{t('divider')}</span>
             case 'video':
                 return (
                     <span className="text-sm">
-                        {section.caption || 'Video'}
+                        {section.caption || t('video')}
                     </span>
                 )
             case 'column-container':
                 return (
-                    <span className="text-sm">{section.columns} Columns</span>
+                    <span className="text-sm">
+                        {section.columns} {t('collumns')}
+                    </span>
                 )
             default:
                 return <span className="text-sm">{type.replace('-', ' ')}</span>

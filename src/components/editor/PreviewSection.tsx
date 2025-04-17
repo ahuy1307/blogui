@@ -6,6 +6,7 @@ import type { SectionType } from '@/types/editor'
 import { cn } from '@/lib/utils'
 import { useToast } from '@/components/other-ui/useToast'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 interface PreviewSectionProps {
     section: SectionType
@@ -13,6 +14,7 @@ interface PreviewSectionProps {
 }
 
 export function PreviewSection({ section, className }: PreviewSectionProps) {
+    const t = useTranslations('write')
     const [copied, setCopied] = useState(false)
     const [showFullCode, setShowFullCode] = useState(false) // State to toggle full code display
     const [isDarkTheme, setIsDarkTheme] = useState(true) // State to toggle code theme
@@ -70,8 +72,8 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
         setCopied(true)
 
         toast({
-            title: 'Copied to clipboard',
-            description: 'Code has been copied to your clipboard',
+            title: t('copyToClipboard'),
+            description: t('copyCodeToClipBoardDesc'),
         })
 
         setTimeout(() => setCopied(false), 2000)
@@ -86,7 +88,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                         ...spacingStyles,
                     }}
                 >
-                    {formatTextContent(section.content) || 'No content yet'}
+                    {formatTextContent(section.content) || t('noContentYet')}
                 </div>
             )
 
@@ -205,7 +207,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                             onClick={() => setShowFullCode(!showFullCode)}
                             className="text-purple-500 hover:text-purple-700 mt-1 text-sm text-right float-right px-1 py-2 w-full transition-all duration-300"
                         >
-                            {showFullCode ? 'Show Less' : 'Show More'}
+                            {showFullCode ? t('showLess') : t('showMore')}
                         </button>
                     )}
                     <pre
@@ -218,7 +220,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                     >
                         <code>
                             {showFullCode
-                                ? section.content || '// Your code here'
+                                ? section.content || t('yourCodeHere')
                                 : codeLines.slice(0, MAX_LINES).join('\n')}
                         </code>
                     </pre>
@@ -286,11 +288,11 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                                     key={index}
                                     className="whitespace-pre-wrap break-words m-0"
                                 >
-                                    {item || 'List item'}
+                                    {item || t('listItem')}
                                 </li>
                             ))
                         ) : (
-                            <li>List item</li>
+                            <li>{t('listItem')}</li>
                         )}
                     </ol>
                 </div>
@@ -321,11 +323,11 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                                     key={index}
                                     className="whitespace-pre-wrap break-words m-0"
                                 >
-                                    {item || 'List item'}
+                                    {item || t('listItem')}
                                 </li>
                             ))
                         ) : (
-                            <li>List item</li>
+                            <li>{t('listItem')}</li>
                         )}
                     </ul>
                 </div>

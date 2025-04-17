@@ -372,6 +372,23 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.put(`/blogs/${id}/publish`)
         return res
     }
+    async getBlogsByUserSlug({
+        slug,
+        page,
+        limit,
+    }: {
+        slug: string
+        page?: number
+        limit?: number
+    }): Promise<any> {
+        const res = await httpService.get(`/auth/profile/${slug}/blogs`, {
+            params: {
+                page,
+                limit,
+            },
+        })
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

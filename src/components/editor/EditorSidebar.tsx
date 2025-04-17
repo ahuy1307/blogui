@@ -2,21 +2,9 @@
 
 import type React from 'react'
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
-import {
-    FileText,
-    Type,
-    ImageIcon,
-    Code,
-    ListOrdered,
-    List,
-    Quote,
-    Minus,
-    Video,
-    SquareArrowLeft,
-    SquareArrowRight,
-} from 'lucide-react'
+import { SquareArrowLeft } from 'lucide-react'
 import { SectionTypeDefault } from '@/types/editor'
 import {
     Tooltip,
@@ -24,43 +12,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/other-ui/Tooltip'
-
-// Sidebar section templates
-export const SIDEBAR_SECTIONS: {
-    type: SectionTypeDefault
-    icon: React.ReactNode
-    labelKey: string // Use translation keys instead of hardcoded labels
-}[] = [
-    { type: 'text', icon: <FileText className="h-5 w-5" />, labelKey: 'text' },
-    {
-        type: 'heading',
-        icon: <Type className="h-5 w-5" />,
-        labelKey: 'heading',
-    },
-    {
-        type: 'image',
-        icon: <ImageIcon className="h-5 w-5" />,
-        labelKey: 'image',
-    },
-    { type: 'code', icon: <Code className="h-5 w-5" />, labelKey: 'code' },
-    {
-        type: 'numbered-list',
-        icon: <ListOrdered className="h-5 w-5" />,
-        labelKey: 'numberedList',
-    },
-    {
-        type: 'bullet-list',
-        icon: <List className="h-5 w-5" />,
-        labelKey: 'bulletList',
-    },
-    { type: 'quote', icon: <Quote className="h-5 w-5" />, labelKey: 'quote' },
-    {
-        type: 'divider',
-        icon: <Minus className="h-5 w-5" />,
-        labelKey: 'divider',
-    },
-    { type: 'video', icon: <Video className="h-5 w-5" />, labelKey: 'video' },
-]
+import { SIDEBAR_SECTIONS } from './constants'
 
 interface EditorSidebarProps {
     onAddSection: (type: SectionTypeDefault) => void
@@ -68,6 +20,7 @@ interface EditorSidebarProps {
 
 export function EditorSidebar({ onAddSection }: EditorSidebarProps) {
     const t = useTranslations('write') // Initialize translations for the 'write' namespace
+    const locale = useLocale() // Get the current locale
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
     return (
@@ -106,7 +59,7 @@ export function EditorSidebar({ onAddSection }: EditorSidebarProps) {
                             key={section.type}
                             type={section.type}
                             icon={section.icon}
-                            label={t(section.labelKey)} // Use translation for the label
+                            label={section.label[locale as 'en' | 'vi']} // Use translation for the label
                             onAdd={onAddSection}
                         />
                     ))}
