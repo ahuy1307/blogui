@@ -157,7 +157,7 @@ export default function BlogPage() {
                     title="Total Views"
                     value={userBlogs.data.tongLuotXem}
                     icon="👁️"
-                    color="bg-gradient-to-br from-purple-300 to-yellow-500"
+                    color="bg-gradient-to-br from-purple-300 to-green-500"
                 />
             </div>
             <div className="mb-4 flex gap-4">
