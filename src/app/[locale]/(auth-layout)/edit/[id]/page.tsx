@@ -914,7 +914,9 @@ export default function EditBlogPage({ params }: any) {
                                         {t('aiGenerate')}
                                     </Button>
                                     <Button
-                                        onClick={() => saveBlogPost(true)}
+                                        onClick={() => saveBlogPost(
+                                            blogDetail?.daXuatBan
+                                        )}
                                         className="bg-purple-600 hover:bg-purple-700 text-white"
                                     >
                                         <Save className="h-4 w-4 mr-2" />
