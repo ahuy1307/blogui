@@ -47,6 +47,16 @@ export default function BlogPost({ params }: any) {
         enabled: !!blogDetail?.id, // Only fetch if blogDetail exists and has an id
     })
 
+    const { data: comments, refetch: refetchComment } = useQuery({
+        queryKey: ['comments', blogDetail?.id],
+        queryFn: async () => {
+            const response = await authenticationService.getCommentsByBlogId({
+                blog_id: blogDetail.id,
+            })
+            return response.data
+        },
+    })
+
     // Combine refetch functions for convenience
     const refetchAll = () => {
         refetchBlogDetail()
@@ -134,7 +144,9 @@ export default function BlogPost({ params }: any) {
             <BlogDetail
                 blogDetail={blogDetail}
                 blogsByTopic={blogsByTopic}
+                comments={comments && comments.results}
                 refetch={refetchAll}
+                refetchComment={refetchComment}
             />
         </AppDataProvider>
     )

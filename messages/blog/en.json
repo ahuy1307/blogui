@@ -57,5 +57,36 @@
         "noBlogsLikedDescription": "You haven't liked any blogs yet. Show some love to the articles you enjoy!",
         "noBlogsSavedDescription": "You haven't saved any blogs yet. Save the articles you love to read later!",
         "discoverBlogs": "Discover Blogs"
-    }
+    },
+    "Comment": {
+        "you": "You",
+        "replyingTo": "Replying to",
+        "cancel": "Cancel",
+        "save": "Save",
+        "reply": "Reply",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Are you sure you want to delete this comment?",
+        "deleteConfirmSubText": "This action cannot be undone. This will permanently delete your comment.",
+        "error": "Error",
+        "errorLoadingComments": "Error loading comments",
+        "commentAdded": "Add comment successfully",
+        "commentAddedSubText": "Your comment has been added to the discussion.",
+        "errorAddingComment": "Error adding comment",
+        "commentUpdated": "Comment updated",
+        "commentUpdatedSubText": "Your comment has been updated.",
+        "errorUpdatingComment": "Error updating comment",
+        "commentDeleted": "Comment deleted",
+        "commentDeletedSubText": "Your comment has been deleted.",
+        "errorDeletingComment": "Error deleting comment",
+        "comments": "Comments",
+        "postComment": "Post Comment",
+        "view": "View",
+        "replies": "Replies",
+        "loadingReplies": "Loading replies...",
+        "loadingMore": "Loading more...",
+        "show": "Show",
+        "more": "more",
+        "addYourThoughts": "Add your thoughts..."
+      }
 }

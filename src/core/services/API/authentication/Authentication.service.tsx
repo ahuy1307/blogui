@@ -389,6 +389,89 @@ class AuthenticationService implements IAuthentication {
         })
         return res
     }
+    async getCommentsByBlogId({
+        blog_id,
+        page,
+        limit,
+    }: {
+        blog_id: string
+        page?: number
+        limit?: number
+    }): Promise<any> {
+        const res = await httpService.get(`/blogs/${blog_id}/comments`, {
+            params: {
+                page,
+                limit,
+            },
+        })
+        return res
+    }
+    async addComment({
+        blog_id,
+        noiDungBinhLuan,
+        binhLuan,
+    }: {
+        blog_id: string
+        noiDungBinhLuan: string
+        binhLuan?: string
+    }): Promise<any> {
+        const data: { noiDungBinhLuan: string; binhLuan?: string } = {
+            noiDungBinhLuan,
+            binhLuan,
+        }
+        const res = await httpService.post(`/blogs/${blog_id}/comments`, data)
+        return res
+    }
+    async updateComment({
+        blog_id,
+        comment_id,
+        noiDungBinhLuan,
+    }: {
+        blog_id: string
+        comment_id: string
+        noiDungBinhLuan: string
+    }): Promise<any> {
+        const data: { noiDungBinhLuan: string } = { noiDungBinhLuan }
+        const res = await httpService.put(
+            `/blogs/${blog_id}/comments/${comment_id}`,
+            data
+        )
+        return res
+    }
+    async deleteComment({
+        blog_id,
+        comment_id,
+    }: {
+        blog_id: string
+        comment_id: string
+    }): Promise<any> {
+        const res = await httpService.delete(
+            `/blogs/${blog_id}/comments/${comment_id}`
+        )
+        return res
+    }
+    async getAllChildComments({
+        blog_id,
+        comment_id,
+        page,
+        limit,
+    }: {
+        blog_id: string
+        comment_id: string
+        page?: number
+        limit?: number
+    }): Promise<any> {
+        const res = await httpService.get(
+            `/blogs/${blog_id}/comments/${comment_id}/child`,
+            {
+                params: {
+                    page,
+                    limit,
+                },
+            }
+        )
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()
