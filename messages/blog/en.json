@@ -4,6 +4,9 @@
     "unSave": "Unsave",
     "successTitle": "Success",
     "errorTitle": "Error",
+    "blogNotFound": "Blog post not found",
+    "blogNotFoundSubText": "The blog post you are looking for does not exist or has been moved.",
+    "returnBlogPage": "Return to Blog Page",
     "ReportDialog": {
         "title": "Report Content",
         "reasonLabel": "Reason for reporting",
