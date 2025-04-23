@@ -58,31 +58,42 @@ import ScrollToTop from '@/components/features/home/ScrollToTop'
 import { BlogMedia } from '@/types/interface'
 import { Toaster } from '@/components/other-ui/Toaster'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { Topic } from '@/types/interface'
 import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import { generateId } from '@/lib/utils'
 
-export default function WritePage() {
-    const t = useTranslations('write') // Initialize translations for the 'write' namespace
-    const locale = useLocale()
+export default function EditBlogPage({ params }: any) {
+    const { id } = params
 
-    const publishBlogMutation = useMutation({
+    const { data: blogDetail, isLoading } = useQuery({
+        queryKey: ['blogDetail', id],
+        queryFn: async () => {
+            const response = await authenticationService.getBlogById({ id })
+            return response.data
+        },
+        enabled: !!id,
+    })
+
+    const t = useTranslations('write') // Initialize translations for the 'write' namespace
+
+    const updateBlogMutation = useMutation({
         mutationFn: (blogData: any) =>
-            authenticationService.saveBlog({
+            authenticationService.updateBlog({
+                id,
                 ...blogData,
             }),
-        mutationKey: ['publishBlog'],
+        mutationKey: ['updateBlog'],
         onSuccess: () => {
             toast({
-                title: t('blogPublished'),
-                description: t('blogPublishedDescription'),
+                title: t('blogUpdated'),
+                description: t('blogUpdatedDescription'),
             })
         },
         onError: () => {
             toast({
-                title: t('publishError'),
-                description: t('publishErrorDescription'),
+                title: t('updateError'),
+                description: t('updateErrorDescription'),
                 variant: 'destructive',
             })
         },
@@ -100,6 +111,7 @@ export default function WritePage() {
     const [sectionPickerOpen, setSectionPickerOpen] = useState(false)
     const tabRef = useRef<HTMLDivElement>(null)
     const { toast } = useToast()
+    const locale = useLocale()
 
     const [wordCount, setWordCount] = useState(0)
     const [readingTime, setReadingTime] = useState(0)
@@ -411,7 +423,7 @@ export default function WritePage() {
             const newSections = [...sections]
             const [movedSection] = newSections.splice(currentIndex, 1)
             newSections.splice(newIndex, 0, movedSection)
-            setSections(newSections)
+            setSections([...newSections]) // Ensure state is updated with a new array reference
 
             toast({
                 title: 'Section moved',
@@ -553,29 +565,13 @@ export default function WritePage() {
                 switch (section.type) {
                     case 'text':
                         loaiThanhPhan = 'text'
-                        if (
-                            typeof section.content === 'string' &&
-                            section.content.startsWith('{') &&
-                            section.content.endsWith('}')
-                        ) {
-                            try {
-                                const parsedContent = JSON.parse(
-                                    section.content
-                                )
-                                if (
-                                    parsedContent.text !== undefined &&
-                                    parsedContent.format !== undefined
-                                ) {
-                                    noiDung = parsedContent.text
-                                    dinhDang = parsedContent.format
-                                } else {
-                                    noiDung = section.content
-                                }
-                            } catch (e) {
-                                noiDung = section.content
-                            }
-                        } else {
+                        try {
+                            const parsedContent = JSON.parse(section.content)
+                            noiDung = parsedContent.text || section.content
+                            dinhDang = parsedContent.format || {}
+                        } catch {
                             noiDung = section.content
+                            dinhDang = {}
                         }
                         break
                     case 'heading':
@@ -600,15 +596,8 @@ export default function WritePage() {
                         dinhDang = {}
                         break
                     case 'numbered-list':
-                        loaiThanhPhan = 'numbered-list'
-                        noiDung = JSON.stringify({
-                            title: section.title,
-                            items: section.items,
-                        })
-                        dinhDang = { fontSize: section.fontSize || 'normal' }
-                        break
                     case 'bullet-list':
-                        loaiThanhPhan = 'bullet-list'
+                        loaiThanhPhan = section.type
                         noiDung = JSON.stringify({
                             title: section.title,
                             items: section.items,
@@ -644,21 +633,121 @@ export default function WritePage() {
                         loaiThanhPhan = 'unknown'
                 }
 
-                return {
-                    // id: section.id,
+                const baseSection = {
                     loaiThanhPhan,
                     noiDung,
                     dinhDang,
                     hang: index,
                     cot: 0,
                 }
+
+                // Include `id` only if it exists (for old sections)
+                if (section.id.startsWith('section'))
+                    return {
+                        ...baseSection,
+                    }
+                else
+                    return {
+                        ...baseSection,
+                        id: section.id,
+                    }
             }),
             chuDes: categories.map((topic) => topic.id),
         }
 
-        publishBlogMutation.mutate({ blogData: formattedData })
+        updateBlogMutation.mutate({ blogData: formattedData })
         setLastSaved(new Date())
     }
+
+    useEffect(() => {
+        if (blogDetail) {
+            setTitle(blogDetail.tieuDe || '')
+            setShortDescription(blogDetail.noiDungNgan || '')
+            setCoverImage(blogDetail.anhBia || '')
+            setSections(
+                blogDetail.thanhPhans.map((section: any) => {
+                    let content = section.noiDung
+
+                    // Parse `noiDung` for `bullet-list` and `numbered-list` types
+                    if (
+                        section.loaiThanhPhan === 'bullet-list' ||
+                        section.loaiThanhPhan === 'numbered-list'
+                    ) {
+                        try {
+                            const parsedContent = JSON.parse(section.noiDung)
+                            section.title = parsedContent.title || ''
+                            section.items = parsedContent.items || []
+                            return {
+                                id: section.id || generateId(),
+                                type: section.loaiThanhPhan,
+                                content,
+                                items: section.items,
+                                title: section.title,
+                                ...section.dinhDang,
+                            }
+                        } catch {
+                            section.title = ''
+                            section.items = []
+                        }
+                    }
+
+                    // Parse `noiDung` for `code` type
+                    if (section.loaiThanhPhan === 'code') {
+                        try {
+                            const parsedContent = JSON.parse(section.noiDung)
+                            section.content = parsedContent.content || ''
+                            section.language =
+                                parsedContent.language || 'plaintext'
+
+                            // Decode the content string
+                            const decodedContent = section.content.replace(
+                                /\\n/g,
+                                '\n'
+                            )
+
+                            return {
+                                id: section.id || generateId(),
+                                type: section.loaiThanhPhan,
+                                content: decodedContent,
+                                language: section.language,
+                                ...section.dinhDang,
+                            }
+                        } catch {
+                            section.content = ''
+                            section.language = 'plaintext'
+                        }
+                    }
+
+                    if (section.loaiThanhPhan === 'quote') {
+                        try {
+                            const parsedContent = JSON.parse(
+                                JSON.parse(section.noiDung).content
+                            )
+
+                            return {
+                                id: section.id || generateId(),
+                                type: section.loaiThanhPhan,
+                                content: parsedContent.content || '',
+                                citation: parsedContent.citation || '',
+                                ...section.dinhDang,
+                            }
+                        } catch {
+                            section.content = ''
+                            section.language = 'plaintext'
+                        }
+                    }
+
+                    return {
+                        id: section.id || generateId(),
+                        type: section.loaiThanhPhan,
+                        content,
+                        ...section.dinhDang,
+                    }
+                })
+            )
+            setCategories(blogDetail.chuDes || [])
+        }
+    }, [blogDetail])
 
     useEffect(() => {
         const handleDrop = (e: DragEvent) => {
@@ -764,6 +853,14 @@ export default function WritePage() {
         })
     }
 
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+            </div>
+        )
+    }
+
     return (
         <>
             <ScrollToTop />
@@ -817,19 +914,13 @@ export default function WritePage() {
                                         {t('aiGenerate')}
                                     </Button>
                                     <Button
-                                        variant="outline"
-                                        onClick={() => saveBlogPost(false)}
-                                        className="border-purple-300 text-purple-700 hover:bg-purple-50"
-                                    >
-                                        <Pencil className="h-4 w-4 mr-2" />
-                                        {t('saveDraft')}
-                                    </Button>
-                                    <Button
-                                        onClick={() => saveBlogPost(true)}
+                                        onClick={() => saveBlogPost(
+                                            blogDetail?.daXuatBan
+                                        )}
                                         className="bg-purple-600 hover:bg-purple-700 text-white"
                                     >
                                         <Save className="h-4 w-4 mr-2" />
-                                        {t('publish')}
+                                        {t('update')}
                                     </Button>
                                 </div>
                             </div>

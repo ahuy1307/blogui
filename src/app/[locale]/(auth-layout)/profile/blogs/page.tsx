@@ -96,7 +96,7 @@ export default function BlogPage() {
     })
 
     const handleEdit = (blogId: string) => {
-        router.push(`/write?edit=${blogId}`)
+        router.push(`/${locale}/edit/${blogId}`)
     }
 
     const handleDelete = async (blogId: string) => {
@@ -157,7 +157,7 @@ export default function BlogPage() {
                     title="Total Views"
                     value={userBlogs.data.tongLuotXem}
                     icon="👁️"
-                    color="bg-gradient-to-br from-purple-300 to-yellow-500"
+                    color="bg-gradient-to-br from-purple-300 to-green-500"
                 />
             </div>
             <div className="mb-4 flex gap-4">

@@ -20,6 +20,7 @@ import {
 } from '@/components/other-ui/Select'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/other-ui/Button'
+import { useTranslations } from 'next-intl'
 
 interface TextEditorProps {
     value: string
@@ -36,6 +37,7 @@ type TextFormat = {
 
 // Update the TextEditor component to save formatting data
 export function TextEditor({ value, onChange, className }: TextEditorProps) {
+    const t = useTranslations('write')
     const [text, setText] = useState('')
     const [format, setFormat] = useState<TextFormat>({
         bold: false,
@@ -123,10 +125,12 @@ export function TextEditor({ value, onChange, className }: TextEditorProps) {
                         <SelectValue placeholder="Size" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="small">Small</SelectItem>
-                        <SelectItem value="normal">Normal</SelectItem>
-                        <SelectItem value="large">Large</SelectItem>
-                        <SelectItem value="xlarge">Extra Large</SelectItem>
+                        <SelectItem value="small">{t('small')}</SelectItem>
+                        <SelectItem value="normal">{t('normal')}</SelectItem>
+                        <SelectItem value="large">{t('large')}</SelectItem>
+                        <SelectItem value="xlarge">
+                            {t('extraLarge')}
+                        </SelectItem>
                     </SelectContent>
                 </Select>
 

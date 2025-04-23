@@ -4,6 +4,9 @@
     "unSave": "Bỏ lưu",
     "successTitle": "Thành công",
     "errorTitle": "Lỗi",
+    "blogNotFound": "Không tìm thấy bài viết",
+    "blogNotFoundSubText": "Bài viết bạn đang tìm không tồn tại hoặc đã bị di chuyển.",
+    "returnBlogPage": "Quay về trang blog",
     "ReportDialog": {
         "title": "Báo cáo nội dung",
         "reasonLabel": "Lý do báo cáo",
@@ -54,5 +57,37 @@
         "noBlogsLikedDescription": "Bạn chưa thích bài viết nào. Hãy thể hiện tình cảm với những bài viết bạn yêu thích!",
         "noBlogsSavedDescription": "Bạn chưa lưu bài viết nào. Hãy lưu lại những bài viết bạn yêu thích để đọc sau!",
         "discoverBlogs": "Khám phá Bài viết"
-    }
+    },
+    "Comment": {
+        "you": "Bạn",
+        "replyingTo": "Trả lời",
+        "cancel": "Hủy",
+        "save": "Lưu",
+        "reply": "Trả lời",
+        "edit": "Chỉnh sửa",
+        "delete": "Xóa",
+        "deleteConfirm": "Bạn có chắc chắn muốn xóa bình luận này?",
+        "deleteConfirmSubText": "Hành động này không thể hoàn tác. Bình luận của bạn sẽ bị xóa vĩnh viễn.",
+        "error": "Lỗi",
+        "errorLoadingComments": "Lỗi tải bình luận",
+        "commentAdded": "Thêm bình luận thành công",
+        "commentAddedSubText": "Bình luận của bạn đã được thêm vào cuộc thảo luận.",
+        "errorAddingComment": "Lỗi khi thêm bình luận",
+        "commentUpdated": "Bình luận đã được cập nhật",
+        "commentUpdatedSubText": "Bình luận của bạn đã được cập nhật.",
+        "errorUpdatingComment": "Lỗi khi cập nhật bình luận",
+        "commentDeleted": "Bình luận đã bị xóa",
+        "commentDeletedSubText": "Bình luận của bạn đã bị xóa.",
+        "errorDeletingComment": "Lỗi khi xóa bình luận",
+        "comments": "Bình luận",
+        "postComment": "Bình luận",
+        "view": "Xem",
+        "replies": "phản hồi",
+        "loadingReplies": "Đang tải phản hồi...",
+        "loadingMore": "Đang tải thêm...",
+        "show": "Hiển thị",
+        "more": "thêm",
+        "addYourThoughts": "Thêm suy nghĩ của bạn..."
+      }
+      
 }

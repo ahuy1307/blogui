@@ -62,6 +62,19 @@ export default function Page({ params }: any) {
         },
     })
 
+    const { mutate: blogMutate, isPending: isBlogsPending } = useMutation({
+        mutationFn: authenticationService.getBlogsByUserSlug,
+        onSuccess: (res) => {
+            setProfileData((prev: any) => ({
+                ...prev,
+                baiViets: res.data.results,
+            }))
+        },
+        onError: () => {
+            message.error(t('getBlogsFailed'))
+        },
+    })
+
     async function handleSignIn() {
         try {
             const userInformation =
@@ -120,6 +133,7 @@ export default function Page({ params }: any) {
 
     useEffect(() => {
         mutate({ slug })
+        blogMutate({ slug })
     }, [])
 
     return (
@@ -293,111 +307,115 @@ export default function Page({ params }: any) {
                     </div>
                     <div className="bg-white mt-8 rounded-xl pt-4 pb-8 px-10">
                         <h3 className="mb-6 font-bold">{t('recentBlogs')}</h3>
-                        {profileData.baiViets.length > 0 && (
-                            <div className="grid md:grid-cols-2 gap-6">
-                                {profileData.baiViets.map((blog: any) => (
-                                    <Link
-                                        href={`/blog/${blog.slug}`}
-                                        key={blog.id}
-                                    >
-                                        <Card className="bg-white rounded-xl border-gray-200 overflow-hidden hover:border-purple-500/50 transition-all shadow-sm h-full flex flex-col duration-300">
-                                            <div className="relative h-60">
-                                                <Image
-                                                    src={blog.anhBia}
-                                                    alt={blog.tieuDe}
-                                                    fill
-                                                    className="object-cover"
-                                                />
-                                            </div>
-                                            <CardHeader className="flex-grow">
-                                                <div className="flex gap-2">
-                                                    {blog.chuDes &&
-                                                        blog.chuDes
-                                                            .slice(0, 4)
-                                                            .map(
-                                                                (
-                                                                    chuDe: any
-                                                                ) => (
-                                                                    <span
-                                                                        key={
-                                                                            chuDe.id
-                                                                        }
-                                                                        className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full"
-                                                                    >
-                                                                        {
-                                                                            chuDe
-                                                                                .tenChuDe[
-                                                                                locale
-                                                                            ]
-                                                                        }
-                                                                    </span>
-                                                                )
+                        {profileData.baiViets &&
+                            profileData.baiViets.length > 0 && (
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    {profileData.baiViets.map((blog: any) => (
+                                        <Link
+                                            href={`/blog/${blog.slug}`}
+                                            key={blog.id}
+                                        >
+                                            <Card className="bg-white rounded-xl border-gray-200 overflow-hidden hover:border-purple-500/50 transition-all shadow-sm h-full flex flex-col duration-300">
+                                                <div className="relative h-60">
+                                                    <Image
+                                                        src={blog.anhBia}
+                                                        alt={blog.tieuDe}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                                <CardHeader className="flex-grow">
+                                                    <div className="flex gap-2">
+                                                        {blog.chuDes &&
+                                                            blog.chuDes
+                                                                .slice(0, 4)
+                                                                .map(
+                                                                    (
+                                                                        chuDe: any
+                                                                    ) => (
+                                                                        <span
+                                                                            key={
+                                                                                chuDe.id
+                                                                            }
+                                                                            className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full"
+                                                                        >
+                                                                            {
+                                                                                chuDe
+                                                                                    .tenChuDe[
+                                                                                    locale
+                                                                                ]
+                                                                            }
+                                                                        </span>
+                                                                    )
+                                                                )}
+                                                        {blog.chuDes &&
+                                                            blog.chuDes.length >
+                                                                4 && (
+                                                                <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
+                                                                    +
+                                                                    {blog.chuDes
+                                                                        .length -
+                                                                        4}{' '}
+                                                                    {locale ===
+                                                                    'en'
+                                                                        ? 'more'
+                                                                        : 'khác'}
+                                                                </span>
                                                             )}
-                                                    {blog.chuDes &&
-                                                        blog.chuDes.length >
-                                                            4 && (
-                                                            <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
-                                                                +
-                                                                {blog.chuDes
-                                                                    .length -
-                                                                    4}{' '}
-                                                                {locale === 'en'
-                                                                    ? 'more'
-                                                                    : 'khác'}
+                                                    </div>
+                                                    <CardTitle className="pt-2 text-xl text-gray-900">
+                                                        {blog.tieuDe}
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <CardDescription className="text-gray-600 line-clamp-3">
+                                                        {blog.noiDungTomTat}
+                                                    </CardDescription>
+                                                </CardContent>
+                                                <CardFooter className="flex justify-between text-sm text-gray-500 border-t border-gray-100 mt-auto pt-4">
+                                                    <div className="flex items-center gap-1">
+                                                        <Clock className="h-4 w-4" />
+                                                        <span>
+                                                            {new Date(
+                                                                blog.ngayXuatBan
+                                                            ).toLocaleDateString(
+                                                                locale,
+                                                                {
+                                                                    year: 'numeric',
+                                                                    month: 'long',
+                                                                    day: 'numeric',
+                                                                }
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="flex items-center gap-1 text-gray-500">
+                                                            <Eye className="h-4 w-4" />
+                                                            <span>
+                                                                {blog.luotXem}
                                                             </span>
-                                                        )}
-                                                </div>
-                                                <CardTitle className="pt-2 text-xl text-gray-900">
-                                                    {blog.tieuDe}
-                                                </CardTitle>
-                                            </CardHeader>
-                                            <CardContent>
-                                                <CardDescription className="text-gray-600 line-clamp-3">
-                                                    {blog.noiDungTomTat}
-                                                </CardDescription>
-                                            </CardContent>
-                                            <CardFooter className="flex justify-between text-sm text-gray-500 border-t border-gray-100 mt-auto pt-4">
-                                                <div className="flex items-center gap-1">
-                                                    <Clock className="h-4 w-4" />
-                                                    <span>
-                                                        {new Date(
-                                                            blog.ngayXuatBan
-                                                        ).toLocaleDateString(
-                                                            locale,
-                                                            {
-                                                                year: 'numeric',
-                                                                month: 'long',
-                                                                day: 'numeric',
-                                                            }
-                                                        )}
-                                                    </span>
-                                                </div>
-                                                <div className="flex items-center gap-3">
-                                                    <div className="flex items-center gap-1 text-gray-500">
-                                                        <Eye className="h-4 w-4" />
-                                                        <span>
-                                                            {blog.luotXem}
-                                                        </span>
+                                                        </div>
+                                                        <div className="flex items-center gap-1 text-gray-500">
+                                                            <Heart className="h-4 w-4 " />
+                                                            <span>
+                                                                {
+                                                                    blog.luotYeuThich
+                                                                }
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                    <div className="flex items-center gap-1 text-gray-500">
-                                                        <Heart className="h-4 w-4 " />
-                                                        <span>
-                                                            {blog.luotYeuThich}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <Link
-                                                    href={`/blog/${blog.slug}`}
-                                                    className="text-purple-500 hover:text-purple-700"
-                                                >
-                                                    {t('readMore')} →
-                                                </Link>
-                                            </CardFooter>
-                                        </Card>
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
+                                                    <Link
+                                                        href={`/blog/${blog.slug}`}
+                                                        className="text-purple-500 hover:text-purple-700"
+                                                    >
+                                                        {t('readMore')} →
+                                                    </Link>
+                                                </CardFooter>
+                                            </Card>
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
                     </div>
                 </div>
             )}
