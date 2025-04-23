@@ -34,7 +34,7 @@ import { ReportDialog } from '@/components/features/blog/ReportDialog'
 import { FacebookShareButton, LinkedinShareButton } from 'react-share'
 import {
     CommentsSection,
-    type Comment,
+    CommentData,
 } from '@/components/features/blog/CommentsSection'
 import { SectionType } from '@/types/editor'
 import { getBaseUrl, getInitials } from '@/helper/utils'
@@ -161,8 +161,9 @@ const convertToSectionType = (component: any): SectionType | null => {
         case 'quote':
             return {
                 type: 'quote',
-                content: JSON.parse(noiDung)?.content || '',
-                citation: JSON.parse(noiDung)?.citation || '',
+                content: JSON.parse(JSON.parse(noiDung).content).content || '',
+                citation:
+                    JSON.parse(JSON.parse(noiDung).content)?.citation || '',
                 fontSize: dinhDang?.fontSize || 'normal',
                 id,
                 row: hang,
@@ -205,11 +206,15 @@ const convertToSectionType = (component: any): SectionType | null => {
 export function BlogDetail({
     blogDetail,
     blogsByTopic,
+    comments,
     refetch,
+    refetchComment,
 }: {
     blogDetail: Blog
     blogsByTopic: Blog[]
+    comments: CommentData[]
     refetch: () => void
+    refetchComment: () => void
 }) {
     const t = useTranslations('blog.BlogDetail')
     const { topics, isLoading, error } = useAppData()
@@ -217,7 +222,6 @@ export function BlogDetail({
 
     const { toast } = useToast()
     const locale = useLocale()
-    const [comments, setComments] = useState<Comment[]>([])
     const [reportDialogOpen, setReportDialogOpen] = useState(false)
     const { incrementMissionProgress } = useMissionStore()
     const [commentIdCounter, setCommentIdCounter] = useState(1)
@@ -267,71 +271,6 @@ export function BlogDetail({
         return id
     }, [commentIdCounter])
 
-    const handleAddComment = useCallback(
-        (newComment: Omit<Comment, 'id' | 'date'>) => {
-            const comment = {
-                ...newComment,
-                id: generateCommentId(),
-                date: t('justNow'),
-                replies: [],
-            }
-            setComments((prev) => [...prev, comment])
-            incrementMissionProgress('comment')
-
-            // if (newComment.mentions?.length && blogDetail) {
-            //     addNotification({
-            //         type: 'mention',
-            //         message: t('mentionCommentMessage'),
-            //         blogSlug: blogDetail.slug,
-            //         blogTitle: blogDetail.tieuDe,
-            //     })
-            // }
-        },
-        [
-            generateCommentId,
-            incrementMissionProgress,
-            blogDetail,
-            t,
-        ]
-    )
-
-    const handleAddReply = useCallback(
-        (parentId: number, newReply: Omit<Comment, 'id' | 'date'>) => {
-            const reply = {
-                ...newReply,
-                id: generateCommentId(),
-                date: t('justNow'),
-            }
-
-            setComments((prevComments) =>
-                prevComments.map((comment) =>
-                    comment.id === parentId
-                        ? {
-                            ...comment,
-                            replies: [...(comment.replies || []), reply],
-                        }
-                        : comment
-                )
-            )
-            incrementMissionProgress('comment')
-
-            // if (newReply.mentions?.length && blogDetail) {
-            //     addNotification({
-            //         type: 'mention',
-            //         message: t('mentionReplyMessage'),
-            //         blogSlug: blogDetail.slug,
-            //         blogTitle: blogDetail.tieuDe,
-            //     })
-            // }
-        },
-        [
-            generateCommentId,
-            incrementMissionProgress,
-            blogDetail,
-            t,
-        ]
-    )
-
     if (!blogDetail) {
         return (
             <div className="min-h-screen bg-white text-gray-900 flex items-center justify-center">
@@ -351,9 +290,9 @@ export function BlogDetail({
     const firstCharName =
         blogDetail.tacGia.fullName !== ''
             ? getInitials(
-                blogDetail.tacGia.fullName,
-                blogDetail.tacGia?.email ?? ''
-            )
+                  blogDetail.tacGia.fullName,
+                  blogDetail.tacGia?.email ?? ''
+              )
             : getInitials('', blogDetail.tacGia?.email ?? '')
 
     const handleShare = (platform: string) => {
@@ -492,7 +431,7 @@ export function BlogDetail({
                                 </h3>
                                 <p className="text-gray-500 text-sm">
                                     {blogDetail.tacGia.ngheNghiep &&
-                                        blogDetail.tacGia.congTy
+                                    blogDetail.tacGia.congTy
                                         ? `${blogDetail.tacGia.ngheNghiep} - ${blogDetail.tacGia.congTy}`
                                         : t('author')}
                                 </p>
@@ -613,15 +552,15 @@ export function BlogDetail({
                                                                         />
                                                                         <AvatarFallback>
                                                                             {liker.hoTen !==
-                                                                                ''
+                                                                            ''
                                                                                 ? getInitials(
-                                                                                    liker.hoTen,
-                                                                                    ''
-                                                                                )
+                                                                                      liker.hoTen,
+                                                                                      ''
+                                                                                  )
                                                                                 : getInitials(
-                                                                                    '',
-                                                                                    ''
-                                                                                )}
+                                                                                      '',
+                                                                                      ''
+                                                                                  )}
                                                                         </AvatarFallback>
                                                                     </Avatar>
                                                                 </div>
@@ -630,8 +569,8 @@ export function BlogDetail({
                                                                         {!liker.nguoiDungHienTai
                                                                             ? liker.hoTen
                                                                             : t(
-                                                                                'you'
-                                                                            )}
+                                                                                  'you'
+                                                                              )}
                                                                     </p>
                                                                 </div>
                                                             </Link>
@@ -722,8 +661,8 @@ export function BlogDetail({
                         {/* Comments section */}
                         <CommentsSection
                             comments={comments}
-                            onAddComment={handleAddComment}
-                            onAddReply={handleAddReply}
+                            postId={blogDetail.id}
+                            refetchComment={refetchComment}
                         />
 
                         {blogsByTopic && blogsByTopic.length > 0 && (
