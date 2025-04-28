@@ -46,7 +46,8 @@
         "you": "You",
         "seeWhoLikes": "See who likes this",
         "totalLikes": "Likes",
-        "noLikes": "No likes yet"
+        "noLikes": "No likes yet",
+        "tableOfContents": "Table of Contents"
     },
     "BlogLibrary": {
         "title": "Library",

@@ -46,7 +46,8 @@
         "you": "Bạn",
         "seeWhoLikes": "Xem ai thích bài viết này",
         "totalLikes": "Lượt thích",
-        "noLikes": "Chưa có lượt thích nào"
+        "noLikes": "Chưa có lượt thích nào",
+        "tableOfContents": "Mục lục"
     },
     "BlogLibrary": {
         "title": "Thư viện",
