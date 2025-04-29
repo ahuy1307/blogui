@@ -7,6 +7,27 @@
     "blogNotFound": "Không tìm thấy bài viết",
     "blogNotFoundSubText": "Bài viết bạn đang tìm không tồn tại hoặc đã bị di chuyển.",
     "returnBlogPage": "Quay về trang blog",
+    "search": {
+        "title": "Tìm kiếm bài viết",
+        "filters": "Bộ lọc",
+        "placeholder": "Tìm kiếm bài viết...",
+        "button": "Tìm kiếm",
+        "searching": "Đang tìm...",
+        "dateRange": "Khoảng thời gian",
+        "startDate": "Ngày bắt đầu",
+        "endDate": "Ngày kết thúc",
+        "topics": "Chủ đề",
+        "clearFilters": "Xóa tất cả bộ lọc",
+        "activeFilters": "Đang lọc",
+        "from": "Từ:",
+        "to": "Đến:",
+        "resultsCount": "Tìm thấy {count} kết quả",
+        "error": "Lỗi khi tải bài viết. Vui lòng thử lại.",
+        "retry": "Thử lại",
+        "noResults": "Không tìm thấy bài viết nào",
+        "tryAdjusting": "Hãy thử điều chỉnh tìm kiếm hoặc bộ lọc của bạn",
+        "loading": "Đang tải bài viết..."
+    },
     "ReportDialog": {
         "title": "Báo cáo nội dung",
         "reasonLabel": "Lý do báo cáo",
@@ -89,6 +110,5 @@
         "show": "Hiển thị",
         "more": "thêm",
         "addYourThoughts": "Thêm suy nghĩ của bạn..."
-      }
-      
+    }
 }

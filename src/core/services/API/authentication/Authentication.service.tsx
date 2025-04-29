@@ -192,19 +192,33 @@ class AuthenticationService implements IAuthentication {
         type,
         start_date,
         end_date,
+        topics,
         page,
         limit,
     }: ISearchBlogsRequest): Promise<any> {
-        const res = await httpService.get('/blogs/search', {
-            params: {
-                search,
-                type,
-                start_date,
-                end_date,
-                page,
-                limit,
-            },
-        })
+        // Create a URLSearchParams object to properly handle multiple topic parameters
+        const params = new URLSearchParams()
+
+        // Add basic parameters
+        if (page) params.append('page', page.toString())
+        if (limit) params.append('limit', limit.toString())
+        if (search) params.append('search', search)
+        if (type) params.append('type', type)
+        if (start_date) params.append('start_date', start_date)
+        if (end_date) params.append('end_date', end_date)
+
+        // Add topics as individual 'topic' parameters
+        if (topics && Array.isArray(topics) && topics.length > 0) {
+            topics.forEach((topic) => {
+                params.append('topic', topic.toString())
+            })
+        }
+
+        // Use the toString() method to get the query string
+        const queryString = params.toString()
+
+        // Make the request with the query string
+        const res = await httpService.get(`/blogs/search?${queryString}`)
         return res
     }
     async getAllBlogMedias({ type }: { type: string }): Promise<any> {

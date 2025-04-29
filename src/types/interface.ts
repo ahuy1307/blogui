@@ -62,3 +62,20 @@ export interface BlogMedia {
         size: number
     }
 }
+
+export interface BlogSearchParams {
+    page?: number
+    limit?: number
+    search?: string
+    startDate?: string
+    endDate?: string
+    topic?: number[]
+    type?: string
+}
+  
+export interface BlogSearchResponse {
+    count: number
+    next: string | null
+    previous: string | null
+    results: Blog[]
+}
