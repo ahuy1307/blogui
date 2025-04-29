@@ -613,7 +613,7 @@ export function BlogDetail({
                             {/* Example button to trigger refetch */}
 
                             <Link
-                                href="/blogs"
+                                href="/blog"
                                 className="inline-flex items-center text-base text-gray-500 hover:text-purple-600 mb-8"
                             >
                                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -955,60 +955,85 @@ export function BlogDetail({
                                         {t('related_articles')}
                                     </h3>
                                     <div className="grid md:grid-cols-2 gap-6">
-                                        {blogsByTopic.map(
-                                            (
-                                                relatedPost: any,
-                                                index: number
-                                            ) => (
-                                                <Link
-                                                    href={`/blog/${relatedPost.slug}/`}
-                                                    className="group"
-                                                    key={index}
-                                                >
-                                                    <div className="space-y-3">
-                                                        <div className="relative h-48 rounded-lg overflow-hidden border border-gray-200 group-hover:border-purple-300 transition-colors">
-                                                            <Image
-                                                                src={
-                                                                    relatedPost.anhBia ||
-                                                                    '/images/default_image.jpg'
-                                                                }
-                                                                alt={`${relatedPost.title} thumbnail`}
-                                                                className="object-cover"
-                                                                fill
-                                                            />{' '}
-                                                        </div>
-                                                        <div>
-                                                            <div className="flex items-center gap-2 pt-2 text-xs text-purple-600 mb-2">
-                                                                {relatedPost.chuDes.map(
-                                                                    (
-                                                                        topic: any
-                                                                    ) => (
-                                                                        <Badge
-                                                                            key={
-                                                                                topic.id
-                                                                            }
-                                                                            variant="outline"
-                                                                            className="bg-purple-50 text-purple-600 hover:bg-purple-100 text-sm"
-                                                                        >
-                                                                            {
-                                                                                topic
-                                                                                    .tenChuDe
-                                                                                    .en
-                                                                            }
-                                                                        </Badge>
-                                                                    )
-                                                                )}
+                                        {blogsByTopic
+                                            .slice(0, 4)
+                                            .map(
+                                                (
+                                                    relatedPost: any,
+                                                    index: number
+                                                ) => (
+                                                    <Link
+                                                        href={`/blog/${relatedPost.slug}/`}
+                                                        className="group"
+                                                        key={index}
+                                                    >
+                                                        <div className="space-y-3">
+                                                            <div className="relative h-48 rounded-lg overflow-hidden border border-gray-200 group-hover:border-purple-300 transition-colors">
+                                                                <Image
+                                                                    src={
+                                                                        relatedPost.anhBia ||
+                                                                        '/images/default_image.jpg'
+                                                                    }
+                                                                    alt={`${relatedPost.title} thumbnail`}
+                                                                    className="object-cover"
+                                                                    fill
+                                                                />{' '}
                                                             </div>
-                                                            <h5 className="font-medium group-hover:text-purple-600 pt-2 transition-colors">
-                                                                {
-                                                                    relatedPost.tieuDe
-                                                                }
-                                                            </h5>
+                                                            <div>
+                                                                <div className="flex items-center gap-4 pt-2 text-xs text-purple-600 mb-2">
+                                                                    {relatedPost.chuDes &&
+                                                                        relatedPost.chuDes
+                                                                            .slice(
+                                                                                0,
+                                                                                4
+                                                                            )
+                                                                            .map(
+                                                                                (
+                                                                                    chuDe: any
+                                                                                ) => (
+                                                                                    <span
+                                                                                        key={
+                                                                                            chuDe.id
+                                                                                        }
+                                                                                        className="bg-purple-50 text-purple-600 hover:bg-purple-100 text-sm"
+                                                                                    >
+                                                                                        {
+                                                                                            chuDe
+                                                                                                .tenChuDe[
+                                                                                                locale
+                                                                                            ]
+                                                                                        }
+                                                                                    </span>
+                                                                                )
+                                                                            )}
+                                                                    {relatedPost.chuDes &&
+                                                                        relatedPost
+                                                                            .chuDes
+                                                                            .length >
+                                                                            4 && (
+                                                                            <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
+                                                                                +
+                                                                                {relatedPost
+                                                                                    .chuDes
+                                                                                    .length -
+                                                                                    4}{' '}
+                                                                                {locale ===
+                                                                                'en'
+                                                                                    ? 'more'
+                                                                                    : 'khác'}
+                                                                            </span>
+                                                                        )}
+                                                                </div>
+                                                                <h5 className="font-medium group-hover:text-purple-600 pt-2 transition-colors">
+                                                                    {
+                                                                        relatedPost.tieuDe
+                                                                    }
+                                                                </h5>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </Link>
-                                            )
-                                        )}
+                                                    </Link>
+                                                )
+                                            )}
                                     </div>
                                 </div>
                             )}
