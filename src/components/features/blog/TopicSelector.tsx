@@ -27,6 +27,7 @@ export function TopicSelector({
     const [newTopic, setNewTopic] = useState(null)
     const [topics, setTopics] = useState<Topic[]>([])
     const locale = useLocale()
+    const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null)
 
     useEffect(() => {
         const fetchTopics = async () => {
@@ -57,6 +58,12 @@ export function TopicSelector({
             onChange([...selectedTopics, topic])
             setSearchTerm('')
             setNewTopic(null)
+            // Keep the suggestions visible
+            setShowSuggestions(true)
+            // Keep focus on input after selection
+            if (inputRef) {
+                inputRef.focus()
+            }
         }
     }
 
@@ -97,14 +104,13 @@ export function TopicSelector({
                     value={searchTerm}
                     onChange={(e) => {
                         setSearchTerm(e.target.value)
-                        // setNewTopic(e.target.value)
                         setShowSuggestions(true)
                     }}
                     onFocus={() => setShowSuggestions(true)}
                     onBlur={() => {
-                        // Delay hiding suggestions to allow for clicks
-                        setTimeout(() => setShowSuggestions(false), 200)
+                        // Don't auto-hide suggestions - this allows clicks on the dropdown items
                     }}
+                    ref={(el) => setInputRef(el)}
                     style={{ borderRadius: '6px' }}
                     onKeyDown={handleKeyDown}
                     className="border-gray-300 focus-visible:ring-purple-500 py-6 text-base placeholder:text-base"

@@ -127,7 +127,7 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                     {t('topics')}
                 </Link>
                 <Link
-                    href={`/`}
+                    href={`/blog`}
                     className="text-base hover:text-purple-500 font-bold"
                 >
                     {t('blog')}

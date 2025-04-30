@@ -85,6 +85,7 @@ interface ISearchBlogsRequest {
     end_date?: string
     page?: number
     limit?: number
+    topics?: number[]
 }
 
 interface ISaveBlogRequest {

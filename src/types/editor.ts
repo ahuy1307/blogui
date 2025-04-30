@@ -15,7 +15,9 @@ export type SectionType =
           type: 'text'
           content: string
           id: string
+          level?: 1 | 2 | 3
           parentId?: string
+          anchorId?: string
           row?: number
           column?: number
           marginTop?: number
@@ -24,9 +26,12 @@ export type SectionType =
     | {
           type: 'image'
           url: string
+          content?: string
           caption: string
           size?: string
           id: string
+          anchorId?: string
+          level?: 1 | 2 | 3
           parentId?: string
           row?: number
           column?: number
@@ -36,8 +41,10 @@ export type SectionType =
     | {
           type: 'code'
           content: string
+          level?: 1 | 2 | 3
           language: string
           id: string
+          anchorId?: string
           parentId?: string
           row?: number
           column?: number
@@ -49,6 +56,7 @@ export type SectionType =
           content: string
           level: 1 | 2 | 3
           id: string
+          anchorId?: string
           parentId?: string
           row?: number
           column?: number
@@ -59,6 +67,9 @@ export type SectionType =
           type: 'numbered-list'
           title?: string
           items: string[]
+          content?: string
+          anchorId?: string
+          level?: 1 | 2 | 3
           fontSize?: string
           id: string
           parentId?: string
@@ -71,6 +82,9 @@ export type SectionType =
           type: 'bullet-list'
           title?: string
           items: string[]
+          anchorId?: string
+          content?: string
+          level?: 1 | 2 | 3
           fontSize?: string
           id: string
           parentId?: string
@@ -82,9 +96,11 @@ export type SectionType =
     | {
           type: 'quote'
           content: string
+          level?: 1 | 2 | 3
           citation: string
           fontSize?: string
           id: string
+          anchorId?: string
           parentId?: string
           row?: number
           column?: number
@@ -96,8 +112,11 @@ export type SectionType =
           id: string
           parentId?: string
           row?: number
+          content?: string
           column?: number
+          level?: 1 | 2 | 3
           dividerType?: string
+          anchorId?: string
           spacing?: number
           thickness?: number
           color?: string
@@ -115,6 +134,9 @@ export type SectionType =
           url: string
           caption: string
           id: string
+          content?: string
+          level?: 1 | 2 | 3
+          anchorId?: string
           parentId?: string
           row?: number
           column?: number
@@ -126,6 +148,9 @@ export type SectionType =
           id: string
           columns: number
           children: string[]
+          level?: 1 | 2 | 3
+          anchorId?: string
+          content?: string
           row?: number
           column?: number
           marginTop?: number
