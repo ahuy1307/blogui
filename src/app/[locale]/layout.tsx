@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 import Loading from './loading'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { GoogleTagManager } from '@next/third-parties/google'
 
 import '../globals.css'
 
@@ -49,12 +50,16 @@ export default async function LocaleLayout({
     // Fetch messages for the current locale
     const messages = await getMessages()
 
+    const GTM_ID =
+        process.env.NEXT_PUBLIC_GOOGLE_TAGS_MANAGEMENT || 'GTM-WXP96QZP'
+
     return (
         <html lang={locale} suppressHydrationWarning>
             <head>
                 {/* <link rel="icon" href="/logo.png" sizes="any" /> */}
                 <link rel="icon" href="/favicon.ico" sizes="any" />
             </head>
+            <GoogleTagManager gtmId={GTM_ID} />
             <body>
                 <Suspense fallback={<Loading />}>
                     <QueryClientProviderWrapper>
