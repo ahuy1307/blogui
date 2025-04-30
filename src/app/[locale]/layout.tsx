@@ -53,13 +53,30 @@ export default async function LocaleLayout({
     const GTM_ID =
         process.env.NEXT_PUBLIC_GOOGLE_TAGS_MANAGEMENT || 'GTM-WXP96QZP'
 
+    const GA_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS || 'G-DL3LGNPR30'
+
     return (
         <html lang={locale} suppressHydrationWarning>
             <head>
                 {/* <link rel="icon" href="/logo.png" sizes="any" /> */}
                 <link rel="icon" href="/favicon.ico" sizes="any" />
             </head>
+            <script
+                async
+                src="https://www.googletagmanager.com/gtag/js?id=G-DL3LGNPR30"
+            ></script>
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){window.dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}');
+            `,
+                }}
+            />
             <GoogleTagManager gtmId={GTM_ID} />
+
             <body>
                 <Suspense fallback={<Loading />}>
                     <QueryClientProviderWrapper>
