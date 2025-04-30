@@ -10,6 +10,7 @@ import {
     AlertTriangle,
     Calendar,
     List,
+    Eye,
 } from 'lucide-react'
 import { LuFacebook } from 'react-icons/lu'
 import { SlSocialLinkedin } from 'react-icons/sl'
@@ -541,9 +542,9 @@ export function BlogDetail({
     }
 
     const firstCharName =
-        blogDetail.tacGia.fullName !== ''
+        blogDetail && blogDetail.tacGia?.fullName !== ''
             ? getInitials(
-                  blogDetail.tacGia.fullName,
+                  blogDetail.tacGia?.fullName,
                   blogDetail.tacGia?.email ?? ''
               )
             : getInitials('', blogDetail.tacGia?.email ?? '')
@@ -653,6 +654,12 @@ export function BlogDetail({
                                         {new Date(
                                             blogDetail.ngayXuatBan
                                         ).toLocaleDateString()}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Eye className="h-4 w-4" />
+                                    <span>
+                                        {blogDetail.luotXem} {t('views')}
                                     </span>
                                 </div>
                             </div>

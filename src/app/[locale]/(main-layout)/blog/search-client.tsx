@@ -9,9 +9,10 @@ import {
     QueryClientProvider,
     useInfiniteQuery,
     useQuery,
+    useQueryClient,
 } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { DatePicker, Spin } from 'antd'
+import { DatePicker, Spin, Select } from 'antd'
 import { Search, X, ChevronDown, ChevronUp, Loader2 } from 'lucide-react'
 import { Button } from '@/components/other-ui/Button'
 import { Input } from '@/components/other-ui/Input'
@@ -31,6 +32,7 @@ import { cn } from '@/lib/utils'
 import Header from '@/components/features/home/Header'
 import { Footer } from '@/components/features/home/Footer'
 import ScrollToTop from '@/components/features/home/ScrollToTop'
+import { Dropdown } from 'antd'
 
 const { RangePicker } = DatePicker
 
@@ -51,17 +53,55 @@ function SearchContent() {
     const [selectedTopics, setSelectedTopics] = useState(
         searchParams.get('topics')?.split(',').filter(Boolean).map(Number) || []
     )
+    const [sortOrder, setSortOrder] = useState(
+        searchParams.get('sort') || 'newest'
+    )
     const [isFiltersVisible, setIsFiltersVisible] = useState(false)
     const [isSearching, setIsSearching] = useState(false)
+    const [isUpdatingFilters, setIsUpdatingFilters] = useState(false)
     const observer = useRef<IntersectionObserver | null>(null)
     const searchInputRef = useRef<HTMLInputElement>(null)
+    const urlUpdateTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+    const queryClient = useQueryClient()
 
-    // Create debounced search function
+    // Create debounced search function with longer delay for better performance
     const debouncedSearch = useCallback(
         debounce((value: string) => {
-            setIsSearching(false)
             setSearch(value)
-        }, 500),
+            setIsSearching(false)
+        }, 700),
+        []
+    )
+
+    // Create a debounced filter update function to batch filter changes
+    const debouncedFilterUpdate = useCallback(
+        debounce(
+            (
+                updatedFilters: Partial<{
+                    search: string
+                    startDate: string
+                    endDate: string
+                    topics: number[]
+                    sortOrder: string
+                }>
+            ) => {
+                // Batch update all filters at once
+                if (updatedFilters.search !== undefined)
+                    setSearch(updatedFilters.search)
+                if (updatedFilters.startDate !== undefined)
+                    setStartDate(updatedFilters.startDate)
+                if (updatedFilters.endDate !== undefined)
+                    setEndDate(updatedFilters.endDate)
+                if (updatedFilters.topics !== undefined)
+                    setSelectedTopics(updatedFilters.topics)
+                if (updatedFilters.sortOrder !== undefined)
+                    setSortOrder(updatedFilters.sortOrder)
+
+                setIsUpdatingFilters(false)
+                setIsSearching(false)
+            },
+            700
+        ),
         []
     )
 
@@ -102,29 +142,62 @@ function SearchContent() {
     // Update URL with search params (but don't trigger unnecessary renders)
     const previousUrlRef = useRef<string>('')
 
+    // Debounce the URL updates to prevent multiple history entries and reduce renders
     useEffect(() => {
-        const params = new URLSearchParams()
-        if (search) params.set('q', search)
-        if (startDate) params.set('start_date', startDate)
-        if (endDate) params.set('end_date', endDate)
-        if (selectedTopics.length > 0)
-            params.set('topics', selectedTopics.join(','))
-
-        const url = `/${locale}/blog${params.toString() ? `?${params.toString()}` : ''}`
-
-        // Only update if URL has actually changed
-        if (url !== previousUrlRef.current) {
-            previousUrlRef.current = url
-            router.push(url, { scroll: false })
+        // Clear any existing timeout
+        if (urlUpdateTimeoutRef.current) {
+            clearTimeout(urlUpdateTimeoutRef.current)
         }
-    }, [search, startDate, endDate, selectedTopics, router, locale])
 
-    // Cancel debounced search on component unmount
+        // Only update URL if we're not currently updating filters
+        if (!isUpdatingFilters) {
+            urlUpdateTimeoutRef.current = setTimeout(() => {
+                const params = new URLSearchParams()
+                if (search) params.set('q', search)
+                if (startDate) params.set('start_date', startDate)
+                if (endDate) params.set('end_date', endDate)
+                if (selectedTopics.length > 0)
+                    params.set('topics', selectedTopics.join(','))
+                if (sortOrder) params.set('sort', sortOrder)
+
+                const url = `/${locale}/blog${
+                    params.toString() ? `?${params.toString()}` : ''
+                }`
+
+                // Only update if URL has actually changed
+                if (url !== previousUrlRef.current) {
+                    previousUrlRef.current = url
+                    router.push(url, { scroll: false })
+                }
+            }, 200)
+        }
+
+        return () => {
+            if (urlUpdateTimeoutRef.current) {
+                clearTimeout(urlUpdateTimeoutRef.current)
+            }
+        }
+    }, [
+        search,
+        startDate,
+        endDate,
+        selectedTopics,
+        sortOrder,
+        router,
+        locale,
+        isUpdatingFilters,
+    ])
+
+    // Cancel debounced operations on component unmount
     useEffect(() => {
         return () => {
             debouncedSearch.cancel()
+            debouncedFilterUpdate.cancel()
+            if (urlUpdateTimeoutRef.current) {
+                clearTimeout(urlUpdateTimeoutRef.current)
+            }
         }
-    }, [debouncedSearch])
+    }, [debouncedSearch, debouncedFilterUpdate])
 
     // Fetch blogs with Infinite Query
     const {
@@ -136,7 +209,14 @@ function SearchContent() {
         isError,
         isFetching,
     } = useInfiniteQuery({
-        queryKey: ['blogs', search, startDate, endDate, selectedTopics],
+        queryKey: [
+            'blogs',
+            search,
+            startDate,
+            endDate,
+            selectedTopics,
+            sortOrder,
+        ],
         queryFn: async ({ pageParam = 1 }) => {
             // Create a URLSearchParams object to properly handle multiple topic parameters
             const params = new URLSearchParams()
@@ -147,6 +227,11 @@ function SearchContent() {
             if (search) params.append('search', search)
             if (startDate) params.append('start_date', startDate)
             if (endDate) params.append('end_date', endDate)
+            if (sortOrder)
+                params.append(
+                    'ordering',
+                    sortOrder === 'newest' ? '-ngayXuatBan' : 'ngayXuatBan'
+                )
 
             // Add topics as individual 'topic' parameters
             if (selectedTopics.length > 0) {
@@ -166,6 +251,8 @@ function SearchContent() {
                 start_date: startDate || undefined,
                 end_date: endDate || undefined,
                 topics: selectedTopics.length > 0 ? selectedTopics : undefined,
+                order_by:
+                    sortOrder === 'newest' ? '-ngayXuatBan' : 'ngayXuatBan',
             })
 
             return {
@@ -238,48 +325,78 @@ function SearchContent() {
         setSearchInputValue(searchTerm)
     }
 
-    // Handle topic selection with smooth transition
+    // Handle topic selection with optimized batching
     const handleTopicChange = (topicId: number) => {
+        setIsUpdatingFilters(true)
         setIsSearching(true)
-        setTimeout(() => {
-            setSelectedTopics((prev) =>
-                prev.includes(topicId)
-                    ? prev.filter((id) => id !== topicId)
-                    : [...prev, topicId]
-            )
-            setIsSearching(false)
-        }, 100)
+
+        // Update selected topics in a batch
+        const updatedTopics = selectedTopics.includes(topicId)
+            ? selectedTopics.filter((id) => id !== topicId)
+            : [...selectedTopics, topicId]
+
+        debouncedFilterUpdate({ topics: updatedTopics })
     }
 
-    // Handle date range selection with smooth transition
+    // Handle date range selection with optimized batching
     const handleDateRangeChange = (dates: any) => {
+        setIsUpdatingFilters(true)
         setIsSearching(true)
+
+        let updatedStartDate = ''
+        let updatedEndDate = ''
+
+        if (dates && dates.length === 2) {
+            updatedStartDate = dates[0].format('YYYY-MM-DD')
+            updatedEndDate = dates[1].format('YYYY-MM-DD')
+        }
+
+        debouncedFilterUpdate({
+            startDate: updatedStartDate,
+            endDate: updatedEndDate,
+        })
+    }
+
+    // Handle sort order change with optimized immediate update
+    const handleSortChange = (order: string) => {
+        // Don't use debounce for dropdown to make it feel more responsive
+        setIsSearching(true)
+        setSortOrder(order)
+
+        // Skip standard filter update debounce mechanism
         setTimeout(() => {
-            if (dates && dates.length === 2) {
-                setStartDate(dates[0].format('YYYY-MM-DD'))
-                setEndDate(dates[1].format('YYYY-MM-DD'))
-            } else {
-                setStartDate('')
-                setEndDate('')
-            }
             setIsSearching(false)
+            setIsUpdatingFilters(false)
+
+            // Manually invalidate the query to refresh immediately
+            queryClient.invalidateQueries({
+                queryKey: ['blogs'],
+                exact: false,
+                refetchType: 'active',
+            })
         }, 100)
     }
 
-    // Clear all filters with smooth transition
+    // Clear all filters with optimized batching
     const clearAllFilters = () => {
+        setIsUpdatingFilters(true)
         setIsSearching(true)
-        setTimeout(() => {
-            setSearch('')
-            setSearchInputValue('')
-            setStartDate('')
-            setEndDate('')
-            setSelectedTopics([])
-            setIsSearching(false)
-            if (searchInputRef.current) {
-                searchInputRef.current.focus()
-            }
-        }, 100)
+        setSearchInputValue('')
+
+        debouncedFilterUpdate({
+            search: '',
+            startDate: '',
+            endDate: '',
+            topics: [],
+            sortOrder: 'newest',
+        })
+
+        // Focus search input after clearing
+        if (searchInputRef.current) {
+            setTimeout(() => {
+                searchInputRef.current?.focus()
+            }, 100)
+        }
     }
 
     // Get topic name based on language
@@ -290,8 +407,8 @@ function SearchContent() {
         )
     }
 
-    // Determine if search is active to show loading state
-    const isActiveSearch = isSearching || isFetching
+    // Determine if search is active to show loading state - account for filter updates too
+    const isActiveSearch = isSearching || isFetching || isUpdatingFilters
 
     // Show skeleton loading when we're actively searching or loading initial data
     const showSkeletons = isActiveSearch || isLoading
@@ -566,23 +683,54 @@ function SearchContent() {
 
                 {/* Blog results - right side */}
                 <div className="md:w-3/4 lg:w-4/5">
-                    {/* Results count with simple loading state */}
+                    {/* Results count with simple loading state and sort dropdown */}
                     <div className="flex justify-between items-center mb-6 h-6">
-                        {isActiveSearch ? (
-                            <div className="flex items-center text-gray-500">
-                                <Loader2
-                                    size={16}
-                                    className="animate-spin mr-2"
+                        <div className="flex items-center">
+                            {isActiveSearch ? (
+                                <div className="flex items-center text-gray-500">
+                                    <Loader2
+                                        size={16}
+                                        className="animate-spin mr-2"
+                                    />
+                                    <p>{t('search.loading')}</p>
+                                </div>
+                            ) : data?.pages && data.pages.length > 0 ? (
+                                <p className="text-gray-500">
+                                    {t('search.resultsCount', {
+                                        count: data.pages[0].count,
+                                    })}
+                                </p>
+                            ) : null}
+                        </div>
+
+                        {/* Sort dropdown */}
+                        {!showSkeletons && allBlogs.length > 0 && (
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm text-gray-500">
+                                    {t('search.sortBy')}:
+                                </span>
+                                <Select
+                                    value={sortOrder}
+                                    onChange={(value) =>
+                                        handleSortChange(value)
+                                    }
+                                    disabled={isActiveSearch}
+                                    options={[
+                                        {
+                                            label: t('search.newest'),
+                                            value: 'newest',
+                                        },
+                                        {
+                                            label: t('search.oldest'),
+                                            value: 'oldest',
+                                        },
+                                    ]}
+                                    placeholder={t('search.sortBy')}
+                                    className="w-[120px]"
+                                    size="middle"
                                 />
-                                <p>{t('search.loading')}</p>
                             </div>
-                        ) : data?.pages && data.pages.length > 0 ? (
-                            <p className="text-gray-500">
-                                {t('search.resultsCount', {
-                                    count: data.pages[0].count,
-                                })}
-                            </p>
-                        ) : null}
+                        )}
                     </div>
 
                     {/* Blog grid with simpler transitions */}

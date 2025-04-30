@@ -195,6 +195,7 @@ class AuthenticationService implements IAuthentication {
         topics,
         page,
         limit,
+        order_by,
     }: ISearchBlogsRequest): Promise<any> {
         // Create a URLSearchParams object to properly handle multiple topic parameters
         const params = new URLSearchParams()
@@ -206,6 +207,7 @@ class AuthenticationService implements IAuthentication {
         if (type) params.append('type', type)
         if (start_date) params.append('start_date', start_date)
         if (end_date) params.append('end_date', end_date)
+        if (order_by) params.append('order_by', order_by)
 
         // Add topics as individual 'topic' parameters
         if (topics && Array.isArray(topics) && topics.length > 0) {

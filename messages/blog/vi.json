@@ -26,7 +26,10 @@
         "retry": "Thử lại",
         "noResults": "Không tìm thấy bài viết nào",
         "tryAdjusting": "Hãy thử điều chỉnh tìm kiếm hoặc bộ lọc của bạn",
-        "loading": "Đang tải bài viết..."
+        "loading": "Đang tải bài viết...",
+        "sortBy": "Sắp xếp theo",
+        "newest": "Mới nhất",
+        "oldest": "Cũ nhất"
     },
     "ReportDialog": {
         "title": "Báo cáo nội dung",
@@ -68,7 +71,8 @@
         "seeWhoLikes": "Xem ai thích bài viết này",
         "totalLikes": "Lượt thích",
         "noLikes": "Chưa có lượt thích nào",
-        "tableOfContents": "Mục lục"
+        "tableOfContents": "Mục lục",
+        "views": "lượt xem"
     },
     "BlogLibrary": {
         "title": "Thư viện",

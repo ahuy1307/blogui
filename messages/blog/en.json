@@ -25,7 +25,10 @@
     "retry": "Retry",
     "noResults": "No articles found",
     "tryAdjusting": "Try adjusting your search or filters",
-    "loading": "Loading articles..."
+    "loading": "Loading articles...",
+    "sortBy": "Sort by",
+    "newest": "Newest",
+    "oldest": "Oldest"
   },
   "ReportDialog": {
     "title": "Report Content",
@@ -67,7 +70,8 @@
     "seeWhoLikes": "See who likes this article",
     "totalLikes": "Likes",
     "noLikes": "No likes yet",
-    "tableOfContents": "Table of Contents"
+    "tableOfContents": "Table of Contents",
+    "views": "views"
   },
   "BlogLibrary": {
     "title": "Library",

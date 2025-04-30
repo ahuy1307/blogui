@@ -86,6 +86,7 @@ interface ISearchBlogsRequest {
     page?: number
     limit?: number
     topics?: number[]
+    order_by?: string
 }
 
 interface ISaveBlogRequest {

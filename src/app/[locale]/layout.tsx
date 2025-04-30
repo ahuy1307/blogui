@@ -60,21 +60,21 @@ export default async function LocaleLayout({
             <head>
                 {/* <link rel="icon" href="/logo.png" sizes="any" /> */}
                 <link rel="icon" href="/favicon.ico" sizes="any" />
+                <script
+                    async
+                    src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+                ></script>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){window.dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${GA_ID}');
+                `,
+                    }}
+                />
             </head>
-            <script
-                async
-                src="https://www.googletagmanager.com/gtag/js?id=G-DL3LGNPR30"
-            ></script>
-            <script
-                dangerouslySetInnerHTML={{
-                    __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){window.dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}');
-            `,
-                }}
-            />
             <GoogleTagManager gtmId={GTM_ID} />
 
             <body>
