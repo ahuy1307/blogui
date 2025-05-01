@@ -173,9 +173,24 @@ const convertToSectionType = (component: any): SectionType | null => {
         case 'quote':
             return {
                 type: 'quote',
-                content: JSON.parse(JSON.parse(noiDung).content).content || '',
-                citation:
-                    JSON.parse(JSON.parse(noiDung).content)?.citation || '',
+                content: (() => {
+                    try {
+                        const parsedOuter = JSON.parse(noiDung)
+                        return parsedOuter?.content || ''
+                    } catch (e) {
+                        console.error('Error parsing quote content:', e)
+                        return ''
+                    }
+                })(),
+                citation: (() => {
+                    try {
+                        const parsedOuter = JSON.parse(noiDung)
+                        return parsedOuter?.citation || ''
+                    } catch (e) {
+                        console.error('Error parsing quote citation:', e)
+                        return ''
+                    }
+                })(),
                 fontSize: dinhDang?.fontSize || 'normal',
                 id,
                 row: hang,
@@ -388,35 +403,60 @@ const TableOfContentsBlog = ({
                             const isActive = activeSection === heading.anchorId
                             const headingLevel = heading.level || 2
 
+                            // Apply styling based on heading level
+                            let fontSizeClass = ''
+                            let paddingClass = ''
+                            let prefix = ''
+
+                            if (headingLevel === 1) {
+                                // Only level 1 headings get an index
+                                fontSizeClass = 'text-sm font-semibold'
+                                paddingClass = 'pl-2'
+                                const h1Index = headings.filter(
+                                    (h) =>
+                                        h.level === 1 &&
+                                        headings.indexOf(h) <=
+                                            headings.indexOf(heading)
+                                ).length
+                                prefix = `${h1Index}. `
+                            } else if (headingLevel === 2) {
+                                fontSizeClass = 'text-sm'
+                                paddingClass = 'pl-6' // More indentation for level 2
+                                // No index for level 2
+                            } else if (headingLevel === 3) {
+                                fontSizeClass = 'text-xs'
+                                paddingClass = 'pl-10' // Even more indentation for level 3
+                                // No index for level 3
+                            }
+
                             return (
                                 <li
-                                    key={index}
-                                    className={`px-2
-                                            ${headingLevel === 2 ? 'mt-2' : ''}
-                                            ${headingLevel > 2 ? `pl-${(headingLevel - 1) * 2}` : ''}
-                                        `}
+                                    key={headings.indexOf(heading)}
+                                    className={`
+                                        ${headingLevel === 1 ? 'mt-3' : headingLevel === 2 ? 'mt-1' : ''}
+                                    `}
                                 >
                                     <button
                                         onClick={() =>
                                             scrollToHeading(heading.anchorId!)
                                         }
                                         className={`
-                                                relative text-left py-2 px-2 rounded w-full transition-all duration-300
-                                                ${
-                                                    isActive
-                                                        ? 'bg-purple-50 text-purple-700 font-medium'
-                                                        : 'text-gray-700 hover:bg-gray-50 hover:text-purple-600'
-                                                }
-                                                ${headingLevel === 2 ? 'text-sm font-medium' : ''}
-                                                ${headingLevel === 3 ? 'text-xs pl-4' : ''}
-                                                ${headingLevel > 3 ? 'text-xs pl-6' : ''}
-                                            `}
+                                            relative text-left py-2 px-2 rounded w-full transition-all duration-300
+                                            ${paddingClass}
+                                            ${fontSizeClass}
+                                            ${
+                                                isActive
+                                                    ? 'bg-purple-50 text-purple-700 font-medium'
+                                                    : 'text-gray-700 hover:bg-gray-50 hover:text-purple-600'
+                                            }
+                                        `}
                                     >
                                         {isActive && (
                                             <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-purple-500 rounded-r-lg transition-all duration-300"></span>
                                         )}
                                         <span className="line-clamp-1">
-                                            {index + 1}. {heading.content}
+                                            {prefix}
+                                            {heading.content}
                                         </span>
                                     </button>
                                 </li>

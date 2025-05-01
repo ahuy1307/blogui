@@ -64,12 +64,17 @@ function SearchContent() {
     const urlUpdateTimeoutRef = useRef<NodeJS.Timeout | null>(null)
     const queryClient = useQueryClient()
 
-    // Create debounced search function with longer delay for better performance
+    // Create debounced search function with optimized 500ms delay
     const debouncedSearch = useCallback(
         debounce((value: string) => {
+            setIsSearching(true)
             setSearch(value)
-            setIsSearching(false)
-        }, 700),
+
+            // Short delay to ensure UI updates smoothly
+            setTimeout(() => {
+                setIsSearching(false)
+            }, 100)
+        }, 500), // 500ms after user stops typing
         []
     )
 
@@ -105,11 +110,61 @@ function SearchContent() {
         []
     )
 
-    // Handle search input change with debounce
+    // Add a separate state for tracking topic selection changes
+    const [pendingTopicSelections, setPendingTopicSelections] = useState<
+        number[]
+    >([])
+    const pendingSelectionsTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+    // Setup effect to initialize pending selections
+    useEffect(() => {
+        setPendingTopicSelections(selectedTopics)
+    }, [])
+
+    // Create a debounced topic update function with a shorter delay
+    const debouncedTopicUpdate = useCallback(
+        debounce((topics: number[]) => {
+            setIsUpdatingFilters(true)
+            setIsSearching(true)
+            setSelectedTopics(topics)
+
+            // Then trigger the main filter update
+            debouncedFilterUpdate({ topics })
+        }, 800), // Slightly longer delay to allow multiple selections
+        []
+    )
+
+    // Cancel all debounced operations on component unmount
+    useEffect(() => {
+        return () => {
+            if (typeof debouncedSearch.cancel === 'function') {
+                debouncedSearch.cancel()
+            }
+            if (typeof debouncedFilterUpdate.cancel === 'function') {
+                debouncedFilterUpdate.cancel()
+            }
+            if (typeof debouncedTopicUpdate.cancel === 'function') {
+                debouncedTopicUpdate.cancel()
+            }
+            if (urlUpdateTimeoutRef.current) {
+                clearTimeout(urlUpdateTimeoutRef.current)
+            }
+            if (pendingSelectionsTimeoutRef.current) {
+                clearTimeout(pendingSelectionsTimeoutRef.current)
+            }
+        }
+    }, [debouncedSearch, debouncedFilterUpdate, debouncedTopicUpdate])
+
+    // Handle search input change with improved feedback
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
-        setIsSearching(true)
+        // Update input value immediately for responsive UI
         setSearchInputValue(value)
+
+        // Show searching indicator while waiting for debounce
+        setIsSearching(true)
+
+        // Use debounced search function
         debouncedSearch(value)
     }
 
@@ -191,15 +246,19 @@ function SearchContent() {
     // Cancel debounced operations on component unmount
     useEffect(() => {
         return () => {
-            debouncedSearch.cancel()
-            debouncedFilterUpdate.cancel()
+            if (typeof debouncedSearch.cancel === 'function') {
+                debouncedSearch.cancel()
+            }
+            if (typeof debouncedFilterUpdate.cancel === 'function') {
+                debouncedFilterUpdate.cancel()
+            }
             if (urlUpdateTimeoutRef.current) {
                 clearTimeout(urlUpdateTimeoutRef.current)
             }
         }
     }, [debouncedSearch, debouncedFilterUpdate])
 
-    // Fetch blogs with Infinite Query
+    // Fetch blogs with Infinite Query - improve caching strategy
     const {
         data,
         fetchNextPage,
@@ -214,7 +273,7 @@ function SearchContent() {
             search,
             startDate,
             endDate,
-            selectedTopics,
+            selectedTopics.sort((a, b) => a - b).join(','), // Sort to ensure consistent cache keys
             sortOrder,
         ],
         queryFn: async ({ pageParam = 1 }) => {
@@ -277,6 +336,10 @@ function SearchContent() {
             return undefined
         },
         initialPageParam: 1,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        gcTime: 10 * 60 * 1000, // 10 minutes,
+        // Add a structuralSharing option to better handle cached data
+        structuralSharing: true,
     })
 
     // Extract all blogs from all pages
@@ -325,17 +388,31 @@ function SearchContent() {
         setSearchInputValue(searchTerm)
     }
 
-    // Handle topic selection with optimized batching
+    // Improved topic selection handler that allows multiple selections before updating
     const handleTopicChange = (topicId: number) => {
-        setIsUpdatingFilters(true)
-        setIsSearching(true)
+        // Update the pending selections immediately for visual feedback
+        const updatedTopics = pendingTopicSelections.includes(topicId)
+            ? pendingTopicSelections.filter((id) => id !== topicId)
+            : [...pendingTopicSelections, topicId]
 
-        // Update selected topics in a batch
-        const updatedTopics = selectedTopics.includes(topicId)
-            ? selectedTopics.filter((id) => id !== topicId)
-            : [...selectedTopics, topicId]
+        // Update visual state immediately
+        setPendingTopicSelections(updatedTopics)
 
-        debouncedFilterUpdate({ topics: updatedTopics })
+        // Cancel any existing timeout
+        if (pendingSelectionsTimeoutRef.current) {
+            clearTimeout(pendingSelectionsTimeoutRef.current)
+        }
+
+        // Set indicator that shows we're delaying API call to allow multiple selections
+        pendingSelectionsTimeoutRef.current = setTimeout(() => {
+            // If topics are different, trigger the debounced update
+            if (
+                JSON.stringify(updatedTopics.sort()) !==
+                JSON.stringify(selectedTopics.sort())
+            ) {
+                debouncedTopicUpdate(updatedTopics)
+            }
+        }, 300) // Short delay to allow user to make multiple selections
     }
 
     // Handle date range selection with optimized batching
@@ -367,21 +444,15 @@ function SearchContent() {
         setTimeout(() => {
             setIsSearching(false)
             setIsUpdatingFilters(false)
-
-            // Manually invalidate the query to refresh immediately
-            queryClient.invalidateQueries({
-                queryKey: ['blogs'],
-                exact: false,
-                refetchType: 'active',
-            })
         }, 100)
     }
 
-    // Clear all filters with optimized batching
+    // Clear all filters with optimized batching - update to reset pending selections too
     const clearAllFilters = () => {
         setIsUpdatingFilters(true)
         setIsSearching(true)
         setSearchInputValue('')
+        setPendingTopicSelections([])
 
         debouncedFilterUpdate({
             search: '',
@@ -539,13 +610,21 @@ function SearchContent() {
                                         >
                                             <Checkbox
                                                 id={`topic-${topic.id}`}
-                                                checked={selectedTopics.includes(
+                                                checked={pendingTopicSelections.includes(
                                                     topic.id
                                                 )}
                                                 onCheckedChange={() =>
                                                     handleTopicChange(topic.id)
                                                 }
-                                                disabled={isActiveSearch}
+                                                disabled={
+                                                    isActiveSearch &&
+                                                    selectedTopics.includes(
+                                                        topic.id
+                                                    ) !==
+                                                        pendingTopicSelections.includes(
+                                                            topic.id
+                                                        )
+                                                }
                                                 className="text-purple-600"
                                             />
                                             <Label
@@ -668,7 +747,15 @@ function SearchContent() {
                                                         )
                                                     }
                                                     className="ml-1 hover:text-gray-700"
-                                                    disabled={isActiveSearch}
+                                                    disabled={
+                                                        isActiveSearch &&
+                                                        selectedTopics.includes(
+                                                            topicId
+                                                        ) !==
+                                                            pendingTopicSelections.includes(
+                                                                topicId
+                                                            )
+                                                    }
                                                 >
                                                     <X size={14} />
                                                 </button>
@@ -728,6 +815,7 @@ function SearchContent() {
                                     placeholder={t('search.sortBy')}
                                     className="w-[120px]"
                                     size="middle"
+                                    dropdownClassName="sort-dropdown"
                                 />
                             </div>
                         )}

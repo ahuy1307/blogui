@@ -2,7 +2,7 @@
 
 import type React from 'react'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { X, Plus } from 'lucide-react'
 import { Button } from '@/components/other-ui/Button'
 import { Input } from '@/components/other-ui/Input'
@@ -28,6 +28,7 @@ export function TopicSelector({
     const [topics, setTopics] = useState<Topic[]>([])
     const locale = useLocale()
     const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null)
+    const dropdownRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const fetchTopics = async () => {
@@ -44,17 +45,46 @@ export function TopicSelector({
         fetchTopics()
     }, [])
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node) &&
+                inputRef &&
+                !inputRef.contains(event.target as Node)
+            ) {
+                setShowSuggestions(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [inputRef])
+
     // Filter topics based on search term
-    const filteredTopics = topics.filter(
-        (topic) =>
-            !selectedTopics.includes(topic) &&
+    const filteredTopics = topics.filter((topic) => {
+        // Check if topic is already selected by comparing IDs
+        const isAlreadySelected = selectedTopics.some(
+            (selectedTopic) => selectedTopic.id === topic.id
+        )
+
+        return (
+            !isAlreadySelected &&
             topic.tenChuDe[locale]
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase())
-    )
+        )
+    })
 
     const handleAddTopic = (topic: Topic) => {
-        if (!selectedTopics.includes(topic) && topic.tenChuDe[locale].trim()) {
+        // Also use ID comparison here for consistency
+        const isAlreadySelected = selectedTopics.some(
+            (selectedTopic) => selectedTopic.id === topic.id
+        )
+
+        if (!isAlreadySelected && topic.tenChuDe[locale].trim()) {
             onChange([...selectedTopics, topic])
             setSearchTerm('')
             setNewTopic(null)
@@ -98,7 +128,7 @@ export function TopicSelector({
                 ))}
             </div>
 
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
                 <Input
                     placeholder={t('placeholder')}
                     value={searchTerm}
@@ -108,7 +138,7 @@ export function TopicSelector({
                     }}
                     onFocus={() => setShowSuggestions(true)}
                     onBlur={() => {
-                        // Don't auto-hide suggestions - this allows clicks on the dropdown items
+                        // We'll handle closing with the click outside handler
                     }}
                     ref={(el) => setInputRef(el)}
                     style={{ borderRadius: '6px' }}

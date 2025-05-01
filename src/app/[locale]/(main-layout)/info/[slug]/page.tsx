@@ -16,7 +16,6 @@ import Image from 'next/image'
 
 import { NAVIGATION_PATHS } from '@/constants/constants'
 import { Link, useRouter } from '@/navigation'
-import Avatar from '@/components/ui/Avatar/Avatar'
 import { getInitials, formatNumber } from '@/helper/utils'
 import { Spin } from 'antd'
 import { useTranslations } from 'next-intl'

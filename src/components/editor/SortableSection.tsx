@@ -11,6 +11,7 @@ import {
     Trash2,
     ArrowDown,
     Settings,
+    Smile,
 } from 'lucide-react'
 import { Button } from '@/components/other-ui/Button'
 import { Input } from '@/components/other-ui/Input'
@@ -24,7 +25,7 @@ import {
 } from '@/components/other-ui/Select'
 import { DividerSection } from '@/components/editor/DividerSection'
 import type { SectionType } from '@/types/editor'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Label } from '@/components/other-ui/Label'
 import { cn } from '@/lib/utils'
 import { useToast } from '@/components/other-ui/useToast'
@@ -38,6 +39,8 @@ import {
 } from '@/components/other-ui/Popover'
 import { SIDEBAR_SECTIONS } from '@/components/editor/constants'
 import { useLocale, useTranslations } from 'next-intl'
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 interface SortableSectionProps {
     section: SectionType
@@ -78,6 +81,9 @@ export function SortableSection({
     const [showPositionMenu, setShowPositionMenu] = useState(false)
     const [isRemoving, setIsRemoving] = useState(false)
     const locale = useLocale()
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+    const inputRef = useRef<HTMLInputElement>(null)
+    const [cursorPosition, setCursorPosition] = useState<number | null>(null)
 
     const positionOptions = Array.from({ length: totalSections }, (_, i) => ({
         value: i.toString(),
@@ -97,6 +103,84 @@ export function SortableSection({
             deleteSection(section.id)
             setIsRemoving(false) // Reset state after deletion
         }, 300) // Delay matches the CSS transition duration
+    }
+
+    const handleInsertEmoji = (emoji: { native: string }) => {
+        if (section.type === 'heading') {
+            // For heading, set a default cursor position if none exists
+            if (cursorPosition === null) {
+                setCursorPosition(section.content.length)
+            }
+
+            const pos =
+                cursorPosition !== null
+                    ? cursorPosition
+                    : section.content.length
+            const newContent =
+                section.content.substring(0, pos) +
+                emoji.native +
+                section.content.substring(pos)
+
+            updateSection(section.id, { content: newContent })
+
+            // Reset cursor position after a short delay to allow React to update the DOM
+            setTimeout(() => {
+                if (inputRef.current) {
+                    const newCursorPos = pos + emoji.native.length
+                    inputRef.current.focus()
+                    inputRef.current.setSelectionRange(
+                        newCursorPos,
+                        newCursorPos
+                    )
+                }
+            }, 10)
+        } else if (section.type === 'text') {
+            // For text editor, we need a different approach
+            // First check if content is in JSON format
+            try {
+                const contentObj =
+                    typeof section.content === 'string' &&
+                    section.content.startsWith('{')
+                        ? JSON.parse(section.content)
+                        : null
+
+                if (contentObj && contentObj.text !== undefined) {
+                    // It's in JSON format, append to the text property
+                    contentObj.text += emoji.native
+                    updateSection(section.id, {
+                        content: JSON.stringify(contentObj),
+                    })
+                } else {
+                    // It's plain text, just append normally
+                    updateSection(section.id, {
+                        content: section.content + emoji.native,
+                    })
+                }
+            } catch (e) {
+                // Not JSON, just append normally
+                updateSection(section.id, {
+                    content: section.content + emoji.native,
+                })
+            }
+        }
+        setShowEmojiPicker(false)
+    }
+
+    const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
+        setCursorPosition(e.currentTarget.selectionStart)
+    }
+
+    const handleInputKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        setCursorPosition(e.currentTarget.selectionStart)
+    }
+
+    // Track input focus for heading to ensure cursor position is available
+    const handleInputFocus = () => {
+        if (inputRef.current && cursorPosition === null) {
+            setCursorPosition(
+                inputRef.current.selectionStart || section.content?.length || 0
+            )
+        }
     }
 
     const renderSpacingControls = () => {
@@ -167,12 +251,40 @@ export function SortableSection({
         switch (section.type) {
             case 'text':
                 return (
-                    <TextEditor
-                        value={section.content}
-                        onChange={(value) =>
-                            updateSection(section.id, { content: value })
-                        }
-                    />
+                    <div className="relative">
+                        <TextEditor
+                            value={section.content}
+                            onChange={(value) =>
+                                updateSection(section.id, { content: value })
+                            }
+                        />
+                        <div className="absolute top-2 right-2">
+                            <Popover
+                                open={showEmojiPicker}
+                                onOpenChange={setShowEmojiPicker}
+                            >
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="h-8 w-8 p-0 rounded-full"
+                                    >
+                                        <Smile className="h-4 w-4" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                    className="w-auto p-0 border-none shadow-lg"
+                                    align="end"
+                                >
+                                    <Picker
+                                        data={data}
+                                        onEmojiSelect={handleInsertEmoji}
+                                        locale={locale}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                    </div>
                 )
 
             case 'image':
@@ -319,24 +431,56 @@ export function SortableSection({
                                 </SelectItem>
                             </SelectContent>
                         </Select>
-                        <Input
-                            value={section.content}
-                            onChange={(e) =>
-                                updateSection(section.id, {
-                                    content: e.target.value,
-                                })
-                            }
-                            placeholder={t('headingText')}
-                            className="border-gray-300 focus-visible:ring-purple-500 font-bold"
-                            style={{
-                                fontSize:
-                                    section.level === 1
-                                        ? '2rem'
-                                        : section.level === 2
-                                          ? '1.5rem'
-                                          : '1.25rem',
-                            }}
-                        />
+                        <div className="relative">
+                            <Input
+                                ref={inputRef}
+                                value={section.content}
+                                onChange={(e) =>
+                                    updateSection(section.id, {
+                                        content: e.target.value,
+                                    })
+                                }
+                                onClick={handleInputClick}
+                                onKeyUp={handleInputKeyUp}
+                                onFocus={handleInputFocus}
+                                placeholder={t('headingText')}
+                                className="border-gray-300 focus-visible:ring-purple-500 font-bold pr-10"
+                                style={{
+                                    fontSize:
+                                        section.level === 1
+                                            ? '2rem'
+                                            : section.level === 2
+                                              ? '1.5rem'
+                                              : '1.25rem',
+                                }}
+                            />
+                            <div className="absolute top-1/2 right-2 transform -translate-y-1/2">
+                                <Popover
+                                    open={showEmojiPicker}
+                                    onOpenChange={setShowEmojiPicker}
+                                >
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-8 w-8 p-0 rounded-full"
+                                        >
+                                            <Smile className="h-4 w-4" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                        className="w-auto p-0 border-none shadow-lg"
+                                        align="end"
+                                    >
+                                        <Picker
+                                            data={data}
+                                            onEmojiSelect={handleInsertEmoji}
+                                            locale={locale}
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                        </div>
                     </div>
                 )
 

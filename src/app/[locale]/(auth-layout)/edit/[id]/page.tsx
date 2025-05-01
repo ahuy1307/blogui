@@ -182,7 +182,7 @@ export default function EditBlogPage({ params }: any) {
     }
 
     const addSection = (type: SectionType['type'], targetId?: string) => {
-        const id = `${type}-${Date.now()}`
+        const id = generateId()
 
         sectionRefs.current[id] = createRef()
 
@@ -866,7 +866,7 @@ export default function EditBlogPage({ params }: any) {
             <ScrollToTop />
             <Toaster />
             <div className="min-h-screen bg-gradient-to-br from-gray-200 to-white text-gray-900">
-                <Header isWrite={true} />
+                <Header isWrite={false} />
                 <div className="fixed left-0 right-0 z-10 top-[-12px] shadow-sm border border-gray-400">
                     <div
                         className={`mt-[80px] flex flex-col gap-4 z-20 pt-4 shadow-sm  bg-white transition-all duration-500 ${
@@ -914,9 +914,9 @@ export default function EditBlogPage({ params }: any) {
                                         {t('aiGenerate')}
                                     </Button>
                                     <Button
-                                        onClick={() => saveBlogPost(
-                                            blogDetail?.daXuatBan
-                                        )}
+                                        onClick={() =>
+                                            saveBlogPost(blogDetail?.daXuatBan)
+                                        }
                                         className="bg-purple-600 hover:bg-purple-700 text-white"
                                     >
                                         <Save className="h-4 w-4 mr-2" />

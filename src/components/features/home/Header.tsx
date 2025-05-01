@@ -101,7 +101,7 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
     ]
 
     return (
-        <div className="fixed left-0 right-0 top-0 border-[var(--border-color-default)] border-b flex justify-between items-center pl-4 pr-5 h-[70px] xl:px-[120px] md:px-[36px] bg-white lg:backdrop-blur-xl lg:bg-white/50 gap-4 z-50">
+        <div className="fixed z-[200] left-0 right-0 top-0 border-[var(--border-color-default)] border-b flex justify-between items-center pl-4 pr-5 h-[70px] xl:px-[120px] md:px-[36px] bg-white lg:backdrop-blur-xl lg:bg-white/50 gap-4">
             <ModalConfirm
                 open={isConfirmLogout}
                 onCancel={setIsConfirmLogout}

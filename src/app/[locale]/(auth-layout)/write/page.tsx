@@ -62,10 +62,12 @@ import { useMutation } from '@tanstack/react-query'
 import { Topic } from '@/types/interface'
 import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import { generateId } from '@/lib/utils'
+import { useRouter } from '@/navigation'
 
 export default function WritePage() {
     const t = useTranslations('write') // Initialize translations for the 'write' namespace
     const locale = useLocale()
+    const router = useRouter()
 
     const publishBlogMutation = useMutation({
         mutationFn: (blogData: any) =>
@@ -78,6 +80,7 @@ export default function WritePage() {
                 title: t('blogPublished'),
                 description: t('blogPublishedDescription'),
             })
+            router.push('/profile/blogs')
         },
         onError: () => {
             toast({
@@ -631,6 +634,7 @@ export default function WritePage() {
                             thickness: section.thickness || 1,
                             color: section.color || '#9c65d0',
                         }
+                        noiDung = 'divider'
                         break
                     case 'video':
                         loaiThanhPhan = 'video'
@@ -770,9 +774,9 @@ export default function WritePage() {
             <Toaster />
             <div className="min-h-screen bg-gradient-to-br from-gray-200 to-white text-gray-900">
                 <Header isWrite={true} />
-                <div className="fixed left-0 right-0 z-10 top-[-12px] shadow-sm border border-gray-400">
+                <div className="fixed left-0 right-0 z-50 top-[-12px] shadow-sm border border-gray-400">
                     <div
-                        className={`mt-[80px] flex flex-col gap-4 z-20 pt-4 shadow-sm  bg-white transition-all duration-500 ${
+                        className={`mt-[80px] flex flex-col gap-4 z-50 pt-4 shadow-sm  bg-white transition-all duration-500 ${
                             isTabOpen
                                 ? 'h-[150px] overflow-hidden'
                                 : 'h-0 overflow-hidden'
