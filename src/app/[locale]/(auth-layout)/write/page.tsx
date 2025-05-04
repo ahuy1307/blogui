@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, createRef } from 'react'
 import { Button } from '@/components/other-ui/Button'
 import { Label } from '@/components/other-ui/Label'
 import { useToast } from '@/components/other-ui/useToast'
+import { Spin } from 'antd'
 import {
     DndContext,
     closestCenter,
@@ -39,6 +40,7 @@ import {
     ChevronDown,
     Sparkles,
     SquareArrowDown,
+    Loader2,
 } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/other-ui/Tabs'
 import { SortableSection } from '@/components/editor/SortableSection'
@@ -75,17 +77,23 @@ export default function WritePage() {
                 ...blogData,
             }),
         mutationKey: ['publishBlog'],
-        onSuccess: () => {
+        onSuccess: (_, variables) => {
+            const isPublishing = variables?.blogData?.daXuatBan
             toast({
-                title: t('blogPublished'),
-                description: t('blogPublishedDescription'),
+                title: isPublishing ? t('blogPublished') : t('draftSaved'),
+                description: isPublishing
+                    ? t('blogPublishedDescription')
+                    : t('draftSavedDescription'),
             })
             router.push('/profile/blogs')
         },
-        onError: () => {
+        onError: (_, variables) => {
+            const isPublishing = variables?.blogData?.daXuatBan
             toast({
-                title: t('publishError'),
-                description: t('publishErrorDescription'),
+                title: isPublishing ? t('publishError') : t('saveError'),
+                description: isPublishing
+                    ? t('publishErrorDescription')
+                    : t('saveErrorDescription'),
                 variant: 'destructive',
             })
         },
@@ -103,6 +111,17 @@ export default function WritePage() {
     const [sectionPickerOpen, setSectionPickerOpen] = useState(false)
     const tabRef = useRef<HTMLDivElement>(null)
     const { toast } = useToast()
+
+    // Prevent unmounting issues during navigation
+    const isNavigatingRef = useRef(false)
+    const isMountedRef = useRef(true)
+
+    useEffect(() => {
+        isMountedRef.current = true
+        return () => {
+            isMountedRef.current = false
+        }
+    }, [])
 
     const [wordCount, setWordCount] = useState(0)
     const [readingTime, setReadingTime] = useState(0)
@@ -150,10 +169,8 @@ export default function WritePage() {
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event
-
         setActiveDragId(null)
         setActiveDragType(null)
-
         document.body.classList.remove('dragging')
 
         if (!over) return
@@ -166,7 +183,6 @@ export default function WritePage() {
                 const newIndex = sections.findIndex(
                     (section) => section.id === over.id
                 )
-
                 return arrayMove(sections, oldIndex, newIndex)
             })
         }
@@ -174,9 +190,7 @@ export default function WritePage() {
 
     const addSection = (type: SectionType['type'], targetId?: string) => {
         const id = `${type}-${Date.now()}`
-
         sectionRefs.current[id] = createRef()
-
         if (type === 'code') {
             setCodeThemes((prev) => ({ ...prev, [id]: 'dark' }))
         }
@@ -205,7 +219,12 @@ export default function WritePage() {
                 newSection = { type, url: '', caption: '', id, size: 'medium' }
                 break
             case 'code':
-                newSection = { type, content: '', language: 'python', id }
+                newSection = {
+                    type,
+                    content: '// Your code here',
+                    language: 'python',
+                    id,
+                }
                 break
             case 'heading':
                 newSection = { type, content: '', level: 2, id }
@@ -271,34 +290,26 @@ export default function WritePage() {
                         block: 'center',
                     })
                 }, 100)
-
                 return
             }
         }
 
         setSections((prevSections) => {
             const newSections = [...prevSections, newSection]
-
             setTimeout(() => {
                 sectionRefs.current[id]?.current?.scrollIntoView({
                     behavior: 'smooth',
                     block: 'center',
                 })
             }, 100)
-
             return newSections
         })
-
         setSectionPickerOpen(false)
     }
 
     const addSectionAfter = (type: string, currentSectionId: string) => {
         const id = generateId()
-
-        // Create a ref for the new section
         sectionRefs.current[id] = createRef()
-
-        // Set default code theme for code sections
         if (type === 'code') {
             setCodeThemes((prev) => ({ ...prev, [id]: 'dark' }))
         }
@@ -327,7 +338,12 @@ export default function WritePage() {
                 newSection = { type, url: '', caption: '', id }
                 break
             case 'code':
-                newSection = { type, content: '', language: 'javascript', id }
+                newSection = {
+                    type,
+                    content: '// Your code here',
+                    language: 'javascript',
+                    id,
+                }
                 break
             case 'heading':
                 newSection = { type, content: '', level: 2, id }
@@ -383,18 +399,14 @@ export default function WritePage() {
                 }
         }
 
-        // Find the index of the current section
         const currentIndex = sections.findIndex(
             (section) => section.id === currentSectionId
         )
-
         if (currentIndex !== -1) {
-            // Insert the new section after the current one
             const newSections = [...sections]
             newSections.splice(currentIndex + 1, 0, newSection)
             setSections(newSections)
 
-            // Scroll to the new section after render
             setTimeout(() => {
                 sectionRefs.current[id]?.current?.scrollIntoView({
                     behavior: 'smooth',
@@ -404,18 +416,15 @@ export default function WritePage() {
         }
     }
 
-    // Move a section to a specific position
     const moveSectionTo = (sectionId: string, newIndex: number) => {
         const currentIndex = sections.findIndex(
             (section) => section.id === sectionId
         )
-
         if (currentIndex !== -1 && currentIndex !== newIndex) {
             const newSections = [...sections]
             const [movedSection] = newSections.splice(currentIndex, 1)
             newSections.splice(newIndex, 0, movedSection)
             setSections(newSections)
-
             toast({
                 title: 'Section moved',
                 description: `Section moved to position ${newIndex + 1}`,
@@ -424,7 +433,7 @@ export default function WritePage() {
     }
 
     const updateSection = (id: string, updates: Partial<SectionType>) => {
-        setSections(
+        setSections((sections) =>
             sections.map((section) =>
                 section.id === id
                     ? ({ ...section, ...updates } as SectionType)
@@ -437,7 +446,7 @@ export default function WritePage() {
         const sectionElement = sectionRefs.current[id]?.current
         if (sectionElement) {
             sectionElement.classList.add('section-removing')
-
+            setSections(sections.filter((section) => section.id !== id))
             setTimeout(() => {
                 setSections(sections.filter((section) => section.id !== id))
                 delete sectionRefs.current[id]
@@ -454,13 +463,6 @@ export default function WritePage() {
 
     const handleVideoSelected = (videoUrl: string) => {
         console.log('Using legacy video handler:', videoUrl)
-    }
-
-    const toggleCodeTheme = (sectionId: string) => {
-        setCodeThemes((prev) => ({
-            ...prev,
-            [sectionId]: prev[sectionId] === 'light' ? 'dark' : 'light',
-        }))
     }
 
     const handleMediaSelected = (media: BlogMedia) => {
@@ -483,13 +485,11 @@ export default function WritePage() {
                 setActiveSection(null)
             }
         }
-        setMediaLibraryOpen(false)
     }
 
     const handleBlogGenerated = (blogData: any) => {
         setTitle(blogData.title)
         setShortDescription(blogData.summary || '')
-
         setSections(blogData.sections)
     }
 
@@ -515,159 +515,336 @@ export default function WritePage() {
         setMediaLibraryOpen(true)
     }
 
-    const saveBlogPost = (daXuatBan = false) => {
-        if (!title.trim()) {
-            toast({
-                title: t('missingTitle'),
-                description: t('addTitle'),
-                variant: 'destructive',
-            })
+    const [isSavingDraft, setIsSavingDraft] = useState(false)
+    const [isPublishing, setIsPublishing] = useState(false)
+    const isMounted = useRef(false)
+    const isNavigating = useRef(false)
+
+    useEffect(() => {
+        isMounted.current = true
+        return () => {
+            isMounted.current = false
+        }
+    }, [])
+
+    const saveBlogPost = async (daXuatBan = false) => {
+        // Prevent multiple submissions or if we're already navigating
+        if (
+            isSavingDraft ||
+            isPublishing ||
+            publishBlogMutation.isPending ||
+            isNavigating.current
+        ) {
             return
         }
 
-        if (!coverImage) {
-            toast({
-                title: t('missingCoverImage'),
-                description: t('addCoverImage'),
-                variant: 'destructive',
-            })
-            return
-        }
+        try {
+            // Set loading state based on operation type
+            if (daXuatBan) {
+                setIsPublishing(true)
+            } else {
+                setIsSavingDraft(true)
+            }
 
-        if (!categories.length) {
-            toast({
-                title: t('missingCategories'),
-                description: t('addCategories'),
-                variant: 'destructive',
-            })
-            return
-        }
+            const trimmedTitle = title.trim()
 
-        const formattedData = {
-            tieuDe: title,
-            noiDungNgan: shortDescription,
-            anhBia: coverImage,
-            daXuatBan: daXuatBan,
-            thanhPhans: sections.map((section, index) => {
-                let loaiThanhPhan: string
-                let noiDung = ''
-                let dinhDang: any = null
+            // Validation checks - exit early if not valid
+            if (!trimmedTitle) {
+                toast({
+                    title: t('missingTitle'),
+                    description: t('addTitle'),
+                    variant: 'destructive',
+                })
+                setIsSavingDraft(false)
+                setIsPublishing(false)
+                return
+            }
 
-                switch (section.type) {
-                    case 'text':
-                        loaiThanhPhan = 'text'
-                        if (
-                            typeof section.content === 'string' &&
-                            section.content.startsWith('{') &&
-                            section.content.endsWith('}')
-                        ) {
-                            try {
-                                const parsedContent = JSON.parse(
-                                    section.content
-                                )
-                                if (
-                                    parsedContent.text !== undefined &&
-                                    parsedContent.format !== undefined
-                                ) {
-                                    noiDung = parsedContent.text
-                                    dinhDang = parsedContent.format
-                                } else {
-                                    noiDung = section.content
-                                }
-                            } catch (e) {
-                                noiDung = section.content
-                            }
-                        } else {
-                            noiDung = section.content
+            if (trimmedTitle.length < 5) {
+                toast({
+                    title: t('titleTooShort'),
+                    description: t('titleMinLength', { min: 5 }),
+                    variant: 'destructive',
+                })
+                setIsSavingDraft(false)
+                setIsPublishing(false)
+                return
+            }
+
+            if (!/[a-zA-Z\u00C0-\u00FF]/.test(trimmedTitle)) {
+                toast({
+                    title: t('invalidTitle'),
+                    description: t('titleNeedsText'),
+                    variant: 'destructive',
+                })
+                setIsSavingDraft(false)
+                setIsPublishing(false)
+                return
+            }
+
+            if (!coverImage) {
+                toast({
+                    title: t('missingCoverImage'),
+                    description: t('addCoverImage'),
+                    variant: 'destructive',
+                })
+                setIsSavingDraft(false)
+                setIsPublishing(false)
+                return
+            }
+
+            if (sections.length === 0) {
+                toast({
+                    title: t('missingContent'),
+                    description: t('addAtLeastOneSection'),
+                    variant: 'destructive',
+                })
+
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: 'smooth',
+                    })
+                }, 100)
+                setSectionPickerOpen(true)
+                setIsSavingDraft(false)
+                setIsPublishing(false)
+                return
+            }
+
+            if (!categories.length) {
+                toast({
+                    title: t('missingCategories'),
+                    description: t('addCategories'),
+                    variant: 'destructive',
+                })
+                setIsSavingDraft(false)
+                setIsPublishing(false)
+                return
+            }
+
+            // Create a local variable to store the validation error section ID
+            let invalidSectionId = null
+
+            // Section content validation
+            for (let i = 0; i < sections.length; i++) {
+                const section = sections[i]
+
+                if (section.type === 'text') {
+                    let textContent = ''
+                    if (
+                        typeof section.content === 'string' &&
+                        section.content.startsWith('{')
+                    ) {
+                        try {
+                            const parsedContent = JSON.parse(section.content)
+                            textContent = parsedContent.text || ''
+                        } catch (e) {
+                            textContent = String(section.content)
                         }
-                        break
-                    case 'heading':
-                        loaiThanhPhan = 'heading'
-                        noiDung = section.content
-                        dinhDang = { level: section.level }
-                        break
-                    case 'image':
-                        loaiThanhPhan = 'image'
-                        noiDung = JSON.stringify({
-                            url: section.url,
-                            caption: section.caption,
+                    } else {
+                        textContent = String(section.content)
+                    }
+
+                    if (!textContent.trim()) {
+                        toast({
+                            title: t('missingContent'),
+                            description: t('textSectionCannotBeEmpty'),
+                            variant: 'destructive',
                         })
-                        dinhDang = { size: section.size || 'medium' }
+
+                        invalidSectionId = section.id
                         break
-                    case 'code':
-                        loaiThanhPhan = 'code'
-                        noiDung = JSON.stringify({
-                            content: section.content,
-                            language: section.language,
-                        })
-                        dinhDang = {}
-                        break
-                    case 'numbered-list':
-                        loaiThanhPhan = 'numbered-list'
-                        noiDung = JSON.stringify({
-                            title: section.title,
-                            items: section.items,
-                        })
-                        dinhDang = { fontSize: section.fontSize || 'normal' }
-                        break
-                    case 'bullet-list':
-                        loaiThanhPhan = 'bullet-list'
-                        noiDung = JSON.stringify({
-                            title: section.title,
-                            items: section.items,
-                        })
-                        dinhDang = { fontSize: section.fontSize || 'normal' }
-                        break
-                    case 'quote':
-                        loaiThanhPhan = 'quote'
-                        noiDung = JSON.stringify({
-                            content: section.content,
-                            citation: section.citation,
-                        })
-                        dinhDang = { fontSize: section.fontSize || 'normal' }
-                        break
-                    case 'divider':
-                        loaiThanhPhan = 'divider'
-                        dinhDang = {
-                            dividerType: section.dividerType || 'solid',
-                            spacing: section.spacing || 8,
-                            thickness: section.thickness || 1,
-                            color: section.color || '#9c65d0',
-                        }
-                        noiDung = 'divider'
-                        break
-                    case 'video':
-                        loaiThanhPhan = 'video'
-                        noiDung = JSON.stringify({
-                            url: section.url,
-                            caption: section.caption,
-                        })
-                        dinhDang = {}
-                        break
-                    default:
-                        loaiThanhPhan = 'unknown'
+                    }
                 }
 
-                return {
-                    // id: section.id,
-                    loaiThanhPhan,
-                    noiDung,
-                    dinhDang,
+                if (
+                    section.type === 'heading' &&
+                    (!section.content || !section.content.trim())
+                ) {
+                    toast({
+                        title: t('missingContent'),
+                        description: t('headingSectionCannotBeEmpty'),
+                        variant: 'destructive',
+                    })
+
+                    invalidSectionId = section.id
+                    break
+                }
+            }
+
+            // If we have an invalid section, scroll to it and exit
+            if (invalidSectionId) {
+                // Scroll to the invalid section after a small delay,
+                setTimeout(() => {
+                    if (isMounted.current && !isNavigating.current) {
+                        sectionRefs.current[
+                            invalidSectionId
+                        ]?.current?.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center',
+                        })
+                    }
+                }, 100)
+
+                setIsSavingDraft(false)
+                setIsPublishing(false)
+                return
+            }
+
+            // Prepare data for submission
+            const formattedData = {
+                tieuDe: title,
+                noiDungNgan: shortDescription,
+                anhBia: coverImage,
+                daXuatBan: daXuatBan,
+                thanhPhans: sections.map((section, index) => ({
+                    loaiThanhPhan: section.type,
+                    noiDung: String(formatSectionContent(section)), // Ensure it's a string
+                    dinhDang: formatSectionStyle(section),
                     hang: index,
                     cot: 0,
-                }
-            }),
-            chuDes: categories.map((topic) => topic.id),
-        }
+                })),
+                chuDes: categories.map((topic) => topic.id.toString()),
+            }
 
-        publishBlogMutation.mutate({ blogData: formattedData })
-        setLastSaved(new Date())
+            // Execute the API call separately to avoid cleanup issues
+            const isPublishOperation = daXuatBan
+            const result = await authenticationService.saveBlog({
+                blogData: formattedData as any,
+            })
+
+            // If we're still mounted and the API call was successful
+            if (isMounted.current) {
+                setLastSaved(new Date())
+
+                // Show toast before navigation
+                toast({
+                    title: isPublishOperation
+                        ? t('blogPublished')
+                        : t('draftSaved'),
+                    description: isPublishOperation
+                        ? t('blogPublishedDescription')
+                        : t('draftSavedDescription'),
+                })
+                // Mark as navigating to prevent further updates
+                isNavigating.current = true
+                // Perform navigation after a short delay
+                setTimeout(() => {
+                    router.push('/profile/blogs')
+                }, 50)
+            }
+        } catch (error) {
+            // Only show error if we're still mounted
+            if (isMounted.current) {
+                console.error('Error saving blog:', error)
+                toast({
+                    title: daXuatBan ? t('publishError') : t('saveError'),
+                    description: t('unexpectedError'),
+                    variant: 'destructive',
+                })
+            }
+        } finally {
+            // Reset loading states only if we're still mounted and not navigating
+            if (isMounted.current && !isNavigating.current) {
+                setIsSavingDraft(false)
+                setIsPublishing(false)
+            }
+        }
+    }
+
+    // Helper functions to format section content and style
+    const formatSectionContent = (section: any) => {
+        switch (section.type) {
+            case 'text':
+                if (
+                    typeof section.content === 'string' &&
+                    section.content.startsWith('{')
+                ) {
+                    try {
+                        const parsedContent = JSON.parse(section.content)
+                        return parsedContent.text || ''
+                    } catch (e) {
+                        return section.content
+                    }
+                }
+                return section.content
+            case 'heading':
+                return section.content
+            case 'image':
+            case 'video':
+                return JSON.stringify({
+                    url: section.url,
+                    caption: section.caption,
+                })
+            case 'code':
+                return JSON.stringify({
+                    content: section.content,
+                    language: section.language,
+                })
+            case 'numbered-list':
+            case 'bullet-list':
+                return JSON.stringify({
+                    title: section.title,
+                    items: section.items,
+                })
+            case 'quote':
+                return JSON.stringify({
+                    content: section.content,
+                    citation: section.citation,
+                })
+            case 'divider':
+                return 'divider'
+            default:
+                return ''
+        }
+    }
+
+    const formatSectionStyle = (section: any) => {
+        switch (section.type) {
+            case 'heading':
+                return { level: section.level }
+            case 'text':
+                if (
+                    typeof section.content === 'string' &&
+                    section.content.startsWith('{')
+                ) {
+                    try {
+                        const parsedContent = JSON.parse(section.content)
+                        return parsedContent.format || {}
+                    } catch (e) {
+                        return {}
+                    }
+                }
+                return {}
+            case 'image':
+                return { size: section.size || 'medium' }
+            case 'numbered-list':
+            case 'bullet-list':
+            case 'quote':
+                return { fontSize: section.fontSize || 'normal' }
+            case 'divider':
+                return {
+                    dividerType: section.dividerType || 'solid',
+                    spacing: section.spacing || 8,
+                    thickness: section.thickness || 1,
+                    color: section.color || '#9c65d0',
+                }
+            default:
+                return {}
+        }
+    }
+
+    const toggleCodeTheme = (sectionId: string) => {
+        setCodeThemes((prev) => ({
+            ...prev,
+            [sectionId]: prev[sectionId] === 'light' ? 'dark' : 'light',
+        }))
     }
 
     useEffect(() => {
         const handleDrop = (e: DragEvent) => {
             e.preventDefault()
-
             if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
                 const file = e.dataTransfer.files[0]
 
@@ -717,7 +894,6 @@ export default function WritePage() {
 
     const calculateStats = () => {
         let allText = title + ' ' + shortDescription + ' '
-
         sections.forEach((section) => {
             if (section.type === 'text') {
                 try {
@@ -824,16 +1000,33 @@ export default function WritePage() {
                                         variant="outline"
                                         onClick={() => saveBlogPost(false)}
                                         className="border-purple-300 text-purple-700 hover:bg-purple-50"
+                                        disabled={
+                                            isSavingDraft ||
+                                            isPublishing ||
+                                            publishBlogMutation.isPending
+                                        }
                                     >
-                                        <Pencil className="h-4 w-4 mr-2" />
-                                        {t('saveDraft')}
+                                        {isSavingDraft ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            t('saveDraft')
+                                        )}
                                     </Button>
                                     <Button
                                         onClick={() => saveBlogPost(true)}
                                         className="bg-purple-600 hover:bg-purple-700 text-white"
+                                        disabled={
+                                            isSavingDraft ||
+                                            isPublishing ||
+                                            publishBlogMutation.isPending
+                                        }
                                     >
-                                        <Save className="h-4 w-4 mr-2" />
-                                        {t('publish')}
+                                        {isPublishing ||
+                                        publishBlogMutation.isPending ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            t('publish')
+                                        )}
                                     </Button>
                                 </div>
                             </div>
@@ -1165,14 +1358,6 @@ export default function WritePage() {
                                         </h1>
                                     ) : (
                                         <div className="h-10 bg-gray-200 rounded-md mb-4 animate-pulse"></div>
-                                    )}
-
-                                    {shortDescription ? (
-                                        <p className="text-lg text-gray-600 mb-8">
-                                            {shortDescription}
-                                        </p>
-                                    ) : (
-                                        <div className="h-6 bg-gray-200 rounded-md mb-8 animate-pulse"></div>
                                     )}
 
                                     <div className="prose prose-lg max-w-none">

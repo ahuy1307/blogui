@@ -6,6 +6,8 @@
 // __date__ = "2025-02-15 18:55:24"
 //
 
+'use client'
+
 import { Layout } from 'antd'
 import type { PropsWithChildren } from 'react'
 import { Content } from 'antd/es/layout/layout'

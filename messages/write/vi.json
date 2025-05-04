@@ -69,6 +69,16 @@
     "blogPublishedDescription": "Blog của bạn đã được đăng và hiển thị cho người khác.",
     "publishError": "Đăng blog thất bại",
     "publishErrorDescription": "Đã xảy ra lỗi khi đăng blog. Vui lòng thử lại.",
+    "missingContent": "Thiếu nội dung",
+    "textSectionCannotBeEmpty": "Phần văn bản không thể để trống. Vui lòng thêm một số nội dung.",
+    "headingSectionCannotBeEmpty": "Phần tiêu đề không thể để trống. Vui lòng thêm một số nội dung.",
+    "titleTooShort": "Tiêu đề quá ngắn",
+    "titleMinLength": "Tiêu đề phải có ít nhất {min} ký tự",
+    "titleNeedsText": "Tiêu đề phải chứa chữ cái",
+    "invalidTitle": "Tiêu đề không hợp lệ",
+    "addAtLeastOneSection": "Vui lòng thêm ít nhất một phần vào bài viết của bạn.",
+    "publishing": "Đang xuất bản...",
+    "saving": "Đang lưu...",
     "MediaLibrary": {
         "errorFetchingMedia": "Lỗi lấy dữ liệu phương tiện",
         "errorFetchingMediaDescription": "Đã xảy ra lỗi khi lấy danh sách phương tiện.",
@@ -192,5 +202,142 @@
     "blogUpdated": "Cập nhật blog thành công",
     "blogUpdatedDescription": "Blog của bạn đã được cập nhật thành công.",
     "updateError": "Cập nhật thất bại",
-    "updateErrorDescription": "Đã xảy ra lỗi khi cập nhật blog. Vui lòng thử lại."
+    "updateErrorDescription": "Đã xảy ra lỗi khi cập nhật blog. Vui lòng thử lại.",
+    "BlogGenerator": {
+      "title": "Tạo bài viết blog bằng AI",
+      "tabs": {
+        "idea": "Ý tưởng",
+        "advanced": "Nâng cao"
+      },
+      "labels": {
+        "ideaQuestion": "Bạn muốn viết về điều gì?",
+        "title": "Tiêu đề",
+        "tone": "Giọng điệu",
+        "audience": "Đối tượng mục tiêu",
+        "complexity": "Độ phức tạp nội dung",
+        "wordCount": "Số lượng từ",
+        "contentElements": "Thành phần nội dung",
+        "keywords": "Từ khóa trọng tâm (không bắt buộc)",
+        "optional": "Tùy chọn"
+      },
+      "placeholders": {
+        "idea": "Nhập ý tưởng hoặc chủ đề cho bài viết của bạn...",
+        "title": "Nhập tiêu đề cho bài viết của bạn...",
+        "tone": "Chọn giọng điệu",
+        "audience": "Chọn đối tượng",
+        "complexity": "Chọn độ phức tạp",
+        "keywords": "Nhập từ khóa, phân cách bằng dấu phẩy"
+      },
+      "helpText": {
+        "idea": "Mô tả chủ đề bạn muốn viết càng chi tiết càng tốt.",
+        "title": "Nếu bạn để trống, AI sẽ tạo tiêu đề dựa trên ý tưởng của bạn.",
+        "keywords": "Thêm từ khóa cụ thể để tập trung nội dung (ví dụ: 'học máy, mạng nơ-ron')."
+      },
+      "checkboxes": {
+        "code": "Bao gồm ví dụ mã",
+        "images": "Bao gồm hình ảnh và yếu tố trực quan",
+        "sections": "Bao gồm các phần chi tiết bổ sung",
+        "emojis": "Sử dụng biểu tượng cảm xúc trong nội dung"
+      },
+      "tones": {
+        "informative": "Thông tin",
+        "conversational": "Trò chuyện",
+        "professional": "Chuyên nghiệp",
+        "technical": "Kỹ thuật",
+        "persuasive": "Thuyết phục",
+        "storytelling": "Kể chuyện"
+      },
+      "audiences": {
+        "general": "Người đọc phổ thông",
+        "technical": "Người đọc kỹ thuật",
+        "business": "Chuyên gia kinh doanh",
+        "beginners": "Người mới bắt đầu",
+        "experts": "Chuyên gia"
+      },
+      "complexity": {
+        "simple": "Đơn giản và dễ tiếp cận",
+        "medium": "Chi tiết vừa phải",
+        "advanced": "Nâng cao và chuyên sâu"
+      },
+      "buttons": {
+        "generate": "Tạo bài viết",
+        "startOver": "Bắt đầu lại",
+        "use": "Sử dụng bài viết này"
+      },
+      "inspiration": "Lấy cảm hứng",
+      "sampleTopics": {
+        "ai": "Tác động của AI đối với tương lai công việc",
+        "machinelearning": "Học máy cho người mới bắt đầu",
+        "ethics": "Đạo đức trong phát triển AI",
+        "vision": "Tầm nhìn máy tính và ứng dụng trong thế giới thực"
+      },
+      "generating": {
+        "analyzing": "Đang phân tích chủ đề...",
+        "outline": "Đang tạo dàn ý...",
+        "content": "Đang viết nội dung...",
+        "details": "Đang thêm chi tiết...",
+        "images": "Đang tạo hình ảnh...",
+        "finalizing": "Đang hoàn thiện..."
+      },
+      "errors": {
+        "missingInfo": "Thiếu thông tin",
+        "provideIdeaOrTitle": "Vui lòng cung cấp ý tưởng hoặc tiêu đề.",
+        "occurred": "Đã xảy ra lỗi khi tạo bài viết.",
+        "failed": "Tạo bài viết thất bại",
+        "tryAgain": "Vui lòng thử lại sau một lát."
+      },
+      "success": {
+        "generated": "Bài viết đã được tạo!",
+        "ready": "Bài viết của bạn đã sẵn sàng để sử dụng.",
+        "imported": "Đã nhập bài viết",
+        "importedDescription": "Bài viết đã được nhập vào trình soạn thảo.",
+        "importInstructions": "Bài viết AI đã sẵn sàng sử dụng. Nhấn 'Sử dụng bài viết này' để nhập vào trình soạn thảo."
+      },
+      "summary": {
+        "firstPart": "Bài viết này khám phá",
+        "secondPart": "được thiết kế cho",
+        "approach": "Nó tiếp cận chủ đề với mức độ",
+        "lastPart": "và cung cấp thông tin hữu ích cho người đọc."
+      },
+      "focusingOn": "tập trung vào",
+      "sections": {
+        "introduction": "Giới thiệu",
+        "keyConcepts": "Các khái niệm chính",
+        "applications": "Ứng dụng thực tế",
+        "future": "Triển vọng tương lai",
+        "conclusion": "Kết luận"
+      },
+      "content": {
+        "introFirst": "Trong bài viết này, chúng ta sẽ khám phá",
+        "introSecond": "và tìm hiểu tại sao nó quan trọng trong thế giới hiện đại.",
+        "conceptsText": "Hãy xem xét một số khái niệm và nguyên tắc cốt lõi:",
+        "applicationsText": "Dưới đây là một số cách áp dụng thực tế:",
+        "futureText": "Nhìn về tương lai, chúng ta có thể thấy nhiều cơ hội và thách thức thú vị. Công nghệ tiếp tục phát triển, mở ra những khả năng mới và giải pháp sáng tạo cho các vấn đề hiện tại.",
+        "quote": "Sự hiểu biết sâu sắc về chủ đề này sẽ trở nên ngày càng quan trọng khi chúng ta tiến về phía trước trong kỷ nguyên số.",
+        "quoteAuthor": "Chuyên gia trong ngành",
+        "conclusionText": "là một chủ đề phong phú với nhiều khía cạnh để khám phá. Bằng cách hiểu các nguyên tắc cơ bản và ứng dụng thực tế, chúng ta có thể khai thác toàn bộ tiềm năng và tận dụng lợi thế trong thời đại công nghệ hiện nay.",
+        "imageCaption": "Minh họa trực quan cho chủ đề",
+        "codeExample": "# Ví dụ mã đơn giản\ndef hello_world():\n    print(\"Xin chào thế giới!\")\n\n# Gọi hàm\nhello_world()",
+        "bulletItems": {
+          "0": "Hiểu biết cơ bản về các khái niệm chính",
+          "1": "Nguyên tắc và phương pháp luận cốt lõi",
+          "2": "Công cụ và công nghệ phổ biến",
+          "3": "Những thách thức và hạn chế chính"
+        },
+        "numberedItems": {
+          "0": "Tăng cường hiệu quả trong quy trình làm việc",
+          "1": "Tự động hóa các tác vụ lặp đi lặp lại",
+          "2": "Phân tích dữ liệu và rút ra thông tin chi tiết có giá trị",
+          "3": "Cải thiện trải nghiệm người dùng",
+          "4": "Tối ưu hóa việc ra quyết định dựa trên dữ liệu"
+        }
+      },
+      "preview": {
+        "title": "Tiêu đề",
+        "summary": "Tóm tắt",
+        "content": "Nội dung",
+        "showing": "Đang hiển thị 5 phần đầu tiên trong tổng số {count} phần"
+      },
+      "generatedTitle": "Bài viết về"
+    }
 }

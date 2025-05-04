@@ -69,6 +69,154 @@
     "blogPublishedDescription": "Your blog is now live and visible to others.",
     "publishError": "Failed to publish blog",
     "publishErrorDescription": "There was an issue while publishing your blog. Please try again.",
+    "missingContent": "Missing content",
+    "textSectionCannotBeEmpty": "Text section cannot be empty. Please add some content.",
+    "headingSectionCannotBeEmpty": "Heading section cannot be empty. Please add some content.",
+    "titleTooShort": "Title is too short",
+    "titleMinLength": "Title must be at least {min} characters",
+    "titleNeedsText": "Title must contain letter",
+    "invalidTitle": "Invalid title",    
+    "addAtLeastOneSection": "Please add at least one section to your blog post.",
+    "publishing": "Publishing...",
+    "saving": "Saving...",
+    "updating": "Updating...",
+    "BlogGenerator": {
+        "title": "AI Blog Generator",
+        "tabs": {
+            "idea": "Start with an Idea",
+            "advanced": "Advanced Options"
+        },
+        "labels": {
+            "ideaQuestion": "What would you like to write about?",
+            "title": "Blog Title",
+            "tone": "Writing Tone",
+            "audience": "Target Audience",
+            "complexity": "Content Complexity",
+            "wordCount": "Approximate Word Count",
+            "contentElements": "Content Elements",
+            "keywords": "Focus Keywords (optional)",
+            "optional": "Optional"
+        },
+        "placeholders": {
+            "idea": "Describe your blog idea or topic...",
+            "title": "Enter a title or leave blank to generate one",
+            "tone": "Select tone",
+            "audience": "Select audience",
+            "complexity": "Select complexity",
+            "keywords": "Enter keywords separated by commas"
+        },
+        "helpText": {
+            "idea": "Provide a brief description of your blog topic or the main idea you want to explore.",
+            "title": "You can provide a specific title or let the AI generate one based on your idea.",
+            "keywords": "Add specific keywords to focus your content on (e.g., 'machine learning, neural networks')."
+        },
+        "inspiration": "Need inspiration? Try one of these topics:",
+        "sampleTopics": {
+            "ai": "The Future of Artificial Intelligence in Healthcare",
+            "machinelearning": "How Machine Learning is Transforming Financial Services",
+            "ethics": "Ethical Considerations in Generative AI Development",
+            "vision": "Computer Vision Applications in Autonomous Vehicles"
+        },
+        "tones": {
+            "informative": "Informative",
+            "conversational": "Conversational",
+            "professional": "Professional",
+            "technical": "Technical",
+            "persuasive": "Persuasive",
+            "storytelling": "Storytelling"
+        },
+        "audiences": {
+            "general": "General Audience",
+            "technical": "Technical Professionals",
+            "business": "Business Leaders",
+            "beginners": "Beginners",
+            "experts": "Domain Experts"
+        },
+        "complexity": {
+            "simple": "Simple and Accessible",
+            "medium": "Moderately Detailed",
+            "advanced": "Advanced and In-depth"
+        },
+        "checkboxes": {
+            "images": "Include images and visual elements",
+            "code": "Include code examples (for technical topics)",
+            "sections": "Include additional detailed sections",
+            "emojis": "Add emojis to the content"
+        },
+        "buttons": {
+            "generate": "Generate Blog",
+            "startOver": "Start Over",
+            "use": "Use This Blog"
+        },
+        "errors": {
+            "missingInfo": "Missing information",
+            "provideIdeaOrTitle": "Please provide either a blog idea or a title",
+            "failed": "Generation failed",
+            "tryAgain": "There was an error generating your blog. Please try again.",
+            "occurred": "An error occurred while generating the blog. Please try again."
+        },
+        "success": {
+            "generated": "Blog Generated Successfully",
+            "ready": "Your AI-generated blog is ready to use.",
+            "imported": "Blog imported",
+            "importedDescription": "The generated blog has been imported to the editor",
+            "importInstructions": "Your AI-generated blog is ready to use. Click 'Use This Blog' to import it into the editor."
+        },
+        "generating": {
+            "analyzing": "Analyzing...",
+            "outline": "Creating outline...",
+            "content": "Writing content...",
+            "details": "Adding details...",
+            "images": "Adding images...",
+            "finalizing": "Finalizing..."
+        },
+        "preview": {
+            "title": "Title",
+            "summary": "Summary",
+            "content": "Content Preview",
+            "showing": "... (preview showing first 5 sections of {count} total)"
+        },
+        "generatedTitle": "The Complete Guide to",
+        "summary": {
+            "firstPart": "This article explores",
+            "secondPart": "in depth, providing insights and practical applications for",
+            "approach": "The content is",
+            "lastPart": "to ensure it's accessible to the intended audience."
+        },
+        "focusingOn": "with special focus on",
+        "sections": {
+            "introduction": "Introduction",
+            "keyConcepts": "Key Concepts",
+            "applications": "Applications",
+            "future": "Future Directions",
+            "conclusion": "Conclusion"
+        },
+        "content": {
+            "introFirst": "Artificial intelligence has been transforming industries at an unprecedented pace.",
+            "introSecond": "represents one of the most significant developments in this field. This article will explore the key concepts, applications, and future directions of this technology.",
+            "conceptsText": "Before diving into applications, it's important to understand the fundamental concepts that underpin this technology. These building blocks form the foundation of how these systems work and why they're so powerful.",
+            "bulletItems": {
+                "0": "Machine Learning Algorithms",
+                "1": "Neural Network Architectures",
+                "2": "Training Methodologies",
+                "3": "Evaluation Metrics"
+            },
+            "imageCaption": "AI technology visualization",
+            "applicationsText": "The applications of this technology span across numerous industries, from healthcare to finance, manufacturing to entertainment. Here are some of the most impactful use cases:",
+            "numberedItems": {
+                "0": "Predictive analytics for business intelligence",
+                "1": "Natural language processing for customer service",
+                "2": "Computer vision for quality control",
+                "3": "Recommendation systems for personalized experiences",
+                "4": "Autonomous systems for transportation and logistics"
+            },
+            "futureText": "As technology continues to evolve, we can expect several exciting developments in this field. Researchers are working on addressing current limitations while exploring new frontiers of what's possible.",
+            "quote": "The future of AI is not about replacing humans, but augmenting human capabilities and solving problems that were previously intractable.",
+            "quoteAuthor": "Dr. Andrew Ng",
+            "conclusionText": "represents a significant frontier in artificial intelligence research and application. As we've explored in this article, the technology offers tremendous potential across various domains while also presenting important challenges that researchers and practitioners must address.",
+            "codeExample": "import tensorflow as tf\nimport numpy as np\n\n# Simple neural network example\nmodel = tf.keras.Sequential([\n  tf.keras.layers.Dense(128, activation='relu', input_shape=(784,)),\n  tf.keras.layers.Dropout(0.2),\n  tf.keras.layers.Dense(10, activation='softmax')\n])\n\nmodel.compile(\n  optimizer='adam',\n  loss='sparse_categorical_crossentropy',\n  metrics=['accuracy']\n)"
+        }
+    },
     "MediaLibrary": {
         "errorFetchingMedia": "Error fetching media",
         "errorFetchingMediaDescription": "There was an issue retrieving the media list.",

@@ -26,10 +26,10 @@ export function EditorSidebar({ onAddSection }: EditorSidebarProps) {
     return (
         <aside
             className={cn(
-                'fixed flex top-[70px] w-[400px] right-0 h-[calc(100vh-73px)] bg-gray-50 overflow-y-auto transition-all duration-500 ease-in-out',
+                'fixed flex z-[100] top-[70px] w-[400px] right-0 h-[calc(100vh-73px)] bg-gray-50 overflow-y-auto transition-all duration-500 ease-in-out',
                 {
                     'translate-x-0': isSidebarOpen,
-                    'translate-x-[82%]': !isSidebarOpen,
+                    'translate-x-[82%] z-0': !isSidebarOpen,
                 }
             )}
         >

@@ -455,7 +455,7 @@ const TableOfContentsBlog = ({
                                             <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-purple-500 rounded-r-lg transition-all duration-300"></span>
                                         )}
                                         <span className="line-clamp-1">
-                                            {prefix}
+                                            {/* {prefix} */}
                                             {heading.content}
                                         </span>
                                     </button>
