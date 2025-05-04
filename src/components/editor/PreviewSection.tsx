@@ -231,7 +231,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
             if (section.level === 1) {
                 return (
                     <h1
-                        className="text-3xl font-bold mb-4"
+                        className="text-3xl font-bold mb-4 mt-6"
                         style={{
                             ...spacingStyles,
                         }}
@@ -242,7 +242,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
             } else if (section.level === 2) {
                 return (
                     <h2
-                        className="text-2xl font-bold mb-3"
+                        className="text-2xl font-bold mb-3 mt-6"
                         style={{
                             ...spacingStyles,
                         }}
@@ -253,7 +253,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
             } else {
                 return (
                     <h3
-                        className="text-xl font-bold mb-2"
+                        className="text-xl font-bold mb-2 mt-6"
                         style={{
                             ...spacingStyles,
                         }}
@@ -271,11 +271,13 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                     }}
                 >
                     {section.title && (
-                        <h3 className="font-medium mb-2">{section.title}</h3>
+                        <h6 className="font-bold mb-2 text-black">
+                            {section.title}
+                        </h6>
                     )}
                     <ol
                         className={cn(
-                            'list-decimal pl-6 mb-6 space-y-1',
+                            'list-decimal pl-6 mb-6 space-y-2 mt-4',
                             section.fontSize === 'small' && 'text-sm',
                             section.fontSize === 'normal' && 'text-base',
                             section.fontSize === 'large' && 'text-lg',
@@ -306,11 +308,13 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                     }}
                 >
                     {section.title && (
-                        <h3 className="font-medium mb-2">{section.title}</h3>
+                        <h6 className="font-bold mb-2 text-black">
+                            {section.title}
+                        </h6>
                     )}
                     <ul
                         className={cn(
-                            'list-disc pl-6 mb-6 space-y-1',
+                            'list-disc pl-6 mb-6 space-y-2 mt-4',
                             section.fontSize === 'small' && 'text-sm',
                             section.fontSize === 'normal' && 'text-base',
                             section.fontSize === 'large' && 'text-lg',

@@ -515,6 +515,19 @@ export default function WritePage() {
         setMediaLibraryOpen(true)
     }
 
+    useEffect(() => {
+        if (blogGeneratorOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = ''
+        }
+
+        // Cleanup để tránh ảnh hưởng khi unmount
+        return () => {
+            document.body.style.overflow = ''
+        }
+    }, [blogGeneratorOpen])
+
     const [isSavingDraft, setIsSavingDraft] = useState(false)
     const [isPublishing, setIsPublishing] = useState(false)
     const isMounted = useRef(false)
@@ -933,11 +946,11 @@ export default function WritePage() {
         paddingRight: 'calc(64px + 1rem)',
     }
 
-    const [isTabOpen, setIsTabOpen] = useState(false)
+    const [isTabOpen, setIsTabOpen] = useState(true)
 
     const handleTabChange = (value: string) => {
         setActiveTab(value)
-        setIsTabOpen(false)
+        // setIsTabOpen(false)
         window.scrollTo({
             top: 0,
             behavior: 'smooth',
@@ -1038,7 +1051,7 @@ export default function WritePage() {
                                     onValueChange={handleTabChange}
                                     className="w-full"
                                 >
-                                    <TabsList className="grid w-full gap-4 max-w-md mx-auto grid-cols-3 h-[60px] px-4 rounded-xl">
+                                    <TabsList className="grid w-full gap-4 max-w-xl mx-auto grid-cols-3 h-[60px] px-4 rounded-xl">
                                         <TabsTrigger
                                             value="editor"
                                             className="flex items-center gap-2 text-base"
@@ -1065,7 +1078,7 @@ export default function WritePage() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white shadow-sm mx-auto flex justify-center pb-3 pt-2">
+                    {/* <div className="bg-white shadow-sm mx-auto flex justify-center pb-3 pt-2">
                         <Button
                             onClick={() => setIsTabOpen(!isTabOpen)}
                             className="bg-purple-600 text-white w-[100px] p-2 rounded-full shadow-md transition-all hover:bg-purple-700"
@@ -1077,11 +1090,11 @@ export default function WritePage() {
                                 style={{ width: '1.5rem', height: '1.5rem' }}
                             />
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
                 <div
                     className={`
-                    pt-36 ${isTabOpen ? 'pt-72' : 'pt-36'}
+                    pt-36 ${isTabOpen ? 'pt-60' : 'pt-60'}
                     transition-all duration-500
                 `}
                 >

@@ -38,7 +38,7 @@ import {
 import { Slider } from '@/components/other-ui/Slider'
 import { useMutation } from '@tanstack/react-query'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 
 interface BlogGeneratorProps {
     isOpen: boolean
@@ -64,6 +64,7 @@ export function BlogGenerator({
     onBlogGenerated,
 }: BlogGeneratorProps) {
     // Client-side rendering flag to prevent hydration issues
+    const t = useTranslations('write.BlogGenerator')
     const [isMounted, setIsMounted] = useState(false)
     const [activeTab, setActiveTab] = useState('idea')
     const [blogIdea, setBlogIdea] = useState('')
@@ -102,7 +103,7 @@ export function BlogGenerator({
             setGenerationStep('completed')
 
             if (!response || !response.data) {
-                setError('Received empty response from the server')
+                setError(t('error'))
                 return
             }
 
@@ -113,30 +114,25 @@ export function BlogGenerator({
                     setGeneratedBlog(blog)
 
                     toast({
-                        title: 'Blog generated successfully',
-                        description: 'Your AI-generated blog is ready to use',
+                        title: t('generateSuccess'),
+                        description: t('generateSuccessDesc'),
                     })
                 } else {
-                    throw new Error('Failed to create blog structure')
+                    throw new Error(t('error'))
                 }
             } catch (err) {
                 console.error('Error processing blog response:', err)
-                setError(
-                    'Error processing the generated blog. Please try again.'
-                )
+                setError(t('errorProcessing'))
             }
         },
         onError: (error) => {
             setGenerationStep(null)
             console.error('Error generating blog:', error)
-            setError(
-                'An error occurred while generating the blog. Please try again.'
-            )
+            setError(t('errorProcessing'))
 
             toast({
-                title: 'Generation failed',
-                description:
-                    'There was an error generating your blog. Please try again.',
+                title: t('generateFailure'),
+                description: t('generateFailureDesc'),
                 variant: 'destructive',
             })
         },
@@ -338,12 +334,13 @@ export function BlogGenerator({
         }
     }
 
+    console.log(generatedBlog)
+
     const handleGenerateBlog = () => {
         if (!blogIdea) {
             toast({
-                title: 'Content required',
-                description:
-                    'Please provide content for your blog idea or topic',
+                title: t('contentRequired'),
+                description: t('contentRequiredDesc'),
                 variant: 'destructive',
             })
             return
@@ -360,8 +357,8 @@ export function BlogGenerator({
         onClose()
 
         toast({
-            title: 'Blog imported',
-            description: 'The generated blog has been imported to the editor',
+            title: t('blogImported'),
+            description: t('blogImportedDesc'),
         })
     }
 
@@ -375,25 +372,31 @@ export function BlogGenerator({
             onValueChange={setActiveTab}
             className="flex-1 flex flex-col min-h-0"
         >
-            <TabsList className="grid grid-cols-2 w-[400px] mx-auto">
-                <TabsTrigger value="idea" className="flex items-center gap-2">
+            <TabsList className="grid grid-cols-2 w-[420px] mx-auto">
+                <TabsTrigger
+                    value="idea"
+                    className="flex items-center gap-2 font-bold"
+                >
                     <Lightbulb className="h-4 w-4" />
-                    Start with an Idea
+                    {t('startIdea')}
                 </TabsTrigger>
                 <TabsTrigger
                     value="advanced"
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 font-bold"
                 >
                     <Wand2 className="h-4 w-4" />
-                    Advanced Options
+                    {t('advancedOptions')}
                 </TabsTrigger>
             </TabsList>
 
-            <div className="mt-6 overflow-y-auto flex-1 pr-2">
+            <div className="mt-8 overflow-y-auto flex-1 pr-2">
                 <TabsContent value="idea" className="mt-0 space-y-6">
-                    <div className="space-y-2">
-                        <Label htmlFor="blog-idea">
-                            What would you like to write about?
+                    <div className="space-y-2 px-2">
+                        <Label
+                            htmlFor="blog-idea"
+                            className="font-bold text-base"
+                        >
+                            {t('whatToWrite')}
                         </Label>
                         <Textarea
                             id="blog-idea"
@@ -403,14 +406,16 @@ export function BlogGenerator({
                             className="min-h-[120px]"
                         />
                         <p className="text-xs text-gray-500">
-                            Provide a brief description of your blog topic or
-                            the main idea you want to explore.
+                            {t('writeDesc')}
                         </p>
                     </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="blog-title">
-                            Blog Title (optional)
+                    <div className="space-y-2 px-2">
+                        <Label
+                            htmlFor="blog-title"
+                            className="font-bold text-base"
+                        >
+                            {t('blogTitle')}
                         </Label>
                         <Input
                             id="blog-title"
@@ -419,8 +424,7 @@ export function BlogGenerator({
                             onChange={(e) => setTitle(e.target.value)}
                         />
                         <p className="text-xs text-gray-500">
-                            You can provide a specific title or let the AI
-                            generate one based on your idea.
+                            {t('titleDesc')}
                         </p>
                     </div>
 
@@ -450,13 +454,16 @@ export function BlogGenerator({
                 <TabsContent value="advanced" className="mt-0 space-y-6">
                     <div className="space-y-6">
                         <div className="bg-purple-50 rounded-md p-4 mb-4">
-                            <h3 className="text-sm font-medium text-purple-800 mb-2">
-                                Writing Style Options
+                            <h3 className="text-base text-purple-800 mb-2 font-bold">
+                                {t('writingStyle')}
                             </h3>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-4 mt-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="tone" className="text-sm">
-                                        Writing Tone
+                                    <Label
+                                        htmlFor="tone"
+                                        className="text-sm font-bold"
+                                    >
+                                        {t('writingTone')}
                                     </Label>
                                     <Select
                                         value={tone}
@@ -470,19 +477,19 @@ export function BlogGenerator({
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="informative">
-                                                Informative
+                                                {t('informative')}
                                             </SelectItem>
                                             <SelectItem value="conversational">
-                                                Conversational
+                                                {t('conversational')}
                                             </SelectItem>
                                             <SelectItem value="professional">
-                                                Professional
+                                                {t('professional')}
                                             </SelectItem>
                                             <SelectItem value="technical">
-                                                Technical
+                                                {t('technical')}
                                             </SelectItem>
                                             <SelectItem value="persuasive">
-                                                Persuasive
+                                                {t('persuasive')}
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -491,9 +498,9 @@ export function BlogGenerator({
                                 <div className="space-y-2">
                                     <Label
                                         htmlFor="audience"
-                                        className="text-sm"
+                                        className="text-sm font-bold"
                                     >
-                                        Target Audience
+                                        {t('targetAudience')}
                                     </Label>
                                     <Select
                                         value={targetAudience}
@@ -507,19 +514,19 @@ export function BlogGenerator({
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="general">
-                                                General Audience
+                                                {t('generalAudience')}
                                             </SelectItem>
                                             <SelectItem value="technical">
-                                                Technical Professionals
+                                                {t('technicalAudience')}
                                             </SelectItem>
                                             <SelectItem value="business">
-                                                Business Leaders
+                                                {t('businessAudience')}
                                             </SelectItem>
                                             <SelectItem value="beginners">
-                                                Beginners
+                                                {t('beginnersAudience')}
                                             </SelectItem>
                                             <SelectItem value="experts">
-                                                Domain Experts
+                                                {t('expertsAudience')}
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -528,8 +535,8 @@ export function BlogGenerator({
                         </div>
 
                         <div className="bg-gray-50 rounded-md p-4">
-                            <h3 className="text-sm font-medium text-gray-800 mb-2">
-                                Content Elements
+                            <h3 className="text-base font-bold text-gray-800 mb-2">
+                                {t('contentElements')}
                             </h3>
 
                             <div className="space-y-3">
@@ -548,11 +555,10 @@ export function BlogGenerator({
                                             htmlFor="include-code"
                                             className="text-sm font-medium cursor-pointer"
                                         >
-                                            Include Code Examples
+                                            {t('includeCode')}
                                         </Label>
                                         <p className="text-xs text-gray-500 mt-0.5">
-                                            Add code snippets for technical
-                                            topics
+                                            {t('includeCodeDesc')}
                                         </p>
                                     </div>
                                 </div>
@@ -572,11 +578,10 @@ export function BlogGenerator({
                                             htmlFor="include-emojis"
                                             className="text-sm font-medium cursor-pointer"
                                         >
-                                            Include Emojis
+                                            {t('includeEmojis')}
                                         </Label>
                                         <p className="text-xs text-gray-500 mt-0.5">
-                                            Add emojis for a more casual,
-                                            engaging style
+                                            {t('includeEmojisDesc')}
                                         </p>
                                     </div>
                                 </div>
@@ -589,18 +594,17 @@ export function BlogGenerator({
     )
 
     const renderPreview = () => (
-        <div className="flex-1 overflow-y-auto py-4 space-y-6">
+        <div className="flex-1 overflow-y-auto py-4 space-y-6 h-full">
             <div className="bg-green-50 border border-green-200 rounded-md p-4 flex items-start gap-3">
                 <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
                     <h3 className="font-medium text-green-800">
-                        Blog Generated Successfully
+                        {t('blogGenerated')}
                     </h3>
                     <p className="text-green-700 text-sm mt-1">
-                        Your AI-generated blog is ready to use. Click "Use This
-                        Blog" to import it into the editor.
+                        {t('blogGeneratedDesc')}
                     </p>
                 </div>
             </div>
@@ -613,17 +617,17 @@ export function BlogGenerator({
                 </div>
             </div>
 
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
                 <h3 className="font-medium">Summary</h3>
                 <div className="p-3 bg-gray-50 rounded-md">
                     {generatedBlog?.summary || ''}
                 </div>
-            </div>
+            </div> */}
 
             {/* Blog content preview */}
             <div className="space-y-2">
                 <h3 className="font-medium">Content Preview</h3>
-                <div className="border rounded-md p-4 max-h-[300px] overflow-y-auto">
+                <div className="border rounded-md p-4 max-h-full overflow-y-scroll">
                     {/* Render only basic content to simplify DOM operations */}
                     <h2 className="text-xl font-bold mb-4">
                         {generatedBlog?.title || ''}
@@ -633,25 +637,25 @@ export function BlogGenerator({
                     Array.isArray(generatedBlog.sections) &&
                     generatedBlog.sections.length > 0 ? (
                         <div>
-                            <p className="text-gray-600">
-                                Blog generated with{' '}
-                                {generatedBlog.sections.length} sections
+                            <p className="text-gray-600 italic">
+                                {t('blogGeneratedWith')}
+                                {generatedBlog.sections.length} {t('sections')}
                             </p>
                             <p className="mt-4 mb-2 font-medium">
-                                Preview of first few sections:
+                                {t('previewSections')}
                             </p>
                             {generatedBlog.sections
-                                .slice(0, 2)
+                                .slice(0, 8)
                                 .map((section: any, i: number) => {
                                     if (!section) return null
                                     if (section.type === 'heading') {
                                         return (
-                                            <h3
+                                            <h4
                                                 key={i}
-                                                className="font-semibold mt-3"
+                                                className="font-semibold mt-5"
                                             >
                                                 {section.content}
-                                            </h3>
+                                            </h4>
                                         )
                                     }
                                     if (section.type === 'text') {
@@ -681,14 +685,12 @@ export function BlogGenerator({
                                     }
                                     return null
                                 })}
-                            <p className="text-gray-500 italic mt-4">
-                                (Full content will be available in the editor)
+                            <p className="text-gray-500 italic mt-5">
+                                {t('previewMore')}
                             </p>
                         </div>
                     ) : (
-                        <p className="text-gray-500">
-                            No content sections available
-                        </p>
+                        <p className="text-gray-500">{t('noContent')}</p>
                     )}
                 </div>
             </div>
@@ -700,11 +702,11 @@ export function BlogGenerator({
         if (!generationStep) return null
 
         const steps = {
-            planning: 'Planning content structure',
-            researching: 'Researching topic information',
-            writing: 'Writing blog content',
-            finalizing: 'Finalizing and formatting',
-            completed: 'Blog generation complete!',
+            planning: t('planningContent'),
+            researching: t('researchingContent'),
+            writing: t('writingContent'),
+            finalizing: t('finalizingContent'),
+            completed: t('completedContent'),
         }
 
         return (
@@ -716,15 +718,14 @@ export function BlogGenerator({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[800px] h-[80vh] flex flex-col p-6">
+            <DialogContent className="sm:max-w-[800px] h-[80vh] flex flex-col p-6 overflow-y-scroll">
                 <DialogHeader className="mb-4">
                     <DialogTitle className="flex items-center gap-2 text-xl">
                         <Sparkles className="h-5 w-5 text-purple-500" />
-                        AI Blog Generator
+                        {t('blogGenerator')}
                     </DialogTitle>
-                    <p className="text-sm text-gray-500 mt-1">
-                        Provide content for your blog to generate a complete
-                        article
+                    <p className="text-sm text-gray-500 mt-1 italic">
+                        {t('blogGeneratorDesc')}
                     </p>
                 </DialogHeader>
 
@@ -737,7 +738,7 @@ export function BlogGenerator({
                         <AlertCircle className="h-5 w-5 text-red-600 mt-2" />
                         <div>
                             <h4 className="font-medium text-red-800">
-                                Generation Failed
+                                {t('generationError')}
                             </h4>
                             <p className="text-red-700 text-base mt-1">
                                 {error}
@@ -752,7 +753,7 @@ export function BlogGenerator({
                     {!generatedBlog ? (
                         <>
                             <Button variant="outline" onClick={onClose}>
-                                Cancel
+                                {t('cancel')}
                             </Button>
                             <div className="flex flex-col">
                                 <Button
@@ -768,24 +769,24 @@ export function BlogGenerator({
                                             <Loader2 className="h-4 w-4 animate-spin" />
                                             <span className="relative">
                                                 {generationStep === 'planning'
-                                                    ? 'Planning'
+                                                    ? t('planning')
                                                     : generationStep ===
                                                         'researching'
-                                                      ? 'Researching'
+                                                      ? t('researching')
                                                       : generationStep ===
                                                           'writing'
-                                                        ? 'Writing'
+                                                        ? t('writing')
                                                         : generationStep ===
                                                             'finalizing'
-                                                          ? 'Finalizing'
-                                                          : 'Processing'}
+                                                          ? t('finalizing')
+                                                          : t('processing')}
                                                 <span className="absolute animate-pulse">
                                                     ...
                                                 </span>
                                             </span>
                                         </span>
                                     ) : (
-                                        <span>Generate Blog</span>
+                                        <span>{t('generateBlog')}</span>
                                     )}
                                 </Button>
                                 {/* Keep the detailed step description below for additional context */}
@@ -800,13 +801,13 @@ export function BlogGenerator({
                                 variant="outline"
                                 onClick={() => setGeneratedBlog(null)}
                             >
-                                Start Over
+                                {t('startOver')}
                             </Button>
                             <Button
                                 onClick={handleUseBlog}
                                 className="bg-purple-600 hover:bg-purple-700"
                             >
-                                Use This Blog
+                                {t('useBlog')}
                             </Button>
                         </>
                     )}
