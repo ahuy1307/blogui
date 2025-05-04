@@ -116,6 +116,7 @@ export default function EditBlogPage({ params }: any) {
     const [wordCount, setWordCount] = useState(0)
     const [readingTime, setReadingTime] = useState(0)
     const [lastSaved, setLastSaved] = useState<Date | null>(null)
+    const [isSaving, setIsSaving] = useState(false)
 
     const sectionRefs = useRef<{
         [key: string]: React.RefObject<HTMLDivElement>
@@ -525,12 +526,43 @@ export default function EditBlogPage({ params }: any) {
     }
 
     const saveBlogPost = (daXuatBan = false) => {
-        if (!title.trim()) {
+        // Prevent multiple submissions
+        if (isSaving || updateBlogMutation.isPending) return
+
+        // Set loading state
+        setIsSaving(true)
+
+        const trimmedTitle = title.trim()
+        // Check if title exists and meets requirements
+        if (!trimmedTitle) {
             toast({
                 title: t('missingTitle'),
                 description: t('addTitle'),
                 variant: 'destructive',
             })
+            setIsSaving(false)
+            return
+        }
+
+        // Check title length
+        if (trimmedTitle.length < 5) {
+            toast({
+                title: t('titleTooShort'),
+                description: t('titleMinLength', { min: 5 }),
+                variant: 'destructive',
+            })
+            setIsSaving(false)
+            return
+        }
+
+        // Check if title contains at least one letter
+        if (!/[a-zA-Z\u00C0-\u00FF]/.test(trimmedTitle)) {
+            toast({
+                title: t('invalidTitle'),
+                description: t('titleNeedsText'),
+                variant: 'destructive',
+            })
+            setIsSaving(false)
             return
         }
 
@@ -540,7 +572,78 @@ export default function EditBlogPage({ params }: any) {
                 description: t('addCoverImage'),
                 variant: 'destructive',
             })
+            setIsSaving(false)
             return
+        }
+
+        // Check if at least one section has been added
+        if (sections.length === 0) {
+            toast({
+                title: t('missingContent'),
+                description: t('addAtLeastOneSection'),
+                variant: 'destructive',
+            })
+            setIsSaving(false)
+            return
+        }
+
+        // Check for empty text and heading sections
+        for (let i = 0; i < sections.length; i++) {
+            const section = sections[i]
+
+            if (section.type === 'text') {
+                let textContent = ''
+                if (
+                    typeof section.content === 'string' &&
+                    section.content.startsWith('{')
+                ) {
+                    try {
+                        const parsedContent = JSON.parse(section.content)
+                        textContent = parsedContent.text || ''
+                    } catch (e) {
+                        textContent = section.content
+                    }
+                } else {
+                    textContent = section.content
+                }
+
+                if (!textContent.trim()) {
+                    toast({
+                        title: t('missingContent'),
+                        description: t('textSectionCannotBeEmpty'),
+                        variant: 'destructive',
+                    })
+
+                    // Scroll to the empty text section
+                    sectionRefs.current[section.id]?.current?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                    })
+
+                    setIsSaving(false)
+                    return
+                }
+            }
+
+            if (
+                section.type === 'heading' &&
+                (!section.content || !section.content.trim())
+            ) {
+                toast({
+                    title: t('missingContent'),
+                    description: t('headingSectionCannotBeEmpty'),
+                    variant: 'destructive',
+                })
+
+                // Scroll to the empty heading section
+                sectionRefs.current[section.id]?.current?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                })
+
+                setIsSaving(false)
+                return
+            }
         }
 
         if (!categories.length) {
@@ -549,6 +652,7 @@ export default function EditBlogPage({ params }: any) {
                 description: t('addCategories'),
                 variant: 'destructive',
             })
+            setIsSaving(false)
             return
         }
 
@@ -655,8 +759,15 @@ export default function EditBlogPage({ params }: any) {
             chuDes: categories.map((topic) => topic.id),
         }
 
-        updateBlogMutation.mutate({ blogData: formattedData })
-        setLastSaved(new Date())
+        updateBlogMutation.mutate(
+            { blogData: formattedData },
+            {
+                onSettled: () => {
+                    setIsSaving(false)
+                    setLastSaved(new Date())
+                },
+            }
+        )
     }
 
     useEffect(() => {
@@ -909,6 +1020,10 @@ export default function EditBlogPage({ params }: any) {
                                             setBlogGeneratorOpen(true)
                                         }
                                         className="border-purple-300 text-purple-700 hover:bg-purple-50 flex items-center gap-1"
+                                        disabled={
+                                            isSaving ||
+                                            updateBlogMutation.isPending
+                                        }
                                     >
                                         <Sparkles className="h-4 w-4" />
                                         {t('aiGenerate')}
@@ -918,9 +1033,16 @@ export default function EditBlogPage({ params }: any) {
                                             saveBlogPost(blogDetail?.daXuatBan)
                                         }
                                         className="bg-purple-600 hover:bg-purple-700 text-white"
+                                        disabled={
+                                            isSaving ||
+                                            updateBlogMutation.isPending
+                                        }
                                     >
                                         <Save className="h-4 w-4 mr-2" />
-                                        {t('update')}
+                                        {isSaving ||
+                                        updateBlogMutation.isPending
+                                            ? t('updating')
+                                            : t('update')}
                                     </Button>
                                 </div>
                             </div>

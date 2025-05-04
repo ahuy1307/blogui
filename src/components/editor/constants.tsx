@@ -53,19 +53,19 @@ export const SIDEBAR_SECTIONS: {
         },
     },
     {
-        type: 'numbered-list',
-        icon: <ListOrdered className="h-5 w-5" />,
-        label: {
-            en: 'Numbered List',
-            vi: 'Danh sách số',
-        },
-    },
-    {
         type: 'bullet-list',
         icon: <List className="h-5 w-5" />,
         label: {
             en: 'Bullet List',
             vi: 'Danh sách dấu đầu dòng',
+        },
+    },
+    {
+        type: 'numbered-list',
+        icon: <ListOrdered className="h-5 w-5" />,
+        label: {
+            en: 'Numbered List',
+            vi: 'Danh sách số',
         },
     },
     {

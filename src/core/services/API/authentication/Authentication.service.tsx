@@ -488,6 +488,43 @@ class AuthenticationService implements IAuthentication {
         )
         return res
     }
+    async generateBlogContent({
+        title,
+        content,
+        writing_tone,
+        target_audience,
+        include_code,
+        language,
+        include_emojis,
+    }: {
+        title: string
+        content: string
+        writing_tone: string
+        target_audience: string
+        include_code: boolean
+        language: string
+        include_emojis?: boolean
+    }): Promise<any> {
+        const data: {
+            title: string
+            content: string
+            writing_tone: string
+            target_audience: string
+            include_code: boolean
+            language: string
+            include_emojis?: boolean
+        } = {
+            title,
+            content,
+            writing_tone,
+            target_audience,
+            include_code,
+            language,
+            include_emojis,
+        }
+        const res = await httpService.post('/blogs/generate', data)
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

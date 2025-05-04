@@ -59,6 +59,7 @@ function SearchContent() {
     const [isFiltersVisible, setIsFiltersVisible] = useState(false)
     const [isSearching, setIsSearching] = useState(false)
     const [isUpdatingFilters, setIsUpdatingFilters] = useState(false)
+    const [isInitialLoad, setIsInitialLoad] = useState(true) // Track initial page load
     const observer = useRef<IntersectionObserver | null>(null)
     const searchInputRef = useRef<HTMLInputElement>(null)
     const urlUpdateTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -258,7 +259,7 @@ function SearchContent() {
         }
     }, [debouncedSearch, debouncedFilterUpdate])
 
-    // Fetch blogs with Infinite Query - improve caching strategy
+    // Fetch blogs with Infinite Query - improved with initial smaller load and true lazy loading
     const {
         data,
         fetchNextPage,
@@ -267,6 +268,7 @@ function SearchContent() {
         isLoading,
         isError,
         isFetching,
+        refetch,
     } = useInfiniteQuery({
         queryKey: [
             'blogs',
@@ -282,7 +284,11 @@ function SearchContent() {
 
             // Add basic parameters
             params.append('page', pageParam.toString())
-            params.append('limit', '12')
+
+            // Initial page loads fewer items for faster first render
+            const pageSize = pageParam === 1 ? 10 : 12
+            params.append('limit', pageSize.toString())
+
             if (search) params.append('search', search)
             if (startDate) params.append('start_date', startDate)
             if (endDate) params.append('end_date', endDate)
@@ -299,13 +305,15 @@ function SearchContent() {
                 })
             }
 
-            // Add a small delay to make smooth transitions
-            await new Promise((resolve) => setTimeout(resolve, 300))
+            // Minimal delay for smooth transitions
+            if (pageParam > 1) {
+                await new Promise((resolve) => setTimeout(resolve, 200))
+            }
 
             // Use the custom search method that properly handles multiple topics
             const response = await authenticationService.searchBlogs({
                 page: pageParam,
-                limit: 12,
+                limit: pageSize,
                 search: search || undefined,
                 start_date: startDate || undefined,
                 end_date: endDate || undefined,
@@ -319,8 +327,11 @@ function SearchContent() {
                 blogs: response.data.results,
                 count: response.data.count,
                 page: pageParam,
-                // Calculate total pages based on count and limit
-                totalPages: Math.ceil(response.data.count / 12),
+                // Calculate total pages accounting for different page sizes
+                totalPages:
+                    pageParam === 1
+                        ? 1 + Math.ceil((response.data.count - 10) / 12)
+                        : Math.ceil(response.data.count / 12),
                 // Store next/prev for pagination
                 next: response.data.next,
                 previous: response.data.previous,
@@ -336,16 +347,40 @@ function SearchContent() {
             return undefined
         },
         initialPageParam: 1,
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        gcTime: 10 * 60 * 1000, // 10 minutes,
-        // Add a structuralSharing option to better handle cached data
+        staleTime: 60 * 1000, // 1 minute
+        gcTime: 5 * 60 * 1000, // 5 minutes
+        refetchOnWindowFocus: false, // Disable automatic refetch for better UX
         structuralSharing: true,
     })
+
+    // Force refetch when the component mounts to ensure fresh data
+    useEffect(() => {
+        // Invalidate and refetch blog data when component mounts
+        queryClient.invalidateQueries({
+            queryKey: ['blogs'],
+            refetchType: 'all',
+        })
+
+        // Also refetch topics to ensure we have the latest
+        queryClient.invalidateQueries({
+            queryKey: ['topics'],
+            refetchType: 'all',
+        })
+
+        // Mark initial load as complete after a short delay
+        const timer = setTimeout(() => {
+            setIsInitialLoad(false)
+        }, 500)
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [queryClient])
 
     // Extract all blogs from all pages
     const allBlogs = data?.pages.flatMap((page) => page.blogs) || []
 
-    // Infinite scroll logic
+    // True lazy loading that only triggers when user is 40px from bottom
     const lastBlogElementRef = useCallback(
         (node: HTMLDivElement | null) => {
             if (isLoading) return
@@ -353,23 +388,18 @@ function SearchContent() {
 
             observer.current = new IntersectionObserver(
                 (entries) => {
-                    // If the element is 50% visible and we have more pages to load
                     if (
                         entries[0].isIntersecting &&
                         hasNextPage &&
                         !isFetchingNextPage
                     ) {
-                        // Add a small delay to prevent rapid firing when scrolling fast
-                        setTimeout(() => {
-                            fetchNextPage()
-                        }, 100)
+                        fetchNextPage()
                     }
                 },
                 {
-                    // This makes the observer trigger when the element is 200px below the viewport
-                    // giving us time to load before the user reaches the end
-                    rootMargin: '0px 0px 200px 0px',
-                    threshold: 0.1, // Trigger when at least 10% visible
+                    // Only load more when user is 40px from bottom of last item
+                    rootMargin: '0px 0px 40px 0px',
+                    threshold: 0.1,
                 }
             )
 
@@ -377,6 +407,8 @@ function SearchContent() {
         },
         [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]
     )
+
+    // Remove early loading triggers to achieve true lazy loading
 
     // Handle search input submit - can be kept for immediate search if needed
     const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -478,11 +510,12 @@ function SearchContent() {
         )
     }
 
-    // Determine if search is active to show loading state - account for filter updates too
-    const isActiveSearch = isSearching || isFetching || isUpdatingFilters
+    // Determine if search is active to show loading state - account for filter updates and initial load
+    const isActiveSearch =
+        isSearching || isFetching || isUpdatingFilters || isInitialLoad
 
-    // Show skeleton loading when we're actively searching or loading initial data
-    const showSkeletons = isActiveSearch || isLoading
+    // Show spinner instead of skeletons when actively searching or loading initial data
+    const showLoadingSpinner = isActiveSearch || isLoading
 
     return (
         <div className="mx-auto py-8 px-4">
@@ -770,7 +803,7 @@ function SearchContent() {
 
                 {/* Blog results - right side */}
                 <div className="md:w-3/4 lg:w-4/5">
-                    {/* Results count with simple loading state and sort dropdown */}
+                    {/* Results count with loading indicator */}
                     <div className="flex justify-between items-center mb-6 h-6">
                         <div className="flex items-center">
                             {isActiveSearch ? (
@@ -790,8 +823,8 @@ function SearchContent() {
                             ) : null}
                         </div>
 
-                        {/* Sort dropdown */}
-                        {!showSkeletons && allBlogs.length > 0 && (
+                        {/* Sort dropdown - only show when not loading and we have results */}
+                        {!showLoadingSpinner && allBlogs.length > 0 && (
                             <div className="flex items-center gap-2">
                                 <span className="text-sm text-gray-500">
                                     {t('search.sortBy')}:
@@ -821,36 +854,17 @@ function SearchContent() {
                         )}
                     </div>
 
-                    {/* Blog grid with simpler transitions */}
-                    <div className={isActiveSearch ? 'opacity-50' : ''}>
-                        {showSkeletons ? (
-                            // Loading skeletons in grid
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {Array.from({ length: 6 }).map((_, index) => (
-                                    <Card
-                                        key={`skeleton-${index}`}
-                                        className="overflow-hidden flex flex-col"
-                                    >
-                                        <Skeleton className="h-48 w-full" />
-                                        <CardContent className="p-4 flex-1">
-                                            <Skeleton className="h-4 w-1/3 mb-2" />
-                                            <Skeleton className="h-6 w-full mb-2" />
-                                            <Skeleton className="h-4 w-full mb-1" />
-                                            <Skeleton className="h-4 w-2/3" />
-                                        </CardContent>
-                                        <CardFooter className="p-4 pt-0 border-t">
-                                            <div className="flex justify-between items-center w-full">
-                                                <div className="flex items-center">
-                                                    <Skeleton className="h-8 w-8 rounded-full mr-2" />
-                                                    <Skeleton className="h-4 w-16" />
-                                                </div>
-                                                <Skeleton className="h-4 w-16" />
-                                            </div>
-                                        </CardFooter>
-                                    </Card>
-                                ))}
+                    {/* Updated Blog grid with true lazy loading */}
+                    <div
+                        className={`transition-opacity duration-300 ${isActiveSearch ? 'opacity-70' : 'opacity-100'}`}
+                    >
+                        {showLoadingSpinner && !allBlogs.length ? (
+                            // Full-page loading spinner for initial load
+                            <div className="flex flex-col items-center justify-center py-20">
+                                <Spin size="large" tip={t('search.loading')} />
                             </div>
                         ) : isError ? (
+                            // Error state
                             <div className="text-center py-12 border border-gray-200 rounded-lg">
                                 <p className="text-red-500">
                                     {t('search.error')}
@@ -864,6 +878,7 @@ function SearchContent() {
                                 </Button>
                             </div>
                         ) : allBlogs.length === 0 ? (
+                            // No results state
                             <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
                                 <h3 className="text-xl font-medium mb-2">
                                     {t('search.noResults')}
@@ -879,28 +894,23 @@ function SearchContent() {
                                 </Button>
                             </div>
                         ) : (
+                            // Results grid with true lazy loading
                             <div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {allBlogs.map((blog, index) => {
-                                        // Create a ref for the 5th-to-last item to start loading earlier
-                                        const isNearLastElement =
-                                            allBlogs.length > 5 &&
-                                            index === allBlogs.length - 5
+                                        // Only apply ref to the last element for true lazy loading
                                         const isLastElement =
                                             index === allBlogs.length - 1
 
-                                        // Apply ref to both last and near-last elements for smoother loading
                                         return (
                                             <div
                                                 key={blog.id}
                                                 ref={
-                                                    isLastElement ||
-                                                    isNearLastElement
+                                                    isLastElement
                                                         ? lastBlogElementRef
                                                         : null
                                                 }
-                                                className="transition-opacity duration-300 ease-in-out"
-                                                style={{ opacity: 1 }}
+                                                className="transition-all duration-300 ease-in-out"
                                             >
                                                 <BlogFeatureCard
                                                     blog={blog}
@@ -911,9 +921,9 @@ function SearchContent() {
                                     })}
                                 </div>
 
-                                {/* Loading indicator using Antd Spin - only shown when scrolling and fetching next page */}
+                                {/* Loading indicator only when actively fetching next page */}
                                 {isFetchingNextPage && (
-                                    <div className="flex justify-center py-8 mt-4">
+                                    <div className="flex justify-center py-4 mt-4">
                                         <Spin
                                             size="large"
                                             tip={t('search.loadingMore')}
@@ -922,10 +932,8 @@ function SearchContent() {
                                     </div>
                                 )}
 
-                                {/* Invisible spacer for layout consistency when not loading */}
-                                {hasNextPage && !isFetchingNextPage && (
-                                    <div className="h-16"></div>
-                                )}
+                                {/* Small bottom spacer for consistent layout */}
+                                <div className="h-8"></div>
                             </div>
                         )}
                     </div>

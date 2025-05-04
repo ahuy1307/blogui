@@ -6,6 +6,8 @@
 // __date__ = "2025-02-01 12:37:59"
 //
 
+'use client'
+
 import type { PropsWithChildren } from 'react'
 import styles from './FullScreenLayout.module.scss'
 
