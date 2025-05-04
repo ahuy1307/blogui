@@ -1020,7 +1020,10 @@ export default function WritePage() {
                                         }
                                     >
                                         {isSavingDraft ? (
-                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                            <>
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                                {t('saving')}
+                                            </>
                                         ) : (
                                             t('saveDraft')
                                         )}
@@ -1036,7 +1039,10 @@ export default function WritePage() {
                                     >
                                         {isPublishing ||
                                         publishBlogMutation.isPending ? (
-                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                            <>
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                                {t('publishing')}
+                                            </>
                                         ) : (
                                             t('publish')
                                         )}
