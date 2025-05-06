@@ -65,6 +65,7 @@ import { Topic } from '@/types/interface'
 import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import { generateId } from '@/lib/utils'
 import { useRouter } from '@/navigation'
+import { useMissions } from '@/hooks/useMissions'
 
 export default function WritePage() {
     const t = useTranslations('write') // Initialize translations for the 'write' namespace
@@ -486,6 +487,7 @@ export default function WritePage() {
             }
         }
     }
+    const { fetchUserTasks } = useMissions()
 
     const handleBlogGenerated = (blogData: any) => {
         setTitle(blogData.title)
@@ -759,6 +761,7 @@ export default function WritePage() {
             }
         } finally {
             // Reset loading states only if we're still mounted and not navigating
+            fetchUserTasks()
             if (isMounted.current && !isNavigating.current) {
                 setIsSavingDraft(false)
                 setIsPublishing(false)

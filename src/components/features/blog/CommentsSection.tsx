@@ -49,6 +49,7 @@ import { set } from 'nprogress'
 import { comment } from 'postcss'
 import { useAuth } from '@/contexts/auth/AuthContext'
 import { useTranslations } from 'next-intl'
+import { useMissions } from '@/hooks/useMissions'
 
 interface CommentUser {
     id: string
@@ -677,6 +678,7 @@ export function CommentsSection({
             return { data: response.data, commentData: newComment }
         },
         onSuccess: (result, variables) => {
+            fetchUserTasks()
             const { data, commentData } = result
 
             // If this is a reply comment (has binhLuan property)
@@ -749,59 +751,7 @@ export function CommentsSection({
             })
         },
     })
-
-    // Helper function to add an optimistic reply
-    const addOptimisticReply = (parentId: string, content: string) => {
-        // Create a temporary optimistic reply
-        const optimisticReply: CommentData = {
-            id: `temp-${Date.now()}`, // Temporary ID until refetch
-            nguoiDung: {
-                id: user?.id || '',
-                ho: user?.ho || '',
-                ten: user?.ten || '',
-                avatar: user?.avatar || '',
-            },
-            baiViet: postId || '',
-            noiDungBinhLuan: content,
-            binhLuanCha: parentId, // This is the ID of the parent comment
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            binhLuanCuaBan: true,
-            // Add reference to the parent comment for UI display
-            binhLuanReply: {
-                id: parentId,
-                nguoiDung: parentComments.find((c) => c.id === parentId)
-                    ?.nguoiDung || {
-                    id: '',
-                    ho: '',
-                    ten: '',
-                    avatar: '',
-                },
-            },
-            totalChild: 0, // Set to 0 initially
-        }
-
-        // Add the new reply to the childComments state
-        setChildComments((prev) => ({
-            ...prev,
-            [parentId]: [...(prev[parentId] || []), optimisticReply],
-        }))
-
-        // Update pagination count
-        setChildCommentsPagination((prev) => {
-            const currentPagination = prev[parentId] || {
-                page: 1,
-                totalCount: 0,
-            }
-            return {
-                ...prev,
-                [parentId]: {
-                    ...currentPagination,
-                    totalCount: currentPagination.totalCount + 1,
-                },
-            }
-        })
-    }
+    const { fetchUserTasks } = useMissions()
 
     const handleSubmitComment = () => {
         if (!newComment.trim()) return
@@ -809,6 +759,7 @@ export function CommentsSection({
         postComment({
             noiDungBinhLuan: newComment,
         })
+
         setNewComment('')
     }
 

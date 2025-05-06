@@ -17,6 +17,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/other-ui/Tabs'
 import { NotificationItem } from '@/components/notifications/NotificationItem'
 import type { Notification } from '@/types/notification'
 import { useTranslations } from 'next-intl'
+import { Tooltip } from 'antd'
 
 export function NotificationDropdown() {
     const t = useTranslations('header.Notification')
@@ -65,20 +66,26 @@ export function NotificationDropdown() {
 
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="relative">
-                    <Bell
-                        className="h-2 w-2"
-                        style={{ width: '21px', height: '21px' }}
-                    />
-                    {unreadCount > 0 && (
-                        <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
-                            {unreadCount > 9 ? '9+' : unreadCount}
-                        </span>
-                    )}
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-96">
+            <Tooltip title={t('notificationLabel')} placement="bottom">
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="relative mr-4">
+                        <Bell
+                            className="h-2 w-2"
+                            style={{ width: '21px', height: '21px' }}
+                        />
+                        {unreadCount > 0 && (
+                            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
+                                {unreadCount > 9 ? '9+' : unreadCount}
+                            </span>
+                        )}
+                    </Button>
+                </DropdownMenuTrigger>
+            </Tooltip>
+            <DropdownMenuContent
+                align="end"
+                className="w-96"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <>
                     <div className="flex items-center justify-between p-4">
                         <DropdownMenuLabel className="text-lg">

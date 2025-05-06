@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Mail, Rss } from 'lucide-react'
 import { FaGithub } from 'react-icons/fa'
 import { FaLinkedin } from 'react-icons/fa'
@@ -6,6 +5,7 @@ import { CiTwitter } from 'react-icons/ci'
 import { brandName } from '@/core/config/appConfig'
 import { Topic } from '@/types/interface'
 import { useLocale, useTranslations } from 'next-intl'
+import { Link } from '@/navigation'
 
 export function Footer({ topics }: { topics: Topic[] }) {
     const t = useTranslations('landing.Footer')
@@ -64,7 +64,7 @@ export function Footer({ topics }: { topics: Topic[] }) {
                             {topics.map((topic, index) => (
                                 <li key={index}>
                                     <Link
-                                        href="#"
+                                        href={`/blog?topics=${topic.id}&sort=newest`}
                                         className="hover:text-gray-900"
                                     >
                                         {topic.tenChuDe[locale]}

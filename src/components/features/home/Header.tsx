@@ -11,7 +11,7 @@ import React, { useState } from 'react'
 import { Link, useRouter } from '@/navigation'
 import { IoSearchOutline } from 'react-icons/io5'
 import { useTranslations } from 'next-intl'
-import { Dropdown } from 'antd'
+import { Dropdown, Tooltip } from 'antd'
 
 import TextField from '@/components/ui/TextField/TextField'
 import Button from '@/components/ui/Button/Button'
@@ -28,6 +28,7 @@ import { message } from 'antd'
 import { Pencil, Book } from 'lucide-react'
 import { NotificationDropdown } from '@/components/notifications/NotificationDropdown'
 import { Button as OtherButton } from '@/components/other-ui/Button'
+import { MissionsDropdown } from '@/components/mission/MissionDropdown'
 
 const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
     const { user, dispatch, isAuthenticated } = useAuth()
@@ -176,19 +177,22 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                 ) : (
                     <>
                         <Link href={`/library`}>
-                            <OtherButton
-                                variant="ghost"
-                                size="sm"
-                                className="relative"
-                            >
-                                <Book
-                                    style={{
-                                        width: '20px',
-                                        height: '20px',
-                                    }}
-                                />
-                            </OtherButton>
+                            <Tooltip title={t('library')}>
+                                <OtherButton
+                                    variant="ghost"
+                                    size="sm"
+                                    className="relative"
+                                >
+                                    <Book
+                                        style={{
+                                            width: '20px',
+                                            height: '20px',
+                                        }}
+                                    />
+                                </OtherButton>
+                            </Tooltip>
                         </Link>
+                        <MissionsDropdown />
                         <NotificationDropdown />
                         <Dropdown menu={{ items }} placement="bottomRight">
                             <Avatar

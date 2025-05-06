@@ -42,5 +42,16 @@
         "notificationDescription": "When you receive notifications, they will appear here",
         "new": "New",
         "on": "on"
+    },
+    "MissionsDropdown": {
+        "claimRewardSuccess": "Claim reward successfully!",
+        "claimRewardDescription": "You have successfully claimed the reward for this mission.",
+        "claimRewardError": "Claim reward failed!",
+        "claimRewardErrorDescription": "You have already claimed the reward for this mission.",
+        "missions": "Missions",
+        "missionsDaily": "Daily Missions",
+        "completed": "completed",
+        "claimReward": "Claim Reward",
+        "claimed": "Claimed"
     }
 }

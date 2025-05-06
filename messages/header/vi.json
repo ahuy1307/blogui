@@ -42,5 +42,16 @@
         "notificationDescription": "Khi bạn nhận được thông báo, chúng sẽ xuất hiện ở đây",
         "new": "Mới",
         "on": "vào"
+    },
+    "MissionsDropdown": {
+        "claimRewardSuccess": "Nhận thưởng thành công!",
+        "claimRewardDescription": "Bạn đã nhận thưởng thành công cho nhiệm vụ này.",
+        "claimRewardError": "Nhận thưởng thất bại!",
+        "claimRewardErrorDescription": "Bạn đã nhận thưởng cho nhiệm vụ này rồi.",
+        "missions": "Nhiệm vụ",
+        "missionsDaily": "Nhiệm vụ hàng ngày",
+        "completed": "đã hoàn thành",
+        "claimReward": "Nhận thưởng",
+        "claimed": "Đã nhận thưởng"
     }
 }

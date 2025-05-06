@@ -65,6 +65,7 @@ import {
 } from '@/components/other-ui/Popover'
 import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import ScrollToTop from '../home/ScrollToTop'
+import { useMissions } from '@/hooks/useMissions'
 // Helper function to convert API component to SectionType
 const convertToSectionType = (component: any): SectionType | null => {
     const { loaiThanhPhan, noiDung, dinhDang, hang, cot, id } = component
@@ -490,7 +491,8 @@ export function BlogDetail({
     const { toast } = useToast()
     const locale = useLocale()
     const [reportDialogOpen, setReportDialogOpen] = useState(false)
-    const { incrementMissionProgress } = useMissionStore()
+    const { fetchUserTasks } = useMissions()
+
     const [commentIdCounter, setCommentIdCounter] = useState(1)
     const shareUrl = `${getBaseUrl()}/${locale}/blog/${blogDetail?.slug}`
 
@@ -521,6 +523,7 @@ export function BlogDetail({
                 title: t('successTitle'),
                 description: res.data.message,
             })
+            fetchUserTasks()
             refetch()
         },
         onError: (res: any) => {
@@ -531,12 +534,6 @@ export function BlogDetail({
             })
         },
     })
-
-    const generateCommentId = useCallback(() => {
-        const id = commentIdCounter
-        setCommentIdCounter((prev) => prev + 1)
-        return id
-    }, [commentIdCounter])
 
     // Add ref for tracking when footer is visible and state for table of contents
     const footerRef = useRef<HTMLDivElement>(null)

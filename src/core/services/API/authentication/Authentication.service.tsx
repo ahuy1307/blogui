@@ -525,6 +525,18 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.post('/blogs/generate', data)
         return res
     }
+    async getUserTasksDaily(): Promise<any> {
+        const res = await httpService.get('/auth/tasks/daily')
+        return res
+    }
+    async collectCoinCompletedTask({
+        task_id,
+    }: {
+        task_id: string
+    }): Promise<any> {
+        const res = await httpService.put(`/auth/tasks/collect-coin/${task_id}`)
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()
