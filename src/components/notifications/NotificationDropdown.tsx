@@ -65,7 +65,7 @@ export function NotificationDropdown() {
     const filteredNotifications = getFilteredNotifications()
 
     return (
-        <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
             <Tooltip title={t('notificationLabel')} placement="bottom">
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="relative mr-4">

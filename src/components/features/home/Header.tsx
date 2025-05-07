@@ -25,7 +25,7 @@ import ModalConfirm from './ModalConfirm'
 import { signOut } from '@/contexts/auth/reducers'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { message } from 'antd'
-import { Pencil, Book } from 'lucide-react'
+import { Pencil, Book, Coins } from 'lucide-react'
 import { NotificationDropdown } from '@/components/notifications/NotificationDropdown'
 import { Button as OtherButton } from '@/components/other-ui/Button'
 import { MissionsDropdown } from '@/components/mission/MissionDropdown'
@@ -189,6 +189,26 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                                             height: '20px',
                                         }}
                                     />
+                                </OtherButton>
+                            </Tooltip>
+                        </Link>
+                        <Link href="/profile/coin-history" className="relative">
+                            <Tooltip title={'Coins'}>
+                                <OtherButton
+                                    variant="ghost"
+                                    className="flex items-center gap-1.5 px-3"
+                                    aria-label="Coins"
+                                >
+                                    <Coins
+                                        className="h-5 w-5"
+                                        style={{
+                                            width: '21px',
+                                            height: '21px',
+                                        }}
+                                    />
+                                    <span className="text-sm font-bold">
+                                        {user?.soLuongCoin || 0}
+                                    </span>
                                 </OtherButton>
                             </Tooltip>
                         </Link>

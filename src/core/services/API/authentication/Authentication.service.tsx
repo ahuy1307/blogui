@@ -537,6 +537,21 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.put(`/auth/tasks/collect-coin/${task_id}`)
         return res
     }
+    async getCoinHistory({
+        page,
+        limit,
+    }: {
+        page?: number
+        limit?: number
+    }): Promise<any> {
+        const res = await httpService.get('/auth/tasks/history', {
+            params: {
+                page,
+                limit,
+            },
+        })
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

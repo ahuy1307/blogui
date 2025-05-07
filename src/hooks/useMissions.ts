@@ -8,7 +8,9 @@ export function useMissions() {
     isLoading,
     error,
     fetchUserTasks,
-    collectTaskReward
+    collectTaskReward,
+    transactions,
+    fetchTransactionHistory
   } = useMissionStore();
 
   // Fetch missions when the hook is first used
@@ -34,6 +36,8 @@ export function useMissions() {
     completedMissions,
     availableCoins,
     fetchUserTasks,
-    collectTaskReward
+    collectTaskReward,
+    transactions,
+    fetchTransactionHistory
   };
 }

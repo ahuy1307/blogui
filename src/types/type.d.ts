@@ -29,7 +29,9 @@ interface IUser {
     soLuongBaiViet: number
     soLuongThichBaiViet: number
     soLuongThongBao: number
+    soLuongCoin: number
 }
+
 interface IMenuItem {
     key: string
     label: string

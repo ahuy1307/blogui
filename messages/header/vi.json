@@ -53,5 +53,27 @@
         "completed": "đã hoàn thành",
         "claimReward": "Nhận thưởng",
         "claimed": "Đã nhận thưởng"
+    },
+    "CoinHistoryPage": {
+        "backToHome": "Trở về trang chủ",
+        "transactionHistory": "Lịch sử giao dịch coin",
+        "currentBalance": "Số dư hiện tại",
+        "totalEarned": "Tổng nhận được",
+        "totalSpent": "Tổng đã dùng",
+        "coin": "coin",
+        "transactionHistoryList": "Lịch sử giao dịch",
+        "all": "Tất cả",
+        "earned": "Nhận coin",
+        "spent": "Dùng coin",
+        "viewAllTransactions": "Xem tất cả giao dịch coin của bạn",
+        "searchTransactions": "Tìm kiếm giao dịch...",
+        "transactionSource": "Nguồn giao dịch",
+        "allSources": "Tất cả nguồn",
+        "clearAll": "Xóa tất cả",
+        "noTransactionsFound": "Không tìm thấy giao dịch nào",
+        "tryDifferentFilters": "Hãy thử các bộ lọc khác",
+        "copyright": "All rights reserved.",
+        "loading": "Đang tải...",
+        "loadingMore": "Đang tải thêm..."
     }
 }
