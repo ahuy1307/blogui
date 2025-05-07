@@ -53,5 +53,27 @@
         "completed": "completed",
         "claimReward": "Claim Reward",
         "claimed": "Claimed"
+    },
+    "CoinHistoryPage": {
+        "backToHome": "Back to home",
+        "transactionHistory": "Coin Transaction History",
+        "currentBalance": "Current Balance",
+        "totalEarned": "Total Earned",
+        "totalSpent": "Total Used",
+        "coin": "coin",
+        "transactionHistoryList": "Transaction History",
+        "all": "All",
+        "earned": "Received",
+        "spent": "Used",
+        "viewAllTransactions": "View all your coin transactions",
+        "searchTransactions": "Search transactions...",
+        "transactionSource": "Transaction Source",
+        "allSources": "All sources",
+        "clearAll": "Clear all",
+        "noTransactionsFound": "No transactions found",
+        "tryDifferentFilters": "Try different filters",
+        "copyright": "All rights reserved.",
+        "loading": "Loading...",
+        "loadingMore": "Loading more..."
     }
 }

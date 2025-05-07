@@ -48,9 +48,6 @@ const CheckEmailSignup = () => {
         else setError(t('failedToCheckEmail'))
     }
 
-    console.log(error)
-    console.log(success)
-
     return (
         <div className="flex justify-between items-center relative">
             <div

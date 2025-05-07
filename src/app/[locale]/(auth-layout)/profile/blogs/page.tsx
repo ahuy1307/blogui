@@ -203,7 +203,6 @@ export default function BlogPage() {
                             endDate ? dayjs(endDate) : null,
                         ]}
                         onChange={(dates) => {
-                            console.log(dates)
                             setStartDate(dates?.[0]?.toDate() || undefined)
                             setEndDate(dates?.[1]?.toDate() || undefined)
                         }}

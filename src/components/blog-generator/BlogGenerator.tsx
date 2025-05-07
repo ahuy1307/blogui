@@ -334,8 +334,6 @@ export function BlogGenerator({
         }
     }
 
-    console.log(generatedBlog)
-
     const handleGenerateBlog = () => {
         if (!blogIdea) {
             toast({

@@ -305,7 +305,9 @@ export default function Page({ params }: any) {
                         </div>
                     </div>
                     <div className="bg-white mt-8 rounded-xl pt-4 pb-8 px-10">
-                        <h3 className="mb-6 font-bold">{t('recentBlogs')}</h3>
+                        <h3 className="mt-4 mb-6 font-bold">
+                            {t('recentBlogs')}
+                        </h3>
                         {profileData.baiViets &&
                             profileData.baiViets.length > 0 && (
                                 <div className="grid md:grid-cols-2 gap-6">

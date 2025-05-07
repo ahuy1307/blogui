@@ -29,12 +29,32 @@ import { useToast } from '@/components/other-ui/useToast'
 import { MissionType } from '@/store/mission-store'
 import { Tooltip } from 'antd'
 import { useTranslations } from 'next-intl'
+import { useAuth } from '@/contexts/auth/AuthContext'
+import { signIn } from '@/contexts/auth/reducers'
+import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 
 export function MissionsDropdown() {
     const t = useTranslations('header.MissionsDropdown')
-    const { missions, fetchUserTasks, collectTaskReward } = useMissions()
+    const { dispatch, user } = useAuth()
+
+    const {
+        missions,
+        fetchUserTasks,
+        collectTaskReward,
+        fetchTransactionHistory,
+    } = useMissions()
     const [open, setOpen] = useState(false)
     const { toast } = useToast()
+
+    async function handleSignIn() {
+        try {
+            const userInformation =
+                await authenticationService.getInformationUser()
+            await dispatch(
+                signIn({ isAuthenticated: true, user: userInformation })
+            )
+        } catch (error) {}
+    }
 
     // Initialize missions on component mount
     useEffect(() => {
@@ -54,6 +74,8 @@ export function MissionsDropdown() {
                 title: t('claimRewardSuccess'),
                 description: t('claimRewardDescription'),
             })
+            fetchTransactionHistory()
+            handleSignIn()
         } else {
             toast({
                 title: t('claimRewardError'),
@@ -81,7 +103,7 @@ export function MissionsDropdown() {
     }
 
     return (
-        <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
             <Tooltip title={t('missions')}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="relative">
@@ -100,7 +122,7 @@ export function MissionsDropdown() {
             </Tooltip>
             <DropdownMenuContent
                 align="end"
-                className="w-[350px]"
+                className="w-[350px] max-h-[80vh]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <DropdownMenuLabel className="flex items-center justify-between mt-6 mb-4">
@@ -111,7 +133,7 @@ export function MissionsDropdown() {
                     </Badge>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <div className="overflow-auto">
+                <div className="overflow-auto max-h-[50vh]">
                     <DropdownMenuGroup onClick={(e) => e.stopPropagation()}>
                         {missions.map((mission) => (
                             <div
