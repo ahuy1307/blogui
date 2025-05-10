@@ -552,6 +552,20 @@ class AuthenticationService implements IAuthentication {
         })
         return res
     }
+    async generateBllogImage({ prompt }: { prompt: string }): Promise<any> {
+        const data: { prompt: string } = {
+            prompt,
+        }
+        const res = await httpService.post('/blogs/generate-image', data)
+        return res
+    }
+    async uploadGeneratedImage({ url }: { url: string }): Promise<any> {
+        const data: { url: string } = {
+            url,
+        }
+        const res = await httpService.post('/blogs/upload-gen-image', data)
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

@@ -131,7 +131,7 @@ export default function EditBlogPage({ params }: any) {
         'image' | 'video' | 'all'
     >('all')
     const [blogGeneratorOpen, setBlogGeneratorOpen] = useState(false)
-    const [categories, setCategories] = useState<Topic[]>([])
+    const [topics, setTopics] = useState<Topic[]>([])
 
     useUnlockBodyScroll()
 
@@ -646,10 +646,10 @@ export default function EditBlogPage({ params }: any) {
             }
         }
 
-        if (!categories.length) {
+        if (!topics.length) {
             toast({
-                title: t('missingCategories'),
-                description: t('addCategories'),
+                title: t('missingTopics'),
+                description: t('addTopics'),
                 variant: 'destructive',
             })
             setIsSaving(false)
@@ -756,7 +756,7 @@ export default function EditBlogPage({ params }: any) {
                         id: section.id,
                     }
             }),
-            chuDes: categories.map((topic) => topic.id),
+            chuDes: topics.map((topic) => topic.id),
         }
 
         updateBlogMutation.mutate(
@@ -856,7 +856,7 @@ export default function EditBlogPage({ params }: any) {
                     }
                 })
             )
-            setCategories(blogDetail.chuDes || [])
+            setTopics(blogDetail.chuDes || [])
         }
     }, [blogDetail])
 
@@ -1203,17 +1203,17 @@ export default function EditBlogPage({ params }: any) {
                                         </div>
                                         <div>
                                             <Label
-                                                htmlFor="categories"
+                                                htmlFor="topics"
                                                 className="text-lg font-medium mb-2 block"
                                             >
-                                                {t('categories')}{' '}
+                                                {t('topics')}{' '}
                                                 <span className="text-red-500">
                                                     *
                                                 </span>
                                             </Label>
                                             <TopicSelector
-                                                selectedTopics={categories}
-                                                onChange={setCategories}
+                                                selectedTopics={topics}
+                                                onChange={setTopics}
                                             />
                                         </div>
                                     </div>

@@ -112,6 +112,7 @@ export default function WritePage() {
     const [sectionPickerOpen, setSectionPickerOpen] = useState(false)
     const tabRef = useRef<HTMLDivElement>(null)
     const { toast } = useToast()
+    const topicsRef = useRef<HTMLDivElement>(null)
 
     // Prevent unmounting issues during navigation
     const isNavigatingRef = useRef(false)
@@ -141,7 +142,7 @@ export default function WritePage() {
         'image' | 'video' | 'all'
     >('all')
     const [blogGeneratorOpen, setBlogGeneratorOpen] = useState(false)
-    const [categories, setCategories] = useState<Topic[]>([])
+    const [topics, setTopics] = useState<Topic[]>([])
 
     useUnlockBodyScroll()
 
@@ -627,12 +628,32 @@ export default function WritePage() {
                 return
             }
 
-            if (!categories.length) {
+            if (!topics.length) {
                 toast({
-                    title: t('missingCategories'),
-                    description: t('addCategories'),
+                    title: t('missingTopics'),
+                    description: t('addTopics'),
                     variant: 'destructive',
                 })
+
+                // Improved scrolling to topics
+                setTimeout(() => {
+                    if (topicsRef.current) {
+                        topicsRef.current.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center',
+                        })
+                        // Add a visual indicator by briefly highlighting the element
+                        topicsRef.current.classList.add('highlight-element')
+                        setTimeout(() => {
+                            if (topicsRef.current) {
+                                topicsRef.current.classList.remove(
+                                    'highlight-element'
+                                )
+                            }
+                        }, 1500)
+                    }
+                }, 100)
+
                 setIsSavingDraft(false)
                 setIsPublishing(false)
                 return
@@ -720,7 +741,7 @@ export default function WritePage() {
                     hang: index,
                     cot: 0,
                 })),
-                chuDes: categories.map((topic) => topic.id.toString()),
+                chuDes: topics.map((topic) => topic.id.toString()),
             }
 
             // Execute the API call separately to avoid cleanup issues
@@ -1165,7 +1186,7 @@ export default function WritePage() {
                                                     <Image
                                                         src={coverImage}
                                                         alt="Cover Image"
-                                                        width={400}
+                                                        width={600}
                                                         height={200}
                                                         className="w-full h-auto max-h-[300px] object-contain"
                                                     />
@@ -1209,18 +1230,24 @@ export default function WritePage() {
                                         </div>
                                         <div>
                                             <Label
-                                                htmlFor="categories"
+                                                htmlFor="topics"
                                                 className="text-lg font-medium mb-2 block"
                                             >
-                                                {t('categories')}{' '}
+                                                {t('topics')}{' '}
                                                 <span className="text-red-500">
                                                     *
                                                 </span>
                                             </Label>
-                                            <TopicSelector
-                                                selectedTopics={categories}
-                                                onChange={setCategories}
-                                            />
+                                            <div
+                                                id="topics"
+                                                ref={topicsRef}
+                                                className="transition-all duration-300"
+                                            >
+                                                <TopicSelector
+                                                    selectedTopics={topics}
+                                                    onChange={setTopics}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
 

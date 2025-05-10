@@ -20,6 +20,8 @@ import {
     AlertCircle,
     Lightbulb,
     Wand2,
+    OctagonAlert,
+    TriangleAlert,
 } from 'lucide-react'
 import {
     Select,
@@ -39,6 +41,9 @@ import { Slider } from '@/components/other-ui/Slider'
 import { useMutation } from '@tanstack/react-query'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { useLocale, useTranslations } from 'next-intl'
+import { signIn } from '@/contexts/auth/reducers'
+import { useAuth } from '@/contexts/auth/AuthContext'
+import { useMissions } from '@/hooks/useMissions'
 
 interface BlogGeneratorProps {
     isOpen: boolean
@@ -57,6 +62,8 @@ const SAMPLE_TOPICS = [
     'AI and Climate Change: How Technology Can Help',
     'The Impact of Quantum Computing on AI Research',
 ]
+
+const BLOG_GENERATOR_COST_COINS = 10
 
 export function BlogGenerator({
     isOpen,
@@ -78,6 +85,19 @@ export function BlogGenerator({
     const { toast } = useToast()
     const locale = useLocale()
     const [generationStep, setGenerationStep] = useState<string | null>(null)
+    const { dispatch, user } = useAuth()
+
+    const { fetchTransactionHistory } = useMissions()
+
+    async function handleSignIn() {
+        try {
+            const userInformation =
+                await authenticationService.getInformationUser()
+            await dispatch(
+                signIn({ isAuthenticated: true, user: userInformation })
+            )
+        } catch (error) {}
+    }
 
     // Move useMutation hook to top level before any conditional returns
     const generateBlogMutation = useMutation({
@@ -101,7 +121,8 @@ export function BlogGenerator({
         },
         onSuccess: (response) => {
             setGenerationStep('completed')
-
+            fetchTransactionHistory()
+            handleSignIn()
             if (!response || !response.data) {
                 setError(t('error'))
                 return
@@ -402,6 +423,12 @@ export function BlogGenerator({
                             value={blogIdea}
                             onChange={(e) => setBlogIdea(e.target.value)}
                             className="min-h-[120px]"
+                            disabled={
+                                generateBlogMutation.isPending ||
+                                !!generatedBlog ||
+                                !user ||
+                                user?.soLuongCoin < BLOG_GENERATOR_COST_COINS
+                            }
                         />
                         <p className="text-xs text-gray-500">
                             {t('writeDesc')}
@@ -420,6 +447,12 @@ export function BlogGenerator({
                             placeholder="Enter a title or leave blank to generate one"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
+                            disabled={
+                                generateBlogMutation.isPending ||
+                                !!generatedBlog ||
+                                !user ||
+                                user?.soLuongCoin < BLOG_GENERATOR_COST_COINS
+                            }
                         />
                         <p className="text-xs text-gray-500">
                             {t('titleDesc')}
@@ -744,8 +777,23 @@ export function BlogGenerator({
                         </div>
                     </div>
                 )}
-
-                <Separator className="my-4" />
+                {/* Coin cost notice */}
+                {activeTab == 'idea' && <Separator className="my-4" />}
+                <div className={`flex flex-row gap-4`}>
+                    <div className="w-fit bg-red-50 border border-red-200 rounded-md p-2 flex items-center justify-center">
+                        <TriangleAlert className="h-5 w-5 text-yellow-600 mr-2" />
+                        <p className="text-sm text-yellow-800 font-medium">
+                            {t('notHaveEnoughCoins')}{' '}
+                        </p>
+                    </div>
+                    <div className="w-fit bg-blue-50 border border-blue-200 rounded-md p-2 flex items-center justify-center">
+                        <OctagonAlert className="h-5 w-5 text-blue-600 mr-2" />
+                        <p className="text-sm text-blue-800 font-medium">
+                            {t('generateBlogCosts')} {BLOG_GENERATOR_COST_COINS}{' '}
+                            coins
+                        </p>
+                    </div>
+                </div>
 
                 <DialogFooter className="pt-2">
                     {!generatedBlog ? (
@@ -758,9 +806,12 @@ export function BlogGenerator({
                                     onClick={handleGenerateBlog}
                                     disabled={
                                         generateBlogMutation.isPending ||
-                                        !blogIdea // Only disable if no content (blogIdea) is provided
+                                        !blogIdea ||
+                                        !user ||
+                                        user?.soLuongCoin <
+                                            BLOG_GENERATOR_COST_COINS
                                     }
-                                    className="bg-purple-600 hover:bg-purple-700 min-w-[150px]"
+                                    className="bg-purple-600 hover:bg-purple-700 min-w-[150px] disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {generateBlogMutation.isPending ? (
                                         <span className="flex items-center gap-2">

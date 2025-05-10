@@ -152,7 +152,7 @@ function SidebarItem({
                     <div
                         onClick={() => onAdd(type)}
                         className={cn(
-                            'flex border border-gray-200 rounded-md cursor-pointer hover:border-purple-500 hover:shadow-sm transition-all hover:bg-purple-50 transform hover:scale-105',
+                            'flex border border-gray-200 z-[200] rounded-md cursor-pointer hover:border-purple-500 hover:shadow-sm transition-all hover:bg-purple-50 transform hover:scale-105',
                             collapsed
                                 ? 'flex-col items-center justify-center p-3 bg-white'
                                 : 'flex-col items-center justify-center p-3 bg-white'
@@ -162,13 +162,13 @@ function SidebarItem({
                             {icon}
                         </div>
                         {!collapsed && (
-                            <span className="text-xs text-gray-700 transition-opacity duration-300">
+                            <span className="text-xs z-[200] text-gray-700 transition-opacity duration-300">
                                 {label}
                             </span>
                         )}
                     </div>
                 </TooltipTrigger>
-                <TooltipContent side="left">
+                <TooltipContent side="top" className="z-[200]">
                     <p>Add {label}</p>
                 </TooltipContent>
             </Tooltip>

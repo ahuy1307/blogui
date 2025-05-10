@@ -10,7 +10,7 @@ const initialBlogs = [
     excerpt: "Learn how to build modern web applications with Next.js and integrate AI capabilities.",
     content: "# Getting Started with Next.js and AI\n\nNext.js is a powerful React framework...",
     coverImage: "/placeholder.svg?height=400&width=600",
-    categories: ["Web Development", "AI"],
+    topics: ["Web Development", "AI"],
     author: {
       name: "John Doe",
       avatar: "/placeholder.svg?height=100&width=100",
@@ -30,7 +30,7 @@ const initialBlogs = [
     excerpt: "Discover powerful CSS techniques to create stunning visual effects and layouts.",
     content: "# Advanced CSS Techniques\n\nCSS has evolved significantly over the years...",
     coverImage: "/placeholder.svg?height=400&width=600",
-    categories: ["CSS", "Web Design"],
+    topics: ["CSS", "Web Design"],
     author: {
       name: "John Doe",
       avatar: "/placeholder.svg?height=100&width=100",
@@ -54,7 +54,7 @@ const initialBlogs = [
     excerpt: "Step-by-step guide to creating a beautiful blog using Next.js and Tailwind CSS.",
     content: "# Building a Blog with Next.js and Tailwind\n\nIn this tutorial...",
     coverImage: "/placeholder.svg?height=400&width=600",
-    categories: ["Next.js", "Tailwind", "Tutorial"],
+    topics: ["Next.js", "Tailwind", "Tutorial"],
     author: {
       name: "John Doe",
       avatar: "/placeholder.svg?height=100&width=100",
@@ -86,7 +86,7 @@ interface Blog {
   excerpt: string
   content: string
   coverImage: string
-  categories: string[]
+  topics: string[]
   author: {
     name: string
     avatar: string
