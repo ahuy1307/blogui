@@ -7,6 +7,7 @@
     "login": "Login",
     "register": "Register",
     "library": "Library",
+    "pricing": "Pricing",
     "emailPlaceholder": "Enter your email",
     "passwordPlaceholder": "Enter your password",
     "rememberLoginInfo": "Remember login information",

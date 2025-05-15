@@ -133,6 +133,12 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                 >
                     {t('blog')}
                 </Link>
+                <Link
+                    href={`/pricing`}
+                    className="text-base hover:text-purple-500 font-bold"
+                >
+                    {t('pricing')}
+                </Link>
             </div>
 
             <div className="flex items-center gap-4">

@@ -2,7 +2,7 @@
 
 import type React from 'react'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import {
     QueryClient,
@@ -33,6 +33,7 @@ import Header from '@/components/features/home/Header'
 import { Footer } from '@/components/features/home/Footer'
 import ScrollToTop from '@/components/features/home/ScrollToTop'
 import { Dropdown } from 'antd'
+import { motion, AnimatePresence } from 'framer-motion' // Add framer-motion import
 
 const { RangePicker } = DatePicker
 
@@ -517,13 +518,63 @@ function SearchContent() {
     // Show spinner instead of skeletons when actively searching or loading initial data
     const showLoadingSpinner = isActiveSearch || isLoading
 
+    // Move variants outside the component or use useMemo to prevent recreating on each render
+    const containerVariants = useMemo(
+        () => ({
+            hidden: { opacity: 0 },
+            visible: {
+                opacity: 1,
+                transition: {
+                    staggerChildren: 0.05,
+                    delayChildren: 0.2,
+                },
+            },
+        }),
+        []
+    )
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                type: 'spring',
+                stiffness: 100,
+                damping: 15,
+            },
+        },
+    }
+
+    const fadeInVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { duration: 0.5 },
+        },
+    }
+
+    // Add layoutId to prevent duplicate animations during re-renders
     return (
-        <div className="mx-auto py-8 px-4">
+        <motion.div
+            className="mx-auto py-8 px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            layoutId="search-container" // Add layoutId
+        >
             <ScrollToTop />
             <div className="mb-[100px]">
                 <Header />
             </div>
-            <h1 className="text-3xl font-bold mb-8">{t('search.title')}</h1>
+            <motion.h1
+                className="text-3xl font-bold mb-8"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+            >
+                {t('search.title')}
+            </motion.h1>
 
             {/* Toggle filters on mobile */}
             <div className="md:hidden mb-4">
@@ -544,267 +595,304 @@ function SearchContent() {
             {/* Main content with filters on left and results on right */}
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Filters sidebar - left side */}
-                <div
-                    className={`${
-                        isFiltersVisible ? 'block' : 'hidden'
-                    } md:block md:w-2/4 lg:w-1/4 bg-white rounded-lg shadow p-4 h-fit sticky top-20`}
-                >
-                    {/* Improved Search bar with clean design */}
-                    <form onSubmit={handleSearchSubmit} className="mb-6">
-                        <div className="relative">
-                            <div className="absolute left-3 translate-y-[60%] transform text-gray-400">
-                                {isActiveSearch ? (
-                                    <Loader2
-                                        size={18}
-                                        className="animate-spin text-purple-500"
-                                    />
-                                ) : (
-                                    <Search size={18} />
-                                )}
-                            </div>
-                            <Input
-                                id="search"
-                                name="search"
-                                ref={searchInputRef}
-                                placeholder={t('search.placeholder')}
-                                value={searchInputValue}
-                                onChange={handleSearchChange}
-                                className="pl-10 pr-10 py-2 border-gray-300 focus:border-purple-400 focus:ring focus:ring-purple-100 focus:ring-opacity-50 rounded-md"
-                            />
-                            {searchInputValue && (
-                                <button
-                                    type="button"
-                                    onClick={clearSearch}
-                                    className="absolute right-3 top-0 translate-y-[80%] transform text-gray-400 hover:text-gray-600"
-                                >
-                                    <X size={16} />
-                                </button>
-                            )}
-                            {/* <Button
-                                type="submit"
-                                className="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white"
-                                disabled={isActiveSearch}
+                <AnimatePresence>
+                    {(isFiltersVisible || window.innerWidth >= 768) && (
+                        <motion.div
+                            className="md:block md:w-2/4 lg:w-1/4 bg-white rounded-lg shadow p-4 h-fit sticky top-20"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            {/* Improved Search bar with clean design */}
+                            <form
+                                onSubmit={handleSearchSubmit}
+                                className="mb-6"
                             >
-                                {isActiveSearch
-                                    ? t('search.searching')
-                                    : t('search.button')}
-                            </Button> */}
-                        </div>
-                    </form>
+                                <div className="relative">
+                                    <div className="absolute left-3 translate-y-[60%] transform text-gray-400">
+                                        {isActiveSearch ? (
+                                            <Loader2
+                                                size={18}
+                                                className="animate-spin text-purple-500"
+                                            />
+                                        ) : (
+                                            <Search size={18} />
+                                        )}
+                                    </div>
+                                    <Input
+                                        id="search"
+                                        name="search"
+                                        ref={searchInputRef}
+                                        placeholder={t('search.placeholder')}
+                                        value={searchInputValue}
+                                        onChange={handleSearchChange}
+                                        className="pl-10 pr-10 py-2 border-gray-300 focus:border-purple-400 focus:ring focus:ring-purple-100 focus:ring-opacity-50 rounded-md"
+                                    />
+                                    {searchInputValue && (
+                                        <button
+                                            type="button"
+                                            onClick={clearSearch}
+                                            className="absolute right-3 top-0 translate-y-[80%] transform text-gray-400 hover:text-gray-600"
+                                        >
+                                            <X size={16} />
+                                        </button>
+                                    )}
+                                    {/* <Button
+                                        type="submit"
+                                        className="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white"
+                                        disabled={isActiveSearch}
+                                    >
+                                        {isActiveSearch
+                                            ? t('search.searching')
+                                            : t('search.button')}
+                                    </Button> */}
+                                </div>
+                            </form>
 
-                    <div className="space-y-6">
-                        {/* Date range filters using AntD RangePicker */}
-                        <div className="space-y-4">
-                            <h6 className="font-medium">
-                                {t('search.dateRange')}
-                            </h6>
-                            <RangePicker
-                                className="w-full border border-input rounded-md focus:ring-1 focus:ring-purple-200"
-                                placeholder={[
-                                    t('search.startDate'),
-                                    t('search.endDate'),
-                                ]}
-                                value={[
-                                    startDate ? dayjs(startDate) : null,
-                                    endDate ? dayjs(endDate) : null,
-                                ]}
-                                onChange={handleDateRangeChange}
-                                format="DD/MM/YYYY"
-                                disabled={isActiveSearch}
-                                allowClear
-                            />
-                        </div>
+                            <div className="space-y-6">
+                                {/* Date range filters using AntD RangePicker */}
+                                <div className="space-y-4">
+                                    <h6 className="font-medium">
+                                        {t('search.dateRange')}
+                                    </h6>
+                                    <RangePicker
+                                        className="w-full border border-input rounded-md focus:ring-1 focus:ring-purple-200"
+                                        placeholder={[
+                                            t('search.startDate'),
+                                            t('search.endDate'),
+                                        ]}
+                                        value={[
+                                            startDate ? dayjs(startDate) : null,
+                                            endDate ? dayjs(endDate) : null,
+                                        ]}
+                                        onChange={handleDateRangeChange}
+                                        format="DD/MM/YYYY"
+                                        disabled={isActiveSearch}
+                                        allowClear
+                                    />
+                                </div>
 
-                        {/* Topics filter */}
-                        <div className="space-y-4">
-                            <h6 className="font-medium">
-                                {t('search.topics')}
-                            </h6>
-                            {isTopicsLoading ? (
-                                <div className="space-y-2">
-                                    {Array.from({ length: 6 }).map(
-                                        (_, index) => (
-                                            <div
-                                                key={index}
-                                                className="flex items-center space-x-2"
-                                            >
-                                                <Skeleton className="h-4 w-4" />
-                                                <Skeleton className="h-4 w-32" />
-                                            </div>
-                                        )
+                                {/* Topics filter */}
+                                <div className="space-y-4">
+                                    <h6 className="font-medium">
+                                        {t('search.topics')}
+                                    </h6>
+                                    {isTopicsLoading ? (
+                                        <div className="space-y-2">
+                                            {Array.from({ length: 6 }).map(
+                                                (_, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="flex items-center space-x-2"
+                                                    >
+                                                        <Skeleton className="h-4 w-4" />
+                                                        <Skeleton className="h-4 w-32" />
+                                                    </div>
+                                                )
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2 max-h-60 overflow-y-auto pr-2">
+                                            {topics?.map((topic: any) => (
+                                                <div
+                                                    key={topic.id}
+                                                    className="flex items-center space-x-2 hover:bg-gray-50 p-1 rounded"
+                                                >
+                                                    <Checkbox
+                                                        id={`topic-${topic.id}`}
+                                                        checked={pendingTopicSelections.includes(
+                                                            topic.id
+                                                        )}
+                                                        onCheckedChange={() =>
+                                                            handleTopicChange(
+                                                                topic.id
+                                                            )
+                                                        }
+                                                        disabled={
+                                                            isActiveSearch &&
+                                                            selectedTopics.includes(
+                                                                topic.id
+                                                            ) !==
+                                                                pendingTopicSelections.includes(
+                                                                    topic.id
+                                                                )
+                                                        }
+                                                        className="text-purple-600"
+                                                    />
+                                                    <Label
+                                                        htmlFor={`topic-${topic.id}`}
+                                                        className="text-sm font-normal cursor-pointer w-full"
+                                                    >
+                                                        {getTopicName(topic)}{' '}
+                                                        <span className="text-gray-500 text-xs">
+                                                            (
+                                                            {
+                                                                topic.soLuongBaiViet
+                                                            }
+                                                            )
+                                                        </span>
+                                                    </Label>
+                                                </div>
+                                            ))}
+                                        </div>
                                     )}
                                 </div>
-                            ) : (
-                                <div className="space-y-2 max-h-60 overflow-y-auto pr-2">
-                                    {topics?.map((topic: any) => (
-                                        <div
-                                            key={topic.id}
-                                            className="flex items-center space-x-2 hover:bg-gray-50 p-1 rounded"
-                                        >
-                                            <Checkbox
-                                                id={`topic-${topic.id}`}
-                                                checked={pendingTopicSelections.includes(
-                                                    topic.id
-                                                )}
-                                                onCheckedChange={() =>
-                                                    handleTopicChange(topic.id)
-                                                }
-                                                disabled={
-                                                    isActiveSearch &&
-                                                    selectedTopics.includes(
-                                                        topic.id
-                                                    ) !==
-                                                        pendingTopicSelections.includes(
-                                                            topic.id
-                                                        )
-                                                }
-                                                className="text-purple-600"
-                                            />
-                                            <Label
-                                                htmlFor={`topic-${topic.id}`}
-                                                className="text-sm font-normal cursor-pointer w-full"
-                                            >
-                                                {getTopicName(topic)}{' '}
-                                                <span className="text-gray-500 text-xs">
-                                                    ({topic.soLuongBaiViet})
-                                                </span>
-                                            </Label>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
 
-                        {/* Clear filters button */}
-                        <Button
-                            variant="outline"
-                            className="w-full"
-                            onClick={clearAllFilters}
-                            disabled={
-                                isActiveSearch ||
-                                !(
-                                    search ||
+                                {/* Clear filters button */}
+                                <Button
+                                    variant="outline"
+                                    className="w-full"
+                                    onClick={clearAllFilters}
+                                    disabled={
+                                        isActiveSearch ||
+                                        !(
+                                            search ||
+                                            startDate ||
+                                            endDate ||
+                                            selectedTopics.length > 0
+                                        )
+                                    }
+                                >
+                                    {t('search.clearFilters')}
+                                </Button>
+
+                                {/* Active filters */}
+                                {(search ||
                                     startDate ||
                                     endDate ||
-                                    selectedTopics.length > 0
-                                )
-                            }
-                        >
-                            {t('search.clearFilters')}
-                        </Button>
-
-                        {/* Active filters */}
-                        {(search ||
-                            startDate ||
-                            endDate ||
-                            selectedTopics.length > 0) && (
-                            <div className="flex flex-wrap gap-2 mt-4">
-                                <span className="text-sm text-gray-500 mr-2">
-                                    {t('search.activeFilters')}:
-                                </span>
-                                <div className="flex flex-wrap gap-2">
-                                    {search && (
-                                        <Badge
-                                            variant="secondary"
-                                            className="flex items-center gap-1 bg-purple-50"
-                                        >
-                                            "{search}"
-                                            <button
-                                                onClick={() => {
-                                                    setSearch('')
-                                                    setSearchInputValue('')
-                                                }}
-                                                className="ml-1 hover:text-gray-700 disabled:opacity-50"
-                                                disabled={isActiveSearch}
-                                            >
-                                                <X size={14} />
-                                            </button>
-                                        </Badge>
-                                    )}
-
-                                    {startDate && (
-                                        <Badge
-                                            variant="secondary"
-                                            className="flex items-center gap-1 bg-purple-50"
-                                        >
-                                            {t('search.from')}{' '}
-                                            {format(
-                                                new Date(startDate),
-                                                'dd/MM/yyyy'
-                                            )}
-                                            <button
-                                                onClick={() => setStartDate('')}
-                                                className="ml-1 hover:text-gray-700"
-                                                disabled={isActiveSearch}
-                                            >
-                                                <X size={14} />
-                                            </button>
-                                        </Badge>
-                                    )}
-
-                                    {endDate && (
-                                        <Badge
-                                            variant="secondary"
-                                            className="flex items-center gap-1 bg-purple-50"
-                                        >
-                                            {t('search.to')}{' '}
-                                            {format(
-                                                new Date(endDate),
-                                                'dd/MM/yyyy'
-                                            )}
-                                            <button
-                                                onClick={() => setEndDate('')}
-                                                className="ml-1 hover:text-gray-700"
-                                                disabled={isActiveSearch}
-                                            >
-                                                <X size={14} />
-                                            </button>
-                                        </Badge>
-                                    )}
-
-                                    {selectedTopics.map((topicId) => {
-                                        const topic = topics?.find(
-                                            (t: any) => t.id === topicId
-                                        )
-                                        return topic ? (
-                                            <Badge
-                                                key={topicId}
-                                                variant="secondary"
-                                                className="flex items-center gap-1 bg-purple-50"
-                                            >
-                                                {getTopicName(topic)}
-                                                <button
-                                                    onClick={() =>
-                                                        handleTopicChange(
-                                                            topicId
-                                                        )
-                                                    }
-                                                    className="ml-1 hover:text-gray-700"
-                                                    disabled={
-                                                        isActiveSearch &&
-                                                        selectedTopics.includes(
-                                                            topicId
-                                                        ) !==
-                                                            pendingTopicSelections.includes(
-                                                                topicId
-                                                            )
-                                                    }
+                                    selectedTopics.length > 0) && (
+                                    <div className="flex flex-wrap gap-2 mt-4">
+                                        <span className="text-sm text-gray-500 mr-2">
+                                            {t('search.activeFilters')}:
+                                        </span>
+                                        <div className="flex flex-wrap gap-2">
+                                            {search && (
+                                                <Badge
+                                                    variant="secondary"
+                                                    className="flex items-center gap-1 bg-purple-50"
                                                 >
-                                                    <X size={14} />
-                                                </button>
-                                            </Badge>
-                                        ) : null
-                                    })}
-                                </div>
+                                                    "{search}"
+                                                    <button
+                                                        onClick={() => {
+                                                            setSearch('')
+                                                            setSearchInputValue(
+                                                                ''
+                                                            )
+                                                        }}
+                                                        className="ml-1 hover:text-gray-700 disabled:opacity-50"
+                                                        disabled={
+                                                            isActiveSearch
+                                                        }
+                                                    >
+                                                        <X size={14} />
+                                                    </button>
+                                                </Badge>
+                                            )}
+
+                                            {startDate && (
+                                                <Badge
+                                                    variant="secondary"
+                                                    className="flex items-center gap-1 bg-purple-50"
+                                                >
+                                                    {t('search.from')}{' '}
+                                                    {format(
+                                                        new Date(startDate),
+                                                        'dd/MM/yyyy'
+                                                    )}
+                                                    <button
+                                                        onClick={() =>
+                                                            setStartDate('')
+                                                        }
+                                                        className="ml-1 hover:text-gray-700"
+                                                        disabled={
+                                                            isActiveSearch
+                                                        }
+                                                    >
+                                                        <X size={14} />
+                                                    </button>
+                                                </Badge>
+                                            )}
+
+                                            {endDate && (
+                                                <Badge
+                                                    variant="secondary"
+                                                    className="flex items-center gap-1 bg-purple-50"
+                                                >
+                                                    {t('search.to')}{' '}
+                                                    {format(
+                                                        new Date(endDate),
+                                                        'dd/MM/yyyy'
+                                                    )}
+                                                    <button
+                                                        onClick={() =>
+                                                            setEndDate('')
+                                                        }
+                                                        className="ml-1 hover:text-gray-700"
+                                                        disabled={
+                                                            isActiveSearch
+                                                        }
+                                                    >
+                                                        <X size={14} />
+                                                    </button>
+                                                </Badge>
+                                            )}
+
+                                            {selectedTopics.map((topicId) => {
+                                                const topic = topics?.find(
+                                                    (t: any) => t.id === topicId
+                                                )
+                                                return topic ? (
+                                                    <Badge
+                                                        key={topicId}
+                                                        variant="secondary"
+                                                        className="flex items-center gap-1 bg-purple-50"
+                                                    >
+                                                        {getTopicName(topic)}
+                                                        <button
+                                                            onClick={() =>
+                                                                handleTopicChange(
+                                                                    topicId
+                                                                )
+                                                            }
+                                                            className="ml-1 hover:text-gray-700"
+                                                            disabled={
+                                                                isActiveSearch &&
+                                                                selectedTopics.includes(
+                                                                    topicId
+                                                                ) !==
+                                                                    pendingTopicSelections.includes(
+                                                                        topicId
+                                                                    )
+                                                            }
+                                                        >
+                                                            <X size={14} />
+                                                        </button>
+                                                    </Badge>
+                                                ) : null
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
-                </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Blog results - right side */}
-                <div className="md:w-3/4 lg:w-4/5">
+                <motion.div
+                    className="md:w-3/4 lg:w-4/5"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                >
                     {/* Results count with loading indicator */}
-                    <div className="flex justify-between items-center mb-6 h-6">
+                    <motion.div
+                        className="flex justify-between items-center mb-6 h-6"
+                        variants={fadeInVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
                         <div className="flex items-center">
                             {isActiveSearch ? (
                                 <div className="flex items-center text-gray-500">
@@ -852,7 +940,7 @@ function SearchContent() {
                                 />
                             </div>
                         )}
-                    </div>
+                    </motion.div>
 
                     {/* Updated Blog grid with true lazy loading */}
                     <div
@@ -860,12 +948,22 @@ function SearchContent() {
                     >
                         {showLoadingSpinner && !allBlogs.length ? (
                             // Full-page loading spinner for initial load
-                            <div className="flex flex-col items-center justify-center py-20">
+                            <motion.div
+                                className="flex flex-col items-center justify-center py-20"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.3 }}
+                            >
                                 <Spin size="large" tip={t('search.loading')} />
-                            </div>
+                            </motion.div>
                         ) : isError ? (
                             // Error state
-                            <div className="text-center py-12 border border-gray-200 rounded-lg">
+                            <motion.div
+                                className="text-center py-12 border border-gray-200 rounded-lg"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.3 }}
+                            >
                                 <p className="text-red-500">
                                     {t('search.error')}
                                 </p>
@@ -876,10 +974,15 @@ function SearchContent() {
                                 >
                                     {t('search.retry')}
                                 </Button>
-                            </div>
+                            </motion.div>
                         ) : allBlogs.length === 0 ? (
                             // No results state
-                            <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
+                            <motion.div
+                                className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.3 }}
+                            >
                                 <h3 className="text-xl font-medium mb-2">
                                     {t('search.noResults')}
                                 </h3>
@@ -892,18 +995,23 @@ function SearchContent() {
                                 >
                                     {t('search.clearFilters')}
                                 </Button>
-                            </div>
+                            </motion.div>
                         ) : (
                             // Results grid with true lazy loading
                             <div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <motion.div
+                                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                                    variants={containerVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                >
                                     {allBlogs.map((blog, index) => {
                                         // Only apply ref to the last element for true lazy loading
                                         const isLastElement =
                                             index === allBlogs.length - 1
 
                                         return (
-                                            <div
+                                            <motion.div
                                                 key={blog.id}
                                                 ref={
                                                     isLastElement
@@ -911,38 +1019,53 @@ function SearchContent() {
                                                         : null
                                                 }
                                                 className="transition-all duration-300 ease-in-out"
+                                                variants={itemVariants}
+                                                whileHover={{
+                                                    y: -5,
+                                                    transition: {
+                                                        duration: 0.2,
+                                                    },
+                                                }}
                                             >
                                                 <BlogFeatureCard
                                                     blog={blog}
                                                     countTopics={3}
                                                 />
-                                            </div>
+                                            </motion.div>
                                         )
                                     })}
-                                </div>
+                                </motion.div>
 
                                 {/* Loading indicator only when actively fetching next page */}
-                                {isFetchingNextPage && (
-                                    <div className="flex justify-center py-4 mt-4">
-                                        <Spin
-                                            size="large"
-                                            tip={t('search.loadingMore')}
-                                            spinning={true}
-                                        />
-                                    </div>
-                                )}
+                                <AnimatePresence>
+                                    {isFetchingNextPage && (
+                                        <motion.div
+                                            className="flex justify-center py-4 mt-4"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: 20 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <Spin
+                                                size="large"
+                                                tip={t('search.loadingMore')}
+                                                spinning={true}
+                                            />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
 
                                 {/* Small bottom spacer for consistent layout */}
                                 <div className="h-8"></div>
                             </div>
                         )}
                     </div>
-                </div>
+                </motion.div>
             </div>
             {/* <div className="mt-24">
                 <Footer topics={[]} />
             </div> */}
-        </div>
+        </motion.div>
     )
 }
 

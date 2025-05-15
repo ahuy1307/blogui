@@ -566,6 +566,10 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.post('/blogs/upload-gen-image', data)
         return res
     }
+    async getSubscriptionPackages(): Promise<any> {
+        const res = await httpService.get('/subscription-packages')
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()
