@@ -780,12 +780,14 @@ export function BlogGenerator({
                 {/* Coin cost notice */}
                 {activeTab == 'idea' && <Separator className="my-4" />}
                 <div className={`flex flex-row gap-4`}>
-                    <div className="w-fit bg-red-50 border border-red-200 rounded-md p-2 flex items-center justify-center">
-                        <TriangleAlert className="h-5 w-5 text-yellow-600 mr-2" />
-                        <p className="text-sm text-yellow-800 font-medium">
-                            {t('notHaveEnoughCoins')}{' '}
-                        </p>
-                    </div>
+                    {user && user?.soLuongCoin < BLOG_GENERATOR_COST_COINS && (
+                        <div className="w-fit bg-red-50 border border-red-200 rounded-md p-2 flex items-center justify-center">
+                            <TriangleAlert className="h-5 w-5 text-yellow-600 mr-2" />
+                            <p className="text-sm text-yellow-800 font-medium">
+                                {t('notHaveEnoughCoins')}{' '}
+                            </p>
+                        </div>
+                    )}
                     <div className="w-fit bg-blue-50 border border-blue-200 rounded-md p-2 flex items-center justify-center">
                         <OctagonAlert className="h-5 w-5 text-blue-600 mr-2" />
                         <p className="text-sm text-blue-800 font-medium">
