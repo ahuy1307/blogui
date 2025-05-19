@@ -570,6 +570,52 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.get('/subscription-packages')
         return res
     }
+    async getVnPayUrl({
+        package_id,
+        redirect_endpoint,
+    }: {
+        package_id: string
+        redirect_endpoint: string
+    }): Promise<any> {
+        const data: { package_id: string; redirect_endpoint: string } = {
+            package_id,
+            redirect_endpoint,
+        }
+        const res = await httpService.post('/vnpay/payment-url', data)
+        return res
+    }
+    async getPaymentCallback({ data }: { data: any }): Promise<any> {
+        const res = await httpService.post('/vnpay/payment-callback', data)
+        return res
+    }
+    async getPaymentHistory({
+        page,
+        limit,
+        start_date,
+        end_date,
+        status,
+    }: {
+        page?: number
+        limit?: number
+        start_date?: string
+        end_date?: string
+        status?: string
+    }): Promise<any> {
+        const res = await httpService.get('/payment/history', {
+            params: {
+                page,
+                limit,
+                start_date,
+                end_date,
+                status,
+            },
+        })
+        return res
+    }
+    async cancelPayment({ order_id }: { order_id: string }): Promise<any> {
+        const res = await httpService.put(`/vnpay/${order_id}/cancel-payment`)
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

@@ -28,6 +28,7 @@ import { useToast } from '@/components/other-ui/useToast'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { useTranslations } from 'next-intl'
 import { motion } from 'framer-motion'
+import { useRouter } from '@/navigation'
 
 export interface CoinPackage {
     id: string
@@ -39,19 +40,12 @@ export interface CoinPackage {
 }
 
 // Save cart to localStorage
-const saveCart = (cart: { packageId: string }[]) => {
+const saveCart = (cart: CoinPackage[]) => {
     try {
         localStorage.setItem('ai-blog-cart', JSON.stringify(cart))
     } catch (error) {
         console.error('Error saving cart:', error)
     }
-}
-
-// Initialize cart with sample items
-const initializeCart = () => {
-    const sampleCart = [{ packageId: 'starter' }, { packageId: 'popular' }]
-    saveCart(sampleCart)
-    return sampleCart
 }
 
 export function CoinPurchase() {
@@ -68,6 +62,7 @@ export function CoinPurchase() {
     const [packages, setPackages] = useState<CoinPackage[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const router = useRouter()
 
     // Fetch packages from the service
     useEffect(() => {
@@ -76,37 +71,19 @@ export function CoinPurchase() {
                 setIsLoading(true)
                 setError(null)
 
-                console.log('Fetching packages from API...')
-
                 const response =
                     await authenticationService.getSubscriptionPackages()
 
-                console.log('API Response:', response)
-
                 if (response && response.data) {
                     // Additional debugging to see exactly what structure we're receiving
-                    console.log('Response data type:', typeof response.data)
-                    console.log('Is Array?', Array.isArray(response.data))
 
                     // Examine the first item in the array if it exists
                     if (
                         Array.isArray(response.data) &&
                         response.data.length > 0
                     ) {
-                        console.log('First package example:', response.data[0])
-                        console.log('Expected fields present check:', {
-                            id: !!response.data[0].id,
-                            tenGoi: !!response.data[0].tenGoi,
-                            giaBan: !!response.data[0].giaBan,
-                            soLuongCoin: !!response.data[0].soLuongCoin,
-                        })
-
                         // Set the packages with a more explicit callback to verify data is properly set
                         setPackages((prevPackages) => {
-                            console.log(
-                                'Setting packages, count:',
-                                response.data.length
-                            )
                             return response.data
                         })
                     } else if (
@@ -114,17 +91,11 @@ export function CoinPurchase() {
                         Array.isArray(response.data.packages)
                     ) {
                         // Same check for nested packages structure
-                        console.log(
-                            'Packages found in nested structure, count:',
-                            response.data.packages.length
-                        )
+
                         setPackages(response.data.packages)
                     } else {
                         // If we can't find the array, show the exact response for debugging
-                        console.log(
-                            'Full response data for debugging:',
-                            JSON.stringify(response.data)
-                        )
+
                         setError('Unexpected response format')
                     }
                 } else {
@@ -137,12 +108,7 @@ export function CoinPurchase() {
             } finally {
                 setIsLoading(false)
                 // After loading, check if packages state was properly updated
-                setTimeout(() => {
-                    console.log(
-                        'Packages state after loading:',
-                        packages.length
-                    )
-                }, 0)
+                setTimeout(() => {}, 0)
             }
         }
 
@@ -150,137 +116,14 @@ export function CoinPurchase() {
     }, [toast, t])
 
     // Debugging useEffect to track changes to packages state
-    useEffect(() => {
-        console.log('Packages state updated, new count:', packages.length)
-        if (packages.length > 0) {
-            console.log('Package examples:', packages.slice(0, 1))
-        }
-    }, [packages])
-
-    // Initialize cart with sample items on component mount
-    useEffect(() => {
-        try {
-            const savedCart = localStorage.getItem('ai-blog-cart')
-            if (!savedCart) {
-                initializeCart()
-                setCartItems(2) // Two sample items
-            } else {
-                const parsedCart = JSON.parse(savedCart)
-                setCartItems(parsedCart.length)
-            }
-        } catch (error) {
-            console.error('Error initializing cart:', error)
-        }
-    }, [])
+    useEffect(() => {}, [packages])
 
     const handleSelectPackage = (pkg: CoinPackage) => {
         setSelectedPackage(pkg)
+        saveCart([pkg])
+        setCartItems(1)
         setShowConfirmation(true)
-    }
-
-    const handleConfirmPurchase = () => {
-        if (!selectedPackage) return
-
-        setIsProcessing(true)
-
-        // Simulate payment processing
-        setTimeout(() => {
-            setIsProcessing(false)
-            setShowConfirmation(false)
-
-            // Add coins to user's account
-            // addCoins(
-            //     selectedPackage.soLuongCoin,
-            //     'purchase',
-            //     `Mua ${selectedPackage.soLuongCoin} coin`
-            // )
-
-            // Save transaction to history
-            saveTransactionHistory(selectedPackage)
-
-            // Show success message
-            setShowSuccess(true)
-        }, 1500)
-    }
-
-    // Save transaction to history
-    const saveTransactionHistory = (pkg: CoinPackage) => {
-        try {
-            const now = new Date().toISOString()
-            const transaction = {
-                id: `txn-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                ngayThanhToan: now,
-                trangThai: 'accept',
-                tongTien: pkg.giaBan,
-                phuongThucThanhToan: 'direct',
-                goiMua: [
-                    {
-                        tenGoi: pkg.tenGoi,
-                        giaBan: pkg.giaBan,
-                        soLuongCoin: pkg.soLuongCoin,
-                        noiBat: pkg.noiBat || false,
-                    },
-                ],
-                orderNumber: Math.floor(
-                    100000000 + Math.random() * 900000000
-                ).toString(),
-                createdAt: now,
-            }
-
-            // Get existing transactions
-            const existingTransactionsJSON = localStorage.getItem(
-                'transaction-history'
-            )
-            const existingTransactions = existingTransactionsJSON
-                ? JSON.parse(existingTransactionsJSON)
-                : []
-
-            // Add new transaction
-            const updatedTransactions = [transaction, ...existingTransactions]
-
-            // Save back to localStorage
-            localStorage.setItem(
-                'transaction-history',
-                JSON.stringify(updatedTransactions)
-            )
-        } catch (error) {
-            console.error('Error saving transaction history:', error)
-        }
-    }
-
-    const handleAddToCart = (pkg: CoinPackage) => {
-        try {
-            const savedCart = localStorage.getItem('ai-blog-cart')
-            const cart = savedCart ? JSON.parse(savedCart) : []
-
-            // Check if package already exists in cart
-            const existingItemIndex = cart.findIndex(
-                (item: any) => item.packageId === pkg.id
-            )
-
-            if (existingItemIndex >= 0) {
-                // If package already exists, show toast but don't add again
-                toast({
-                    title: t('packageAlreadyInCart'),
-                    description: t('packageAlreadyAdded', { name: pkg.tenGoi }),
-                    duration: 3000,
-                })
-                return
-            }
-
-            // Add package to cart
-            cart.push({ packageId: pkg.id })
-            saveCart(cart)
-            setCartItems(cart.length)
-
-            toast({
-                title: t('addedToCart'),
-                description: t('packageAddedToCart', { name: pkg.tenGoi }),
-                duration: 3000,
-            })
-        } catch (error) {
-            console.error('Error adding to cart:', error)
-        }
+        router.push('/checkout')
     }
 
     // Animation variants

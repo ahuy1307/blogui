@@ -160,11 +160,10 @@ export function MissionsDropdown() {
                                                 mission.requiredCount) *
                                             100
                                         }
-                                        className={
-                                            mission.completed
+                                        className={`h-2
+                                            ${mission.completed}
                                                 ? 'bg-green-100'
-                                                : ''
-                                        }
+                                                : ''`}
                                     />
                                 </div>
                                 <div className="flex items-center justify-between mt-2">
