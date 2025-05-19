@@ -79,3 +79,16 @@ export interface BlogSearchResponse {
     previous: string | null
     results: Blog[]
 }
+
+export interface Transaction {
+    id: string
+    createdAt: string
+    updatedAt: string
+    trangThai: "pending" | "accept" | "cancel" | "reject"
+    hinhThucThanhToan: "VNPay" | "Momo"
+    tongTien: number
+    nguoiDung: string
+    goiDangKy: string
+    urlThanhToan: string
+}
+  

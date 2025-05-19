@@ -16,7 +16,7 @@ import { Link, useRouter } from '@/navigation'
 export function BlogFeatureCard({
     blog,
     icon,
-    countTopics = 4,
+    countTopics = 3,
 }: {
     blog: Blog
     icon?: ReactNode

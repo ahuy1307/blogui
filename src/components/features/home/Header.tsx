@@ -94,6 +94,13 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
         },
         {
             key: '4',
+            label: <p>{t('manageTransactions')}</p>,
+            onClick: () => {
+                router.push('/transaction-history')
+            },
+        },
+        {
+            key: '5',
             label: <p>{t('logout')}</p>,
             onClick: () => {
                 setIsConfirmLogout(true)
@@ -133,6 +140,12 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                 >
                     {t('blog')}
                 </Link>
+                <Link
+                    href={`/pricing`}
+                    className="text-base hover:text-purple-500 font-bold"
+                >
+                    {t('pricing')}
+                </Link>
             </div>
 
             <div className="flex items-center gap-4">
@@ -152,12 +165,12 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                         {t('writeBlog')}
                     </Button>
                 )}
-                <TextField
+                {/* <TextField
                     style={{ width: '400px', fontSize: '16px' }}
                     placeholder="Search"
                     prefix={<IoSearchOutline />}
                     size="large"
-                />
+                /> */}
                 {!isAuthenticated ? (
                     <>
                         <Button

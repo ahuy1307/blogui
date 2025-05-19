@@ -43,6 +43,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { MAX_IMAGE_SIZE, MAX_VIDEO_SIZE } from '@/constants/constants'
 import { useAuth } from '@/contexts/auth/AuthContext'
+import { signIn } from '@/contexts/auth/reducers'
 
 interface MediaLibraryProps {
     isOpen: boolean
@@ -70,8 +71,7 @@ export function MediaLibrary({
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
     const fileInputRef = useRef<HTMLInputElement>(null)
     const { toast } = useToast()
-    const { user } = useAuth()
-
+    const { dispatch, user } = useAuth()
     // AI image generation states
     const [imagePrompt, setImagePrompt] = useState('')
     const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
@@ -79,6 +79,16 @@ export function MediaLibrary({
     )
     const [isGeneratingImage, setIsGeneratingImage] = useState(false)
     const [generationProgress, setGenerationProgress] = useState(0)
+
+    async function handleSignIn() {
+        try {
+            const userInformation =
+                await authenticationService.getInformationUser()
+            await dispatch(
+                signIn({ isAuthenticated: true, user: userInformation })
+            )
+        } catch (error) {}
+    }
 
     const fetchMediaMutation = useMutation({
         mutationFn: async () => {
@@ -299,10 +309,10 @@ export function MediaLibrary({
             // Simulate steps in generation process
             const simulateSteps = () => {
                 const steps = [
-                    { progress: 25, delay: 4000, message: 'analyzePrompt' },
-                    { progress: 40, delay: 4000, message: 'creatingDesign' },
-                    { progress: 60, delay: 4500, message: 'renderingImage' },
-                    { progress: 85, delay: 4000, message: 'finalizingImage' },
+                    { progress: 25, delay: 5000, message: 'analyzePrompt' },
+                    { progress: 40, delay: 5000, message: 'creatingDesign' },
+                    { progress: 60, delay: 6000, message: 'renderingImage' },
+                    { progress: 85, delay: 6000, message: 'finalizingImage' },
                 ]
 
                 let currentStep = 0
@@ -352,6 +362,7 @@ export function MediaLibrary({
                     description: t('imageGeneratedDescription'),
                 })
             }, 500)
+            handleSignIn()
         },
         onError: () => {
             setGenerationProgress(0)
@@ -372,11 +383,11 @@ export function MediaLibrary({
             // Simulate upload steps
             const simulateUploadSteps = () => {
                 const steps = [
-                    { progress: 15, delay: 3000, message: 'preparingUpload' },
-                    { progress: 30, delay: 3000, message: 'downloadingImage' },
-                    { progress: 50, delay: 3500, message: 'optimizingImage' },
-                    { progress: 70, delay: 3000, message: 'uploadingToServer' },
-                    { progress: 90, delay: 3500, message: 'processingUpload' },
+                    { progress: 15, delay: 4000, message: 'preparingUpload' },
+                    { progress: 30, delay: 4000, message: 'downloadingImage' },
+                    { progress: 50, delay: 4500, message: 'optimizingImage' },
+                    { progress: 70, delay: 4000, message: 'uploadingToServer' },
+                    { progress: 90, delay: 4500, message: 'processingUpload' },
                 ]
 
                 let currentStep = 0

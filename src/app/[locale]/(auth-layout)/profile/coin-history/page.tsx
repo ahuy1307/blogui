@@ -481,15 +481,6 @@ export default function CoinHistoryPage() {
                     </Card>
                 </div>
             </main>
-
-            <footer className="border-t border-gray-200 py-6 bg-gray-50 mt-12">
-                <div className="container mx-auto px-4 text-center text-sm text-gray-600">
-                    <p>
-                        © {new Date().getFullYear()} NeuralPulse.{' '}
-                        {t('copyright')}
-                    </p>
-                </div>
-            </footer>
         </div>
     )
 }

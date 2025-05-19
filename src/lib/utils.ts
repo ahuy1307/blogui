@@ -33,3 +33,13 @@ export const formatReadingTime = (
 
     return `${minutes} ${translation.minute} ${translation.read}`
 }
+
+export function formatCurrency(amount: number, currency = "VND"): string {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount)
+  }
+  

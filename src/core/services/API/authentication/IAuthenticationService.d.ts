@@ -103,6 +103,7 @@ interface ISaveBlogRequest {
         hang: number
         cot: number
     }
+    language: string
 }
 interface IAuthentication {
     signupEmail({ email, accountType }: ISignupEmailRequest): Promise<any>

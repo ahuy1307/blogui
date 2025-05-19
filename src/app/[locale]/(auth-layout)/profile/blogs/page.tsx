@@ -164,7 +164,7 @@ export default function BlogPage() {
                 {/* Search Input */}
                 <div className="relative w-[40%]">
                     <Search
-                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2"
                         size={20}
                     />
                     <Input
@@ -184,10 +184,10 @@ export default function BlogPage() {
                         else setPublished(value === 'published')
                     }}
                 >
-                    <SelectTrigger className="w-[200px] text-gray-500">
+                    <SelectTrigger className="w-[200px]">
                         <SelectValue placeholder="Status" />
                     </SelectTrigger>
-                    <SelectContent className="text-gray-500">
+                    <SelectContent className="">
                         <SelectItem value="all">{t('allBlogs')}</SelectItem>
                         <SelectItem value="draft">{t('draft')}</SelectItem>
                         <SelectItem value="published">
@@ -205,6 +205,9 @@ export default function BlogPage() {
                         onChange={(dates) => {
                             setStartDate(dates?.[0]?.toDate() || undefined)
                             setEndDate(dates?.[1]?.toDate() || undefined)
+                        }}
+                        style={{
+                            width: '80%',
                         }}
                     />
                 </div>

@@ -742,6 +742,7 @@ export default function WritePage() {
                     cot: 0,
                 })),
                 chuDes: topics.map((topic) => topic.id.toString()),
+                language: locale,
             }
 
             // Execute the API call separately to avoid cleanup issues

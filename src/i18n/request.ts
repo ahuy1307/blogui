@@ -16,6 +16,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
         'topic',
         'write',
         'blog',
+        'pricing',
     ]
 
     for (const section of sections) {

@@ -7,6 +7,7 @@
     "login": "Đăng nhập",
     "register": "Đăng ký",
     "library": "Thư viện",
+    "pricing": "Bảng giá",
     "myBlogs": "Blog của tôi",
     "emailPlaceholder": "Nhập email của bạn",
     "passwordPlaceholder": "Nhập mật khẩu của bạn",
@@ -20,6 +21,7 @@
         "vi": "Tiếng Việt",
         "en": "Tiếng Anh"
     },
+    "manageTransactions": "Quản lý giao dịch",
     "logout": "Đăng xuất",
     "personalInfomation": "Xem thông tin cá nhân",
     "manageDevices": "Quản lý thiết bị",

@@ -18,6 +18,7 @@ import {
     UserCheck,
 } from 'lucide-react'
 import type { Transaction } from '@/store/mission-store'
+import { useLocale } from 'next-intl'
 
 interface TransactionItemProps {
     transaction: Transaction
@@ -25,6 +26,7 @@ interface TransactionItemProps {
 
 export function TransactionItem({ transaction }: TransactionItemProps) {
     // Xác định loại giao dịch dựa vào loaiNhiemVu
+    const locale = useLocale()
     const isCharge = transaction.loaiNhiemVu?.startsWith('charge_')
     const transactionType = isCharge ? 'spent' : 'earned'
 
@@ -136,7 +138,7 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
 
     return (
         <div className="flex items-center justify-between p-4 border rounded-md hover:bg-gray-50 transition-colors">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-6">
                 <div
                     className={`p-2 rounded-full ${
                         type === 'earned'
@@ -148,8 +150,8 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
                 </div>
                 <div>
                     <p className="font-medium">{getDescription()}</p>
-                    <p className="text-xs text-gray-500">
-                        {getSourceName()} •{' '}
+                    <p className="text-xs text-gray-500 py-1">
+                        {/* {getSourceName()} •{' '} */}
                         {transaction.timestamp
                             ? format(
                                   new Date(transaction.timestamp),
@@ -163,7 +165,8 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
                     {transaction.tienDo !== undefined &&
                         transaction.soLanCanThucHien !== undefined && (
                             <p className="text-xs text-gray-500">
-                                Tiến độ: {transaction.tienDo}/
+                                {locale == 'vi' ? 'Tiến độ' : 'Progress'}:{' '}
+                                {transaction.tienDo}/
                                 {transaction.soLanCanThucHien}
                             </p>
                         )}
