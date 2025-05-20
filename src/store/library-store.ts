@@ -5,7 +5,7 @@ interface Blog {
   id: string
   title: string
   description: string
-  category: string
+  topic: string
   date: string
   slug: string
   image: string

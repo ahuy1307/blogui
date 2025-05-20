@@ -11,7 +11,7 @@ import { Topic } from '@/types/interface'
 
 interface AppDataContextType {
     topics: Topic[]
-    // categories: Category[]
+    // topics: Category[]
     isLoading: boolean
     error: string | null
 }
@@ -22,7 +22,7 @@ export const AppDataProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const [topics, setTopics] = useState<Topic[]>([])
-    // const [categories, setCategories] = useState<Category[]>([])
+    // const [topics, setTopics] = useState<Category[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -35,11 +35,11 @@ export const AppDataProvider: React.FC<{ children: React.ReactNode }> = ({
                             have_blog: true,
                         },
                     }),
-                    // httpService.get('/blogs/categories'),
+                    // httpService.get('/blogs/topics'),
                 ])
 
                 setTopics(topicsRes.data)
-                // setCategories(categoriesRes.data)
+                // setTopics(topicsRes.data)
             } catch (err) {
                 setError('Failed to fetch data')
             } finally {

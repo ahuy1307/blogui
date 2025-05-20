@@ -1,223 +1,261 @@
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import type { Mission, MissionType } from '@/types/mission'
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
+import { authenticationService } from "@/core/services/API/authentication/Authentication.service"
+
+export type MissionType = "login" | "post" | "like" | "comment" | "share" | "charge_gen_blog" | "charge_gen_image" | "complete_profile"
+
+export interface Mission {
+  id: string
+  title: string
+  type: MissionType
+  requiredCount: number
+  currentCount: number
+  coinReward: number
+  completed: boolean
+  claimed: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface UserTask {
+  id: string
+  createdAt: string
+  updatedAt: string
+  loaiNhiemVu: string
+  tienDo: number
+  soLanCanThucHien: number
+  daHoanThanh: boolean
+  daNhanThuong: boolean
+  nguoiDung: string
+  tenNhiemVu: string
+  coinNhanThuong: number
+}
 
 export interface Transaction {
-    id: string
-    amount: number
-    type: 'earned' | 'spent'
-    source: string
-    description: string
-    timestamp: string
+  id: string
+  type: 'earned' | 'spent'
+  amount?: number
+  source?: string
+  description?: string
+  timestamp?: string
+  createdAt?: string
+  
+  // For UserTask-based transactions
+  loaiNhiemVu?: string
+  tienDo?: number
+  soLanCanThucHien?: number
+  tenNhiemVu?: string
+  coinNhanThuong?: number
 }
 
 interface MissionState {
-    missions: Mission[]
-    coins: number
-    transactions: Transaction[]
+  missions: Mission[]
+  coins: number
+  isLoading: boolean
+  error: string | null
+  transactions: Transaction[]
+  hasMoreTransactions: boolean
+  currentTransactionPage: number
+  needsLazyLoading: boolean  // Add this property
 
-    // Mission actions
-    initializeDailyMissions: () => void
-    incrementMissionProgress: (type: MissionType) => void
-    claimReward: (missionId: string) => void
-
-    // Coin actions
-    addCoins: (amount: number, source: string, description: string) => void
-    spendCoins: (amount: number, source: string, description: string) => boolean
-
-    // History
-    getCoinHistory: () => Transaction[]
+  // API Integration
+  fetchUserTasks: () => Promise<void>
+  collectTaskReward: (taskId: string) => Promise<boolean>
+  refreshMissionData: () => Promise<void>
+  
+  // Transaction related function
+  fetchTransactionHistory: (page?: number, reset?: boolean) => Promise<void>
+  loadMoreTransactions: () => Promise<void>
 }
-
-// Helper to create a new mission
-const createMission = (
-    id: string,
-    title: string,
-    type: MissionType,
-    requiredCount: number,
-    coinReward: number
-): Mission => {
-    // Set expiration to end of current day
-    const today = new Date()
-    const expiresAt = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate() + 1
-    ).toISOString()
-
-    return {
-        id,
-        title,
-        type,
-        requiredCount,
-        currentCount: 0,
-        coinReward,
-        completed: false,
-        claimed: false,
-        expiresAt,
-    }
-}
-
-// Helper to create a transaction record
-const createTransaction = (
-    amount: number,
-    type: 'earned' | 'spent',
-    source: string,
-    description: string
-): Transaction => {
-    return {
-        id: `txn-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-        amount,
-        type,
-        source,
-        description,
-        timestamp: new Date().toISOString(),
-    }
-}
-
-// Daily missions configuration
-const dailyMissions = [
-    {
-        id: 'write-blog',
-        title: 'Write a blog post',
-        type: 'write' as MissionType,
-        requiredCount: 1,
-        coinReward: 50,
-    },
-    {
-        id: 'like-posts',
-        title: 'Like 10 blog posts',
-        type: 'like' as MissionType,
-        requiredCount: 10,
-        coinReward: 20,
-    },
-    {
-        id: 'comment-posts',
-        title: 'Comment on 5 blog posts',
-        type: 'comment' as MissionType,
-        requiredCount: 5,
-        coinReward: 30,
-    },
-]
 
 export const useMissionStore = create<MissionState>()(
-    persist(
-        (set, get) => ({
-            missions: [],
-            coins: 0,
-            transactions: [],
+  persist(
+    (set, get) => ({
+      missions: [],
+      coins: 0,
+      isLoading: false,
+      error: null,
+      transactions: [],
+      hasMoreTransactions: true,
+      currentTransactionPage: 1,
+      needsLazyLoading: false,  // Initialize this property
 
-            initializeDailyMissions: () => {
-                const currentMissions = get().missions
-
-                // Check if missions need to be reset (expired)
-                const needsReset =
-                    currentMissions.length === 0 ||
-                    currentMissions.some(
-                        (mission) => new Date(mission.expiresAt) < new Date()
-                    )
-
-                if (needsReset) {
-                    const newMissions = dailyMissions.map((mission) =>
-                        createMission(
-                            mission.id,
-                            mission.title,
-                            mission.type,
-                            mission.requiredCount,
-                            mission.coinReward
-                        )
-                    )
-
-                    set({ missions: newMissions })
-                }
-            },
-
-            incrementMissionProgress: (type) => {
-                set((state) => {
-                    const updatedMissions = state.missions.map((mission) => {
-                        if (mission.type === type && !mission.completed) {
-                            const newCount = mission.currentCount + 1
-                            const completed = newCount >= mission.requiredCount
-
-                            return {
-                                ...mission,
-                                currentCount: newCount,
-                                completed,
-                            }
-                        }
-                        return mission
-                    })
-
-                    return { missions: updatedMissions }
-                })
-            },
-
-            claimReward: (missionId) => {
-                const mission = get().missions.find((m) => m.id === missionId)
-
-                if (mission && mission.completed && !mission.claimed) {
-                    const transaction = createTransaction(
-                        mission.coinReward,
-                        'earned',
-                        'mission',
-                        `Completed mission: ${mission.title}`
-                    )
-
-                    set((state) => {
-                        const updatedMissions = state.missions.map((m) =>
-                            m.id === missionId ? { ...m, claimed: true } : m
-                        )
-
-                        return {
-                            missions: updatedMissions,
-                            coins: state.coins + mission.coinReward,
-                            transactions: [transaction, ...state.transactions],
-                        }
-                    })
-                }
-            },
-
-            addCoins: (amount, source, description) => {
-                const transaction = createTransaction(
-                    amount,
-                    'earned',
-                    source,
-                    description
-                )
-
-                set((state) => ({
-                    coins: state.coins + amount,
-                    transactions: [transaction, ...state.transactions],
-                }))
-            },
-
-            spendCoins: (amount, source, description) => {
-                const { coins } = get()
-
-                if (coins >= amount) {
-                    const transaction = createTransaction(
-                        amount,
-                        'spent',
-                        source,
-                        description
-                    )
-
-                    set((state) => ({
-                        coins: state.coins - amount,
-                        transactions: [transaction, ...state.transactions],
-                    }))
-                    return true
-                }
-
-                return false
-            },
-
-            getCoinHistory: () => {
-                return get().transactions
-            },
-        }),
-        {
-            name: 'mission-storage',
+      fetchUserTasks: async () => {
+        set({ isLoading: true, error: null })
+        try {
+          const response = await authenticationService.getUserTasksDaily()
+          const userTasks = response?.data?.results || []
+          
+          // Convert API userTasks to our mission format
+          const missions = userTasks.map((task: UserTask) => ({
+            id: task.id,
+            title: task.tenNhiemVu,
+            type: task.loaiNhiemVu || "login",
+            requiredCount: task.soLanCanThucHien,
+            currentCount: task.tienDo,
+            coinReward: task.coinNhanThuong,
+            completed: task.daHoanThanh,
+            claimed: task.daNhanThuong,
+            createdAt: task.createdAt,
+            updatedAt: task.updatedAt,
+          }))
+          
+          set({ 
+            missions,
+            isLoading: false 
+          })
+          
+          return missions
+        } catch (error) {
+          console.error("Error fetching daily tasks:", error)
+          set({ 
+            isLoading: false, 
+            error: "Failed to load daily tasks. Please try again later." 
+          })
         }
-    )
+      },
+
+      collectTaskReward: async (taskId: string) => {
+        set({ isLoading: true, error: null })
+        try {
+          await authenticationService.collectCoinCompletedTask({
+            task_id: taskId
+          })
+          
+          // Update local state to reflect collected reward
+          set((state) => {
+            const taskToUpdate = state.missions.find(mission => mission.id === taskId)
+            
+            if (!taskToUpdate) {
+              return { isLoading: false }
+            }
+            
+            const updatedMissions = state.missions.map(mission => 
+              mission.id === taskId ? { ...mission, claimed: true } : mission
+            )
+            
+            return {
+              missions: updatedMissions,
+              coins: state.coins + (taskToUpdate.coinReward || 0),
+              isLoading: false
+            }
+          })
+          
+          return true
+        } catch (error) {
+          console.error("Error collecting task reward:", error)
+          set({ 
+            isLoading: false, 
+            error: "Failed to collect reward. Please try again later." 
+          })
+          return false
+        }
+      },
+      
+      // New function to refresh all mission data
+      refreshMissionData: async () => {
+        set({ isLoading: true, error: null })
+        try {
+          const response = await authenticationService.getUserTasksDaily()
+          const userTasks = response?.data?.results || []
+          
+          // Convert API userTasks to our mission format
+          const missions = userTasks.map((task: UserTask) => ({
+            id: task.id,
+            title: task.tenNhiemVu,
+            type: task.loaiNhiemVu || "login",
+            requiredCount: task.soLanCanThucHien,
+            currentCount: task.tienDo,
+            coinReward: task.coinNhanThuong,
+            completed: task.daHoanThanh,
+            claimed: task.daNhanThuong,
+            createdAt: task.createdAt,
+            updatedAt: task.updatedAt,
+          }))
+          
+          set({ 
+            missions,
+            isLoading: false 
+          })
+          
+          return missions
+        } catch (error) {
+          console.error("Error refreshing mission data:", error)
+          set({ 
+            isLoading: false, 
+            error: "Failed to refresh mission data. Please try again later." 
+          })
+        }
+      },
+      
+      fetchTransactionHistory: async (page = 1, reset = false) => {
+        set(state => ({ 
+          isLoading: true, 
+          error: null,
+          currentTransactionPage: page
+        }))
+        
+        try {
+          const response = await authenticationService.getCoinHistory({ page, limit: 10 })
+          const historyData = response?.data?.results || []
+          const totalCount = response?.data?.count || 0
+          const totalPages = Math.ceil(totalCount / 10) || 1
+          
+          // Convert API historyData to our transaction format
+          const newTransactions = historyData.map((item: UserTask) => {
+            // Determine transaction type based on loaiNhiemVu
+            // If it starts with "charge_", it's a "spent" transaction, otherwise "earned"
+            const type = item.loaiNhiemVu?.startsWith('charge_') ? 'spent' : 'earned'
+            
+            return {
+              id: item.id,
+              type,
+              amount: item.coinNhanThuong,
+              source: item.loaiNhiemVu,
+              description: item.tenNhiemVu,
+              createdAt: item.createdAt,
+              // Include original UserTask properties
+              loaiNhiemVu: item.loaiNhiemVu,
+              tienDo: item.tienDo,
+              soLanCanThucHien: item.soLanCanThucHien,
+              tenNhiemVu: item.tenNhiemVu,
+              coinNhanThuong: item.coinNhanThuong
+            }
+          })
+          
+          // If totalCount <= 10, we load all transactions at once and don't need lazy loading
+          // If totalCount > 10, enable lazy loading
+          const needsLazyLoading = totalCount > 10
+          
+          set(state => ({ 
+            // If reset or first page, replace transactions; otherwise append to existing
+            transactions: reset || page === 1 ? newTransactions : [...state.transactions, ...newTransactions],
+            hasMoreTransactions: page < totalPages,
+            isLoading: false,
+            needsLazyLoading
+          }))
+          
+          return newTransactions
+        } catch (error) {
+          console.error("Error fetching transaction history:", error)
+          set({ 
+            isLoading: false, 
+            error: "Failed to load transaction history. Please try again later." 
+          })
+        }
+      },
+      
+      loadMoreTransactions: async () => {
+        const { currentTransactionPage, hasMoreTransactions, isLoading, needsLazyLoading } = get()
+        
+        // Only load more if needed (count > 10) and we have more pages
+        if (!needsLazyLoading || !hasMoreTransactions || isLoading) return
+        
+        await get().fetchTransactionHistory(currentTransactionPage + 1, false)
+      }
+    }),
+    {
+      name: "mission-storage",
+    }
+  )
 )

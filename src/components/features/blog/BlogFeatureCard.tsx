@@ -11,12 +11,12 @@ import {
 import { Clock, Eye, Heart } from 'lucide-react'
 import { Blog } from '@/types/interface'
 import { useLocale, useTranslations } from 'next-intl'
-import { Link } from '@/navigation'
+import { Link, useRouter } from '@/navigation'
 
 export function BlogFeatureCard({
     blog,
     icon,
-    countTopics = 4,
+    countTopics = 3,
 }: {
     blog: Blog
     icon?: ReactNode
@@ -24,6 +24,7 @@ export function BlogFeatureCard({
 }) {
     const t = useTranslations('blog')
     const locale = useLocale()
+    const router = useRouter()
 
     return (
         <Link href={`/blog/${blog.slug}`}>
@@ -90,12 +91,15 @@ export function BlogFeatureCard({
                                 <span>{blog.luotYeuThich}</span>
                             </div>
                         )}
-                        <Link
-                            href={`/blog/${blog.slug}`}
+                        <span
                             className="text-purple-500 hover:text-purple-700"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                router.push(`/blog/${blog.slug}`)
+                            }}
                         >
                             {t('readMore')} →
-                        </Link>
+                        </span>
                     </div>
                 </CardFooter>
             </Card>

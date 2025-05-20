@@ -86,6 +86,7 @@ interface ISearchBlogsRequest {
     page?: number
     limit?: number
     topics?: number[]
+    order_by?: string
 }
 
 interface ISaveBlogRequest {
@@ -102,6 +103,7 @@ interface ISaveBlogRequest {
         hang: number
         cot: number
     }
+    language: string
 }
 interface IAuthentication {
     signupEmail({ email, accountType }: ISignupEmailRequest): Promise<any>

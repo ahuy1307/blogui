@@ -11,7 +11,7 @@ import React, { useState } from 'react'
 import { Link, useRouter } from '@/navigation'
 import { IoSearchOutline } from 'react-icons/io5'
 import { useTranslations } from 'next-intl'
-import { Dropdown } from 'antd'
+import { Dropdown, Tooltip } from 'antd'
 
 import TextField from '@/components/ui/TextField/TextField'
 import Button from '@/components/ui/Button/Button'
@@ -25,9 +25,10 @@ import ModalConfirm from './ModalConfirm'
 import { signOut } from '@/contexts/auth/reducers'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
 import { message } from 'antd'
-import { Pencil, Book } from 'lucide-react'
+import { Pencil, Book, Coins } from 'lucide-react'
 import { NotificationDropdown } from '@/components/notifications/NotificationDropdown'
 import { Button as OtherButton } from '@/components/other-ui/Button'
+import { MissionsDropdown } from '@/components/mission/MissionDropdown'
 
 const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
     const { user, dispatch, isAuthenticated } = useAuth()
@@ -93,6 +94,13 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
         },
         {
             key: '4',
+            label: <p>{t('manageTransactions')}</p>,
+            onClick: () => {
+                router.push('/transaction-history')
+            },
+        },
+        {
+            key: '5',
             label: <p>{t('logout')}</p>,
             onClick: () => {
                 setIsConfirmLogout(true)
@@ -101,7 +109,7 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
     ]
 
     return (
-        <div className="fixed left-0 right-0 top-0 border-[var(--border-color-default)] border-b flex justify-between items-center pl-4 pr-5 h-[70px] xl:px-[120px] md:px-[36px] bg-white lg:backdrop-blur-xl lg:bg-white/50 gap-4 z-50">
+        <div className="fixed z-[200] left-0 right-0 top-0 border-[var(--border-color-default)] border-b flex justify-between items-center pl-4 pr-5 h-[70px] xl:px-[120px] md:px-[36px] bg-white lg:backdrop-blur-xl lg:bg-white/50 gap-4">
             <ModalConfirm
                 open={isConfirmLogout}
                 onCancel={setIsConfirmLogout}
@@ -132,6 +140,12 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                 >
                     {t('blog')}
                 </Link>
+                <Link
+                    href={`/pricing`}
+                    className="text-base hover:text-purple-500 font-bold"
+                >
+                    {t('pricing')}
+                </Link>
             </div>
 
             <div className="flex items-center gap-4">
@@ -151,12 +165,12 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                         {t('writeBlog')}
                     </Button>
                 )}
-                <TextField
+                {/* <TextField
                     style={{ width: '400px', fontSize: '16px' }}
                     placeholder="Search"
                     prefix={<IoSearchOutline />}
                     size="large"
-                />
+                /> */}
                 {!isAuthenticated ? (
                     <>
                         <Button
@@ -176,19 +190,42 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                 ) : (
                     <>
                         <Link href={`/library`}>
-                            <OtherButton
-                                variant="ghost"
-                                size="sm"
-                                className="relative"
-                            >
-                                <Book
-                                    style={{
-                                        width: '20px',
-                                        height: '20px',
-                                    }}
-                                />
-                            </OtherButton>
+                            <Tooltip title={t('library')}>
+                                <OtherButton
+                                    variant="ghost"
+                                    size="sm"
+                                    className="relative"
+                                >
+                                    <Book
+                                        style={{
+                                            width: '20px',
+                                            height: '20px',
+                                        }}
+                                    />
+                                </OtherButton>
+                            </Tooltip>
                         </Link>
+                        <Link href="/profile/coin-history" className="relative">
+                            <Tooltip title={'Coins'}>
+                                <OtherButton
+                                    variant="ghost"
+                                    className="flex items-center gap-1.5 px-3"
+                                    aria-label="Coins"
+                                >
+                                    <Coins
+                                        className="h-5 w-5"
+                                        style={{
+                                            width: '21px',
+                                            height: '21px',
+                                        }}
+                                    />
+                                    <span className="text-sm font-bold">
+                                        {user?.soLuongCoin || 0}
+                                    </span>
+                                </OtherButton>
+                            </Tooltip>
+                        </Link>
+                        <MissionsDropdown />
                         <NotificationDropdown />
                         <Dropdown menu={{ items }} placement="bottomRight">
                             <Avatar

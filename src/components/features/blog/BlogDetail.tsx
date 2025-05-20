@@ -10,6 +10,7 @@ import {
     AlertTriangle,
     Calendar,
     List,
+    Eye,
 } from 'lucide-react'
 import { LuFacebook } from 'react-icons/lu'
 import { SlSocialLinkedin } from 'react-icons/sl'
@@ -64,6 +65,7 @@ import {
 } from '@/components/other-ui/Popover'
 import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import ScrollToTop from '../home/ScrollToTop'
+import { useMissions } from '@/hooks/useMissions'
 // Helper function to convert API component to SectionType
 const convertToSectionType = (component: any): SectionType | null => {
     const { loaiThanhPhan, noiDung, dinhDang, hang, cot, id } = component
@@ -172,9 +174,24 @@ const convertToSectionType = (component: any): SectionType | null => {
         case 'quote':
             return {
                 type: 'quote',
-                content: JSON.parse(JSON.parse(noiDung).content).content || '',
-                citation:
-                    JSON.parse(JSON.parse(noiDung).content)?.citation || '',
+                content: (() => {
+                    try {
+                        const parsedOuter = JSON.parse(noiDung)
+                        return parsedOuter?.content || ''
+                    } catch (e) {
+                        console.error('Error parsing quote content:', e)
+                        return ''
+                    }
+                })(),
+                citation: (() => {
+                    try {
+                        const parsedOuter = JSON.parse(noiDung)
+                        return parsedOuter?.citation || ''
+                    } catch (e) {
+                        console.error('Error parsing quote citation:', e)
+                        return ''
+                    }
+                })(),
                 fontSize: dinhDang?.fontSize || 'normal',
                 id,
                 row: hang,
@@ -387,35 +404,60 @@ const TableOfContentsBlog = ({
                             const isActive = activeSection === heading.anchorId
                             const headingLevel = heading.level || 2
 
+                            // Apply styling based on heading level
+                            let fontSizeClass = ''
+                            let paddingClass = ''
+                            let prefix = ''
+
+                            if (headingLevel === 1) {
+                                // Only level 1 headings get an index
+                                fontSizeClass = 'text-sm font-semibold'
+                                paddingClass = 'pl-2'
+                                const h1Index = headings.filter(
+                                    (h) =>
+                                        h.level === 1 &&
+                                        headings.indexOf(h) <=
+                                            headings.indexOf(heading)
+                                ).length
+                                prefix = `${h1Index}. `
+                            } else if (headingLevel === 2) {
+                                fontSizeClass = 'text-sm'
+                                paddingClass = 'pl-6' // More indentation for level 2
+                                // No index for level 2
+                            } else if (headingLevel === 3) {
+                                fontSizeClass = 'text-xs'
+                                paddingClass = 'pl-10' // Even more indentation for level 3
+                                // No index for level 3
+                            }
+
                             return (
                                 <li
-                                    key={index}
-                                    className={`px-2
-                                            ${headingLevel === 2 ? 'mt-2' : ''}
-                                            ${headingLevel > 2 ? `pl-${(headingLevel - 1) * 2}` : ''}
-                                        `}
+                                    key={headings.indexOf(heading)}
+                                    className={`
+                                        ${headingLevel === 1 ? 'mt-3' : headingLevel === 2 ? 'mt-1' : ''}
+                                    `}
                                 >
                                     <button
                                         onClick={() =>
                                             scrollToHeading(heading.anchorId!)
                                         }
                                         className={`
-                                                relative text-left py-2 px-2 rounded w-full transition-all duration-300
-                                                ${
-                                                    isActive
-                                                        ? 'bg-purple-50 text-purple-700 font-medium'
-                                                        : 'text-gray-700 hover:bg-gray-50 hover:text-purple-600'
-                                                }
-                                                ${headingLevel === 2 ? 'text-sm font-medium' : ''}
-                                                ${headingLevel === 3 ? 'text-xs pl-4' : ''}
-                                                ${headingLevel > 3 ? 'text-xs pl-6' : ''}
-                                            `}
+                                            relative text-left py-2 px-2 rounded w-full transition-all duration-300
+                                            ${paddingClass}
+                                            ${fontSizeClass}
+                                            ${
+                                                isActive
+                                                    ? 'bg-purple-50 text-purple-700 font-medium'
+                                                    : 'text-gray-700 hover:bg-gray-50 hover:text-purple-600'
+                                            }
+                                        `}
                                     >
                                         {isActive && (
                                             <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-purple-500 rounded-r-lg transition-all duration-300"></span>
                                         )}
                                         <span className="line-clamp-1">
-                                            {index + 1}. {heading.content}
+                                            {/* {prefix} */}
+                                            {heading.content}
                                         </span>
                                     </button>
                                 </li>
@@ -449,7 +491,8 @@ export function BlogDetail({
     const { toast } = useToast()
     const locale = useLocale()
     const [reportDialogOpen, setReportDialogOpen] = useState(false)
-    const { incrementMissionProgress } = useMissionStore()
+    const { fetchUserTasks } = useMissions()
+
     const [commentIdCounter, setCommentIdCounter] = useState(1)
     const shareUrl = `${getBaseUrl()}/${locale}/blog/${blogDetail?.slug}`
 
@@ -480,6 +523,7 @@ export function BlogDetail({
                 title: t('successTitle'),
                 description: res.data.message,
             })
+            fetchUserTasks()
             refetch()
         },
         onError: (res: any) => {
@@ -490,12 +534,6 @@ export function BlogDetail({
             })
         },
     })
-
-    const generateCommentId = useCallback(() => {
-        const id = commentIdCounter
-        setCommentIdCounter((prev) => prev + 1)
-        return id
-    }, [commentIdCounter])
 
     // Add ref for tracking when footer is visible and state for table of contents
     const footerRef = useRef<HTMLDivElement>(null)
@@ -541,9 +579,9 @@ export function BlogDetail({
     }
 
     const firstCharName =
-        blogDetail.tacGia.fullName !== ''
+        blogDetail && blogDetail.tacGia?.fullName !== ''
             ? getInitials(
-                  blogDetail.tacGia.fullName,
+                  blogDetail.tacGia?.fullName,
                   blogDetail.tacGia?.email ?? ''
               )
             : getInitials('', blogDetail.tacGia?.email ?? '')
@@ -653,6 +691,12 @@ export function BlogDetail({
                                         {new Date(
                                             blogDetail.ngayXuatBan
                                         ).toLocaleDateString()}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Eye className="h-4 w-4" />
+                                    <span>
+                                        {blogDetail.luotXem} {t('views')}
                                     </span>
                                 </div>
                             </div>

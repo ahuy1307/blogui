@@ -16,7 +16,7 @@ export default function TopicCard({ topic }: { topic: Topic }) {
     const t = useTranslations('topic')
 
     return (
-        <Link href={`/articles/`} className="group">
+        <Link href={`/blog?topics=${topic.id}&sort=newest`} className="group">
             <Card className="bg-white border border-gray-200 hover:border-purple-400 hover:shadow-md transition-all duration-300 h-full">
                 <CardHeader>
                     <div className="flex justify-between items-center mb-2">

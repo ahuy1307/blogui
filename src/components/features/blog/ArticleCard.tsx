@@ -5,7 +5,7 @@ import { BrainCircuit, Clock } from 'lucide-react'
 interface ArticleCardProps {
     title: string
     description: string
-    category: string
+    topic: string
     date: string
     slug?: string
     image: string
@@ -14,7 +14,7 @@ interface ArticleCardProps {
 export function ArticleCard({
     title,
     description,
-    category,
+    topic,
     date,
     slug = '',
     image,
@@ -33,7 +33,7 @@ export function ArticleCard({
                 <div>
                     <div className="flex items-center gap-2 text-xs text-purple-500 mb-2">
                         <BrainCircuit className="h-4 w-4" />
-                        <span>{category}</span>
+                        <span>{topic}</span>
                     </div>
                     <h3 className="font-medium text-gray-900 group-hover:text-purple-600 transition-colors">
                         {title}

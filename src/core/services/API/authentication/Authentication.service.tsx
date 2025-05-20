@@ -195,6 +195,7 @@ class AuthenticationService implements IAuthentication {
         topics,
         page,
         limit,
+        order_by,
     }: ISearchBlogsRequest): Promise<any> {
         // Create a URLSearchParams object to properly handle multiple topic parameters
         const params = new URLSearchParams()
@@ -206,6 +207,7 @@ class AuthenticationService implements IAuthentication {
         if (type) params.append('type', type)
         if (start_date) params.append('start_date', start_date)
         if (end_date) params.append('end_date', end_date)
+        if (order_by) params.append('order_by', order_by)
 
         // Add topics as individual 'topic' parameters
         if (topics && Array.isArray(topics) && topics.length > 0) {
@@ -484,6 +486,134 @@ class AuthenticationService implements IAuthentication {
                 },
             }
         )
+        return res
+    }
+    async generateBlogContent({
+        title,
+        content,
+        writing_tone,
+        target_audience,
+        include_code,
+        language,
+        include_emojis,
+    }: {
+        title: string
+        content: string
+        writing_tone: string
+        target_audience: string
+        include_code: boolean
+        language: string
+        include_emojis?: boolean
+    }): Promise<any> {
+        const data: {
+            title: string
+            content: string
+            writing_tone: string
+            target_audience: string
+            include_code: boolean
+            language: string
+            include_emojis?: boolean
+        } = {
+            title,
+            content,
+            writing_tone,
+            target_audience,
+            include_code,
+            language,
+            include_emojis,
+        }
+        const res = await httpService.post('/blogs/generate', data)
+        return res
+    }
+    async getUserTasksDaily(): Promise<any> {
+        const res = await httpService.get('/auth/tasks/daily')
+        return res
+    }
+    async collectCoinCompletedTask({
+        task_id,
+    }: {
+        task_id: string
+    }): Promise<any> {
+        const res = await httpService.put(`/auth/tasks/collect-coin/${task_id}`)
+        return res
+    }
+    async getCoinHistory({
+        page,
+        limit,
+    }: {
+        page?: number
+        limit?: number
+    }): Promise<any> {
+        const res = await httpService.get('/auth/tasks/history', {
+            params: {
+                page,
+                limit,
+            },
+        })
+        return res
+    }
+    async generateBllogImage({ prompt }: { prompt: string }): Promise<any> {
+        const data: { prompt: string } = {
+            prompt,
+        }
+        const res = await httpService.post('/blogs/generate-image', data)
+        return res
+    }
+    async uploadGeneratedImage({ url }: { url: string }): Promise<any> {
+        const data: { url: string } = {
+            url,
+        }
+        const res = await httpService.post('/blogs/upload-gen-image', data)
+        return res
+    }
+    async getSubscriptionPackages(): Promise<any> {
+        const res = await httpService.get('/subscription-packages')
+        return res
+    }
+    async getVnPayUrl({
+        package_id,
+        redirect_endpoint,
+    }: {
+        package_id: string
+        redirect_endpoint: string
+    }): Promise<any> {
+        const data: { package_id: string; redirect_endpoint: string } = {
+            package_id,
+            redirect_endpoint,
+        }
+        const res = await httpService.post('/vnpay/payment-url', data)
+        return res
+    }
+    async getPaymentCallback({ data }: { data: any }): Promise<any> {
+        const res = await httpService.post('/vnpay/payment-callback', data)
+        return res
+    }
+    async getPaymentHistory({
+        page,
+        limit,
+        start_date,
+        end_date,
+        status,
+    }: {
+        page?: number
+        limit?: number
+        start_date?: string
+        end_date?: string
+        status?: string
+    }): Promise<any> {
+        const res = await httpService.get('/payment/history', {
+            params: {
+                page,
+                limit,
+                start_date,
+                end_date,
+                status,
+            },
+        })
+        return res
+    }
+    async cancelPayment({ order_id }: { order_id: string }): Promise<any> {
+        const res = await httpService.put(`/vnpay/${order_id}/cancel-payment`)
         return res
     }
 }

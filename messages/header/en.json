@@ -7,6 +7,7 @@
     "login": "Login",
     "register": "Register",
     "library": "Library",
+    "pricing": "Pricing",
     "emailPlaceholder": "Enter your email",
     "passwordPlaceholder": "Enter your password",
     "rememberLoginInfo": "Remember login information",
@@ -20,6 +21,7 @@
         "vi": "Vietnamese",
         "en": "English"
     },
+    "manageTransactions": "Manage Transactions",
     "logout": "Logout",
     "personalInfomation": "Personal Information",
     "manageDevices": "Manage Devices",
@@ -42,5 +44,38 @@
         "notificationDescription": "When you receive notifications, they will appear here",
         "new": "New",
         "on": "on"
+    },
+    "MissionsDropdown": {
+        "claimRewardSuccess": "Claim reward successfully!",
+        "claimRewardDescription": "You have successfully claimed the reward for this mission.",
+        "claimRewardError": "Claim reward failed!",
+        "claimRewardErrorDescription": "You have already claimed the reward for this mission.",
+        "missions": "Missions",
+        "missionsDaily": "Daily Missions",
+        "completed": "completed",
+        "claimReward": "Claim Reward",
+        "claimed": "Claimed"
+    },
+    "CoinHistoryPage": {
+        "backToHome": "Back to home",
+        "transactionHistory": "Coin Transaction History",
+        "currentBalance": "Current Balance",
+        "totalEarned": "Total Earned",
+        "totalSpent": "Total Used",
+        "coin": "coin",
+        "transactionHistoryList": "Transaction History",
+        "all": "All",
+        "earned": "Received",
+        "spent": "Used",
+        "viewAllTransactions": "View all your coin transactions",
+        "searchTransactions": "Search transactions...",
+        "transactionSource": "Transaction Source",
+        "allSources": "All sources",
+        "clearAll": "Clear all",
+        "noTransactionsFound": "No transactions found",
+        "tryDifferentFilters": "Try different filters",
+        "copyright": "All rights reserved.",
+        "loading": "Loading...",
+        "loadingMore": "Loading more..."
     }
 }

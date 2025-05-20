@@ -33,7 +33,7 @@ function EmptyState({ icon, title, description, actionText }: any) {
                 size="lg"
                 className="px-8 py-6 text-base font-medium hover:text-white"
             >
-                <Link href="/">{actionText}</Link>
+                <Link href="/blog">{actionText}</Link>
             </Button>
         </motion.div>
     )

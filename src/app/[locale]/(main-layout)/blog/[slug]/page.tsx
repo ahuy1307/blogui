@@ -24,6 +24,7 @@ export default function BlogPost({ params }: any) {
         data: blogDetail,
         refetch: refetchBlogDetail,
         isLoading: isBlogDetailLoading,
+        error: blogDetailError,
     } = useQuery({
         queryKey: ['blogDetail', slug],
         queryFn: async () => {
@@ -33,6 +34,7 @@ export default function BlogPost({ params }: any) {
             return response.data
         },
         enabled: !!slug, // Only fetch if slug exists
+        retry: false, // Disable retries
     })
 
     // Fetch related blogs by topic only if blog details exist
@@ -45,6 +47,7 @@ export default function BlogPost({ params }: any) {
             return response.data
         },
         enabled: !!blogDetail?.id, // Only fetch if blogDetail exists and has an id
+        retry: false, // Disable retries
     })
 
     const { data: comments, refetch: refetchComment } = useQuery({
@@ -55,6 +58,8 @@ export default function BlogPost({ params }: any) {
             })
             return response.data
         },
+        enabled: !!blogDetail?.id, // Only fetch if blogDetail exists and has an id
+        retry: false, // Disable retries
     })
 
     // Combine refetch functions for convenience
@@ -72,8 +77,8 @@ export default function BlogPost({ params }: any) {
         }
     }, [blogDetail?.tieuDe])
 
-    // Show loading only when fetching blog details
-    if (isBlogDetailLoading) {
+    // Show loading only when fetching blog details and there's no error
+    if (isBlogDetailLoading && !blogDetailError) {
         return (
             <Spin
                 size="large"
@@ -82,8 +87,8 @@ export default function BlogPost({ params }: any) {
         )
     }
 
-    // Show not found when blog doesn't exist
-    if (!blogDetail) {
+    // Show not found when blog doesn't exist or there's an error
+    if (!blogDetail || blogDetailError) {
         return (
             <>
                 <Header />

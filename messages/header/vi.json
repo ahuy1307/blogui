@@ -7,6 +7,7 @@
     "login": "Đăng nhập",
     "register": "Đăng ký",
     "library": "Thư viện",
+    "pricing": "Bảng giá",
     "myBlogs": "Blog của tôi",
     "emailPlaceholder": "Nhập email của bạn",
     "passwordPlaceholder": "Nhập mật khẩu của bạn",
@@ -20,6 +21,7 @@
         "vi": "Tiếng Việt",
         "en": "Tiếng Anh"
     },
+    "manageTransactions": "Quản lý giao dịch",
     "logout": "Đăng xuất",
     "personalInfomation": "Xem thông tin cá nhân",
     "manageDevices": "Quản lý thiết bị",
@@ -42,5 +44,38 @@
         "notificationDescription": "Khi bạn nhận được thông báo, chúng sẽ xuất hiện ở đây",
         "new": "Mới",
         "on": "vào"
+    },
+    "MissionsDropdown": {
+        "claimRewardSuccess": "Nhận thưởng thành công!",
+        "claimRewardDescription": "Bạn đã nhận thưởng thành công cho nhiệm vụ này.",
+        "claimRewardError": "Nhận thưởng thất bại!",
+        "claimRewardErrorDescription": "Bạn đã nhận thưởng cho nhiệm vụ này rồi.",
+        "missions": "Nhiệm vụ",
+        "missionsDaily": "Nhiệm vụ hàng ngày",
+        "completed": "đã hoàn thành",
+        "claimReward": "Nhận thưởng",
+        "claimed": "Đã nhận thưởng"
+    },
+    "CoinHistoryPage": {
+        "backToHome": "Trở về trang chủ",
+        "transactionHistory": "Lịch sử giao dịch coin",
+        "currentBalance": "Số dư hiện tại",
+        "totalEarned": "Tổng nhận được",
+        "totalSpent": "Tổng đã dùng",
+        "coin": "coin",
+        "transactionHistoryList": "Lịch sử giao dịch",
+        "all": "Tất cả",
+        "earned": "Nhận coin",
+        "spent": "Dùng coin",
+        "viewAllTransactions": "Xem tất cả giao dịch coin của bạn",
+        "searchTransactions": "Tìm kiếm giao dịch...",
+        "transactionSource": "Nguồn giao dịch",
+        "allSources": "Tất cả nguồn",
+        "clearAll": "Xóa tất cả",
+        "noTransactionsFound": "Không tìm thấy giao dịch nào",
+        "tryDifferentFilters": "Hãy thử các bộ lọc khác",
+        "copyright": "All rights reserved.",
+        "loading": "Đang tải...",
+        "loadingMore": "Đang tải thêm..."
     }
 }
