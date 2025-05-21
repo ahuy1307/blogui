@@ -42,7 +42,8 @@
         "missingReasonDescription": "Bạn cần chọn lý do để gửi báo cáo",
         "successTitle": "Gửi báo cáo thành công",
         "successDescription": "Cảm ơn bạn đã phản hồi. Chúng tôi sẽ xem xét nội dung này.",
-        "reportErrorTitle": "Gửi báo cáo thất bại"
+        "reportErrorTitle": "Gửi báo cáo thất bại",
+        "submitting": "Đang gửi..."
     },
     "BlogDetail": {
         "successTitle": "Thành công",

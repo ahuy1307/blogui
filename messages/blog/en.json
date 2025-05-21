@@ -41,7 +41,8 @@
     "missingReasonDescription": "You need to select a reason to submit a report",
     "successTitle": "Report Submitted Successfully",
     "successDescription": "Thank you for your feedback. We will review this content.",
-    "reportErrorTitle": "Failed to submit report"
+    "reportErrorTitle": "Failed to submit report",
+    "submitting": "Submitting..."
   },
   "BlogDetail": {
     "successTitle": "Success",

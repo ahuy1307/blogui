@@ -37,7 +37,7 @@ export function ReportDialog({ isOpen, onClose, blogId }: ReportDialogProps) {
         },
     })
 
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: async () => {
             await authenticationService.reportBlog({
                 baiViet: blogId,
@@ -50,14 +50,18 @@ export function ReportDialog({ isOpen, onClose, blogId }: ReportDialogProps) {
                 title: t('successTitle'),
                 description: t('successDescription'),
             })
+            // Reset form and close dialog after successful submission
+            setReason('0')
+            setDetails('')
+            onClose()
         },
-        onError: (error:any) => {
+        onError: (error: any) => {
             toast({
                 title: t('reportErrorTitle'),
                 description: error.response.data.errors.other[0],
                 variant: 'destructive',
             })
-        }
+        },
     })
 
     const handleSubmit = () => {
@@ -70,12 +74,8 @@ export function ReportDialog({ isOpen, onClose, blogId }: ReportDialogProps) {
             return
         }
 
+        // Only call mutate - form reset moved to onSuccess
         mutate()
-
-        // Reset form and close dialog
-        setReason('0')
-        setDetails('')
-        onClose()
     }
 
     return (
@@ -125,10 +125,18 @@ export function ReportDialog({ isOpen, onClose, blogId }: ReportDialogProps) {
                 </div>
 
                 <DialogFooter>
-                    <Button variant="outline" onClick={onClose}>
+                    <Button
+                        variant="outline"
+                        onClick={onClose}
+                        disabled={isPending}
+                    >
                         {t('cancel')}
                     </Button>
-                    <Button onClick={handleSubmit}>{t('submit')}</Button>
+                    <Button onClick={handleSubmit} disabled={isPending}>
+                        {isPending
+                            ? t('submitting', { defaultValue: 'Submitting...' })
+                            : t('submit')}
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
