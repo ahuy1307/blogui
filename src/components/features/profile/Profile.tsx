@@ -14,6 +14,8 @@ import { MdOutlineEdit } from 'react-icons/md'
 import { FaRegUser } from 'react-icons/fa'
 import { MdDevices } from 'react-icons/md'
 import { useSearchParams } from 'next/navigation'
+import { IoShareSocialOutline } from 'react-icons/io5'
+import { IoIosLock, IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 
 import { getInitials } from '@/helper/utils'
 import { useAuth } from '@/contexts/auth/AuthContext'
@@ -25,9 +27,7 @@ import { authenticationService } from '@/core/services/API/authentication/Authen
 import { getFingerprint } from '@/helper/utils'
 import ManageDevices from './ManageDevices'
 import { useRouter } from '@/navigation'
-import { IoShareSocialOutline } from 'react-icons/io5'
 import UpdateSocialLinks from './UpdateSocialLinks'
-import { IoIosLock } from 'react-icons/io'
 import ChangePassword from './ChangePassword'
 
 const Profile = () => {
@@ -41,6 +41,7 @@ const Profile = () => {
     const [showModalUploadAvatar, setShowModalUploadAvatar] = useState(false)
     const [currentDevice, setCurrentDevice] = useState<any>(null)
     const [otherDevices, setOtherDevices] = useState([])
+    const [showMobileMenu, setShowMobileMenu] = useState(false)
 
     const fullName = `${user?.ho ?? ''} ${user?.ten ?? ''}`.trim()
     const firstCharName =
@@ -73,10 +74,21 @@ const Profile = () => {
         if (tabSelected) setSelectedItem(tabSelected)
     }, [tabSelected])
 
+    const toggleMobileMenu = () => {
+        setShowMobileMenu(!showMobileMenu)
+    }
+
+    const handleMenuItemClick = (item: string) => {
+        setSelectedItem(item)
+        router.push(`/profile?tab=${item}`)
+        // Close menu on mobile after selection
+        setShowMobileMenu(false)
+    }
+
     return (
-        <div className="flex gap-14 mt-[100px]">
-            <div className="w-[30%]">
-                <div className="flex gap-8 items-center border border-[var(--border-color-default)] p-4 rounded-tl-md rounded-tr-md">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-14 my-[100px] lg:mt-[100px] px-4 lg:px-0">
+            <div className="w-full lg:w-[30%]">
+                <div className="flex gap-4 lg:gap-8 items-center border border-[var(--border-color-default)] p-4 rounded-tl-md rounded-tr-md">
                     <AvatarUploadModal
                         isOpen={showModalUploadAvatar}
                         onClose={() => setShowModalUploadAvatar(false)}
@@ -86,7 +98,7 @@ const Profile = () => {
                         onClick={() => setShowModalUploadAvatar(true)}
                     >
                         <Avatar
-                            size={120}
+                            size={80}
                             className="bg-[var(--text-color-brand)] cursor-pointer"
                             src={
                                 user?.avatar && user.avatar !== ''
@@ -94,92 +106,103 @@ const Profile = () => {
                                     : undefined
                             }
                         >
-                            <p className="text-2xl">
+                            <p className="text-xl lg:text-2xl">
                                 {user?.avatar && user.avatar !== ''
                                     ? null
                                     : firstCharName}
                             </p>
                         </Avatar>
-                        <div className="bg-gray-200 border border-gray-400 flex justify-center items-center shadow-lg rounded-full w-fit p-2 absolute -bottom-2 right-0">
-                            <MdOutlineEdit size={20} />
+                        <div className="bg-gray-200 border border-gray-400 flex justify-center items-center shadow-lg rounded-full w-fit p-1.5 lg:p-2 absolute -bottom-1 lg:-bottom-2 right-0">
+                            <MdOutlineEdit
+                                size={16}
+                                className="lg:size-[20px]"
+                            />
                         </div>
                     </div>
-                    <div className="text-lg">
+                    <div className="text-base lg:text-lg flex-1">
                         <p>{t('hello')} 👋</p>
                         <p className="font-bold">
                             {user?.ho} {user?.ten}
                         </p>
                     </div>
+                    <div
+                        className="lg:hidden cursor-pointer p-2"
+                        onClick={toggleMobileMenu}
+                    >
+                        {showMobileMenu ? (
+                            <IoIosArrowUp size={24} />
+                        ) : (
+                            <IoIosArrowDown size={24} />
+                        )}
+                    </div>
                 </div>
-                <ul className="border border-[var(--border-color-default)] p-4 rounded-bl-md rounded-br-md flex flex-col gap-4 text-base">
+                <ul
+                    className={`border border-[var(--border-color-default)] p-4 rounded-bl-md rounded-br-md flex flex-col gap-4 text-base ${
+                        !showMobileMenu && 'hidden lg:flex'
+                    }`}
+                >
                     <li
-                        className={`flex items-center p-4 rounded-md cursor-pointer ${
+                        className={`flex items-center p-3 lg:p-4 rounded-md cursor-pointer ${
                             selectedItem === 'profile'
                                 ? 'bg-black text-white'
                                 : 'hover:bg-gray-200'
                         }`}
-                        onClick={() => {
-                            setSelectedItem('profile')
-                            router.push('/profile?tab=profile')
-                        }}
+                        onClick={() => handleMenuItemClick('profile')}
                     >
-                        <FaRegUser className="inline-block mr-4" size={18} />
+                        <FaRegUser
+                            className="inline-block mr-2 lg:mr-4"
+                            size={18}
+                        />
                         {t('updatePersonalInformation')}
                     </li>
                     <li
-                        className={`flex items-center p-4 rounded-md cursor-pointer ${
+                        className={`flex items-center p-3 lg:p-4 rounded-md cursor-pointer ${
                             selectedItem === 'device'
                                 ? 'bg-black text-white'
                                 : 'hover:bg-gray-200'
                         }`}
-                        onClick={() => {
-                            setSelectedItem('device')
-                            router.push('/profile?tab=device')
-                        }}
+                        onClick={() => handleMenuItemClick('device')}
                     >
-                        <MdDevices className="inline-block mr-4" size={20} />
+                        <MdDevices
+                            className="inline-block mr-2 lg:mr-4"
+                            size={20}
+                        />
                         {t('manageDevices')}
                     </li>
                     <li
-                        className={`flex items-center p-4 rounded-md cursor-pointer ${
+                        className={`flex items-center p-3 lg:p-4 rounded-md cursor-pointer ${
                             selectedItem === 'social'
                                 ? 'bg-black text-white'
                                 : 'hover:bg-gray-200'
                         }`}
-                        onClick={() => {
-                            setSelectedItem('social')
-                            router.push('/profile?tab=social')
-                        }}
+                        onClick={() => handleMenuItemClick('social')}
                     >
                         <IoShareSocialOutline
-                            className="inline-block mr-4"
+                            className="inline-block mr-2 lg:mr-4"
                             size={20}
                         />
                         {t('socialLinks')}
                     </li>
                     <li
-                        className={`flex items-center p-4 rounded-md cursor-pointer ${
+                        className={`flex items-center p-3 lg:p-4 rounded-md cursor-pointer ${
                             selectedItem === 'change-password'
                                 ? 'bg-black text-white'
                                 : 'hover:bg-gray-200'
                         }`}
-                        onClick={() => {
-                            setSelectedItem('change-password')
-                            router.push('/profile?tab=change-password')
-                        }}
+                        onClick={() => handleMenuItemClick('change-password')}
                     >
                         <IoIosLock
-                            className="inline-block mr-4 relative top-[-2px]"
+                            className="inline-block mr-2 lg:mr-4 relative top-[-2px]"
                             size={20}
                         />
                         {t('changePassword')}
                     </li>
                 </ul>
             </div>
-            <div className="flex-1">
+            <div className="flex-1 mt-4 lg:mt-0">
                 {selectedItem === 'profile' && (
                     <>
-                        <p className="font-bold text-2xl pb-2">
+                        <p className="font-bold text-xl lg:text-2xl pb-2">
                             {t('updatePersonalInfo')}
                         </p>
                         <PersonalInfomation />
@@ -187,7 +210,7 @@ const Profile = () => {
                 )}
                 {selectedItem === 'device' && (
                     <>
-                        <p className="font-bold text-2xl pb-2">
+                        <p className="font-bold text-xl lg:text-2xl pb-2">
                             {t('manageDevices')}
                         </p>
                         {currentDevice && (
@@ -201,7 +224,7 @@ const Profile = () => {
                 )}
                 {selectedItem === 'social' && (
                     <>
-                        <p className="font-bold text-2xl pb-2">
+                        <p className="font-bold text-xl lg:text-2xl pb-2">
                             {t('socialLinks')}
                         </p>
                         <UpdateSocialLinks />
@@ -209,7 +232,7 @@ const Profile = () => {
                 )}
                 {selectedItem === 'change-password' && (
                     <>
-                        <p className="font-bold text-2xl pb-2">
+                        <p className="font-bold text-xl lg:text-2xl pb-2">
                             {t('changePassword')}
                         </p>
                         <ChangePassword />

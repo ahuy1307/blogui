@@ -11,19 +11,36 @@ import { Badge } from '@/components/other-ui/Badge'
 import type { Notification, NotificationType } from '@/types/notification'
 import { Link } from '@/navigation'
 import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
+import { vi, enUS } from 'date-fns/locale'
+import { useState } from 'react'
 
 interface NotificationItemProps {
     notification: Notification
     onClick: (notification: Notification) => void
     blogSlug: string
+    fullWidth?: boolean
 }
 
 export function NotificationItem({
     notification,
     onClick,
     blogSlug,
+    fullWidth = false,
 }: NotificationItemProps) {
+    const locale = useLocale()
     const t = useTranslations('header.Notification')
+    const dateLocale = locale === 'vi' ? vi : enUS
+
+    // Format the notification time
+    const formattedTime = formatDistanceToNow(
+        new Date(notification.createdAt),
+        {
+            addSuffix: true,
+            locale: dateLocale,
+        }
+    )
+
     const getNotificationIcon = (type: NotificationType) => {
         switch (type) {
             case 'liked':
@@ -39,7 +56,11 @@ export function NotificationItem({
         <Link
             href={`/blog/${blogSlug}`}
             passHref
-            className={`flex cursor-pointer gap-4 p-4 ${notification.daDoc ? 'opacity-70' : 'bg-purple-50'}`}
+            className={`flex w-full cursor-pointer items-start gap-3 p-3 ${
+                notification.daDoc ? '' : 'bg-blue-50 dark:bg-blue-900/20'
+            } hover:bg-gray-100 dark:hover:bg-gray-800 ${
+                fullWidth ? 'rounded-md' : ''
+            }`}
             onClick={() => onClick(notification)}
         >
             <div className="flex-shrink-0">
@@ -75,14 +96,9 @@ export function NotificationItem({
                     <p className="text-sm font-medium">
                         {notification.noiDung}
                     </p>
-                    {!notification.daDoc && (
-                        <Badge
-                            variant="outline"
-                            className="bg-blue-100 text-blue-800 text-[10px] h-5"
-                        >
-                            {t('new')}
-                        </Badge>
-                    )}
+                    <span className="text-[10px] text-gray-500">
+                        {formattedTime}
+                    </span>
                 </div>
                 {notification.baiViet && (
                     <p className="text-xs text-gray-500">

@@ -61,68 +61,73 @@ const ForgotPassword = () => {
             >
                 <Logo />
             </div>
-            <div className="flex-1">
-                {isPending ? (
-                    <div className="w-[600px] mx-auto flex flex-col gap-6 bg-gray-100 p-4 rounded-2xl">
-                        <Spin size="large" />
-                    </div>
-                ) : (
-                    <div className="w-[500px] mx-auto flex flex-col gap-6 bg-gray-100 p-6 rounded-2xl">
-                        <div className="flex flex-col items-center gap-4">
-                            <p className="font-bold text-3xl">
-                                {t('forgotPassword')}
-                            </p>
-                            <p className="text-[var(--text-color-secondary)'] text-center">
-                                {t('forgotPasswordDescription')}
-                            </p>
+            <div className="flex items-center h-screen w-full">
+                <div className="flex-1">
+                    {isPending ? (
+                        <div className="w-[600px] mx-auto flex flex-col gap-6 bg-gray-100 p-4 rounded-2xl">
+                            <Spin size="large" />
                         </div>
-                        <Form className="mt-2" onFinish={onFinish}>
-                            <Spin
-                                size="large"
-                                spinning={isPending}
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    paddingBottom: '16px',
-                                }}
-                            />
-                            <InputFormItem
-                                required
-                                placeholder={t('emailPlaceholder')}
-                                name="email"
-                                type="email"
-                                onChange={() => setError('')}
-                            />
-                            {error && (
-                                <Alert
-                                    showIcon={true}
-                                    className="mb-4"
-                                    type="error"
-                                    message={error}
-                                />
-                            )}
-                            <Form.Item>
-                                <Button
-                                    htmlType="submit"
-                                    type="primary"
-                                    shape="square"
-                                    style={{ width: '100%', marginTop: '16px' }}
-                                >
+                    ) : (
+                        <div className="w-[500px] mx-auto flex flex-col gap-6 bg-gray-100 p-6 rounded-2xl">
+                            <div className="flex flex-col items-center gap-4">
+                                <p className="font-bold text-3xl">
                                     {t('forgotPassword')}
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </div>
-                )}
-            </div>
-            <div className="flex-1">
-                <Image
-                    src="/images/register_slide.webp"
-                    alt=""
-                    width={500}
-                    height={100}
-                    className="w-full h-screen object-cover scale-90 rounded-2xl"
-                />
+                                </p>
+                                <p className="text-[var(--text-color-secondary)'] text-center">
+                                    {t('forgotPasswordDescription')}
+                                </p>
+                            </div>
+                            <Form className="mt-2" onFinish={onFinish}>
+                                <Spin
+                                    size="large"
+                                    spinning={isPending}
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        paddingBottom: '16px',
+                                    }}
+                                />
+                                <InputFormItem
+                                    required
+                                    placeholder={t('emailPlaceholder')}
+                                    name="email"
+                                    type="email"
+                                    onChange={() => setError('')}
+                                />
+                                {error && (
+                                    <Alert
+                                        showIcon={true}
+                                        className="mb-4"
+                                        type="error"
+                                        message={error}
+                                    />
+                                )}
+                                <Form.Item>
+                                    <Button
+                                        htmlType="submit"
+                                        type="primary"
+                                        shape="square"
+                                        style={{
+                                            width: '100%',
+                                            marginTop: '16px',
+                                        }}
+                                    >
+                                        {t('forgotPassword')}
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </div>
+                    )}
+                </div>
+                <div className="flex-1 hidden md:block">
+                    <Image
+                        src="/images/register_slide.webp"
+                        alt=""
+                        width={500}
+                        height={100}
+                        className="w-full h-screen object-cover scale-90 rounded-2xl"
+                    />
+                </div>
             </div>
         </div>
     )

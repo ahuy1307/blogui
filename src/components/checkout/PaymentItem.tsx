@@ -161,7 +161,7 @@ export function PaymentItem({
                         {t('statusPending', { defaultMessage: 'Chờ xử lý' })}
                     </Badge>
                 )
-            case 'accept':
+            case 'success':
                 return (
                     <Badge
                         variant="outline"
@@ -260,17 +260,17 @@ export function PaymentItem({
         <>
             <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-white dark:bg-gray-800">
                 <div
-                    className={`p-5 bg-card flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-pointer ${expanded ? 'border-b border-dashed' : ''}`}
+                    className={`p-4 sm:p-5 bg-card flex flex-col md:flex-row md:items-center justify-between gap-3 cursor-pointer ${expanded ? 'border-b border-dashed' : ''}`}
                     onClick={() => setExpanded(!expanded)}
                 >
-                    {/* Transaction info */}
+                    {/* Transaction info - improved mobile layout */}
                     <div className="flex-grow">
                         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
                             <div>
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-xs sm:text-sm text-muted-foreground">
                                     {t('dateCreated')}
                                 </p>
-                                <p className="font-medium">
+                                <p className="font-medium text-sm sm:text-base">
                                     {formatDate(transaction.createdAt)}
                                 </p>
                             </div>
@@ -279,19 +279,21 @@ export function PaymentItem({
                                 •
                             </div>
 
-                            <div>{getStatusBadge(transaction.trangThai)}</div>
+                            <div className="mt-1 md:mt-0">
+                                {getStatusBadge(transaction.trangThai)}
+                            </div>
 
                             <div className="hidden md:block text-muted-foreground">
                                 •
                             </div>
 
-                            <div>
-                                <p className="text-sm text-muted-foreground">
+                            <div className="mt-1 md:mt-0">
+                                <p className="text-xs sm:text-sm text-muted-foreground">
                                     {t('paymentMethod')}
                                 </p>
-                                <p className="font-medium flex items-center">
+                                <p className="font-medium text-sm sm:text-base flex items-center">
                                     <span
-                                        className={`inline-block w-4 h-4 mr-1.5 rounded-full ${
+                                        className={`inline-block w-3 h-3 sm:w-4 sm:h-4 mr-1.5 rounded-full ${
                                             transaction.hinhThucThanhToan ===
                                             'VNPay'
                                                 ? 'bg-blue-500'
@@ -307,20 +309,20 @@ export function PaymentItem({
                         </div>
                     </div>
 
-                    {/* Price and coins */}
-                    <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-                        <div className="text-right">
-                            <p className="text-sm text-muted-foreground">
+                    {/* Price and coins - better mobile alignment */}
+                    <div className="flex flex-row md:flex-row items-center justify-between md:justify-end mt-3 md:mt-0 gap-3 md:gap-4 border-t pt-3 md:border-t-0 md:pt-0">
+                        <div className="text-left md:text-right">
+                            <p className="text-xs sm:text-sm text-muted-foreground">
                                 {t('totalAmount')}
                             </p>
-                            <p className="font-bold text-lg">
+                            <p className="font-bold text-base sm:text-lg">
                                 {formatCurrency(transaction.tongTien)}
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-1.5 bg-primary/10 px-3 py-1.5 rounded-full">
-                            <Coins className="h-4 w-4 text-primary" />
-                            <span className="font-medium text-primary">
+                        <div className="flex items-center gap-1.5 bg-primary/10 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full">
+                            <Coins className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
+                            <span className="font-medium text-xs sm:text-sm text-primary">
                                 {packageInfo.soLuongCoin.toLocaleString()}
                             </span>
                         </div>
@@ -328,22 +330,22 @@ export function PaymentItem({
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="p-0 h-8 w-8 ml-2"
+                            className="p-0 h-8 w-8 ml-auto"
                             onClick={(e) => {
                                 e.stopPropagation()
                                 setExpanded(!expanded)
                             }}
                         >
                             {expanded ? (
-                                <ChevronUp className="h-5 w-5 text-gray-500" />
+                                <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500" />
                             ) : (
-                                <ChevronDown className="h-5 w-5 text-gray-500" />
+                                <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500" />
                             )}
                         </Button>
                     </div>
                 </div>
 
-                {/* Expanded details with animation - updated timing */}
+                {/* Expanded details with animation */}
                 <AnimatePresence>
                     {expanded && (
                         <motion.div
@@ -351,27 +353,28 @@ export function PaymentItem({
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{
-                                duration: 0.35, // Increased from 0.2 to 0.35
-                                ease: [0.04, 0.62, 0.23, 0.98], // Custom easing for smoother feel
-                                opacity: { duration: 0.25 }, // Separate timing for opacity
+                                duration: 0.35,
+                                ease: [0.04, 0.62, 0.23, 0.98],
+                                opacity: { duration: 0.25 },
                             }}
                             className="overflow-hidden"
                         >
-                            <div className="p-5 bg-muted/30">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-sm">
-                                        <h4 className="font-medium mb-3 flex items-center text-base">
-                                            <Calendar className="h-4 w-4 mr-2 text-primary" />
+                            <div className="p-4 sm:p-5 bg-muted/30">
+                                {/* Improved grid layout for mobile */}
+                                <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                                    <div className="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm">
+                                        <h4 className="font-medium mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
+                                            <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 text-primary" />
                                             {t('orderDetails')}
                                         </h4>
-                                        <div className="space-y-3">
-                                            <div className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
-                                                <Clock className="h-4 w-4 text-muted-foreground" />
+                                        <div className="space-y-2 sm:space-y-3">
+                                            <div className="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                                                <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">
                                                         {t('dateCreated')}
                                                     </p>
-                                                    <p className="font-medium text-sm">
+                                                    <p className="font-medium text-xs sm:text-sm">
                                                         {formatDate(
                                                             transaction.createdAt
                                                         )}
@@ -379,13 +382,13 @@ export function PaymentItem({
                                                 </div>
                                             </div>
 
-                                            <div className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
-                                                <CreditCard className="h-4 w-4 text-muted-foreground" />
+                                            <div className="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                                                <CreditCard className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">
                                                         {t('paymentMethod')}
                                                     </p>
-                                                    <p className="font-medium text-sm">
+                                                    <p className="font-medium text-xs sm:text-sm">
                                                         {
                                                             transaction.hinhThucThanhToan
                                                         }
@@ -395,25 +398,25 @@ export function PaymentItem({
                                         </div>
                                     </div>
 
-                                    <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-sm">
-                                        <h4 className="font-medium mb-3 flex items-center text-base">
-                                            <Package className="h-4 w-4 mr-2 text-primary" />
+                                    <div className="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm">
+                                        <h4 className="font-medium mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
+                                            <Package className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 text-primary" />
                                             {t('packageDetails')}
                                         </h4>
                                         <div className="space-y-2">
-                                            <div className="flex justify-between items-center p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                                            <div className="flex justify-between items-center p-1.5 sm:p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">
                                                         {t('packageName')}
                                                     </p>
-                                                    <div className="flex items-center">
-                                                        <span className="font-medium text-sm">
+                                                    <div className="flex items-center flex-wrap gap-1">
+                                                        <span className="font-medium text-xs sm:text-sm">
                                                             {packageInfo.tenGoi}
                                                         </span>
                                                         {packageInfo.noiBat && (
                                                             <Badge
                                                                 variant="secondary"
-                                                                className="ml-2 text-xs bg-primary/20 text-primary border-none"
+                                                                className="ml-0 sm:ml-2 text-xs bg-primary/20 text-primary border-none"
                                                             >
                                                                 {t('featured')}
                                                             </Badge>
@@ -422,19 +425,19 @@ export function PaymentItem({
                                                 </div>
                                             </div>
 
-                                            <div className="flex justify-between items-center p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                                            <div className="flex justify-between items-center p-1.5 sm:p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">
                                                         {t('packagePrice')}
                                                     </p>
-                                                    <p className="font-medium text-sm">
+                                                    <p className="font-medium text-xs sm:text-sm">
                                                         {formatCurrency(
                                                             packageInfo.giaBan
                                                         )}
                                                     </p>
                                                 </div>
-                                                <div className="flex items-center gap-1.5 bg-primary/10 px-3 py-1.5 rounded-full">
-                                                    <Coins className="h-3.5 w-3.5 text-primary" />
+                                                <div className="flex items-center gap-1.5 bg-primary/10 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full">
+                                                    <Coins className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary" />
                                                     <span className="text-xs font-medium text-primary">
                                                         {packageInfo.soLuongCoin.toLocaleString()}
                                                     </span>
@@ -444,15 +447,15 @@ export function PaymentItem({
                                     </div>
                                 </div>
 
-                                {/* Action buttons for pending transactions */}
+                                {/* Action buttons for pending transactions - improved for mobile */}
                                 {transaction.trangThai === 'pending' && (
                                     <div className="mt-4">
                                         {isCheckoutAvailable() ? (
                                             <div>
-                                                <div className="flex flex-col mb-3 p-3 bg-amber-50 border border-amber-100 rounded-md">
+                                                <div className="flex flex-col mb-3 p-2 sm:p-3 bg-amber-50 border border-amber-100 rounded-md">
                                                     <div className="flex justify-between items-center mb-1.5">
-                                                        <div className="flex items-center text-amber-700 text-sm font-medium">
-                                                            <Clock className="h-3.5 w-3.5 mr-1.5" />
+                                                        <div className="flex items-center text-amber-700 text-xs sm:text-sm font-medium">
+                                                            <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1.5" />
                                                             {t(
                                                                 'checkoutTimeRemaining',
                                                                 {
@@ -461,13 +464,13 @@ export function PaymentItem({
                                                                 }
                                                             )}
                                                         </div>
-                                                        <span className="text-amber-800 font-mono font-semibold">
+                                                        <span className="text-amber-800 font-mono font-semibold text-xs sm:text-sm">
                                                             {formatCountdown()}
                                                         </span>
                                                     </div>
                                                     <Progress
                                                         value={calculateProgress()}
-                                                        className="h-2 bg-amber-200"
+                                                        className="h-1.5 sm:h-2 bg-amber-200"
                                                         indicatorClassName="bg-amber-500"
                                                     />
                                                     <p className="text-xs text-amber-600 mt-1.5">
@@ -477,11 +480,11 @@ export function PaymentItem({
                                                         })}
                                                     </p>
                                                 </div>
-                                                <div className="flex justify-end gap-3">
+                                                <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-3">
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
-                                                        className="hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
+                                                        className="hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors w-full sm:w-auto"
                                                         onClick={(e) => {
                                                             e.stopPropagation()
                                                             setShowCancelDialog(
@@ -499,7 +502,7 @@ export function PaymentItem({
                                                     <Button
                                                         variant="default"
                                                         size="sm"
-                                                        className="bg-primary hover:bg-primary/90 transition-colors"
+                                                        className="bg-primary hover:bg-primary/90 transition-colors w-full sm:w-auto"
                                                         onClick={
                                                             handleContinueCheckout
                                                         }
@@ -515,8 +518,8 @@ export function PaymentItem({
                                         ) : (
                                             <div className="flex flex-col">
                                                 {checkoutExpired && (
-                                                    <div className="mb-2 p-3 bg-red-50 border border-red-100 rounded-md text-sm text-red-700 flex items-center">
-                                                        <AlertCircle className="h-4 w-4 mr-2 text-red-500" />
+                                                    <div className="mb-2 p-2 sm:p-3 bg-red-50 border border-red-100 rounded-md text-xs sm:text-sm text-red-700 flex items-center">
+                                                        <AlertCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 text-red-500 flex-shrink-0" />
                                                         {t('checkoutExpired', {
                                                             defaultMessage:
                                                                 'Checkout time has expired. You can no longer complete this payment.',
@@ -527,7 +530,7 @@ export function PaymentItem({
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
-                                                        className="hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
+                                                        className="hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors w-full sm:w-auto"
                                                         onClick={(e) => {
                                                             e.stopPropagation()
                                                             setShowCancelDialog(
@@ -552,38 +555,30 @@ export function PaymentItem({
                 </AnimatePresence>
             </div>
 
-            {/* Custom Modal Dialog for cancellation confirmation */}
+            {/* Dialog for cancel confirmation - made more mobile friendly */}
             <Dialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
-                <DialogContent className="flex flex-col z-[200]">
+                <DialogContent className="flex flex-col z-[200] sm:max-w-md max-h-[90vh] overflow-auto">
                     <DialogHeader>
                         <div className="flex items-center justify-between w-full">
-                            <DialogTitle className="flex items-center gap-2 text-xl font-semibold">
-                                <XCircle className="h-6 w-6 text-red-500" />
+                            <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold">
+                                <XCircle className="h-5 w-5 sm:h-6 sm:w-6 text-red-500" />
                                 {t('confirmCancelTitle')}
                             </DialogTitle>
-                            {/* <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-8 w-8 p-0 rounded-full"
-                                onClick={() => setShowCancelDialog(false)}
-                            >
-                                <X className="h-4 w-4" />
-                            </Button> */}
                         </div>
-                        <p className="text-muted-foreground text-base pt-2">
+                        <p className="text-muted-foreground text-sm sm:text-base pt-2">
                             {t('confirmCancelDescription')}
                         </p>
                     </DialogHeader>
 
-                    <div className="space-y-4 py-2 w-full">
+                    <div className="space-y-3 sm:space-y-4 py-1 sm:py-2 w-full">
                         {/* Order details */}
-                        <div className="bg-muted/40 rounded-lg p-4 border border-muted">
-                            <h4 className="text-base mb-3 flex items-center font-bold">
-                                <Package className="h-5 w-5 mr-2 text-muted-foreground" />
+                        <div className="bg-muted/40 rounded-lg p-3 sm:p-4 border border-muted">
+                            <h4 className="text-sm sm:text-base mb-2 sm:mb-3 flex items-center font-bold">
+                                <Package className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-muted-foreground" />
                                 {t('orderSummary')}
                             </h4>
 
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
                                 <div className="flex justify-between items-center">
                                     <span className="text-muted-foreground">
                                         {t('packageName')}:
@@ -606,7 +601,7 @@ export function PaymentItem({
                                     </span>
                                     <div className="flex items-center gap-1.5">
                                         <span
-                                            className={`inline-block w-3 h-3 rounded-full ${
+                                            className={`inline-block w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${
                                                 transaction.hinhThucThanhToan ===
                                                 'VNPay'
                                                     ? 'bg-blue-500'
@@ -625,8 +620,8 @@ export function PaymentItem({
                         </div>
 
                         {/* Warning message */}
-                        <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-100 rounded-md text-amber-800">
-                            <TriangleAlert className="h-5 w-5 text-amber-500 mt-0.5 flex-shrink-0" />
+                        <div className="flex items-start gap-2 p-2 sm:p-3 bg-amber-50 border border-amber-100 rounded-md text-amber-800">
+                            <TriangleAlert className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500 mt-0.5 flex-shrink-0" />
                             <div>
                                 <p className="text-xs">
                                     {t('cancelWarning', {
@@ -638,11 +633,11 @@ export function PaymentItem({
                         </div>
                     </div>
 
-                    <DialogFooter className="flex pt-4">
+                    <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-0 pt-3 sm:pt-4">
                         <Button
                             variant="outline"
                             onClick={() => setShowCancelDialog(false)}
-                            className="w-fit"
+                            className="w-full sm:w-fit order-2 sm:order-1"
                         >
                             {t('keepOrder')}
                         </Button>
@@ -650,11 +645,12 @@ export function PaymentItem({
                             variant="destructive"
                             onClick={handleCancel}
                             disabled={isCancelling}
+                            className="w-full sm:w-auto order-1 sm:order-2"
                         >
                             {isCancelling ? (
-                                <Clock className="h-4 w-4 mr-2 animate-spin" />
+                                <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 animate-spin" />
                             ) : (
-                                <XCircle className="h-4 w-4 mr-2" />
+                                <XCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
                             )}
                             {t('confirmCancel')}
                         </Button>

@@ -160,68 +160,75 @@ export default function BlogPage() {
                     color="bg-gradient-to-br from-purple-300 to-green-500"
                 />
             </div>
-            <div className="mb-4 flex gap-4">
-                {/* Search Input */}
-                <div className="relative w-[40%]">
-                    <Search
-                        className="absolute left-3 top-1/2 transform -translate-y-1/2"
-                        size={20}
-                    />
-                    <Input
-                        placeholder={t('searchPlaceholder')}
-                        className="pl-10 pr-4 py-2 w-full"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+
+            {/* Filter Section - Updated for mobile/tablet responsiveness */}
+            <div className="mb-6 flex flex-col gap-4 md:gap-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {/* Search Input */}
+                    <div className="relative w-full">
+                        <Search
+                            className="absolute left-3 top-1/2 transform -translate-y-1/2"
+                            size={18}
+                        />
+                        <Input
+                            placeholder={t('searchPlaceholder')}
+                            className="pl-10 pr-4 py-2 w-full"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+
+                    {/* Status Filter */}
+                    <Select
+                        value={statusFilter}
+                        onValueChange={(value) => {
+                            setStatusFilter(value as BlogStatus)
+                            if (value === 'all') setPublished(undefined)
+                            else setPublished(value === 'published')
+                        }}
+                    >
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">{t('allBlogs')}</SelectItem>
+                            <SelectItem value="draft">{t('draft')}</SelectItem>
+                            <SelectItem value="published">
+                                {t('published')}
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+
+                    {/* Date Range Picker */}
+                    <div className="w-full">
+                        <RangePicker
+                            placeholder={[t('startDate'), t('endDate')]}
+                            value={[
+                                startDate ? dayjs(startDate) : null,
+                                endDate ? dayjs(endDate) : null,
+                            ]}
+                            onChange={(dates) => {
+                                setStartDate(dates?.[0]?.toDate() || undefined)
+                                setEndDate(dates?.[1]?.toDate() || undefined)
+                            }}
+                            style={{
+                                width: '100%',
+                            }}
+                        />
+                    </div>
                 </div>
 
-                {/* Status Filter */}
-                <Select
-                    value={statusFilter}
-                    onValueChange={(value) => {
-                        setStatusFilter(value as BlogStatus)
-                        if (value === 'all') setPublished(undefined)
-                        else setPublished(value === 'published')
-                    }}
-                >
-                    <SelectTrigger className="w-[200px]">
-                        <SelectValue placeholder="Status" />
-                    </SelectTrigger>
-                    <SelectContent className="">
-                        <SelectItem value="all">{t('allBlogs')}</SelectItem>
-                        <SelectItem value="draft">{t('draft')}</SelectItem>
-                        <SelectItem value="published">
-                            {t('published')}
-                        </SelectItem>
-                    </SelectContent>
-                </Select>
-                <div className="w-full flex gap-4 flex-1">
-                    <RangePicker
-                        placeholder={[t('startDate'), t('endDate')]}
-                        value={[
-                            startDate ? dayjs(startDate) : null,
-                            endDate ? dayjs(endDate) : null,
-                        ]}
-                        onChange={(dates) => {
-                            setStartDate(dates?.[0]?.toDate() || undefined)
-                            setEndDate(dates?.[1]?.toDate() || undefined)
-                        }}
-                        style={{
-                            width: '80%',
-                        }}
-                    />
+                {/* Clear Filters Button */}
+                <div className="flex justify-end mt-2">
+                    <Button
+                        variant="outline"
+                        onClick={clearFilters}
+                        className="flex items-center"
+                    >
+                        <Filter className="mr-2 h-4 w-4" />
+                        <span>{t('clearFilters')}</span>
+                    </Button>
                 </div>
-            </div>
-
-            <div className="flex justify-end mt-4">
-                <Button
-                    variant="outline"
-                    onClick={clearFilters}
-                    className="flex items-center"
-                >
-                    <Filter className="mr-2 h-4 w-4" />
-                    <span>{t('clearFilters')}</span>
-                </Button>
             </div>
 
             {/* Blog List */}
@@ -291,11 +298,11 @@ function BlogItem({
 
     return (
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg border border-gray-200">
-            <div className="p-6">
-                <div className="flex justify-between items-start">
-                    <div>
-                        <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-xl font-semibold line-clamp-1">
+            <div className="p-4 md:p-6">
+                <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
+                    <div className="w-full">
+                        <div className="flex items-start md:items-center flex-wrap gap-2 mb-2">
+                            <h3 className="text-xl font-semibold line-clamp-1 mr-2">
                                 {blog.tieuDe}
                             </h3>
                             <StatusBadge isDraft={!blog.daXuatBan} />
@@ -314,7 +321,7 @@ function BlogItem({
                                 </Badge>
                             ))}
                         </div>
-                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                        <div className="flex flex-wrap items-center text-sm text-gray-500 dark:text-gray-400 gap-y-2">
                             <span className="flex items-center mr-4">
                                 <span className="mr-1">❤️</span>{' '}
                                 {blog.luotYeuThich || 0} {t('likes')}
@@ -323,12 +330,12 @@ function BlogItem({
                                 <span className="mr-1">💬</span>{' '}
                                 {blog.comments?.length || 0} {t('comments')}
                             </span>
-                            <span className="flex items-center">
+                            <span className="flex items-center mr-4">
                                 <span className="mr-1">👁️</span>{' '}
                                 {blog.luotXem || 0} {t('views')}
                             </span>
                             {blog.ngayXuatBan && (
-                                <span className="flex items-center ml-4">
+                                <span className="flex items-center">
                                     <span className="mr-1">📅</span>{' '}
                                     {format(
                                         new Date(
@@ -343,7 +350,7 @@ function BlogItem({
                         </div>
                     </div>
 
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 mt-2 md:mt-0 self-end md:self-start">
                         {!blog.daXuatBan ? (
                             <Button
                                 variant="outline"
@@ -369,7 +376,7 @@ function BlogItem({
                                     •••
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" sideOffset={5}>
+                            <DropdownMenuContent align="end" sideOffset={5}>
                                 {blog.daXuatBan && (
                                     <DropdownMenuItem
                                         onClick={onView}

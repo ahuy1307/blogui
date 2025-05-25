@@ -95,128 +95,144 @@ const SetPassword = () => {
     }, [])
 
     return (
-        <div className="flex justify-between items-center relative">
+        <div className="flex flex-col md:flex-row justify-between items-center relative min-h-screen">
             <div
-                className="absolute top-0 left-0 p-10"
+                className="absolute top-0 left-0 p-4 sm:p-6 md:p-10 z-10"
                 onClick={() => router.push('/')}
             >
                 <Logo />
             </div>
-            <div className="flex-1">
-                {isPending ? (
-                    <div className="w-[600px] mx-auto flex flex-col gap-9 p-4 rounded-2xl">
-                        <Spin size="large" />
-                        <p className="text-center text-2xl font-bold italic">
-                            {t('verifyingEmailLoading')}
-                        </p>
-                    </div>
-                ) : (
-                    <div className="w-[600px] mx-auto flex flex-col gap-6 p-4 rounded-2xl">
-                        <p className="text-center text-2xl font-bold">
-                            {t('setPasswordTitle')}{' '}
-                            <span className="text-[var(--text-color-brand)]">
-                                {email}
-                            </span>
-                        </p>
-                        <Form className="mt-4" onFinish={onFinish}>
-                            <div className="flex justify-center pb-6"></div>
-                            <InputFormItem
-                                required
-                                placeholder={t('passwordPlaceholder')}
-                                name="password"
-                                type="password"
-                                onChange={() => setError('')}
-                            />
-                            <Form.Item
-                                name="repassword"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: (
-                                            <HintText
-                                                size="small"
-                                                type="error"
-                                                text={t('pleaseEnterPassword')}
-                                            />
-                                        ),
-                                    },
-                                    ({ getFieldValue }: any) => ({
-                                        validator(_: any, value: any) {
-                                            if (!value) {
-                                                return Promise.resolve()
-                                            }
-                                            if (
-                                                !ValidateService.validateMaxLength(
-                                                    value,
-                                                    128
-                                                )
-                                            )
-                                                return Promise.reject(
-                                                    <HintText
-                                                        type="error"
-                                                        text={t(
-                                                            'passwordExceedsLimit'
-                                                        )}
-                                                    />
-                                                )
-                                            if (
-                                                !value ||
-                                                getFieldValue('password') ===
-                                                    value
-                                            ) {
-                                                return Promise.resolve()
-                                            }
-                                            return Promise.reject(
+            <div className="flex items-center h-screen w-full">
+                <div className="flex-1 w-full px-4 py-16 md:py-0 md:px-0 z-0">
+                    {isPending ? (
+                        <div className="w-full max-w-[600px] mx-auto flex flex-col gap-6 p-4 rounded-2xl">
+                            <Spin size="large" />
+                            <p className="text-center text-xl sm:text-2xl font-bold italic">
+                                {t('verifyingEmailLoading')}
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="w-full max-w-[600px] mx-auto flex flex-col gap-4 sm:gap-6 p-4 rounded-2xl">
+                            <p className="text-center text-xl sm:text-2xl font-bold">
+                                {t('setPasswordTitle')}{' '}
+                                <span className="text-[var(--text-color-brand)] break-words">
+                                    {email}
+                                </span>
+                            </p>
+                            <Form className="mt-4 w-full" onFinish={onFinish}>
+                                <div className="flex justify-center pb-4 sm:pb-6"></div>
+                                <InputFormItem
+                                    required
+                                    placeholder={t('passwordPlaceholder')}
+                                    name="password"
+                                    type="password"
+                                    onChange={() => setError('')}
+                                />
+                                <Form.Item
+                                    name="repassword"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: (
                                                 <HintText
                                                     size="small"
                                                     type="error"
                                                     text={t(
-                                                        'passwordMismatchMessage'
+                                                        'pleaseEnterPassword'
                                                     )}
                                                 />
-                                            )
+                                            ),
                                         },
-                                    }),
-                                ]}
-                            >
-                                <InputPassword
-                                    placeholder={t(
-                                        'reenterPasswordPlaceholder'
-                                    )}
-                                    size="large"
-                                />
-                            </Form.Item>
-                            {error && (
-                                // Display error alert
-                                <Alert
-                                    showIcon={true}
-                                    className="mb-4"
-                                    type="error"
-                                    message={error}
-                                />
-                            )}
-                            <Form.Item>
-                                <Button
-                                    htmlType="submit"
-                                    type="primary"
-                                    shape="square"
-                                    style={{ width: '100%' }}
-                                    loading={isPendingSetPassword}
+                                        ({ getFieldValue }: any) => ({
+                                            validator(_: any, value: any) {
+                                                if (!value) {
+                                                    return Promise.resolve()
+                                                }
+                                                if (
+                                                    !ValidateService.validateMaxLength(
+                                                        value,
+                                                        128
+                                                    )
+                                                )
+                                                    return Promise.reject(
+                                                        <HintText
+                                                            type="error"
+                                                            text={t(
+                                                                'passwordExceedsLimit'
+                                                            )}
+                                                        />
+                                                    )
+                                                if (
+                                                    !value ||
+                                                    getFieldValue(
+                                                        'password'
+                                                    ) === value
+                                                ) {
+                                                    return Promise.resolve()
+                                                }
+                                                return Promise.reject(
+                                                    <HintText
+                                                        size="small"
+                                                        type="error"
+                                                        text={t(
+                                                            'passwordMismatchMessage'
+                                                        )}
+                                                    />
+                                                )
+                                            },
+                                        }),
+                                    ]}
                                 >
-                                    {t('setPassword')}
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </div>
-                )}
+                                    <InputPassword
+                                        placeholder={t(
+                                            'reenterPasswordPlaceholder'
+                                        )}
+                                        size="large"
+                                    />
+                                </Form.Item>
+                                {error && (
+                                    <Alert
+                                        showIcon={true}
+                                        className="mb-4"
+                                        type="error"
+                                        message={error}
+                                    />
+                                )}
+                                <Form.Item>
+                                    <Button
+                                        htmlType="submit"
+                                        type="primary"
+                                        shape="square"
+                                        style={{ width: '100%' }}
+                                        loading={isPendingSetPassword}
+                                    >
+                                        {t('setPassword')}
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </div>
+                    )}
+                </div>
+                <div className="hidden md:block flex-1">
+                    <Image
+                        src="/images/register_slide.webp"
+                        alt=""
+                        width={500}
+                        height={100}
+                        className="w-full h-screen object-cover scale-90 rounded-2xl"
+                        priority
+                    />
+                </div>
             </div>
-            <div className="flex-1">
+            {/* Mobile image displayed at bottom for smaller screens */}
+            <div className="block md:hidden w-full mt-4">
                 <Image
                     src="/images/register_slide.webp"
                     alt=""
-                    width={500}
-                    height={100}
-                    className="w-full h-screen object-cover scale-90 rounded-2xl"
+                    width={400}
+                    height={200}
+                    className="w-full max-h-48 object-cover rounded-2xl"
+                    priority
                 />
             </div>
         </div>

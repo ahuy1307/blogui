@@ -15,12 +15,21 @@
     //     margin-top: 64px;
     // }
 
-    // @media (max-width: 996px) {
-    //     min-height: calc(100vh - 60px);
-    //     padding: 0 36px;
+    @media ((max-width: 1320px) and (min-width: 996px)) {
+        min-height: calc(100vh - 32x);
+        padding: 0 36px;
 
-    //     &.layout_margin_top {
-    //         margin-top: 60px;
-    //     }
-    // }
+        // &.layout_margin_top {
+        //     margin-top: 60px;
+        // }
+    }
+
+    @media (max-width: 996px) {
+        min-height: calc(100vh - 60px);
+        padding: 0 24px;
+
+        // &.layout_margin_top {
+        //     margin-top: 60px;
+        // }
+    }
 }

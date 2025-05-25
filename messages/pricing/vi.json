@@ -80,7 +80,9 @@
     "transactionNo": "Mã giao dịch:",
     "description": "Mô tả:",
     "received": "đã nhận",
-    "transactionDetails": "Chi tiết giao dịch"
+    "transactionDetails": "Chi tiết giao dịch",
+    "paymentCancelled": "Bạn đã hủy thanh toán",
+    "paymentCancelMessage": "Bạn có thể quay lại trang mua coin để mua lại khi bạn sẵn sàng"
   },
   "TransactionHistory": {
     "title": "Lịch sử giao dịch",

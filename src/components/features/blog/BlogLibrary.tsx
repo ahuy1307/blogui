@@ -97,7 +97,7 @@ export function BlogLibrary() {
                         <TabsContent value={activeTab} className="mt-0">
                             {Array.isArray(blogPosts) &&
                             blogPosts.length > 0 ? (
-                                <div className="grid md:grid-cols-3 gap-6">
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {blogPosts.map((blog, index) => (
                                         <SavedLikeBlog
                                             key={index}

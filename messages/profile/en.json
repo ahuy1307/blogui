@@ -124,6 +124,8 @@
         "publishBlog": "Publish blog",
         "publishBlogSuccess": "Blog published successfully",
         "draftBlog": "Draft",
-        "draftBlogMessage": "Draft blog"
+        "draftBlogMessage": "Draft blog",
+        "moreTopics": "more",
+        "noBlogs": "No blogs available"
     }
 }

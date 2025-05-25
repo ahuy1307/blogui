@@ -38,19 +38,22 @@ export function NewsletterSection() {
     }
 
     return (
-        <section id="newsletter" className="py-20 bg-purple-600 text-white">
-            <div className="container mx-auto px-4">
+        <section
+            id="newsletter"
+            className="py-12 md:py-16 lg:py-20 bg-purple-600 text-white"
+        >
+            <div className="container mx-auto px-4 sm:px-6">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold mb-4">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4">
                         {t('stayUpdated')}
                     </h2>
-                    <p className="text-purple-100 mb-8 text-lg">
+                    <p className="text-purple-100 mb-6 md:mb-8 text-base md:text-lg px-4">
                         {t('joinCommunity')}
                     </p>
 
                     <form
                         onSubmit={handleSubscribe}
-                        className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
+                        className="flex flex-col sm:flex-row gap-3 md:gap-4 max-w-lg mx-auto"
                     >
                         <Input
                             type="email"
@@ -59,7 +62,6 @@ export function NewsletterSection() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             disabled={isSubmitting}
-                            // required
                         />
                         <Button
                             type="submit"
@@ -70,7 +72,7 @@ export function NewsletterSection() {
                         </Button>
                     </form>
 
-                    <p className="text-purple-200 text-sm mt-4">
+                    <p className="text-purple-200 text-xs md:text-sm mt-3 md:mt-4">
                         {t('privacy')}
                     </p>
                 </div>

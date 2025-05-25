@@ -125,5 +125,7 @@
         "publishBlogSuccess": "Xuất bản blog thành công",
         "draftBlog": "Nháp",
         "draftBlogMessage": "Nháp blog"
-    }
+    },
+    "moreTopics": "khác",
+    "noBlogs": "Không có bài viết nào"
 }

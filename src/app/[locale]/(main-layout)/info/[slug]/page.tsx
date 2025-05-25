@@ -28,6 +28,7 @@ import { FaFacebook } from 'react-icons/fa6'
 import { MdOutlineEdit } from 'react-icons/md'
 import { useAuth } from '@/contexts/auth/AuthContext'
 import { signIn } from '@/contexts/auth/reducers'
+import { useIsMobile } from '@/hooks/useMobile'
 import {
     Card,
     CardContent,
@@ -39,6 +40,7 @@ import {
 import { Clock, Eye, Heart } from 'lucide-react'
 
 export default function Page({ params }: any) {
+    const isMobile = useIsMobile()
     const t = useTranslations('profile')
     const fileInputRef = useRef<HTMLInputElement>(null)
     const { user, dispatch } = useAuth()
@@ -142,17 +144,18 @@ export default function Page({ params }: any) {
                     <Spin size="large" />
                 </div>
             ) : (
-                <div className="px-44">
+                <div className="px-4 sm:px-8 md:px-16 lg:px-32 xl:px-44">
                     <div className="w-full relative">
                         <ImageAntd
                             width="100%"
-                            height={450}
-                            className={`object-cover rounded-xl z-10 ${isUpdateProfilePending ? 'opacity-50' : ''}`}
+                            height={isMobile ? 300 : 400}
+                            className={`object-cover rounded-xl z-10 ${isUpdateProfilePending ? 'opacity-50' : ''} h-[150px] sm:h-[200px] md:h-[250px] lg:h-[300px]`}
                             src={
                                 profileData?.cover ||
                                 '/images/default_cover_photo.jpg'
                             }
                             alt=""
+                            preview={!isMobile}
                         />
                         <div className="flex items-center justify-center absolute z-30 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                             <Spin
@@ -163,7 +166,7 @@ export default function Page({ params }: any) {
                         {user && user.slug === profileData.slug && (
                             <>
                                 <div
-                                    className={`bg-gray-200 flex justify-center items-center shadow-lg rounded-full w-fit p-3 border border-gray-400 hover:opacity-70 absolute top-4 right-10 cursor-pointer z-30 ${
+                                    className={`bg-gray-200 flex justify-center items-center shadow-lg rounded-full w-fit p-2 sm:p-3 border border-gray-400 hover:opacity-70 absolute top-2 right-2 sm:top-4 sm:right-10 cursor-pointer z-30 ${
                                         isUpdateProfilePending
                                             ? 'opacity-50'
                                             : ''
@@ -172,7 +175,10 @@ export default function Page({ params }: any) {
                                         fileInputRef.current?.click()
                                     }
                                 >
-                                    <MdOutlineEdit size={22} />
+                                    <MdOutlineEdit
+                                        size={18}
+                                        className="sm:text-[22px]"
+                                    />
                                 </div>
                                 <input
                                     type="file"
@@ -183,40 +189,43 @@ export default function Page({ params }: any) {
                                 />
                             </>
                         )}
-                        <div className="absolute -bottom-12 left-6 z-20 avatar-user">
+                        <div className="absolute -bottom-8 sm:-bottom-12 md:-bottom-20 left-4 sm:left-6 z-20 avatar-user">
                             <ImageAntd
                                 alt=""
-                                width={200}
-                                height={200}
-                                // size={200}
-                                className="bg-[var(--text-color-brand)] cursor-pointer rounded-full object-cover"
+                                height={isMobile ? 100 : 150}
+                                width={isMobile ? 100 : 150}
+                                className="bg-[var(--text-color-brand)] cursor-pointer rounded-full object-cover w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] md:w-[150px] md:h-[150px]"
                                 src={
                                     profileData?.avatar &&
                                     profileData.avatar !== ''
                                         ? profileData.avatar
                                         : '/images/default_avatar.jpg'
                                 }
+                                preview={!isMobile}
                             ></ImageAntd>
                         </div>
                         {user && user.slug === profileData.slug && (
                             <div
-                                className="bg-gray-200 flex justify-center items-center shadow-lg rounded-full w-fit p-3 border border-gray-400 hover:opacity-70 absolute -bottom-12 right-10 cursor-pointer z-30"
+                                className="bg-gray-200 flex justify-center items-center shadow-lg rounded-full w-fit p-2 sm:p-3 border border-gray-400 hover:opacity-70 absolute -bottom-8 sm:-bottom-10 right-4 sm:right-10 cursor-pointer z-30"
                                 onClick={() => router.push(`/profile`)}
                             >
-                                <MdOutlineEdit size={22} />
+                                <MdOutlineEdit
+                                    size={18}
+                                    className="sm:text-[22px]"
+                                />
                             </div>
                         )}
                     </div>
-                    <div className="bg-white rounded-bl-xl rounded-br-xl relative -top-2 py-20 px-10 flex justify-between items-center">
-                        <div className="flex flex-col gap-2">
-                            <p className="text-3xl font-bold">
+                    <div className="bg-white rounded-bl-xl rounded-br-xl relative -top-2 py-8 sm:py-14 md:py-24 px-4 sm:px-6 md:px-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8 sm:gap-0">
+                        <div className="flex flex-col gap-2 mt-6 sm:mt-0">
+                            <p className="text-xl sm:text-2xl md:text-3xl font-bold">
                                 {profileData.ho} {profileData.ten}
                             </p>
                             <div className="flex items-center gap-2">
-                                <PiBuildingApartmentFill />
+                                <PiBuildingApartmentFill className="shrink-0" />
                                 {profileData.ngheNghiep &&
                                 profileData.congTy ? (
-                                    <p className="text-lg">
+                                    <p className="text-sm sm:text-base md:text-lg">
                                         {profileData.ngheNghiep} {t('at')}{' '}
                                         {profileData.congTy}
                                     </p>
@@ -224,12 +233,12 @@ export default function Page({ params }: any) {
                                     <p>{t('undefined')}</p>
                                 )}
                             </div>
-                            <div className="flex items-center gap-2 text-base pt-1">
-                                <FaLocationDot />
+                            <div className="flex items-center gap-2 text-xs sm:text-sm md:text-base pt-1">
+                                <FaLocationDot className="shrink-0" />
                                 {profileData.diaChi &&
                                 profileData.thanhPho &&
                                 profileData.quocGia ? (
-                                    <p>
+                                    <p className="break-words">
                                         {profileData.diaChi}
                                         {', '}
                                         {
@@ -250,12 +259,12 @@ export default function Page({ params }: any) {
                                 )}
                             </div>
                         </div>
-                        <div className="flex flex-col gap-6 items-center">
-                            <div className="flex gap-6 items-center">
+                        <div className="flex flex-col gap-4 sm:gap-6 items-start sm:items-center">
+                            <div className="flex gap-4 sm:gap-6 items-center">
                                 <FaFacebook
-                                    size={40}
+                                    size={30}
                                     color="#1773EA"
-                                    className="cursor-pointer"
+                                    className="cursor-pointer sm:w-[35px] sm:h-[35px] md:w-[40px] md:h-[40px]"
                                     onClick={() =>
                                         pushToSocialLink(
                                             profileData.mangXaHoi?.facebookLink
@@ -263,8 +272,8 @@ export default function Page({ params }: any) {
                                     }
                                 />
                                 <SiGithub
-                                    size={40}
-                                    className="cursor-pointer"
+                                    size={30}
+                                    className="cursor-pointer sm:w-[35px] sm:h-[35px] md:w-[40px] md:h-[40px]"
                                     onClick={() =>
                                         pushToSocialLink(
                                             profileData.mangXaHoi?.githubLink
@@ -272,9 +281,9 @@ export default function Page({ params }: any) {
                                     }
                                 />
                                 <IoLogoLinkedin
-                                    size={40}
+                                    size={30}
                                     color="#007AB5"
-                                    className="cursor-pointer"
+                                    className="cursor-pointer sm:w-[35px] sm:h-[35px] md:w-[40px] md:h-[40px]"
                                     onClick={() =>
                                         pushToSocialLink(
                                             profileData.mangXaHoi?.linkedinLink
@@ -282,11 +291,10 @@ export default function Page({ params }: any) {
                                     }
                                 />
                             </div>
-                            <div className="flex gap-10 text-base">
+                            <div className="flex gap-6 sm:gap-8 md:gap-10 text-sm md:text-base">
                                 <div className="flex flex-col items-center">
                                     <p>{t('blogs')}</p>
-                                    {/* # FIXME: Replace with actual blogs */}
-                                    <p className="font-bold text-xl">
+                                    <p className="font-bold text-lg sm:text-xl">
                                         {formatNumber(
                                             profileData.soLuongBaiViet
                                         )}
@@ -294,8 +302,7 @@ export default function Page({ params }: any) {
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <p>{t('likes')}</p>
-                                    {/* # FIXME: Replace with actual likes */}
-                                    <p className="font-bold text-xl">
+                                    <p className="font-bold text-lg sm:text-xl">
                                         {formatNumber(
                                             profileData.soLuongThichBaiViet
                                         )}
@@ -304,119 +311,120 @@ export default function Page({ params }: any) {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white mt-8 rounded-xl pt-4 pb-8 px-10">
-                        <h3 className="mt-4 mb-6 font-bold">
+                    <div className="bg-white mt-4 sm:mt-6 md:mt-8 rounded-xl pt-4 pb-8 px-4 sm:px-6 md:px-10">
+                        <h3 className="mt-4 mb-4 sm:mb-6 font-bold">
                             {t('recentBlogs')}
                         </h3>
                         {profileData.baiViets &&
-                            profileData.baiViets.length > 0 && (
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    {profileData.baiViets.map((blog: any) => (
-                                        <Link
-                                            href={`/blog/${blog.slug}`}
-                                            key={blog.id}
-                                        >
-                                            <Card className="bg-white rounded-xl border-gray-200 overflow-hidden hover:border-purple-500/50 transition-all shadow-sm h-full flex flex-col duration-300">
-                                                <div className="relative h-60">
-                                                    <Image
-                                                        src={blog.anhBia}
-                                                        alt={blog.tieuDe}
-                                                        fill
-                                                        className="object-cover"
-                                                    />
-                                                </div>
-                                                <CardHeader className="flex-grow">
-                                                    <div className="flex gap-2">
-                                                        {blog.chuDes &&
-                                                            blog.chuDes
-                                                                .slice(0, 4)
-                                                                .map(
-                                                                    (
-                                                                        chuDe: any
-                                                                    ) => (
-                                                                        <span
-                                                                            key={
-                                                                                chuDe.id
-                                                                            }
-                                                                            className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full"
-                                                                        >
-                                                                            {
-                                                                                chuDe
-                                                                                    .tenChuDe[
-                                                                                    locale
-                                                                                ]
-                                                                            }
-                                                                        </span>
-                                                                    )
+                        profileData.baiViets.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                                {profileData.baiViets.map((blog: any) => (
+                                    <Link
+                                        href={`/blog/${blog.slug}`}
+                                        key={blog.id}
+                                    >
+                                        <Card className="bg-white rounded-xl border-gray-200 overflow-hidden hover:border-purple-500/50 transition-all shadow-sm h-full flex flex-col duration-300">
+                                            <div className="relative h-40 sm:h-40 md:h-48">
+                                                <Image
+                                                    src={blog.anhBia}
+                                                    alt={blog.tieuDe}
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                            </div>
+                                            <CardHeader className="flex-grow py-3 sm:py-4">
+                                                <div className="flex flex-wrap gap-1 sm:gap-2">
+                                                    {blog.chuDes &&
+                                                        blog.chuDes
+                                                            .slice(0, 2)
+                                                            .map(
+                                                                (
+                                                                    chuDe: any
+                                                                ) => (
+                                                                    <span
+                                                                        key={
+                                                                            chuDe.id
+                                                                        }
+                                                                        className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full"
+                                                                    >
+                                                                        {
+                                                                            chuDe
+                                                                                .tenChuDe[
+                                                                                locale
+                                                                            ]
+                                                                        }
+                                                                    </span>
+                                                                )
+                                                            )}
+                                                    {blog.chuDes &&
+                                                        blog.chuDes.length >
+                                                            2 && (
+                                                            <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
+                                                                +
+                                                                {blog.chuDes
+                                                                    .length -
+                                                                    2}{' '}
+                                                                {t(
+                                                                    'moreTopics'
                                                                 )}
-                                                        {blog.chuDes &&
-                                                            blog.chuDes.length >
-                                                                4 && (
-                                                                <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
-                                                                    +
-                                                                    {blog.chuDes
-                                                                        .length -
-                                                                        4}{' '}
-                                                                    {locale ===
-                                                                    'en'
-                                                                        ? 'more'
-                                                                        : 'khác'}
-                                                                </span>
-                                                            )}
-                                                    </div>
-                                                    <CardTitle className="pt-2 text-xl text-gray-900">
-                                                        {blog.tieuDe}
-                                                    </CardTitle>
-                                                </CardHeader>
-                                                <CardContent>
-                                                    <CardDescription className="text-gray-600 line-clamp-3">
-                                                        {blog.noiDungTomTat}
-                                                    </CardDescription>
-                                                </CardContent>
-                                                <CardFooter className="flex justify-between text-sm text-gray-500 border-t border-gray-100 mt-auto pt-4">
-                                                    <div className="flex items-center gap-1">
-                                                        <Clock className="h-4 w-4" />
+                                                            </span>
+                                                        )}
+                                                </div>
+                                                <CardTitle className="pt-2 text-base sm:text-lg md:text-xl text-gray-900 line-clamp-2">
+                                                    {blog.tieuDe}
+                                                </CardTitle>
+                                            </CardHeader>
+                                            <CardContent className="py-0 sm:py-2">
+                                                <CardDescription className="text-gray-600 line-clamp-2 text-xs sm:text-sm md:text-base">
+                                                    {blog.noiDungTomTat}
+                                                </CardDescription>
+                                            </CardContent>
+                                            <CardFooter className="flex flex-wrap sm:flex-row justify-between text-xs sm:text-sm text-gray-500 border-t border-gray-100 mt-auto pt-3 sm:pt-4 gap-2">
+                                                <div className="flex items-center gap-1">
+                                                    <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
+                                                    <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] sm:max-w-none">
+                                                        {new Date(
+                                                            blog.ngayXuatBan
+                                                        ).toLocaleDateString(
+                                                            locale,
+                                                            {
+                                                                year: 'numeric',
+                                                                month: 'short',
+                                                                day: 'numeric',
+                                                            }
+                                                        )}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center gap-3">
+                                                    <div className="flex items-center gap-1 text-gray-500">
+                                                        <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                                                         <span>
-                                                            {new Date(
-                                                                blog.ngayXuatBan
-                                                            ).toLocaleDateString(
-                                                                locale,
-                                                                {
-                                                                    year: 'numeric',
-                                                                    month: 'long',
-                                                                    day: 'numeric',
-                                                                }
-                                                            )}
+                                                            {blog.luotXem}
                                                         </span>
                                                     </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="flex items-center gap-1 text-gray-500">
-                                                            <Eye className="h-4 w-4" />
-                                                            <span>
-                                                                {blog.luotXem}
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex items-center gap-1 text-gray-500">
-                                                            <Heart className="h-4 w-4 " />
-                                                            <span>
-                                                                {
-                                                                    blog.luotYeuThich
-                                                                }
-                                                            </span>
-                                                        </div>
+                                                    <div className="flex items-center gap-1 text-gray-500">
+                                                        <Heart className="h-3 w-3 sm:h-4 sm:w-4" />
+                                                        <span>
+                                                            {blog.luotYeuThich}
+                                                        </span>
                                                     </div>
-                                                    <Link
-                                                        href={`/blog/${blog.slug}`}
-                                                        className="text-purple-500 hover:text-purple-700"
-                                                    >
-                                                        {t('readMore')} →
-                                                    </Link>
-                                                </CardFooter>
-                                            </Card>
-                                        </Link>
-                                    ))}
-                                </div>
-                            )}
+                                                </div>
+                                                <Link
+                                                    href={`/blog/${blog.slug}`}
+                                                    className="text-purple-500 hover:text-purple-700 ml-auto"
+                                                >
+                                                    {t('readMore')} →
+                                                </Link>
+                                            </CardFooter>
+                                        </Card>
+                                    </Link>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-8 text-gray-500">
+                                {t('noBlogs')}
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

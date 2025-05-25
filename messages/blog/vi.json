@@ -115,5 +115,60 @@
         "show": "Hiển thị",
         "more": "thêm",
         "addYourThoughts": "Thêm suy nghĩ của bạn..."
+    },
+    "ChatAssistant": {
+        "chatTitle": "Trợ lý AI",
+        "chatMinimizedTitle": "Trợ lý AI",
+        "askPlaceholder": "Hỏi về bài viết này...",
+        "disclaimer": "Trợ lý AI này cung cấp thông tin dựa trên bài viết này.",
+        "startPrompt": "Tôi có thể giúp gì cho bạn về bài viết này?",
+        "askAboutArticle": "Hỏi AI về bài viết này",
+        "balance": "Số dư",
+        "costPerQuestion": "5 xu mỗi câu hỏi",
+        "coinExplanation": "Mỗi câu hỏi tiêu tốn 5 xu. Lịch sử trò chuyện sẽ được lưu vào tài khoản của bạn để tham khảo sau.",
+        "insufficientCoins": "Không đủ xu",
+        "needMoreCoins": "Bạn cần thêm xu để đặt câu hỏi. Kiếm xu bằng cách tương tác với nền tảng.",
+        "questionsAsked": "Câu hỏi",
+        "historySaved": "Đã lưu lịch sử",
+        "loginToSave": "Đăng nhập để lưu lịch sử",
+        "assistantName": "Trợ lý Bài viết",
+        "thinking": "Đang suy nghĩ...",
+        "perQuestion": "mỗi câu hỏi",
+        "coinWarning": "Mỗi câu hỏi tiêu tốn 5 xu. Lịch sử trò chuyện sẽ được lưu vào tài khoản của bạn.",
+        "coin": "xu",
+        "coins": "xu",
+        "loadingHistory": "Đang tải lịch sử trò chuyện...",
+        "errorLoadingHistory": "Lỗi khi tải lịch sử",
+        "tryAgainLater": "Vui lòng thử lại sau",
+        "saved": "Đã lưu",
+        "errorResponse": "Xin lỗi, tôi không thể tạo câu trả lời. Vui lòng thử lại.",
+        "apiErrorMessage": "Tôi gặp sự cố khi xử lý câu hỏi của bạn. Vui lòng thử lại sau.",
+        "apiErrorDescription": "Không thể nhận phản hồi từ trợ lý AI",
+        "errorTitle": "Lỗi"
+    },
+    "AIEra": {
+        "title": "Nâng Cao Bản Thân Trong Kỷ Nguyên AI",
+        "introduction": "Trong kỷ nguyên AI, việc liên tục cải thiện bản thân để thích ứng với sự thay đổi của môi trường làm việc là điều cần thiết. Dưới đây là một số cách để nâng cao bản thân trong kỷ nguyên AI:",
+        "point1": {
+            "title": "Học Tập Liên Tục",
+            "description": "Cập nhật với những xu hướng và tiến bộ mới nhất trong lĩnh vực AI. Tham gia các khóa học trực tuyến, hội thảo và sự kiện liên quan đến AI để mở rộng kiến thức của bạn."
+        },
+        "point2": {
+            "title": "Phát Triển Kỹ Năng Mới",
+            "description": "Xác định các kỹ năng đang được yêu cầu trong ngành công nghiệp AI, như phân tích dữ liệu, học máy và lập trình. Tập trung phát triển những kỹ năng này để duy trì sự liên quan."
+        },
+        "point3": {
+            "title": "Sáng Tạo và Đổi Mới",
+            "description": "AI có thể tự động hóa các công việc lặp đi lặp lại, cho phép con người tập trung vào công việc sáng tạo và chiến lược. Hãy trau dồi kỹ năng sáng tạo và đổi mới để mang lại giá trị độc đáo cho công việc của bạn."
+        },
+        "point4": {
+            "title": "Khả Năng Thích Nghi",
+            "description": "Hãy sẵn sàng học hỏi công nghệ và phương pháp mới. Đón nhận sự thay đổi và sẵn sàng thích nghi với cách thức làm việc mới trong kỷ nguyên AI."
+        },
+        "point5": {
+            "title": "Xây Dựng Mạng Lưới",
+            "description": "Xây dựng mạng lưới chuyên nghiệp mạnh mẽ trong cộng đồng AI. Kết nối với các chuyên gia, tham dự hội nghị và tham gia vào các cuộc thảo luận để luôn cập nhật thông tin và hợp tác với những người có cùng chí hướng."
+        },
+        "conclusion": "Bằng cách tuân theo những lời khuyên này, bạn có thể định vị bản thân để thành công trong kỷ nguyên AI và phát triển mạnh mẽ trong một môi trường làm việc đang phát triển nhanh chóng."
     }
 }

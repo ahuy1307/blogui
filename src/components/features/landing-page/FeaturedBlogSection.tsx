@@ -41,10 +41,10 @@ export function FeaturedBlogSection() {
     }, [refetch])
 
     return (
-        <section className="py-20 bg-white">
+        <section className="py-10 bg-white">
             <div className="container mx-auto px-4">
                 <Tabs defaultValue="most_viewed" onValueChange={setActiveTab}>
-                    <div className="flex items-center justify-between mb-8">
+                    <div className="flex flex-col sm:flex-row gap-4 items-center justify-between mb-8">
                         <h2 className="text-3xl font-bold text-gray-900">
                             {t('title')}
                         </h2>
@@ -78,7 +78,7 @@ export function FeaturedBlogSection() {
                         </div>
                     ) : (
                         <TabsContent value={activeTab} className="mt-0">
-                            <div className="grid md:grid-cols-3 gap-6">
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {Array.isArray(blogPosts) &&
                                     blogPosts.length > 0 &&
                                     blogPosts.map((blog, index) => (

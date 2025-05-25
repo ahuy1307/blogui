@@ -17,6 +17,8 @@
     "dontHaveAccount": "Chưa có tài khoản?",
     "loginWithGoogle": "Google",
     "loginWithFacebook": "Facebook",
+    "notifications": "Thông báo",
+    "missions": "Nhiệm vụ",
     "locales": {
         "vi": "Tiếng Việt",
         "en": "Tiếng Anh"
@@ -51,10 +53,30 @@
         "claimRewardError": "Nhận thưởng thất bại!",
         "claimRewardErrorDescription": "Bạn đã nhận thưởng cho nhiệm vụ này rồi.",
         "missions": "Nhiệm vụ",
+        "missionsDescription": "Hoàn thành nhiệm vụ hàng ngày để nhận coins và mở khóa tính năng độc quyền",
         "missionsDaily": "Nhiệm vụ hàng ngày",
+        "dailyMissionsDescription": "Nhiệm vụ mới có sẵn mỗi 24 giờ. Hoàn thành tất cả để tối đa hóa thu nhập của bạn!",
         "completed": "đã hoàn thành",
         "claimReward": "Nhận thưởng",
-        "claimed": "Đã nhận thưởng"
+        "claimed": "Đã nhận thưởng",
+        "youHave": "Bạn có",
+        "unclaimedReward": "phần thưởng chưa nhận",
+        "unclaimedRewards": "phần thưởng chưa nhận",
+        "coinsReward": "coins thưởng",
+        "howItWorks": "Cách thức hoạt động",
+        "dailyTasksTitle": "Hoàn thành nhiệm vụ hàng ngày",
+        "dailyTasksDescription": "Nhiệm vụ mới có sẵn mỗi ngày. Hoàn thành chúng bằng cách hoạt động tích cực trên nền tảng.",
+        "earnCoinsTitle": "Kiếm Coins",
+        "earnCoinsDescription": "Mỗi nhiệm vụ hoàn thành sẽ thưởng cho bạn coins được thêm vào số dư của bạn.",
+        "useCoinsTitle": "Sử dụng Coins của bạn",
+        "useCoinsDescription": "Chi tiêu coins cho các tính năng cao cấp, tăng cường nội dung hoặc truy cập công cụ độc quyền.",
+        "missionDescription": {
+            "like": "Thể hiện sự đánh giá cao đối với nội dung bằng cách thích bài viết",
+            "post": "Chia sẻ kiến thức của bạn bằng cách tạo bài đăng mới",
+            "comment": "Tương tác với cộng đồng bằng cách thêm bình luận",
+            "share": "Giúp chia sẻ nội dung có giá trị cho người khác",
+            "login": "Đăng nhập để giữ tài khoản của bạn hoạt động"
+        }
     },
     "CoinHistoryPage": {
         "backToHome": "Trở về trang chủ",

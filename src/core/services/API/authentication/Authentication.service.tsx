@@ -616,6 +616,34 @@ class AuthenticationService implements IAuthentication {
         const res = await httpService.put(`/vnpay/${order_id}/cancel-payment`)
         return res
     }
+    async getAllChatAssistants({
+        page,
+        limit,
+        blog_id,
+    }: {
+        page?: number
+        limit?: number
+        blog_id: string
+    }): Promise<any> {
+        const res = await httpService.get(`/blogs/${blog_id}/assistants`, {
+            params: {
+                page,
+                limit,
+            },
+        })
+        return res
+    }
+    async askChatAssistant({
+        blog_id,
+        question,
+    }: {
+        blog_id: string
+        question: string
+    }): Promise<any> {
+        const data: { question: string } = { question }
+        const res = await httpService.post(`/blogs/${blog_id}/assistants`, data)
+        return res
+    }
 }
 
 export const authenticationService = new AuthenticationService()

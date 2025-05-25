@@ -67,7 +67,7 @@ const PersonalInfomation = () => {
     }
 
     return (
-        <div className="border border-[var(--border-color-default)] rounded-lg px-4 pt-4">
+        <div className="border border-[var(--border-color-default)] rounded-lg px-3 lg:px-4 pt-4">
             <Form
                 form={form}
                 onFinish={onFinish}
@@ -87,8 +87,8 @@ const PersonalInfomation = () => {
                 }}
             >
                 <Form.Item>
-                    <div className="flex gap-4 mb-1">
-                        <div className="w-[25%]">
+                    <div className="flex flex-col md:flex-row gap-4 mb-1">
+                        <div className="w-full md:w-[25%]">
                             <span className="font-bold text-base pb-2 block">
                                 {t('ho')}
                                 <span className="ml-1 text-red-500">*</span>
@@ -100,7 +100,7 @@ const PersonalInfomation = () => {
                                 style={{ fontSize: '16px', height: '44px' }}
                             />
                         </div>
-                        <div className="w-[25%]">
+                        <div className="w-full md:w-[25%]">
                             <span className="font-bold text-base pb-2 block">
                                 {t('ten')}
                                 <span className="ml-1 text-red-500">*</span>
@@ -112,7 +112,7 @@ const PersonalInfomation = () => {
                                 style={{ fontSize: '16px', height: '44px' }}
                             />
                         </div>
-                        <div className="w-[50%]">
+                        <div className="w-full md:w-[50%]">
                             <p className="flex items-center font-bold text-base pb-2">
                                 Email{''}
                                 <span className="text-red-500 ml-1">*:</span>
@@ -125,8 +125,8 @@ const PersonalInfomation = () => {
                             />
                         </div>
                     </div>
-                    <div className="flex justify-between gap-6">
-                        <div className="w-[50%]">
+                    <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-6">
+                        <div className="w-full md:w-[50%]">
                             <span className="font-bold text-base pb-1 block">
                                 {t('role')}
                             </span>
@@ -138,7 +138,7 @@ const PersonalInfomation = () => {
                                 value={user?.ngheNghiep}
                             />
                         </div>
-                        <div className="w-[50%]">
+                        <div className="w-full md:w-[50%]">
                             <span className="font-bold text-base pb-1 block">
                                 {t('company')}
                             </span>
@@ -151,8 +151,8 @@ const PersonalInfomation = () => {
                             />
                         </div>
                     </div>
-                    <div className="flex items-start gap-6 mb-1">
-                        <div className="w-[25%]">
+                    <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6 mb-1">
+                        <div className="w-full md:w-[25%]">
                             <p className="font-bold text-base pb-2">
                                 {t('gioiTinh')}
                             </p>
@@ -189,7 +189,7 @@ const PersonalInfomation = () => {
                                 />
                             </Form.Item>
                         </div>
-                        <div className="w-[25%]">
+                        <div className="w-full md:w-[25%]">
                             <p className="font-bold text-base pb-2">
                                 {t('ngaySinh')}
                             </p>
@@ -206,7 +206,7 @@ const PersonalInfomation = () => {
                                 />
                             </Form.Item>
                         </div>
-                        <div className="w-[50%]">
+                        <div className="w-full md:w-[50%]">
                             <p className="font-bold text-base pb-2">
                                 {t('soDienThoai')}
                             </p>
