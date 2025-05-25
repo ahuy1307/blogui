@@ -27,8 +27,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/other-ui/DropdownMenu'
-import { useMissionStore } from '@/store/mission-store'
-import { useNotificationStore } from '@/store/notification-store'
 import { Badge } from '@/components/other-ui/Badge'
 import Header from '@/components/features/home/Header'
 import { PreviewSection } from '@/components/editor/PreviewSection'
@@ -66,6 +64,7 @@ import {
 import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import ScrollToTop from '../home/ScrollToTop'
 import { useMissions } from '@/hooks/useMissions'
+import { ChatAssistant } from './ChatAssistant'
 // Helper function to convert API component to SectionType
 const convertToSectionType = (component: any): SectionType | null => {
     const { loaiThanhPhan, noiDung, dinhDang, hang, cot, id } = component
@@ -645,6 +644,13 @@ export function BlogDetail({
                 <Header />
                 <Toaster />
                 <ScrollToTop />
+                {/* Move ChatAssistant here to ensure it's correctly positioned */}
+                {blogDetail && user && (
+                    <ChatAssistant
+                        blogTitle={blogDetail.tieuDe}
+                        blogId={blogDetail.id}
+                    />
+                )}
                 <div className="container mx-auto px-4 py-12 mt-[90px] flex flex-col lg:flex-row gap-6 justify-center">
                     <main className="w-full lg:w-3/4 max-w-4xl">
                         <div className="mx-auto">
@@ -1087,7 +1093,7 @@ export function BlogDetail({
                     {convertedSections.some(
                         (section) => section.type === 'heading'
                     ) && (
-                        <aside className="hidden lg:block w-full lg:w-1/4 max-w-xs">
+                        <aside className="hidden lg:block w-full lg:w-2/4 max-w-xs">
                             <div
                                 className={`fixed top-[100px] max-h-[calc(100vh-120px)] transition-opacity duration-300 ${showTableOfContents ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
                             >

@@ -17,7 +17,7 @@ const ManageDevices = ({ currentDevice, otherDevices, refetch }: any) => {
     const [isLogoutDevices, setIsLogoutDevices] = useState(false)
 
     return (
-        <div>
+        <div className="px-2 md:px-0">
             <p className="py-2 font-bold text-lg">{t('currentDevice')}</p>
             <DeviceDetail device={currentDevice} isActive />
             {isLogoutDevices && (
@@ -25,18 +25,18 @@ const ManageDevices = ({ currentDevice, otherDevices, refetch }: any) => {
                     className="inline-flex items-center gap-2 pt-6 cursor-pointer hover:text-[var(--text-color-hyperlink)]"
                     onClick={() => setIsLogoutDevices(false)}
                 >
-                    <IoReturnUpBack size={26} />
-                    <span className="text-base">{t('back')}</span>
+                    <IoReturnUpBack size={22} className="md:size-[26px]" />
+                    <span className="text-sm md:text-base">{t('back')}</span>
                 </div>
             )}
             {!isLogoutDevices ? (
                 <>
-                    <div className="pt-6 pb-4 flex justify-between text-lg items-center">
+                    <div className="pt-6 pb-4 flex flex-col sm:flex-row justify-between text-base md:text-lg items-start sm:items-center">
                         <p className="font-bold">{t('otherDevices')}</p>
                         {otherDevices.length > 0 && (
                             <p
                                 onClick={() => setIsLogoutDevices(true)}
-                                className="text-red-500 font-bold cursor-pointer text-base"
+                                className="text-red-500 font-bold cursor-pointer text-sm md:text-base mt-2 sm:mt-0"
                             >
                                 {t('selectDevicesLogout')}
                             </p>

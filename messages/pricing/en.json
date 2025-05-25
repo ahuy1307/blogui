@@ -81,7 +81,9 @@
     "transactionNo": "Transaction No:",
     "description": "Description:",
     "received": "received",
-    "transactionDetails": "Transaction Details"
+    "transactionDetails": "Transaction Details",
+    "paymentCancelled": "You have cancelled your payment",
+    "paymentCancelMessage": "You can return to the pricing page to purchase coins again when you're ready"
   },
   
   "TransactionHistory": {

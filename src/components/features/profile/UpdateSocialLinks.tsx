@@ -67,7 +67,7 @@ const UpdateSocialLinks = () => {
     }
 
     return (
-        <div className="pt-4">
+        <div className="pt-4 px-2 md:px-0">
             <Form
                 onFinish={handleFinish}
                 initialValues={{
@@ -78,9 +78,10 @@ const UpdateSocialLinks = () => {
                     [nameLink.linkedIn]:
                         user?.mangXaHoi?.[nameLink.linkedIn] || undefined,
                 }}
+                layout="vertical"
             >
                 {formItems.map((item, index) => (
-                    <div key={index}>
+                    <div key={index} className="mb-4">
                         <p className="font-bold pb-2 text-base">{item.title}</p>
                         <Form.Item
                             name={[item.name]}

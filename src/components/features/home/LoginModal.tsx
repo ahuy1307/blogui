@@ -202,9 +202,11 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
                 </p>
             </div>
             <div className="flex justify-center gap-4 mt-6">
-                <GoogleOAuthProvider clientId={clientId}>
-                    <GoogleLoginButton callback={handleGoogleLogin} />
-                </GoogleOAuthProvider>
+                <div>
+                    <GoogleOAuthProvider clientId={clientId}>
+                        <GoogleLoginButton callback={handleGoogleLogin} />
+                    </GoogleOAuthProvider>
+                </div>
                 <Button
                     onClick={handleFacebookLogin}
                     size="very_large"

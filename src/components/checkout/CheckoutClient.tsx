@@ -59,8 +59,6 @@ export function CheckoutClient() {
             if (savedCart) {
                 const parsedCart = JSON.parse(savedCart)
                 // Reconstruct the cart with the full package objects
-                console.log('Parsed Cart:', parsedCart)
-
                 setCart(parsedCart)
             } else {
                 // Initialize with sample items if cart is empty

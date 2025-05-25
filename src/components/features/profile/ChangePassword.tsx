@@ -75,9 +75,9 @@ export const ChangePassword = () => {
     }
 
     return (
-        <div className="mt-6">
+        <div className="mt-4 md:mt-6 px-2 md:px-0">
             <Form onFinish={handleSubmit} layout="vertical">
-                <div>
+                <div className="space-y-4">
                     {user?.daDatMatKhau && (
                         <div>
                             <label className="font-bold text-base">
@@ -123,58 +123,63 @@ export const ChangePassword = () => {
                             requiredMessage={t('pleaseEnterPassword')}
                         />
                     </div>
-                    <label className="font-bold text-base">
-                        {t('confirmNewPassword')}
-                        <span className="text-red-500 ml-1">*</span>
-                    </label>
-                    <InputFormItem
-                        name="renewpassword"
-                        placeholder={t('confirmPassword')}
-                        type="password"
-                        size="large"
-                        required
-                        classNameFormItem={'mt-2'}
-                        style={{ height: '44px', fontSize: '16px' }}
-                        requiredMessage={t('reenterNewPassword')}
-                        disabledOldRule={true}
-                        data-testid="change-password-renew-password-input"
-                        newRules={[
-                            ({ getFieldValue }: any) => ({
-                                validator(_: any, value: any) {
-                                    if (!value) {
-                                        return Promise.resolve()
-                                    }
-                                    if (
-                                        !ValidateService.validateMaxLength(
-                                            value,
-                                            128
+                    <div>
+                        <label className="font-bold text-base">
+                            {t('confirmNewPassword')}
+                            <span className="text-red-500 ml-1">*</span>
+                        </label>
+                        <InputFormItem
+                            name="renewpassword"
+                            placeholder={t('confirmPassword')}
+                            type="password"
+                            size="large"
+                            required
+                            classNameFormItem={'mt-2'}
+                            style={{ height: '44px', fontSize: '16px' }}
+                            requiredMessage={t('reenterNewPassword')}
+                            disabledOldRule={true}
+                            data-testid="change-password-renew-password-input"
+                            newRules={[
+                                ({ getFieldValue }: any) => ({
+                                    validator(_: any, value: any) {
+                                        if (!value) {
+                                            return Promise.resolve()
+                                        }
+                                        if (
+                                            !ValidateService.validateMaxLength(
+                                                value,
+                                                128
+                                            )
                                         )
-                                    )
+                                            return Promise.reject(
+                                                <HintText
+                                                    type="error"
+                                                    text={t(
+                                                        'passwordExceedsLimit'
+                                                    )}
+                                                />
+                                            )
+                                        if (
+                                            !value ||
+                                            getFieldValue('newpassword') ===
+                                                value
+                                        ) {
+                                            return Promise.resolve()
+                                        }
                                         return Promise.reject(
                                             <HintText
+                                                size="small"
                                                 type="error"
-                                                text={t('passwordExceedsLimit')}
+                                                text={t('passwordMismatch')}
                                             />
                                         )
-                                    if (
-                                        !value ||
-                                        getFieldValue('newpassword') === value
-                                    ) {
-                                        return Promise.resolve()
-                                    }
-                                    return Promise.reject(
-                                        <HintText
-                                            size="small"
-                                            type="error"
-                                            text={t('passwordMismatch')}
-                                        />
-                                    )
-                                },
-                            }),
-                        ]}
-                    />
+                                    },
+                                }),
+                            ]}
+                        />
+                    </div>
                 </div>
-                <div className="flex flex-col justify-self-end gap-4">
+                <div className="flex justify-center md:justify-end mt-6">
                     <Spin size="large" spinning={isPendingChangePassword} />
                     <Button
                         htmlType="submit"

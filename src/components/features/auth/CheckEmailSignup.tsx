@@ -49,76 +49,85 @@ const CheckEmailSignup = () => {
     }
 
     return (
-        <div className="flex justify-between items-center relative">
+        <div className="flex flex-col md:flex-row justify-between items-center relative min-h-screen">
             <div
-                className="absolute top-0 left-0 p-10"
+                className="absolute top-0 left-0 p-4 sm:p-6 md:p-10 z-10"
                 onClick={() => router.push('/')}
             >
                 <Logo />
             </div>
-            <div className="flex-1">
-                {isPending ? (
-                    <div className="w-[600px] mx-auto flex flex-col gap-6 bg-gray-100 p-4 rounded-2xl">
-                        <Spin size="large" />
-                    </div>
-                ) : (
-                    <div className="w-[600px] mx-auto flex flex-col gap-6 bg-gray-100 p-4 rounded-2xl">
-                        <span className="font-bold text-2xl">
-                            {t('checkYourEmail')}
-                        </span>
-                        <p>
-                            {t('weSentEmail')}{' '}
-                            <span className="font-bold">{email}</span>
-                            {'.'}
-                        </p>
-                        <p>
-                            {type === 'signup'
-                                ? t('pleaseCheckVerifyEmail')
-                                : t('pleaseCheckForgotPassword')}
-                        </p>
-                        <p>{t('checkSpamFolder')}</p>
-                        <div className="flex gap-2">
-                            <p
-                                className="font-bold text-[var(--text-color-hyperlink-auth)] cursor-pointer"
-                                onClick={resendEmailHandler}
-                            >
-                                {type === 'signup'
-                                    ? t('resendVerifyEmail')
-                                    : t('resendForgotPasswordEmail')}
-                            </p>
-                            <p>{t('or')}</p>
-                            <Link
-                                href={
-                                    type === 'signup'
-                                        ? '/auth/register'
-                                        : '/auth/forgot-password'
-                                }
-                                className="font-bold text-[var(--text-color-hyperlink-auth)]"
-                            >
-                                {t('enterDifferentEmail')}
-                            </Link>
+            <div className="flex items-center h-screen">
+                <div className="flex-1 w-full px-4 py-16 md:py-0 md:px-0 z-0">
+                    {isPending ? (
+                        <div className="w-full max-w-[600px] mx-auto flex flex-col gap-6 bg-gray-100 p-4 rounded-2xl">
+                            <Spin size="large" />
                         </div>
-                        {error != '' && (
-                            <HintText size="large" type="error" text={error} />
-                        )}
-                        {success != '' && (
-                            <HintText
-                                size="large"
-                                type="success"
-                                text={success}
-                            />
-                        )}
-                    </div>
-                )}
-            </div>
-            <div className="flex-1">
-                <Image
-                    src="/images/register_slide.webp"
-                    alt=""
-                    width={500}
-                    height={100}
-                    className="w-full h-screen object-cover scale-90 rounded-2xl"
-                />
+                    ) : (
+                        <div className="w-full max-w-[600px] mx-auto flex flex-col gap-4 sm:gap-6 bg-gray-100 p-4 sm:p-6 rounded-2xl">
+                            <span className="font-bold text-xl sm:text-2xl">
+                                {t('checkYourEmail')}
+                            </span>
+                            <p className="text-sm sm:text-base">
+                                {t('weSentEmail')}{' '}
+                                <span className="font-bold">{email}</span>
+                                {'.'}
+                            </p>
+                            <p className="text-sm sm:text-base">
+                                {type === 'signup'
+                                    ? t('pleaseCheckVerifyEmail')
+                                    : t('pleaseCheckForgotPassword')}
+                            </p>
+                            <p className="text-sm sm:text-base">
+                                {t('checkSpamFolder')}
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-2 text-sm sm:text-base">
+                                <p
+                                    className="font-bold text-[var(--text-color-hyperlink-auth)] cursor-pointer"
+                                    onClick={resendEmailHandler}
+                                >
+                                    {type === 'signup'
+                                        ? t('resendVerifyEmail')
+                                        : t('resendForgotPasswordEmail')}
+                                </p>
+                                <p className="hidden sm:block">{t('or')}</p>
+                                <Link
+                                    href={
+                                        type === 'signup'
+                                            ? '/auth/register'
+                                            : '/auth/forgot-password'
+                                    }
+                                    className="font-bold text-[var(--text-color-hyperlink-auth)]"
+                                >
+                                    {t('enterDifferentEmail')}
+                                </Link>
+                            </div>
+                            {error != '' && (
+                                <HintText
+                                    size="large"
+                                    type="error"
+                                    text={error}
+                                />
+                            )}
+                            {success != '' && (
+                                <HintText
+                                    size="large"
+                                    type="success"
+                                    text={success}
+                                />
+                            )}
+                        </div>
+                    )}
+                </div>
+                <div className="hidden md:block flex-1">
+                    <Image
+                        src="/images/register_slide.webp"
+                        alt=""
+                        width={500}
+                        height={100}
+                        className="w-full h-screen object-cover scale-90 rounded-2xl"
+                        priority
+                    />
+                </div>
             </div>
         </div>
     )

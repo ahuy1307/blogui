@@ -52,6 +52,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
             onClick={() => login()}
             style={{
                 border: '1px solid var(--text-color-hyperlink-auth)',
+                width: '100%',
             }}
         >
             {text || t('loginWithGoogle')}

@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/auth/AuthContext'
 import { NAVIGATION_PATHS } from '@/constants/constants'
 import { useRouter } from '@/navigation'
 import { FC, PropsWithChildren, useEffect } from 'react'
+import { Spin } from 'antd'
 
 const GuestGuard: FC<PropsWithChildren> = ({ children }) => {
     const { isInitialized, isAuthenticated } = useAuth()
@@ -18,7 +19,7 @@ const GuestGuard: FC<PropsWithChildren> = ({ children }) => {
     }, [isInitialized, isAuthenticated, router])
 
     if (!isInitialized) {
-        return <div>Loading...</div>
+        return <Spin fullscreen />
     }
 
     return <>{children}</>

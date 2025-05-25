@@ -670,6 +670,7 @@ function SearchContent() {
                                         format="DD/MM/YYYY"
                                         disabled={isActiveSearch}
                                         allowClear
+                                        placement="bottomRight"
                                     />
                                 </div>
 

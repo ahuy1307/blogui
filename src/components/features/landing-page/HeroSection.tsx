@@ -24,25 +24,25 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
     const [isHovered, setIsHovered] = useState(false)
 
     return (
-        <section className="relative overflow-hidden py-28 bg-gradient-to-b from-purple-50 to-white">
+        <section className="relative overflow-hidden py-12 md:py-20 lg:py-28 bg-gradient-to-b from-purple-50 to-white">
             {/* Decorative elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-20 left-10 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-                <div className="absolute top-40 right-10 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-                <div className="absolute bottom-20 left-1/3 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+                <div className="absolute top-20 left-10 w-32 md:w-64 h-32 md:h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+                <div className="absolute top-40 right-10 w-32 md:w-64 h-32 md:h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+                <div className="absolute bottom-20 left-1/3 w-32 md:w-64 h-32 md:h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
             </div>
-            <div className="container mx-auto px-4 relative z-10">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="container mx-auto px-4 sm:px-6 relative z-10">
+                <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                     <motion.div
-                        className="space-y-6"
+                        className="space-y-4 md:space-y-6 text-center lg:text-left"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <div className="inline-block px-3 py-1 text-base bg-purple-100 text-purple-800 rounded-full font-medium mb-2">
+                        <div className="inline-block px-3 py-1 text-sm md:text-base bg-purple-100 text-purple-800 rounded-full font-medium mb-2">
                             {t('tagline')}
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-bold leading-tight text-gray-900">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
                             {t('title')}{' '}
                             <span className="text-purple-600 relative">
                                 <span className="relative z-10">
@@ -60,16 +60,16 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                                 </svg>
                             </span>
                         </h1>
-                        <p className="text-gray-600 text-lg md:text-xl">
+                        <p className="text-gray-600 text-base sm:text-lg md:text-xl max-w-xl mx-auto lg:mx-0">
                             {t('description')}
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                             <Link
                                 href="/articles"
                                 className="flex items-center gap-2"
                             >
                                 <Button
-                                    className="bg-purple-600 hover:bg-purple-700 text-white group relative overflow-hidden"
+                                    className="bg-purple-600 hover:bg-purple-700 text-white group relative overflow-hidden w-full sm:w-auto"
                                     size="lg"
                                     onMouseEnter={() => setIsHovered(true)}
                                     onMouseLeave={() => setIsHovered(false)}
@@ -82,7 +82,7 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                             </Link>
                             <Button
                                 variant="outline"
-                                className="border-gray-300 hover:bg-gray-50"
+                                className="border-gray-300 hover:bg-gray-50 w-full sm:w-auto"
                                 size="lg"
                                 onClick={onSubscribeClick}
                             >
@@ -90,12 +90,12 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                             </Button>
                             <Button
                                 variant="outline"
-                                className="border-purple-500 text-purple-500 hover:bg-purple-50"
+                                className="border-purple-500 text-purple-500 hover:bg-purple-50 w-full sm:w-auto"
                                 size="lg"
                             >
                                 <Link
                                     href="/write"
-                                    className="flex items-center gap-2"
+                                    className="flex items-center gap-2 justify-center w-full"
                                 >
                                     <Pencil className="h-4 w-4" />
                                     {t('writeBlog')}
@@ -105,12 +105,12 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                     </motion.div>
 
                     <motion.div
-                        className="relative"
+                        className="relative mt-8 lg:mt-0"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        <div className="relative h-[400px] rounded-xl overflow-hidden border border-gray-200 shadow-lg">
+                        <div className="relative h-[350px] sm:h-[350px] md:h-[350px] lg:h-[400px] rounded-xl overflow-hidden border border-gray-200 shadow-lg">
                             <Image
                                 src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1200&h=800&auto=format&fit=crop"
                                 alt="Visualization of knowledge and insights"
@@ -121,55 +121,55 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
 
                             {/* Floating badges */}
-                            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md flex items-center gap-2">
-                                <Brain className="h-5 w-5 text-purple-600" />
-                                <span className="font-medium text-sm">
+                            <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1 md:px-3 md:py-2 shadow-md flex items-center gap-1 md:gap-2">
+                                <Brain className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
+                                <span className="font-medium text-xs md:text-sm">
                                     {t('technology')}
                                 </span>
                             </div>
-                            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md flex items-center gap-2">
-                                <FerrisWheel className="h-5 w-5 text-green-600" />
-                                <span className="font-medium text-sm">
+                            <div className="absolute top-2 md:top-4 right-2 md:right-4 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1 md:px-3 md:py-2 shadow-md flex items-center gap-1 md:gap-2">
+                                <FerrisWheel className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
+                                <span className="font-medium text-xs md:text-sm">
                                     {t('entertainment')}
                                 </span>
                             </div>
-                            <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md flex items-center gap-2">
-                                <Zap className="h-5 w-5 text-yellow-600" />
-                                <span className="font-medium text-sm">
+                            <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1 md:px-3 md:py-2 shadow-md flex items-center gap-1 md:gap-2">
+                                <Zap className="h-4 w-4 md:h-5 md:w-5 text-yellow-600" />
+                                <span className="font-medium text-xs md:text-sm">
                                     {t('finance')}
                                 </span>
                             </div>
-                            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md flex items-center gap-2">
-                                <Sparkles className="h-5 w-5 text-blue-600" />
-                                <span className="font-medium text-sm">
+                            <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1 md:px-3 md:py-2 shadow-md flex items-center gap-1 md:gap-2">
+                                <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
+                                <span className="font-medium text-xs md:text-sm">
                                     {t('health')}
                                 </span>
                             </div>
                         </div>
 
                         {/* Stats overlay */}
-                        <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-4 flex justify-center gap-8 w-3/5">
+                        <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-2 md:p-4 flex justify-center gap-3 md:gap-8 w-10/12 sm:w-4/5 md:w-3/4 lg:w-3/5">
                             <div className="text-center">
-                                <p className="text-2xl font-bold text-purple-600">
+                                <p className="text-lg md:text-2xl font-bold text-purple-600">
                                     500+
                                 </p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-xs md:text-sm text-gray-600">
                                     {t('blog')}
                                 </p>
                             </div>
                             <div className="text-center">
-                                <p className="text-2xl font-bold text-purple-600">
+                                <p className="text-lg md:text-2xl font-bold text-purple-600">
                                     10k+
                                 </p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-xs md:text-sm text-gray-600">
                                     {t('readers')}
                                 </p>
                             </div>
                             <div className="text-center">
-                                <p className="text-2xl font-bold text-purple-600">
+                                <p className="text-lg md:text-2xl font-bold text-purple-600">
                                     50+
                                 </p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-xs md:text-sm text-gray-600">
                                     {t('contributors')}
                                 </p>
                             </div>

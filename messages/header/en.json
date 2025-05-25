@@ -16,6 +16,8 @@
     "dontHaveAccount": "Don't have an account?",
     "loginWithGoogle": "Google",
     "loginWithFacebook": "Facebook",
+    "notifications": "Notifications",
+    "missions": "Missions",
     "myBlogs": "My Blogs",
     "locales": {
         "vi": "Vietnamese",
@@ -51,10 +53,30 @@
         "claimRewardError": "Claim reward failed!",
         "claimRewardErrorDescription": "You have already claimed the reward for this mission.",
         "missions": "Missions",
+        "missionsDescription": "Complete daily missions to earn coins and unlock exclusive features",
         "missionsDaily": "Daily Missions",
+        "dailyMissionsDescription": "New missions are available every 24 hours. Complete them all to maximize your earnings!",
         "completed": "completed",
         "claimReward": "Claim Reward",
-        "claimed": "Claimed"
+        "claimed": "Claimed",
+        "youHave": "You have",
+        "unclaimedReward": "unclaimed reward",
+        "unclaimedRewards": "unclaimed rewards",
+        "coinsReward": "coins reward",
+        "howItWorks": "How It Works",
+        "dailyTasksTitle": "Complete Daily Tasks",
+        "dailyTasksDescription": "New missions are available each day. Complete them by being active on the platform.",
+        "earnCoinsTitle": "Earn Coins",
+        "earnCoinsDescription": "Each completed mission rewards you with coins that are added to your balance.",
+        "useCoinsTitle": "Use Your Coins",
+        "useCoinsDescription": "Spend coins on premium features, boost your content, or access exclusive tools.",
+        "missionDescription": {
+            "like": "Show appreciation for content by liking posts",
+            "post": "Share your knowledge by creating new posts",
+            "comment": "Engage with the community by adding comments",
+            "share": "Help spread valuable content to others",
+            "login": "Sign in to keep your account active"
+        }
     },
     "CoinHistoryPage": {
         "backToHome": "Back to home",

@@ -41,7 +41,8 @@
     "missingReasonDescription": "You need to select a reason to submit a report",
     "successTitle": "Report Submitted Successfully",
     "successDescription": "Thank you for your feedback. We will review this content.",
-    "reportErrorTitle": "Failed to submit report"
+    "reportErrorTitle": "Failed to submit report",
+    "submitting": "Submitting..."
   },
   "BlogDetail": {
     "successTitle": "Success",
@@ -113,5 +114,60 @@
     "show": "Show",
     "more": "more",
     "addYourThoughts": "Add your thoughts..."
+  },
+  "ChatAssistant": {
+    "chatTitle": "Trợ lý AI",
+    "chatMinimizedTitle": "Trợ lý AI",
+    "askPlaceholder": "Hỏi về bài viết này...",
+    "disclaimer": "Trợ lý AI này cung cấp thông tin dựa trên bài viết này.",
+    "startPrompt": "Tôi có thể giúp gì cho bạn về bài viết này?",
+    "askAboutArticle": "Hỏi AI về bài viết này",
+    "balance": "Số dư",
+    "costPerQuestion": "5 xu mỗi câu hỏi",
+    "coinExplanation": "Mỗi câu hỏi tiêu tốn 5 xu. Lịch sử trò chuyện sẽ được lưu vào tài khoản của bạn để tham khảo sau.",
+    "insufficientCoins": "Không đủ xu",
+    "needMoreCoins": "Bạn cần thêm xu để đặt câu hỏi. Kiếm xu bằng cách tương tác với nền tảng.",
+    "questionsAsked": "Câu hỏi",
+    "historySaved": "Đã lưu lịch sử",
+    "loginToSave": "Đăng nhập để lưu lịch sử",
+    "assistantName": "Trợ lý Bài viết",
+    "thinking": "Đang suy nghĩ...",
+    "perQuestion": "mỗi câu hỏi",
+    "coinWarning": "Mỗi câu hỏi tiêu tốn 5 xu. Lịch sử trò chuyện sẽ được lưu vào tài khoản của bạn.",
+    "coin": "coin",
+    "coins": "coins",
+    "loadingHistory": "Loading conversation history...",
+    "errorLoadingHistory": "Error loading history",
+    "tryAgainLater": "Please try again later",
+    "saved": "Saved",
+    "errorResponse": "Sorry, I couldn't generate a response. Please try again.",
+    "apiErrorMessage": "I encountered a problem while processing your question. Please try again later.",
+    "apiErrorDescription": "Failed to get response from AI assistant",
+    "errorTitle": "Error"
+  },
+  "AIEra": {
+    "title": "Enhancing Yourself in the AI Era",
+    "introduction": "In the AI era, it is essential to continuously improve yourself to adapt to the changing landscape of work. Here are some ways to enhance yourself in the AI era:",
+    "point1": {
+      "title": "Continuous Learning",
+      "description": "Stay updated with the latest trends and advancements in AI. Enroll in online courses, attend workshops, and participate in AI-related events to expand your knowledge."
+    },
+    "point2": {
+      "title": "Develop New Skills",
+      "description": "Identify the skills that are in demand in the AI industry, such as data analysis, machine learning, and programming. Focus on developing these skills to stay relevant."
+    },
+    "point3": {
+      "title": "Creativity and Innovation",
+      "description": "AI can automate repetitive tasks, allowing humans to focus on creative and strategic work. Cultivate your creativity and innovation skills to bring unique value to your work."
+    },
+    "point4": {
+      "title": "Adaptability",
+      "description": "Be open to learning new technologies and methodologies. Embrace change and be willing to adapt to new ways of working in the AI era."
+    },
+    "point5": {
+      "title": "Networking",
+      "description": "Build a strong professional network within the AI community. Connect with experts, attend conferences, and engage in discussions to stay informed and collaborate with like-minded individuals."
+    },
+    "conclusion": "By following these tips, you can position yourself for success in the AI era and thrive in a rapidly evolving work environment."
   }
 }

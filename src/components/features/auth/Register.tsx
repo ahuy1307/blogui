@@ -129,23 +129,23 @@ const Register = () => {
     }
 
     return (
-        <div className="flex justify-between items-center relative">
+        <div className="flex flex-col gap-16 md:flex-row justify-between items-center relative min-h-screen">
             <div
-                className="absolute top-0 left-0 p-10"
+                className="absolute top-0 left-0 p-4 md:p-10 z-10"
                 onClick={() => router.push('/')}
             >
                 <Logo />
             </div>
-            <div className="flex-1">
-                <div className="w-[450px] mx-auto">
-                    <div className="flex flex-col items-center gap-4">
-                        <p className="font-bold text-3xl">
+            <div className="flex-1 w-full px-4 py-8 md:py-0 md:px-0 max-w-full md:max-w-none">
+                <div className="w-full max-w-[450px] mx-auto px-4 sm:px-0">
+                    <div className="flex flex-col items-center gap-4 mt-16 md:mt-0">
+                        <p className="font-bold text-2xl md:text-3xl text-center">
                             {t('createYourAccount')}
                         </p>
-                        <p className="text-[var(--text-color-secondary)']">
+                        <p className="text-[var(--text-color-secondary)] text-center">
                             {t('letGetStarted')}
                         </p>
-                        <div className="flex gap-6">
+                        <div className="flex flex-col xl:flex-row xl:mr-16 gap-4 sm:gap-4 w-full">
                             <GoogleOAuthProvider clientId={clientId}>
                                 <GoogleLoginButton
                                     callback={handleGoogleLogin}
@@ -159,7 +159,9 @@ const Register = () => {
                                 icon={<FacebookIcon />}
                                 style={{
                                     border: '1px solid var(--text-color-hyperlink-auth)',
+                                    width: '100%',
                                 }}
+                                className="w-full"
                             >
                                 {t('loginWithFacebook')}
                             </Button>
@@ -178,7 +180,7 @@ const Register = () => {
                                 spinning={isPendingSignUpEmail}
                             />
                         </div>
-                        <div className="flex justify-between gap-6">
+                        <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-6">
                             <InputFormItem
                                 required
                                 placeholder={t('firstNamePlaceholder')}
@@ -186,6 +188,7 @@ const Register = () => {
                                 type="first_name"
                                 onChange={() => setError('')}
                                 disabled={isPendingSignUpEmail}
+                                className="w-full"
                             />
                             <InputFormItem
                                 required
@@ -194,6 +197,7 @@ const Register = () => {
                                 type="last_name"
                                 onChange={() => setError('')}
                                 disabled={isPendingSignUpEmail}
+                                className="w-full"
                             />
                         </div>
                         <InputFormItem
@@ -221,7 +225,7 @@ const Register = () => {
                                 name="is_remember"
                                 valuePropName="checked"
                             >
-                                <Checkbox className="">
+                                <Checkbox className="text-sm md:text-base">
                                     {t('agreePrivacyPolicy')}{' '}
                                     <strong>{t('termsOfService')}</strong>{' '}
                                     {t('and')}{' '}
@@ -255,18 +259,18 @@ const Register = () => {
                             </Button>
                         </Form.Item>
                     </Form>
+                    <p className="text-center mt-6">
+                        {t('alreadyHaveAccount')}{' '}
+                        <Link
+                            href={'/auth/login'}
+                            className="font-bold text-[var(--text-color-hyperlink-auth)] ml-1"
+                        >
+                            {t('login')}
+                        </Link>
+                    </p>
                 </div>
-                <p className="text-center mt-6">
-                    {t('alreadyHaveAccount')}{' '}
-                    <Link
-                        href={'/auth/login'}
-                        className="font-bold text-[var(--text-color-hyperlink-auth)] ml-1"
-                    >
-                        {t('login')}
-                    </Link>
-                </p>
             </div>
-            <div className="flex-1">
+            <div className="hidden lg:block flex-1">
                 <Image
                     src="/images/register_slide.webp"
                     alt=""

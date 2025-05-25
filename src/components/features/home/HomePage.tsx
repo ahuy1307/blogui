@@ -29,15 +29,15 @@ const HomePage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-white text-gray-900">
+        <div className="min-h-screen bg-white text-gray-900 mt-[80px]">
             <Header />
             <Toaster />
-            <div>
+            <div className="flex flex-col w-full">
                 <HeroSection onSubscribeClick={scrollToNewsletter} />
                 <FeaturesSection />
                 <FeaturedBlogSection />
                 <TestimonialsSection />
-                <div ref={newsletterRef}>
+                <div ref={newsletterRef} className="w-full">
                     <NewsletterSection />
                 </div>
             </div>

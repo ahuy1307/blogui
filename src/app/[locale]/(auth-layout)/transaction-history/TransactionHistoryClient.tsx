@@ -389,6 +389,7 @@ export default function TransactionHistoryClient() {
                             borderRadius: '8px',
                         }}
                         inputReadOnly={true}
+                        placement="bottomRight"
                     />
                 </div>
 

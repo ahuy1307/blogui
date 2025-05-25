@@ -124,6 +124,13 @@
         "publishBlog": "Xuất bản blog",
         "publishBlogSuccess": "Xuất bản blog thành công",
         "draftBlog": "Nháp",
-        "draftBlogMessage": "Nháp blog"
-    }
+        "draftBlogMessage": "Nháp blog",
+        "totalPosts": "Tổng blog",
+        "totalLikes": "Tổng lượt thích",
+        "totalViews": "Tổng lượt xem",
+        "moreTopics": "khác",
+        "noBlogs": "Không có bài viết nào"
+    },
+    "moreTopics": "khác",
+    "noBlogs": "Không có bài viết nào"
 }

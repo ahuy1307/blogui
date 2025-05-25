@@ -150,9 +150,9 @@ export function PaymentConfirmation({
                 <CardContent className="pt-8">
                     <div className="space-y-6">
                         <div className="bg-amber-50 border border-amber-200 p-5 rounded-lg">
-                            <div className="flex items-center gap-3 mb-3 text-amber-800">
+                            <div className="flex items-center gap-4 mb-3 text-amber-800">
                                 <RefreshCcw className="h-5 w-5" />
-                                <h3 className="font-medium">{t('whatNext')}</h3>
+                                <h5 className="font-medium">{t('whatNext')}</h5>
                             </div>
                             <ul className="list-disc list-inside space-y-2 text-sm text-amber-800">
                                 <li>{t('checkPaymentMethod')}</li>

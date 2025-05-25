@@ -99,6 +99,7 @@ export function MediaLibrary({
         },
         onSuccess: (data) => {
             setMediaItems(data)
+            setActiveTab('library') // Switch to library tab after fetching
         },
         onError: () => {
             toast({
