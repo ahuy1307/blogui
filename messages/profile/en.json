@@ -126,6 +126,11 @@
         "draftBlog": "Draft",
         "draftBlogMessage": "Draft blog",
         "moreTopics": "more",
-        "noBlogs": "No blogs available"
-    }
+        "noBlogs": "No blogs available",
+        "totalPosts": "Total Blogs",
+        "totalLikes": "Total Likes",
+        "totalViews": "Total Views"
+    },
+    "moreTopics": "more",
+    "noBlogs": "No blogs available"
 }

@@ -142,22 +142,19 @@ export default function BlogPage() {
             {/* Statistics Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <StatCard
-                    title="Total Posts"
+                    title={t('totalPosts')}
                     value={userBlogs.data.count}
-                    icon="📝"
-                    color="bg-gradient-to-br from-purple-300 to-blue-500"
+                    color="from-blue-400 to-blue-600"
                 />
                 <StatCard
-                    title="Total Likes"
+                    title={t('totalLikes')}
                     value={userBlogs.data.tongLuotYeuThich}
-                    icon="❤️"
-                    color="bg-gradient-to-br from-purple-300 to-red-500"
+                    color="from-rose-400 to-rose-600"
                 />
                 <StatCard
-                    title="Total Views"
+                    title={t('totalViews')}
                     value={userBlogs.data.tongLuotXem}
-                    icon="👁️"
-                    color="bg-gradient-to-br from-purple-300 to-green-500"
+                    color="from-emerald-400 to-emerald-600"
                 />
             </div>
 
@@ -409,25 +406,30 @@ function BlogItem({
 function StatCard({
     title,
     value,
-    icon,
     color,
 }: {
     title: string
     value: number
-    icon: string
     color: string
 }) {
     return (
-        <Card className={`overflow-hidden ${color} text-white rounded-xl`}>
-            <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <p className="text-base font-bold text-white">
+        <Card className="overflow-hidden border-none rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
+            <CardContent className="p-0">
+                <div className="flex flex-col h-full">
+                    <div
+                        className={`bg-gradient-to-r ${color} p-4 relative h-2`}
+                    ></div>
+
+                    <div className="p-5 bg-white dark:bg-gray-800">
+                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
                             {title}
-                        </p>
-                        <p className="text-4xl font-bold mt-1">{value}</p>
+                        </h3>
+                        <div className="flex items-baseline">
+                            <p className="text-2xl font-extrabold tracking-tight">
+                                {value.toLocaleString()}
+                            </p>
+                        </div>
                     </div>
-                    <div className="text-4xl opacity-80">{icon}</div>
                 </div>
             </CardContent>
         </Card>

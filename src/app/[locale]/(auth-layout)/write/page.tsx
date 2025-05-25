@@ -771,13 +771,15 @@ export default function WritePage() {
                     router.push('/profile/blogs')
                 }, 50)
             }
-        } catch (error) {
+        } catch (error: any) {
             // Only show error if we're still mounted
             if (isMounted.current) {
                 console.error('Error saving blog:', error)
                 toast({
                     title: daXuatBan ? t('publishError') : t('saveError'),
-                    description: t('unexpectedError'),
+                    description:
+                        error.response?.data?.errors?.other[0] ||
+                        t('unexpectedError'),
                     variant: 'destructive',
                 })
             }
@@ -1138,8 +1140,8 @@ export default function WritePage() {
                             modifiers={[restrictToVerticalAxis]}
                         >
                             <main
-                                className="container mx-auto px-4 py-8"
-                                style={mainContentStyle}
+                                className="container mx-auto px-12 py-8"
+                                // style={mainContentStyle}
                             >
                                 <div className="max-w-4xl mx-auto">
                                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8 space-y-6">

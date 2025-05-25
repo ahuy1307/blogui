@@ -718,6 +718,7 @@ export default function EditBlogPage({ params }: any) {
                         break
                     case 'divider':
                         loaiThanhPhan = 'divider'
+                        noiDung = 'devider'
                         dinhDang = {
                             dividerType: section.dividerType || 'solid',
                             spacing: section.spacing || 8,
@@ -953,7 +954,7 @@ export default function EditBlogPage({ params }: any) {
         paddingRight: 'calc(64px + 1rem)',
     }
 
-    const [isTabOpen, setIsTabOpen] = useState(false)
+    const [isTabOpen, setIsTabOpen] = useState(true)
 
     const handleTabChange = (value: string) => {
         setActiveTab(value)
@@ -1054,7 +1055,7 @@ export default function EditBlogPage({ params }: any) {
                                     onValueChange={handleTabChange}
                                     className="w-full"
                                 >
-                                    <TabsList className="grid w-full gap-4 max-w-md mx-auto grid-cols-3 h-[60px] px-4 rounded-xl">
+                                    <TabsList className="grid w-full gap-4 max-w-xl mx-auto grid-cols-3 h-[60px] px-4 rounded-xl">
                                         <TabsTrigger
                                             value="editor"
                                             className="flex items-center gap-2 text-base"
@@ -1081,7 +1082,7 @@ export default function EditBlogPage({ params }: any) {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white shadow-sm mx-auto flex justify-center pb-3 pt-2">
+                    {/* <div className="bg-white shadow-sm mx-auto flex justify-center pb-3 pt-2">
                         <Button
                             onClick={() => setIsTabOpen(!isTabOpen)}
                             className="bg-purple-600 text-white w-[100px] p-2 rounded-full shadow-md transition-all hover:bg-purple-700"
@@ -1093,7 +1094,7 @@ export default function EditBlogPage({ params }: any) {
                                 style={{ width: '1.5rem', height: '1.5rem' }}
                             />
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
                 <div
                     className={`

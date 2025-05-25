@@ -27,7 +27,7 @@ export function EditorSidebar({ onAddSection }: EditorSidebarProps) {
     return (
         <aside
             className={cn(
-                'fixed flex z-[0] top-[70px] w-[300px] right-0 h-[calc(100vh-73px)] bg-gray-50 overflow-y-auto transition-all duration-500 ease-in-out',
+                'fixed hidden lg:flex z-[0] top-[70px] w-[300px] right-0 h-[calc(100vh-73px)] bg-gray-50 overflow-y-auto transition-all duration-500 ease-in-out',
                 {
                     'translate-x-0': isSidebarOpen,
                     'translate-x-0 w-[150px] z-0': !isSidebarOpen,

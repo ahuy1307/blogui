@@ -21,18 +21,18 @@ export function TestimonialsSection() {
         },
         {
             id: 2,
-            content: `As someone new to the field of AI, ${brandName} has been my go-to platform for learning. The content is accessible yet in-depth, perfect for beginners and experts alike.`,
-            author: 'Michael Chen',
-            role: 'Software Engineer',
-            avatar: 'https://randomuser.me/api/portraits/men/22.jpg',
+            content: `As a tech entrepreneur, I rely on ${brandName} for the latest insights in AI. The platform's AI-powered writing tools have transformed how I create content, making it faster and more efficient.`,
+            author: 'Mark Zuckerberg',
+            role: 'CEO of Meta',
+            avatar: '/images/mark-zuckerberg.jpeg',
         },
         {
             id: 3,
             content:
                 'The AI-powered writing tools have significantly improved my content creation process. I can now generate high-quality AI articles in half the time.',
-            author: 'Emma Wilson',
-            role: 'Content Creator',
-            avatar: 'https://randomuser.me/api/portraits/women/63.jpg',
+            author: 'Sam Altman',
+            role: 'CEO of OpenAI',
+            avatar: '/images/sam-altman.jpg',
         },
     ]
 
