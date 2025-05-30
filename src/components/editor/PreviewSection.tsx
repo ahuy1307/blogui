@@ -42,6 +42,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                     const formatClassName = cn(
                         format.bold ? 'font-bold' : '',
                         format.italic ? 'italic' : '',
+                        format.align == '' ? 'text-justify' : '',
                         format.align === 'left' ? 'text-left' : '',
                         format.align === 'center' ? 'text-center' : '',
                         format.align === 'right' ? 'text-right' : '',
@@ -83,7 +84,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
         case 'text':
             return (
                 <div
-                    className="mb-4"
+                    className="mb-4 text-justify text-base md:text-lg"
                     style={{
                         ...spacingStyles,
                     }}

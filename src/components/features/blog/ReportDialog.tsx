@@ -80,7 +80,7 @@ export function ReportDialog({ isOpen, onClose, blogId }: ReportDialogProps) {
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] w-[360px] sm:w-[425px]">
                 <DialogHeader>
                     <DialogTitle>{t('title')}</DialogTitle>
                 </DialogHeader>

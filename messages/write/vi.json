@@ -9,6 +9,7 @@
     "editor": "Trình chỉnh sửa",
     "preview": "Xem trước",
     "layout": "Bố cục",
+    "updating": "Đang cập nhật...",
     "blogTitle": "Tiêu đề bài viết",
     "titlePlaceholder": "Nhập tiêu đề bài viết của bạn",
     "shortDescription": "Mô tả ngắn",
@@ -199,7 +200,9 @@
         "deleteSection": "Xóa phần",
         "listTitleOptional": "Tiêu đề danh sách (Không bắt buộc)",
         "listItem": "Mục danh sách",
-        "citationOptional": "Trích dẫn (Không bắt buộc)"
+        "citationOptional": "Trích dẫn (Không bắt buộc)",
+        "videoCaptionOptional": "Chú thích video (Không bắt buộc)",
+        "imageCaptionOptional": "Chú thích hình ảnh (Không bắt buộc)"
     },
     "type": "Loại",
     "selectType": "Chọn loại",

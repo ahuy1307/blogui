@@ -73,7 +73,9 @@ export default function AvatarUploadModal({
         mutationFn: authenticationService.setInformationUser,
         onSuccess: async (res) => {
             setSuccess(true)
-            handleSignIn()
+            await handleSignIn()
+            message.success(t('uploadSuccess'))
+            onClose()
         },
         onError: () => {
             message.error(t('uploadFailed'))
@@ -87,11 +89,6 @@ export default function AvatarUploadModal({
                 avatar_action: 'update',
             }
             SetInformationMutation(userData)
-            if (success)
-                setTimeout(() => {
-                    message.success(t('uploadSuccess'))
-                    onClose()
-                }, 1000)
         }
     }
 

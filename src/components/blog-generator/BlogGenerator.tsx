@@ -391,29 +391,29 @@ export function BlogGenerator({
             onValueChange={setActiveTab}
             className="flex-1 flex flex-col min-h-0"
         >
-            <TabsList className="grid grid-cols-2 w-[420px] mx-auto">
+            <TabsList className="grid grid-cols-2 w-full max-w-[500px] mx-auto">
                 <TabsTrigger
                     value="idea"
-                    className="flex items-center gap-2 font-bold"
+                    className="flex items-center justify-center gap-2 font-bold py-3"
                 >
-                    <Lightbulb className="h-4 w-4" />
+                    <Lightbulb className="h-4 w-4 hidden md:block" />
                     {t('startIdea')}
                 </TabsTrigger>
                 <TabsTrigger
                     value="advanced"
-                    className="flex items-center gap-2 font-bold"
+                    className="flex items-center justify-center gap-2 font-bold py-3"
                 >
-                    <Wand2 className="h-4 w-4" />
+                    <Wand2 className="h-4 w-4 hidden md:block" />
                     {t('advancedOptions')}
                 </TabsTrigger>
             </TabsList>
 
-            <div className="mt-8 overflow-y-auto flex-1 pr-2">
+            <div className="mt-6 overflow-y-auto flex-1 pr-2 max-h-[60vh]">
                 <TabsContent value="idea" className="mt-0 space-y-6">
-                    <div className="space-y-2 px-2">
+                    <div className="space-y-3 px-2">
                         <Label
                             htmlFor="blog-idea"
-                            className="font-bold text-base"
+                            className="font-bold text-base block"
                         >
                             {t('whatToWrite')}
                         </Label>
@@ -422,7 +422,7 @@ export function BlogGenerator({
                             placeholder="Describe your blog idea or topic..."
                             value={blogIdea}
                             onChange={(e) => setBlogIdea(e.target.value)}
-                            className="min-h-[120px]"
+                            className="min-h-[120px] w-full"
                             disabled={
                                 generateBlogMutation.isPending ||
                                 !!generatedBlog ||
@@ -435,10 +435,10 @@ export function BlogGenerator({
                         </p>
                     </div>
 
-                    <div className="space-y-2 px-2">
+                    <div className="space-y-3 px-2">
                         <Label
                             htmlFor="blog-title"
-                            className="font-bold text-base"
+                            className="font-bold text-base block"
                         >
                             {t('blogTitle')}
                         </Label>
@@ -447,6 +447,7 @@ export function BlogGenerator({
                             placeholder="Enter a title or leave blank to generate one"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
+                            className="w-full"
                             disabled={
                                 generateBlogMutation.isPending ||
                                 !!generatedBlog ||
@@ -458,38 +459,16 @@ export function BlogGenerator({
                             {t('titleDesc')}
                         </p>
                     </div>
-
-                    <div className="hidden">
-                        <h3 className="text-sm font-medium mb-2">
-                            Need inspiration? Try one of these topics:
-                        </h3>
-                        <div className="flex flex-wrap gap-2">
-                            {SAMPLE_TOPICS.slice(0, 4).map((topic, index) => (
-                                <Button
-                                    key={index}
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => {
-                                        setBlogIdea(topic)
-                                        setTitle('')
-                                    }}
-                                    className="text-xs"
-                                >
-                                    {topic}
-                                </Button>
-                            ))}
-                        </div>
-                    </div>
                 </TabsContent>
 
-                <TabsContent value="advanced" className="mt-0 space-y-6">
+                <TabsContent value="advanced" className="mt-0">
                     <div className="space-y-6">
-                        <div className="bg-purple-50 rounded-md p-4 mb-4">
-                            <h3 className="text-base text-purple-800 mb-2 font-bold">
+                        <div className="bg-purple-50 rounded-md p-5">
+                            <h3 className="text-base text-purple-800 mb-4 font-bold">
                                 {t('writingStyle')}
                             </h3>
-                            <div className="grid grid-cols-2 gap-4 mt-4">
-                                <div className="space-y-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div className="space-y-3">
                                     <Label
                                         htmlFor="tone"
                                         className="text-sm font-bold"
@@ -502,7 +481,7 @@ export function BlogGenerator({
                                     >
                                         <SelectTrigger
                                             id="tone"
-                                            className="bg-white"
+                                            className="bg-white w-full"
                                         >
                                             <SelectValue placeholder="Select tone" />
                                         </SelectTrigger>
@@ -526,7 +505,7 @@ export function BlogGenerator({
                                     </Select>
                                 </div>
 
-                                <div className="space-y-2">
+                                <div className="space-y-3">
                                     <Label
                                         htmlFor="audience"
                                         className="text-sm font-bold"
@@ -539,7 +518,7 @@ export function BlogGenerator({
                                     >
                                         <SelectTrigger
                                             id="audience"
-                                            className="bg-white"
+                                            className="bg-white w-full"
                                         >
                                             <SelectValue placeholder="Select audience" />
                                         </SelectTrigger>
@@ -565,13 +544,15 @@ export function BlogGenerator({
                             </div>
                         </div>
 
-                        <div className="bg-gray-50 rounded-md p-4">
-                            <h3 className="text-base font-bold text-gray-800 mb-2">
-                                {t('contentElements')}
+                        <div className="bg-gray-50 rounded-md p-5 mb-6">
+                            <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <span>
+                                    {t('contentElements') || 'Content Elements'}
+                                </span>
                             </h3>
 
-                            <div className="space-y-3">
-                                <div className="flex items-center p-2 hover:bg-gray-100 rounded-md transition-colors">
+                            <div className="space-y-4">
+                                <div className="flex items-start p-3 bg-white rounded-md transition-colors border border-gray-100">
                                     <input
                                         type="checkbox"
                                         id="include-code"
@@ -579,22 +560,24 @@ export function BlogGenerator({
                                         onChange={(e) =>
                                             setIncludeCode(e.target.checked)
                                         }
-                                        className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                                        className="mt-1 h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                                     />
                                     <div className="ml-3">
                                         <Label
                                             htmlFor="include-code"
                                             className="text-sm font-medium cursor-pointer"
                                         >
-                                            {t('includeCode')}
+                                            {t('includeCode') ||
+                                                'Include Code Examples'}
                                         </Label>
-                                        <p className="text-xs text-gray-500 mt-0.5">
-                                            {t('includeCodeDesc')}
+                                        <p className="text-xs text-gray-500 mt-1">
+                                            {t('includeCodeDesc') ||
+                                                'Add relevant code snippets to illustrate technical concepts'}
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center p-2 hover:bg-gray-100 rounded-md transition-colors">
+                                <div className="flex items-start p-3 bg-white rounded-md transition-colors border border-gray-100">
                                     <input
                                         type="checkbox"
                                         id="include-emojis"
@@ -602,17 +585,19 @@ export function BlogGenerator({
                                         onChange={(e) =>
                                             setIncludeEmojis(e.target.checked)
                                         }
-                                        className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                                        className="mt-1 h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                                     />
                                     <div className="ml-3">
                                         <Label
                                             htmlFor="include-emojis"
                                             className="text-sm font-medium cursor-pointer"
                                         >
-                                            {t('includeEmojis')}
+                                            {t('includeEmojis') ||
+                                                'Include Emojis'}
                                         </Label>
-                                        <p className="text-xs text-gray-500 mt-0.5">
-                                            {t('includeEmojisDesc')}
+                                        <p className="text-xs text-gray-500 mt-1">
+                                            {t('includeEmojisDesc') ||
+                                                'Add emojis to make the content more engaging'}
                                         </p>
                                     </div>
                                 </div>
@@ -625,7 +610,7 @@ export function BlogGenerator({
     )
 
     const renderPreview = () => (
-        <div className="flex-1 overflow-y-auto py-4 space-y-6 h-full">
+        <div className="flex-1 overflow-y-hidden py-4 space-y-6 h-full">
             <div className="bg-green-50 border border-green-200 rounded-md p-4 flex items-start gap-3">
                 <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-5 w-5 text-green-600" />
@@ -640,88 +625,152 @@ export function BlogGenerator({
                 </div>
             </div>
 
-            {/* Blog title and summary */}
+            {/* Blog title */}
             <div className="space-y-2">
                 <h3 className="font-medium">Title</h3>
                 <div className="p-3 bg-gray-50 rounded-md">
-                    {generatedBlog?.title || ''}
+                    <span className="font-bold">
+                        {generatedBlog?.title || ''}
+                    </span>
                 </div>
             </div>
 
-            {/* <div className="space-y-2">
-                <h3 className="font-medium">Summary</h3>
-                <div className="p-3 bg-gray-50 rounded-md">
-                    {generatedBlog?.summary || ''}
-                </div>
-            </div> */}
-
             {/* Blog content preview */}
-            <div className="space-y-2">
-                <h3 className="font-medium">Content Preview</h3>
-                <div className="border rounded-md p-4 max-h-full overflow-y-scroll">
-                    {/* Render only basic content to simplify DOM operations */}
-                    <h2 className="text-xl font-bold mb-4">
-                        {generatedBlog?.title || ''}
-                    </h2>
+            <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                    <h3 className="font-medium">Content Preview</h3>
+                    <span className="bg-purple-100 text-purple-800 text-xs font-medium rounded-full px-2.5 py-0.5">
+                        {generatedBlog?.sections?.length || 0} sections
+                    </span>
+                </div>
 
-                    {generatedBlog?.sections &&
-                    Array.isArray(generatedBlog.sections) &&
-                    generatedBlog.sections.length > 0 ? (
-                        <div>
-                            <p className="text-gray-600 italic">
-                                {t('blogGeneratedWith')}
-                                {generatedBlog.sections.length} {t('sections')}
-                            </p>
-                            <p className="mt-4 mb-2 font-medium">
-                                {t('previewSections')}
-                            </p>
-                            {generatedBlog.sections
-                                .slice(0, 8)
-                                .map((section: any, i: number) => {
-                                    if (!section) return null
-                                    if (section.type === 'heading') {
-                                        return (
-                                            <h4
-                                                key={i}
-                                                className="font-semibold mt-5"
-                                            >
-                                                {section.content}
-                                            </h4>
-                                        )
-                                    }
-                                    if (section.type === 'text') {
-                                        try {
-                                            const content = JSON.parse(
-                                                section.content
-                                            )
-                                            return (
-                                                <p key={i} className="mt-2">
-                                                    {content.text.substring(
-                                                        0,
-                                                        150
-                                                    )}
-                                                    ...
-                                                </p>
-                                            )
-                                        } catch {
-                                            return (
-                                                <p key={i} className="mt-2">
-                                                    {String(
+                <div className="border rounded-md overflow-hidden">
+                    <div className="bg-gray-50 border-b px-4 py-3">
+                        <h2 className="font-bold">
+                            {generatedBlog?.title || ''}
+                        </h2>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                        {generatedBlog?.sections &&
+                        Array.isArray(generatedBlog.sections) &&
+                        generatedBlog.sections.length > 0 ? (
+                            <table className="w-full text-left">
+                                <thead className="bg-gray-50 text-gray-600 text-sm">
+                                    <tr>
+                                        <th className="w-12 px-4 py-2">#</th>
+                                        <th className="px-4 py-2 w-28">Type</th>
+                                        <th className="px-4 py-2">
+                                            Content Preview
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-100">
+                                    {generatedBlog.sections
+                                        .slice(0, 8)
+                                        .map((section: any, i: number) => {
+                                            if (!section) return null
+
+                                            let contentPreview = ''
+                                            let typeDisplay = section.type
+                                            let iconElement = null
+
+                                            switch (section.type) {
+                                                case 'heading':
+                                                    contentPreview =
                                                         section.content
-                                                    ).substring(0, 150)}
-                                                    ...
-                                                </p>
+                                                    typeDisplay = `H${section.level || 2}`
+                                                    break
+
+                                                case 'text':
+                                                    try {
+                                                        const content =
+                                                            JSON.parse(
+                                                                section.content
+                                                            )
+                                                        contentPreview =
+                                                            content.text
+                                                                .length > 100
+                                                                ? content.text.substring(
+                                                                      0,
+                                                                      100
+                                                                  ) + '...'
+                                                                : content.text
+                                                    } catch {
+                                                        contentPreview =
+                                                            String(
+                                                                section.content
+                                                            ).length > 100
+                                                                ? String(
+                                                                      section.content
+                                                                  ).substring(
+                                                                      0,
+                                                                      100
+                                                                  ) + '...'
+                                                                : String(
+                                                                      section.content
+                                                                  )
+                                                    }
+                                                    break
+
+                                                case 'bullet-list':
+                                                    contentPreview =
+                                                        'List with bullet points'
+                                                    break
+
+                                                case 'numbered-list':
+                                                    contentPreview =
+                                                        'Numbered list items'
+                                                    break
+
+                                                case 'code':
+                                                    contentPreview =
+                                                        'Code snippet'
+                                                    break
+
+                                                case 'quote':
+                                                    contentPreview =
+                                                        'Block quote'
+                                                    break
+
+                                                default:
+                                                    contentPreview =
+                                                        'Content section'
+                                            }
+
+                                            return (
+                                                <tr
+                                                    key={i}
+                                                    className="hover:bg-gray-50"
+                                                >
+                                                    <td className="px-4 py-3 text-gray-500">
+                                                        {i + 1}
+                                                    </td>
+                                                    <td className="px-4 py-3">
+                                                        <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                                            {typeDisplay}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-4 py-3">
+                                                        {contentPreview}
+                                                    </td>
+                                                </tr>
                                             )
-                                        }
-                                    }
-                                    return null
-                                })}
-                            <p className="text-gray-500 italic mt-5">
-                                {t('previewMore')}
-                            </p>
+                                        })}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <div className="p-6 text-center text-gray-500">
+                                {t('noContent')}
+                            </div>
+                        )}
+                    </div>
+
+                    {generatedBlog?.sections?.length > 8 && (
+                        <div className="bg-gray-50 border-t px-4 py-3 text-center text-gray-500 text-sm">
+                            {t('previewMore')} (
+                            {generatedBlog.sections.length - 8} more sections)
                         </div>
-                    ) : (
-                        <p className="text-gray-500">{t('noContent')}</p>
                     )}
                 </div>
             </div>
@@ -749,58 +798,67 @@ export function BlogGenerator({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[800px] h-[80vh] flex flex-col p-6 overflow-y-scroll">
+            <DialogContent className="sm:max-w-[90vw] md:max-w-[800px] h-[90vh] flex flex-col p-6 overflow-hidden">
                 <DialogHeader className="mb-4">
                     <DialogTitle className="flex items-center gap-2 text-xl">
                         <Sparkles className="h-5 w-5 text-purple-500" />
                         {t('blogGenerator')}
                     </DialogTitle>
-                    <p className="text-sm text-gray-500 mt-1 italic">
+                    <p className="text-sm text-gray-500 mt-1">
                         {t('blogGeneratorDesc')}
                     </p>
                 </DialogHeader>
 
-                <div className="flex-1 overflow-hidden">
+                <div className="flex-1 overflow-auto">
                     {!generatedBlog ? renderInputForm() : renderPreview()}
                 </div>
 
                 {error && (
                     <div className="bg-red-50 border border-red-200 rounded-md p-4 flex items-start gap-3 mt-4">
-                        <AlertCircle className="h-5 w-5 text-red-600 mt-2" />
+                        <AlertCircle className="h-5 w-5 text-red-600 mt-0.5" />
                         <div>
                             <h4 className="font-medium text-red-800">
                                 {t('generationError')}
                             </h4>
-                            <p className="text-red-700 text-base mt-1">
-                                {error}
+                            <p className="text-red-700 text-sm mt-1">{error}</p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Coin cost notice */}
+                {activeTab == 'idea' && !generatedBlog && (
+                    <Separator className="my-4" />
+                )}
+
+                {!generatedBlog && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                        {user &&
+                            user?.soLuongCoin < BLOG_GENERATOR_COST_COINS && (
+                                <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 flex items-center justify-center">
+                                    <TriangleAlert className="h-5 w-5 text-yellow-600 mr-2" />
+                                    <p className="text-sm text-yellow-800 font-medium">
+                                        {t('notHaveEnoughCoins')}{' '}
+                                    </p>
+                                </div>
+                            )}
+                        <div className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-center justify-center">
+                            <OctagonAlert className="h-5 w-5 text-blue-600 mr-2" />
+                            <p className="text-sm text-blue-800 font-medium">
+                                {t('generateBlogCosts')}{' '}
+                                {BLOG_GENERATOR_COST_COINS} coins
                             </p>
                         </div>
                     </div>
                 )}
-                {/* Coin cost notice */}
-                {activeTab == 'idea' && <Separator className="my-4" />}
-                <div className={`flex flex-row gap-4`}>
-                    {user && user?.soLuongCoin < BLOG_GENERATOR_COST_COINS && (
-                        <div className="w-fit bg-red-50 border border-red-200 rounded-md p-2 flex items-center justify-center">
-                            <TriangleAlert className="h-5 w-5 text-yellow-600 mr-2" />
-                            <p className="text-sm text-yellow-800 font-medium">
-                                {t('notHaveEnoughCoins')}{' '}
-                            </p>
-                        </div>
-                    )}
-                    <div className="w-fit bg-blue-50 border border-blue-200 rounded-md p-2 flex items-center justify-center">
-                        <OctagonAlert className="h-5 w-5 text-blue-600 mr-2" />
-                        <p className="text-sm text-blue-800 font-medium">
-                            {t('generateBlogCosts')} {BLOG_GENERATOR_COST_COINS}{' '}
-                            coins
-                        </p>
-                    </div>
-                </div>
 
-                <DialogFooter className="pt-2">
+                <DialogFooter className="pt-4 mt-2">
                     {!generatedBlog ? (
                         <>
-                            <Button variant="outline" onClick={onClose}>
+                            <Button
+                                variant="outline"
+                                onClick={onClose}
+                                className="min-w-[100px]"
+                            >
                                 {t('cancel')}
                             </Button>
                             <div className="flex flex-col">
@@ -840,7 +898,6 @@ export function BlogGenerator({
                                         <span>{t('generateBlog')}</span>
                                     )}
                                 </Button>
-                                {/* Keep the detailed step description below for additional context */}
                                 {!error &&
                                     generateBlogMutation.isPending &&
                                     renderGenerationStep()}
@@ -851,12 +908,13 @@ export function BlogGenerator({
                             <Button
                                 variant="outline"
                                 onClick={() => setGeneratedBlog(null)}
+                                className="min-w-[100px]"
                             >
                                 {t('startOver')}
                             </Button>
                             <Button
                                 onClick={handleUseBlog}
-                                className="bg-purple-600 hover:bg-purple-700"
+                                className="bg-purple-600 hover:bg-purple-700 min-w-[100px]"
                             >
                                 {t('useBlog')}
                             </Button>

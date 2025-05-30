@@ -28,7 +28,7 @@ export function BlogFeatureCard({
 
     return (
         <Link href={`/blog/${blog.slug}`}>
-            <Card className="bg-white border-gray-200 overflow-hidden hover:border-purple-500/50 transition-all shadow-sm h-full flex flex-col cursor-pointer hover:-translate-y-4 duration-300 rounded-xl">
+            <Card className="bg-white border-gray-200 overflow-hidden hover:border-purple-500/50 transition-all shadow-sm h-full flex flex-col cursor-pointer duration-300 rounded-xl">
                 <div className="relative h-52">
                     <Image
                         src={blog.anhBia}

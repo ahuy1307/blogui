@@ -13,6 +13,7 @@ import {
 } from '@/components/other-ui/DropdownMenu'
 import {
     Award,
+    Book,
     Check,
     ChevronDown,
     Coins,
@@ -58,7 +59,7 @@ export function MissionsDropdown() {
 
     // Initialize missions on component mount
     useEffect(() => {
-        fetchUserTasks()
+        user && fetchUserTasks()
     }, [fetchUserTasks])
 
     const completedMissions = missions.filter((mission) => mission.completed)
@@ -97,6 +98,8 @@ export function MissionsDropdown() {
                 return <Share2 className="h-5 w-5 text-orange-500" />
             case 'login':
                 return <LogIn className="h-5 w-5 text-indigo-500" />
+            case 'read_blog':
+                return <Book className="h-5 w-5 text-yellow-500" />
             default:
                 return <Award className="h-5 w-5 text-purple-500" />
         }

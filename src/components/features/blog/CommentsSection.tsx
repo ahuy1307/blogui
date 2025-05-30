@@ -180,6 +180,7 @@ const CommentItem = ({
                                 '/images/default_avatar.jpg'
                             }
                             alt={`alt`}
+                            className="object-cover"
                         />
                         <AvatarFallback>
                             {comment.nguoiDung.ho.charAt(0).toUpperCase()}
@@ -331,6 +332,7 @@ const CommentItem = ({
                                     user?.avatar || '/images/default_avatar.jpg'
                                 }
                                 alt={user?.ten.charAt(0).toUpperCase()}
+                                className="object-cover"
                             />
                             <AvatarFallback>
                                 {user?.ho.charAt(0).toUpperCase()}
@@ -962,7 +964,7 @@ export function CommentsSection({
                         onChange={handleInputChange}
                         onClick={() => setCurrentInputType('comment')}
                     />
-                    <div className="flex justify-between items-center">
+                    <div className="justify-between items-center hidden md:flex">
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="outline" size="icon">

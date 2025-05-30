@@ -29,6 +29,7 @@ interface IInforUser {
     mangXaHoi?: {}
     cover_file?: any
     cover_action?: string
+    canhBaoThietBi?: boolean
 }
 
 interface ISignupEmailRequest {

@@ -65,6 +65,10 @@ import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import ScrollToTop from '../home/ScrollToTop'
 import { useMissions } from '@/hooks/useMissions'
 import { ChatAssistant } from './ChatAssistant'
+import { TASK_TYPE } from '@/types/constants'
+import { useIsMobile } from '@/hooks/useMobile'
+import { ChevronDown, ChevronUp } from 'lucide-react'
+
 // Helper function to convert API component to SectionType
 const convertToSectionType = (component: any): SectionType | null => {
     const { loaiThanhPhan, noiDung, dinhDang, hang, cot, id } = component
@@ -349,7 +353,6 @@ const TableOfContentsBlog = ({
     const toggleExpand = () => {
         setIsExpanded(!isExpanded)
     }
-
     return (
         <div className="bg-white border border-gray-100 rounded-lg shadow-sm overflow-hidden w-[350px]">
             <div
@@ -491,17 +494,108 @@ export function BlogDetail({
     const locale = useLocale()
     const [reportDialogOpen, setReportDialogOpen] = useState(false)
     const { fetchUserTasks } = useMissions()
+    const readingTimerRef = useRef<NodeJS.Timeout | null>(null)
+    const hasTrackedReading = useRef(false)
 
     const [commentIdCounter, setCommentIdCounter] = useState(1)
     const shareUrl = `${getBaseUrl()}/${locale}/blog/${blogDetail?.slug}`
 
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false)
+    const isMobile = useIsMobile()
 
     useUnlockBodyScroll()
 
     useEffect(() => {
         refetch()
     }, [user])
+
+    // Track reading time for authenticated users
+    useEffect(() => {
+        // Only track for authenticated users and if not already tracked
+        if (user && blogDetail && !hasTrackedReading.current) {
+            // Check if this blog has already been tracked in localStorage
+            const trackedBlogs = localStorage.getItem('trackedReadBlogs')
+                ? JSON.parse(localStorage.getItem('trackedReadBlogs') || '{}')
+                : {}
+
+            // If this blog hasn't been tracked by this user yet
+            if (
+                !trackedBlogs[blogDetail.id] ||
+                trackedBlogs[blogDetail.id].userId !== user.id
+            ) {
+                // Set a timer for 2 minutes (120000ms)
+                readingTimerRef.current = setTimeout(() => {
+                    trackBlogReading()
+                }, 120000)
+            } else {
+                // Blog already tracked, no need to track again
+                hasTrackedReading.current = true
+            }
+        }
+
+        return () => {
+            if (readingTimerRef.current) {
+                clearTimeout(readingTimerRef.current)
+            }
+        }
+    }, [user, blogDetail])
+
+    const trackBlogReading = async () => {
+        try {
+            if (!hasTrackedReading.current && user && blogDetail) {
+                const response = await authenticationService.trackingBlog({
+                    blog_id: blogDetail.id,
+                    task_type: TASK_TYPE.READ_BLOG,
+                })
+
+                // If tracking was successful, organize blogs by date in localStorage
+                if (response) {
+                    // Get the existing tracked blogs object
+                    const trackedBlogs = localStorage.getItem(
+                        'trackedReadBlogs'
+                    )
+                        ? JSON.parse(
+                              localStorage.getItem('trackedReadBlogs') || '{}'
+                          )
+                        : {}
+
+                    // Get today's date in YYYY-MM-DD format
+                    const today = new Date().toISOString().split('T')[0]
+
+                    // Initialize the date entry if it doesn't exist
+                    if (!trackedBlogs[today]) {
+                        trackedBlogs[today] = []
+                    }
+
+                    // Check if this blog is already tracked today
+                    const alreadyTrackedToday = trackedBlogs[today].some(
+                        (blog: any) =>
+                            blog.blogId === blogDetail.id &&
+                            blog.userId === user.id
+                    )
+
+                    // Only add if not already tracked today
+                    if (!alreadyTrackedToday) {
+                        trackedBlogs[today].push({
+                            blogId: blogDetail.id,
+                            userId: user.id,
+                            title: blogDetail.tieuDe,
+                            timestamp: new Date().toISOString(),
+                        })
+                    }
+
+                    localStorage.setItem(
+                        'trackedReadBlogs',
+                        JSON.stringify(trackedBlogs)
+                    )
+                    hasTrackedReading.current = true
+                    fetchUserTasks() // Refresh user tasks to update progress
+                }
+            }
+        } catch (error) {
+            console.error('Error tracking blog reading:', error)
+        }
+    }
 
     const showModal = () => {
         setIsLoginModalVisible(true)
@@ -638,12 +732,28 @@ export function BlogDetail({
         .map(convertToSectionType)
         .filter(Boolean) as SectionType[]
 
+    const [showFullSummary, setShowFullSummary] = useState(false)
+    const summaryRef = useRef<HTMLParagraphElement>(null)
+    const [isSummaryLong, setIsSummaryLong] = useState(false)
+
+    // Check if summary is long enough to need truncation
+    useEffect(() => {
+        if (summaryRef.current && blogDetail.noiDungTomTat) {
+            // If text is longer than 150 characters, consider it long
+            setIsSummaryLong(blogDetail.noiDungTomTat.length > 150)
+        }
+    }, [blogDetail.noiDungTomTat])
+
+    const toggleSummary = () => {
+        setShowFullSummary(!showFullSummary)
+    }
+
     return (
         <>
             <div className="min-h-screen bg-white text-gray-900">
                 <Header />
                 <Toaster />
-                <ScrollToTop />
+                <ScrollToTop isBlogDetail={!!(blogDetail && user)} />
                 {/* Move ChatAssistant here to ensure it's correctly positioned */}
                 {blogDetail && user && (
                     <ChatAssistant
@@ -713,9 +823,37 @@ export function BlogDetail({
                                     <h2 className="text-lg font-bold mb-2 text-gray-900">
                                         {t('summary')}
                                     </h2>
-                                    <p className="text-gray-700">
-                                        {blogDetail.noiDungTomTat}
-                                    </p>
+                                    <div className="relative">
+                                        <p
+                                            ref={summaryRef}
+                                            className={`text-gray-700 text-left ${!showFullSummary && isSummaryLong ? 'line-clamp-5' : ''}`}
+                                        >
+                                            {blogDetail.noiDungTomTat}
+                                        </p>
+
+                                        {isSummaryLong && (
+                                            <button
+                                                onClick={toggleSummary}
+                                                className="flex items-center mt-2 text-purple-600 hover:text-purple-800 font-medium text-sm"
+                                            >
+                                                {showFullSummary ? (
+                                                    <>
+                                                        {/* <span>
+                                                            {t('seeLess')}
+                                                        </span>
+                                                        <ChevronUp className="h-4 w-4 ml-1" /> */}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <span>
+                                                            {t('seeMore')}
+                                                        </span>
+                                                        <ChevronDown className="h-4 w-4 ml-1" />
+                                                    </>
+                                                )}
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                             )}
 
@@ -731,6 +869,7 @@ export function BlogDetail({
                                             '/images/default_avatar.jpg'
                                         }
                                         alt={blogDetail.tacGia.fullName}
+                                        className="object-cover"
                                     />
                                     <AvatarFallback>
                                         {firstCharName}
@@ -759,10 +898,11 @@ export function BlogDetail({
                                     className="object-cover"
                                     width="100%"
                                     height="100%"
+                                    preview={!isMobile}
                                 />
                             </div>
 
-                            <div className="flex justify-between items-center mb-8">
+                            <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-8">
                                 <div className="flex gap-2">
                                     <FacebookShareButton
                                         url={shareUrl}
@@ -791,7 +931,7 @@ export function BlogDetail({
                                         </Button>
                                     </LinkedinShareButton>
                                 </div>
-                                <div className="flex gap-2">
+                                <div className="flex flex-col sm:flex-row gap-4">
                                     <div className="flex gap-2">
                                         <Button
                                             variant={
@@ -818,7 +958,7 @@ export function BlogDetail({
                                                             <Button
                                                                 variant="ghost"
                                                                 size="sm"
-                                                                className="px-3 border text-sm text-gray-600 hover:text-black h-full"
+                                                                className="px-3 h-8 border text-sm text-gray-600 hover:text-black"
                                                             >
                                                                 {
                                                                     blogDetail.luotYeuThich
@@ -863,6 +1003,7 @@ export function BlogDetail({
                                                                                         .tacGia
                                                                                         .fullName
                                                                                 }
+                                                                                className="object-cover"
                                                                             />
                                                                             <AvatarFallback>
                                                                                 {liker.hoTen !==
@@ -919,39 +1060,44 @@ export function BlogDetail({
                                                         ? t('saved')
                                                         : t('save')}
                                                 </Button>
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    className="h-8 px-3 border-gray-300 hover:bg-red-50 text-gray-700 hover:text-red-500 hover:border-red-200"
-                                                    onClick={handleReport}
-                                                >
-                                                    <AlertTriangle className="h-4 w-4 mr-1" />
-                                                    {t('report')}
-                                                </Button>
                                             </>
                                         )}
                                     </div>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
+
+                                    <div className="flex gap-2">
+                                        {!blogDetail.blogCuaBan && (
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                className="h-8 px-3 border-gray-300 hover:bg-gray-50 text-gray-700"
+                                                className="h-8 px-3 border-gray-300 hover:bg-red-50 text-gray-700 hover:text-red-500 hover:border-red-200"
+                                                onClick={handleReport}
                                             >
-                                                <Share2 className="h-4 w-4 mr-1" />
-                                                {t('more')}
+                                                <AlertTriangle className="h-4 w-4 mr-1" />
+                                                {t('report')}
                                             </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent>
-                                            <DropdownMenuItem
-                                                onClick={() =>
-                                                    handleShare('clipboard')
-                                                }
-                                            >
-                                                {t('copy_link')}
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
+                                        )}
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="h-8 px-3 border-gray-300 hover:bg-gray-50 text-gray-700"
+                                                >
+                                                    <Share2 className="h-4 w-4 mr-1" />
+                                                    {t('more')}
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        handleShare('clipboard')
+                                                    }
+                                                >
+                                                    {t('copy_link')}
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1002,11 +1148,11 @@ export function BlogDetail({
                             {blogsByTopic && blogsByTopic.length > 0 && (
                                 <div className="border-t border-gray-200 mt-12 pt-8">
                                     <h3 className="text-2xl font-bold mb-6">
-                                        {t('related_articles')}
+                                        {t('related_blogs')}
                                     </h3>
-                                    <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="grid sm:grid-cols-2 gap-6">
                                         {blogsByTopic
-                                            .slice(0, 4)
+                                            .slice(0, 3)
                                             .map(
                                                 (
                                                     relatedPost: any,
@@ -1035,7 +1181,7 @@ export function BlogDetail({
                                                                         relatedPost.chuDes
                                                                             .slice(
                                                                                 0,
-                                                                                4
+                                                                                3
                                                                             )
                                                                             .map(
                                                                                 (
@@ -1060,7 +1206,7 @@ export function BlogDetail({
                                                                         relatedPost
                                                                             .chuDes
                                                                             .length >
-                                                                            4 && (
+                                                                            3 && (
                                                                             <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
                                                                                 +
                                                                                 {relatedPost
@@ -1074,11 +1220,11 @@ export function BlogDetail({
                                                                             </span>
                                                                         )}
                                                                 </div>
-                                                                <h5 className="font-medium group-hover:text-purple-600 pt-2 transition-colors">
+                                                                <h6 className="font-medium group-hover:text-purple-600 pt-2 transition-colors">
                                                                     {
                                                                         relatedPost.tieuDe
                                                                     }
-                                                                </h5>
+                                                                </h6>
                                                             </div>
                                                         </div>
                                                     </Link>

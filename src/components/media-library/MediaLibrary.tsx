@@ -496,9 +496,11 @@ export function MediaLibrary({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[900px] h-[80vh] flex flex-col">
+            <DialogContent className="sm:max-w-[900px] max-w-[95vw] h-[90vh] sm:h-[80vh] flex flex-col p-4 sm:p-6">
                 <DialogHeader>
-                    <DialogTitle>{t('mediaLibrary')}</DialogTitle>
+                    <DialogTitle className="text-xl">
+                        {t('mediaLibrary')}
+                    </DialogTitle>
                 </DialogHeader>
 
                 <Tabs
@@ -506,37 +508,37 @@ export function MediaLibrary({
                     onValueChange={setActiveTab}
                     className="flex-1 flex flex-col min-h-0"
                 >
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
                         <TabsList
-                            className={`grid ${mediaType === 'video' ? 'grid-cols-2 w-[300px]' : 'grid-cols-3 w-[450px]'}`}
+                            className={`grid ${mediaType === 'video' ? 'grid-cols-2 w-full sm:w-[300px]' : 'grid-cols-3 w-full sm:w-[450px]'}`}
                         >
                             <TabsTrigger
                                 value="library"
-                                className="flex items-center gap-2"
+                                className="flex items-center gap-2 px-2 sm:px-4 text-sm sm:text-sm"
                             >
-                                <ImageIcon className="h-4 w-4" />
+                                <ImageIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                                 {t('library')}
                             </TabsTrigger>
                             <TabsTrigger
                                 value="upload"
-                                className="flex items-center gap-2"
+                                className="flex items-center gap-2 px-2 sm:px-4 text-sm sm:text-sm"
                             >
-                                <Upload className="h-4 w-4" />
+                                <Upload className="h-3 w-3 sm:h-4 sm:w-4" />
                                 {t('upload')}
                             </TabsTrigger>
                             {/* Only show generate tab for image or all media types */}
                             {(mediaType === 'image' || mediaType === 'all') && (
                                 <TabsTrigger
                                     value="generate"
-                                    className="flex items-center gap-2"
+                                    className="flex items-center gap-2 px-2 sm:px-4 text-sm sm:text-sm"
                                 >
-                                    <Sparkles className="h-4 w-4" />
+                                    <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
                                     {t('generate')}
                                 </TabsTrigger>
                             )}
                         </TabsList>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
                             <div className="flex border rounded-md overflow-hidden">
                                 <Button
                                     variant={
@@ -578,7 +580,7 @@ export function MediaLibrary({
                                     onChange={(e) =>
                                         setSearchTerm(e.target.value)
                                     }
-                                    className="pl-10"
+                                    className="pl-10 h-10 text-base"
                                 />
                                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                                 {searchTerm && (
@@ -586,7 +588,7 @@ export function MediaLibrary({
                                         variant="ghost"
                                         size="sm"
                                         onClick={() => setSearchTerm('')}
-                                        className="absolute right-1 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0"
+                                        className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
                                     >
                                         <X className="h-4 w-4" />
                                     </Button>
@@ -597,12 +599,12 @@ export function MediaLibrary({
                         <div className="flex-1 overflow-y-auto">
                             {filteredMedia.length > 0 ? (
                                 viewMode === 'grid' ? (
-                                    <div className="grid grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                                         {filteredMedia.map((media, index) => (
                                             <div
                                                 key={index}
                                                 className={`
-                          relative rounded-md overflow-hidden border-2 cursor-pointer
+                          relative rounded-md overflow-hidden border-2 cursor-pointer touch-manipulation
                           ${selectedMedia === media.id ? 'border-purple-500' : 'border-transparent hover:border-gray-300'}
                         `}
                                                 onClick={() =>
@@ -658,7 +660,7 @@ export function MediaLibrary({
                                                             <Button
                                                                 variant="destructive"
                                                                 size="sm"
-                                                                className="h-6 w-6 p-0 rounded-full"
+                                                                className="h-8 w-8 p-0 rounded-full"
                                                                 onClick={(
                                                                     e
                                                                 ) => {
@@ -668,7 +670,7 @@ export function MediaLibrary({
                                                                     )
                                                                 }}
                                                             >
-                                                                <Trash2 className="h-3 w-3" />
+                                                                <Trash2 className="h-4 w-4" />
                                                             </Button>
                                                         </div>
                                                     </div>
@@ -682,7 +684,7 @@ export function MediaLibrary({
                                             <div
                                                 key={index}
                                                 className={`
-                          flex items-center gap-3 p-4 rounded-md cursor-pointer
+                          flex flex-wrap sm:flex-nowrap items-center gap-3 p-3 sm:p-4 rounded-md cursor-pointer touch-manipulation
                           ${selectedMedia === media.id ? 'bg-purple-50 border border-purple-200' : 'hover:bg-gray-50'}
                         `}
                                                 onClick={() =>
@@ -736,7 +738,7 @@ export function MediaLibrary({
                                                                 .name
                                                         }
                                                     </div>
-                                                    <div className="text-xs text-gray-500 flex gap-3">
+                                                    <div className="text-xs text-gray-500 flex flex-wrap gap-2 sm:gap-3">
                                                         <span>
                                                             {media.loaiMedia ===
                                                             'image'
@@ -763,7 +765,7 @@ export function MediaLibrary({
                                                 <Button
                                                     variant="destructive"
                                                     size="sm"
-                                                    className="h-8 w-8 p-0 rounded-full flex-shrink-0 float-right"
+                                                    className="h-9 w-9 p-0 rounded-full flex-shrink-0 ml-auto mt-2 sm:mt-0"
                                                     onClick={(e) => {
                                                         e.stopPropagation() // Prevent triggering the selection
                                                         handleDeleteMedia(
@@ -778,18 +780,18 @@ export function MediaLibrary({
                                     </div>
                                 )
                             ) : (
-                                <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                                <div className="flex flex-col items-center justify-center h-full text-center py-8 sm:py-12">
                                     <div className="bg-gray-100 p-6 rounded-full mb-4">
                                         {mediaType === 'video' ? (
-                                            <Video className="h-10 w-10 text-gray-400" />
+                                            <Video className="h-8 w-8 sm:h-10 sm:w-10 text-gray-400" />
                                         ) : (
-                                            <ImageIcon className="h-10 w-10 text-gray-400" />
+                                            <ImageIcon className="h-8 w-8 sm:h-10 sm:w-10 text-gray-400" />
                                         )}
                                     </div>
-                                    <h3 className="text-lg font-medium mb-1">
+                                    <h3 className="text-base sm:text-lg font-medium mb-1">
                                         {t('noMediaFound')}
                                     </h3>
-                                    <p className="text-gray-500 mb-4">
+                                    <p className="text-gray-500 mb-4 text-sm sm:text-base">
                                         {searchTerm
                                             ? t('noMediaFoundSearch')
                                             : t('noMediaFoundDefault')}
@@ -809,7 +811,7 @@ export function MediaLibrary({
                         value="upload"
                         className="mt-4 flex-1 overflow-auto"
                     >
-                        <div className="border-2 border-dashed border-gray-300 rounded-md p-8 text-center">
+                        <div className="border-2 border-dashed border-gray-300 rounded-md p-4 sm:p-8 text-center">
                             <input
                                 type="file"
                                 ref={fileInputRef}
@@ -825,12 +827,12 @@ export function MediaLibrary({
                             />
 
                             {mediaType === 'video' ? (
-                                <Video className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                                <Video className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-gray-400 mb-4" />
                             ) : (
-                                <ImageIcon className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                                <ImageIcon className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-gray-400 mb-4" />
                             )}
 
-                            <p className="text-gray-600 mb-4">
+                            <p className="text-gray-600 mb-4 text-sm sm:text-base">
                                 {t('uploadFile', {
                                     type:
                                         mediaType === 'all'
@@ -869,7 +871,7 @@ export function MediaLibrary({
                                     onClick={() =>
                                         fileInputRef.current?.click()
                                     }
-                                    className="bg-purple-600 hover:bg-purple-700"
+                                    className="bg-purple-600 hover:bg-purple-700 h-10"
                                 >
                                     {t('selectFile')}
                                 </Button>
@@ -884,8 +886,8 @@ export function MediaLibrary({
                     >
                         <div className="flex flex-col h-full">
                             {!generatedImageUrl ? (
-                                <div className="border rounded-md p-6">
-                                    <h3 className="text-lg font-medium mb-4">
+                                <div className="border rounded-md p-3 sm:p-6">
+                                    <h3 className="text-base sm:text-lg font-medium mb-4">
                                         {t('generateAIImage')}
                                     </h3>
                                     <div className="space-y-4">
@@ -907,7 +909,7 @@ export function MediaLibrary({
                                                         e.target.value
                                                     )
                                                 }
-                                                className="min-h-[120px]"
+                                                className="min-h-[100px] sm:min-h-[120px]"
                                                 disabled={
                                                     isGeneratingImage ||
                                                     !user ||
@@ -919,7 +921,7 @@ export function MediaLibrary({
                                         <div>
                                             <Button
                                                 onClick={handleGenerateImage}
-                                                className="bg-purple-600 hover:bg-purple-700"
+                                                className="bg-purple-600 hover:bg-purple-700 h-10 w-full sm:w-auto"
                                                 disabled={
                                                     isGeneratingImage ||
                                                     !imagePrompt.trim() ||
@@ -944,8 +946,8 @@ export function MediaLibrary({
                                         {user &&
                                             user?.soLuongCoin <
                                                 IMAGE_GENERATOR_COST_COINS && (
-                                                <div className="w-fit bg-red-50 border border-red-200 rounded-md p-2 flex items-center justify-center">
-                                                    <TriangleAlert className="h-5 w-5 text-yellow-600 mr-2" />
+                                                <div className="w-full sm:w-fit bg-red-50 border border-red-200 rounded-md p-2 flex items-center justify-center">
+                                                    <TriangleAlert className="h-5 w-5 text-yellow-600 mr-2 flex-shrink-0" />
                                                     <p className="text-sm text-yellow-800 font-medium">
                                                         {t(
                                                             'notHaveEnoughCoins'
@@ -953,8 +955,8 @@ export function MediaLibrary({
                                                     </p>
                                                 </div>
                                             )}
-                                        <div className="w-fit bg-blue-50 border border-blue-200 rounded-md p-2 flex items-center justify-center">
-                                            <OctagonAlert className="h-5 w-5 text-blue-600 mr-2" />
+                                        <div className="w-full sm:w-fit bg-blue-50 border border-blue-200 rounded-md p-2 flex items-center">
+                                            <OctagonAlert className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
                                             <p className="text-sm text-blue-800 font-medium">
                                                 {t('generateImageCosts')}{' '}
                                                 {IMAGE_GENERATOR_COST_COINS}{' '}
@@ -1012,8 +1014,8 @@ export function MediaLibrary({
                                     </div>
                                 </div>
                             ) : (
-                                <div className="border rounded-md p-6">
-                                    <h3 className="text-lg font-medium mb-4">
+                                <div className="border rounded-md p-3 sm:p-6">
+                                    <h3 className="text-base sm:text-lg font-medium mb-4">
                                         {t('generatedImage')}
                                     </h3>
                                     <div className="relative aspect-video bg-gray-100 rounded-md overflow-hidden mb-4">
@@ -1024,10 +1026,10 @@ export function MediaLibrary({
                                             className="object-contain"
                                         />
                                     </div>
-                                    <div className="flex gap-4">
+                                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                                         <Button
                                             onClick={handleUploadGeneratedImage}
-                                            className="bg-purple-600 hover:bg-purple-700"
+                                            className="bg-purple-600 hover:bg-purple-700 h-10"
                                             disabled={isUploading}
                                         >
                                             {isUploading ? (
@@ -1050,6 +1052,7 @@ export function MediaLibrary({
                                             variant="outline"
                                             onClick={handleCancelGeneration}
                                             disabled={isUploading}
+                                            className="h-10"
                                         >
                                             {t('cancel')}
                                         </Button>
@@ -1096,16 +1099,20 @@ export function MediaLibrary({
                     </TabsContent>
                 </Tabs>
 
-                <Separator className="my-4" />
+                <Separator className="my-3 sm:my-4" />
 
-                <DialogFooter>
-                    <Button variant="outline" onClick={onClose}>
+                <DialogFooter className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-0">
+                    <Button
+                        variant="outline"
+                        onClick={onClose}
+                        className="w-full sm:w-auto h-10"
+                    >
                         {t('cancel')}
                     </Button>
                     <Button
                         onClick={handleSelectMedia}
                         disabled={!selectedMedia}
-                        className="bg-purple-600 hover:bg-purple-700"
+                        className="bg-purple-600 hover:bg-purple-700 w-full sm:w-auto h-10"
                     >
                         {t('insertSelectedMedia')}
                     </Button>

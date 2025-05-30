@@ -258,7 +258,7 @@ export function SortableSection({
                                 updateSection(section.id, { content: value })
                             }
                         />
-                        <div className="absolute top-2 right-2">
+                        <div className="absolute top-2 right-2 hidden md:block">
                             <Popover
                                 open={showEmojiPicker}
                                 onOpenChange={setShowEmojiPicker}
@@ -373,7 +373,7 @@ export function SortableSection({
                                     caption: e.target.value,
                                 })
                             }
-                            placeholder="Image caption (optional)"
+                            placeholder={t('imageCaptionOptional')}
                             className="border-gray-300 focus-visible:ring-purple-500"
                         />
                         <div className="flex justify-end">
@@ -454,7 +454,7 @@ export function SortableSection({
                                               : '1.25rem',
                                 }}
                             />
-                            <div className="absolute top-1/2 right-2 transform -translate-y-1/2">
+                            <div className="absolute top-1/2 right-2 transform -translate-y-1/2 hidden md:block">
                                 <Popover
                                     open={showEmojiPicker}
                                     onOpenChange={setShowEmojiPicker}
@@ -832,7 +832,7 @@ export function SortableSection({
                                     caption: e.target.value,
                                 })
                             }
-                            placeholder="Video caption (optional)"
+                            placeholder={t('videoCaptionOptional')}
                             className="border-gray-300 focus-visible:ring-purple-500"
                         />
 

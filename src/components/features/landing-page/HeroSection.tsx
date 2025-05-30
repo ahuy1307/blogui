@@ -24,7 +24,7 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
     const [isHovered, setIsHovered] = useState(false)
 
     return (
-        <section className="relative overflow-hidden py-12 md:py-20 lg:py-28 bg-gradient-to-b from-purple-50 to-white">
+        <section className="relative mt-[80px] sm:mt-6 pb-20 sm:pb-6 overflow-hidden py-12 md:py-20 lg:py-28 bg-gradient-to-b from-purple-50 to-white">
             {/* Decorative elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-20 left-10 w-32 md:w-64 h-32 md:h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
@@ -65,7 +65,7 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                             <Link
-                                href="/articles"
+                                href="/blog"
                                 className="flex items-center gap-2"
                             >
                                 <Button
@@ -112,7 +112,7 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                     >
                         <div className="relative h-[350px] sm:h-[350px] md:h-[350px] lg:h-[400px] rounded-xl overflow-hidden border border-gray-200 shadow-lg">
                             <Image
-                                src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1200&h=800&auto=format&fit=crop"
+                                src="/images/ai-book.jpg"
                                 alt="Visualization of knowledge and insights"
                                 fill
                                 className="object-cover"
@@ -148,7 +148,7 @@ export function HeroSection({ onSubscribeClick }: HeroSectionProps) {
                         </div>
 
                         {/* Stats overlay */}
-                        <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-2 md:p-4 flex justify-center gap-3 md:gap-8 w-10/12 sm:w-4/5 md:w-3/4 lg:w-3/5">
+                        <div className="absolute border border-b-2 z-[100] -bottom-20 sm:-bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-xl shadow-lg p-2 md:p-3 flex justify-center gap-8 md:gap-8 w-11/12 sm:w-3/5 md:w-2/4 lg:w-3/6">
                             <div className="text-center">
                                 <p className="text-lg md:text-2xl font-bold text-purple-600">
                                     500+

@@ -185,12 +185,12 @@ export function DividerSection({
                     {showColorPicker && (
                         <div
                             ref={colorPickerRef}
-                            className="absolute z-10 top-[100%] p-4 bg-white border border-gray-300 rounded-lg shadow-lg grid grid-cols-4 gap-2"
+                            className="absolute z-[1000] top-[100%] p-4 bg-white border border-gray-300 rounded-lg shadow-lg grid grid-cols-6 gap-2"
                         >
                             {COLORS.map((presetColor) => (
                                 <div
                                     key={presetColor}
-                                    className="w-10 h-10 rounded-md cursor-pointer border border-gray-200 hover:border-purple-500"
+                                    className="w-10 z-[1000] h-10 rounded-md cursor-pointer border border-gray-200 hover:border-purple-500"
                                     style={{ backgroundColor: presetColor }}
                                     onClick={() => {
                                         onUpdate({ color: presetColor })
@@ -203,7 +203,7 @@ export function DividerSection({
                 </div>
             )}
 
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
                 <Label
                     htmlFor="divider-spacing"
                     className="text-sm font-medium w-24"
@@ -226,7 +226,7 @@ export function DividerSection({
                         {spacing}
                     </span>
                 </div>
-            </div>
+            </div> */}
 
             {dividerType !== 'space' && (
                 <div className="flex items-center gap-2">

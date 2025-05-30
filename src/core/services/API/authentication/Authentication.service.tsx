@@ -146,7 +146,17 @@ class AuthenticationService implements IAuthentication {
             if (key === 'ngaySinh' && !data.ngaySinh) {
                 continue
             }
-            if (key in data && data[key as keyof IInforUser]) {
+
+            // Special handling for boolean values
+            if (
+                key === 'canhBaoThietBi' &&
+                typeof data[key as keyof IInforUser] === 'boolean'
+            ) {
+                formData.append(
+                    key,
+                    data[key as keyof IInforUser] ? 'true' : 'false'
+                )
+            } else if (key in data && data[key as keyof IInforUser]) {
                 formData.append(key, data[key as keyof IInforUser])
             } else {
                 formData.append(key, '')
@@ -157,7 +167,7 @@ class AuthenticationService implements IAuthentication {
             'Content-Type': 'multipart/form-data',
         }
 
-        const res = await httpService.put('/auth/profile', formData, {
+        const res = await httpService.patch('/auth/profile', formData, {
             headers: headers,
         })
         return res
@@ -264,6 +274,18 @@ class AuthenticationService implements IAuthentication {
             params: {
                 blog_id,
             },
+        })
+        return res
+    }
+    async trackingBlog({
+        blog_id,
+        task_type,
+    }: {
+        blog_id: string
+        task_type: number
+    }): Promise<any> {
+        const res = await httpService.post(`/blogs/${blog_id}/tracking`, {
+            task_type,
         })
         return res
     }

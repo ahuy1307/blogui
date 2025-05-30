@@ -2,7 +2,7 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import { authenticationService } from "@/core/services/API/authentication/Authentication.service"
 
-export type MissionType = "login" | "post" | "like" | "comment" | "share" | "charge_gen_blog" | "charge_gen_image" | "complete_profile"
+export type MissionType = "login" | "post" | "like" | "comment" | "share" | "charge_gen_blog" | "charge_gen_image" | "complete_profile" | "read_blog" | "read_image" | "read_video" | "invite_friend" | "other"
 
 export interface Mission {
   id: string

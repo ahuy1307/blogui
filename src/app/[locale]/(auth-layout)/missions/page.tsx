@@ -47,7 +47,7 @@ export default function MissionPage() {
 
     // Initialize missions on component mount
     useEffect(() => {
-        fetchUserTasks()
+        user && fetchUserTasks()
     }, [fetchUserTasks])
 
     const completedMissions = missions.filter((mission) => mission.completed)

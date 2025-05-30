@@ -60,7 +60,11 @@
         "otherDevices": "Đăng nhập trên các thiết bị khác",
         "selectDevicesLogout": "Chọn thiết bị để đăng xuất",
         "back": "Quay lại",
-        "noOtherDevices": "Không có thiết bị nào khác"
+        "noOtherDevices": "Không có thiết bị nào khác",
+        "deviceAlertUpdated": "Cảnh báo thiết bị mới khi đăng nhập đã được cập nhật",
+        "errorUpdatingDeviceAlert": "Đã có lỗi xảy ra khi cập nhật cảnh báo thiết bị mới khi đăng nhập",
+        "deviceAlertTitle": "Cảnh báo đăng nhập thiết bị mới",
+        "deviceAlertDescription": "Khi bật cảnh báo này, bạn sẽ nhận được thông báo khi có đăng nhập mới vào tài khoản của mình từ một thiết bị khác."
     },
     "DeviceLogoutCheckbox": {
         "logoutDevices": "Đăng xuất khỏi thiết bị",
@@ -129,7 +133,8 @@
         "totalLikes": "Tổng lượt thích",
         "totalViews": "Tổng lượt xem",
         "moreTopics": "khác",
-        "noBlogs": "Không có bài viết nào"
+        "noBlogs": "Không có bài viết nào",
+        "errorPublishDraft": "Đã có lỗi xảy ra khi xuất bản bản nháp"
     },
     "moreTopics": "khác",
     "noBlogs": "Không có bài viết nào"

@@ -75,7 +75,8 @@
             "post": "Share your knowledge by creating new posts",
             "comment": "Engage with the community by adding comments",
             "share": "Help spread valuable content to others",
-            "login": "Sign in to keep your account active"
+            "login": "Sign in to keep your account active",
+            "read_blog": "Read blogs to expand your knowledge"
         }
     },
     "CoinHistoryPage": {

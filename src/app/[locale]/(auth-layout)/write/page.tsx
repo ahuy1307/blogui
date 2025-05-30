@@ -598,7 +598,7 @@ export default function WritePage() {
                 return
             }
 
-            if (!coverImage) {
+            if (daXuatBan && !coverImage) {
                 toast({
                     title: t('missingCoverImage'),
                     description: t('addCoverImage'),
@@ -994,13 +994,13 @@ export default function WritePage() {
                     <div
                         className={`mt-[80px] flex flex-col gap-4 z-50 pt-4 shadow-sm  bg-white transition-all duration-500 ${
                             isTabOpen
-                                ? 'h-[150px] overflow-hidden'
+                                ? 'h-[190px] md:h-[150px] overflow-hidden'
                                 : 'h-0 overflow-hidden'
                         }`}
                     >
                         <div className="shadow-sm">
                             <div className="mx-auto  px-4 flex items-center justify-center">
-                                <div className="flex items-center gap-4">
+                                <div className="flex flex-col md:flex-row items-center gap-4">
                                     <div className="flex items-center gap-1 text-xs text-gray-500">
                                         <Clock className="h-3 w-3" />
                                         <span>
@@ -1026,54 +1026,56 @@ export default function WritePage() {
                                             </>
                                         )}
                                     </div>
-                                    <Button
-                                        variant="outline"
-                                        onClick={() =>
-                                            setBlogGeneratorOpen(true)
-                                        }
-                                        className="border-purple-300 text-purple-700 hover:bg-purple-50 flex items-center gap-1"
-                                    >
-                                        <Sparkles className="h-4 w-4" />
-                                        {t('aiGenerate')}
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        onClick={() => saveBlogPost(false)}
-                                        className="border-purple-300 text-purple-700 hover:bg-purple-50"
-                                        disabled={
-                                            isSavingDraft ||
-                                            isPublishing ||
-                                            publishBlogMutation.isPending
-                                        }
-                                    >
-                                        {isSavingDraft ? (
-                                            <>
-                                                <Loader2 className="h-4 w-4 animate-spin" />
-                                                {t('saving')}
-                                            </>
-                                        ) : (
-                                            t('saveDraft')
-                                        )}
-                                    </Button>
-                                    <Button
-                                        onClick={() => saveBlogPost(true)}
-                                        className="bg-purple-600 hover:bg-purple-700 text-white"
-                                        disabled={
-                                            isSavingDraft ||
-                                            isPublishing ||
-                                            publishBlogMutation.isPending
-                                        }
-                                    >
-                                        {isPublishing ||
-                                        publishBlogMutation.isPending ? (
-                                            <>
-                                                <Loader2 className="h-4 w-4 animate-spin" />
-                                                {t('publishing')}
-                                            </>
-                                        ) : (
-                                            t('publish')
-                                        )}
-                                    </Button>
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            variant="outline"
+                                            onClick={() =>
+                                                setBlogGeneratorOpen(true)
+                                            }
+                                            className="border-purple-300 text-purple-700 hover:bg-purple-50 flex items-center gap-1"
+                                        >
+                                            <Sparkles className="h-4 w-4" />
+                                            {t('aiGenerate')}
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => saveBlogPost(false)}
+                                            className="border-purple-300 text-purple-700 hover:bg-purple-50"
+                                            disabled={
+                                                isSavingDraft ||
+                                                isPublishing ||
+                                                publishBlogMutation.isPending
+                                            }
+                                        >
+                                            {isSavingDraft ? (
+                                                <>
+                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                    {t('saving')}
+                                                </>
+                                            ) : (
+                                                t('saveDraft')
+                                            )}
+                                        </Button>
+                                        <Button
+                                            onClick={() => saveBlogPost(true)}
+                                            className="bg-purple-600 hover:bg-purple-700 text-white"
+                                            disabled={
+                                                isSavingDraft ||
+                                                isPublishing ||
+                                                publishBlogMutation.isPending
+                                            }
+                                        >
+                                            {isPublishing ||
+                                            publishBlogMutation.isPending ? (
+                                                <>
+                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                    {t('publishing')}
+                                                </>
+                                            ) : (
+                                                t('publish')
+                                            )}
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1089,21 +1091,21 @@ export default function WritePage() {
                                             value="editor"
                                             className="flex items-center gap-2 text-base"
                                         >
-                                            <FileEdit className="h-4 w-4" />
+                                            <FileEdit className="h-4 w-4 hidden md:block" />
                                             {t('editor')}
                                         </TabsTrigger>
                                         <TabsTrigger
                                             value="preview"
                                             className="flex items-center gap-2 text-base"
                                         >
-                                            <Eye className="h-4 w-4" />
+                                            <Eye className="h-4 w-4 hidden md:block" />
                                             {t('preview')}
                                         </TabsTrigger>
                                         <TabsTrigger
                                             value="layout"
                                             className="flex items-center gap-2 text-base"
                                         >
-                                            <LayoutDashboard className="h-4 w-4" />
+                                            <LayoutDashboard className="h-4 w-4 hidden md:block" />
                                             {t('layout')}
                                         </TabsTrigger>
                                     </TabsList>
@@ -1127,7 +1129,7 @@ export default function WritePage() {
                 </div>
                 <div
                     className={`
-                    pt-36 ${isTabOpen ? 'pt-60' : 'pt-60'}
+                    pt-36 ${isTabOpen ? 'pt-64 md:pt-56' : 'pt-60'}
                     transition-all duration-500
                 `}
                 >
@@ -1140,7 +1142,7 @@ export default function WritePage() {
                             modifiers={[restrictToVerticalAxis]}
                         >
                             <main
-                                className="container mx-auto px-12 py-8"
+                                className="container mx-auto px-2 py-8"
                                 // style={mainContentStyle}
                             >
                                 <div className="max-w-4xl mx-auto">
@@ -1386,8 +1388,8 @@ export default function WritePage() {
                         </DndContext>
                     )}
                     {activeTab === 'preview' && (
-                        <div className="bg-gray-100 min-h-screen py-8">
-                            <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+                        <div className="container px-2 rounded-xl bg-gray-100 min-h-screen py-8">
+                            <div className="max-w-4xl p-6 mx-auto bg-white shadow-md rounded-xl overflow-hidden">
                                 {coverImage && (
                                     <div className="relative h-[400px] w-full">
                                         <Image
@@ -1398,7 +1400,7 @@ export default function WritePage() {
                                             alt={title}
                                             width={600}
                                             height={600}
-                                            className="w-full h-full object-contain"
+                                            className="w-full h-full object-cover"
                                         />
                                     </div>
                                 )}
@@ -1431,8 +1433,8 @@ export default function WritePage() {
                         </div>
                     )}
                     {activeTab === 'layout' && (
-                        <div className="bg-gray-100 min-h-screen py-8">
-                            <div className="max-w-4xl mx-auto">
+                        <div className="container px-2 rounded-xl bg-gray-100 min-h-screen py-8">
+                            <div className="max-w-4xl p-6 mx-auto bg-white shadow-md rounded-xl overflow-hidden">
                                 <div className="bg-white shadow-md rounded-lg overflow-hidden p-6 mb-6">
                                     <h2 className="text-xl font-bold mb-4 text-purple-700">
                                         {t('layoutPreview')}

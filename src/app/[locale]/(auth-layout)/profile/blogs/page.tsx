@@ -114,14 +114,26 @@ export default function BlogPage() {
     }
 
     const handlePusblish = async (blogId: string, publish: boolean) => {
-        const res = await authenticationService.publishOrDraftBlog({
-            id: blogId,
-        })
-        queryClient.invalidateQueries({ queryKey: ['userBlogs'] })
-        toast({
-            title: !publish ? t('publishBlog') : t('draftBlogMessage'),
-            description: res.data.message,
-        })
+        try {
+            const res = await authenticationService.publishOrDraftBlog({
+                id: blogId,
+            })
+            // onSuccess callback
+            queryClient.invalidateQueries({ queryKey: ['userBlogs'] })
+            toast({
+                title: !publish ? t('publishBlog') : t('draftBlogMessage'),
+                description: res.data.message,
+                variant: 'default',
+            })
+        } catch (error: any) {
+            // onError callback
+            console.error('Error publishing/drafting blog:', error)
+            toast({
+                title: t('errorPublishDraft'),
+                description: error?.response.data.errors.other[0],
+                variant: 'destructive',
+            })
+        }
     }
 
     if (isLoading) {

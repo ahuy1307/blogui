@@ -76,6 +76,7 @@ export function NotificationItem({
                                     notification.thongTinNguoiCuoiCungThucHien
                                         .hoTen
                                 }
+                                className="object-cover"
                             />
                             <AvatarFallback>
                                 {notification.thongTinNguoiCuoiCungThucHien.hoTen.charAt(
@@ -92,11 +93,11 @@ export function NotificationItem({
                 )}
             </div>
             <div className="flex-1 space-y-1">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4 justify-between">
                     <p className="text-sm font-medium">
                         {notification.noiDung}
                     </p>
-                    <span className="text-[10px] text-gray-500">
+                    <span className="text-[10px] w-fit text-gray-500">
                         {formattedTime}
                     </span>
                 </div>
@@ -105,7 +106,7 @@ export function NotificationItem({
                         {t('on')} {notification.baiViet.tieuDe}
                     </p>
                 )}
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-gray-400 pt-2">
                     {formatDistanceToNow(new Date(notification.createdAt), {
                         addSuffix: true,
                     })}
