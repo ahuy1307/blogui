@@ -44,10 +44,10 @@ export function NewsletterSection() {
         >
             <div className="container mx-auto px-4 sm:px-6">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h6 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4">
+                    <h6 className="text-xl md:text-3xl font-bold mb-2 md:mb-4">
                         {t('stayUpdated')}
                     </h6>
-                    <p className="text-purple-100 mb-6 md:mb-8 text-base md:text-lg px-4">
+                    <p className="text-purple-100 mt-1 mb-6 md:mb-8 text-base md:text-lg px-4">
                         {t('joinCommunity')}
                     </p>
 
