@@ -25,7 +25,12 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'oaidalleapiprodscus.blob.core.windows.net',
                 pathname: '**',
-            }
+            },
+            {
+                protocol: 'https',
+                hostname: 'img.freepik.com',
+                pathname: '**',
+            },
         ],
     },
 }

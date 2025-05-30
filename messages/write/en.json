@@ -9,6 +9,7 @@
     "editor": "Editor",
     "preview": "Preview",
     "layout": "Layout",
+    "updating": "Updating...",
     "blogTitle": "Blog Title",
     "titlePlaceholder": "Enter your blog title",
     "shortDescription": "Short Description",
@@ -79,7 +80,6 @@
     "addAtLeastOneSection": "Please add at least one section to your blog post.",
     "publishing": "Publishing...",
     "saving": "Saving...",
-    "updating": "Updating...",
     "BlogGenerator": {
         "error": "Received empty response or error from the server",
         "generateSuccess": "Blog generated successfully",
@@ -262,7 +262,9 @@
         "deleteSection": "Delete Section",
         "listTitleOptional": "List Title (Optional)",
         "listItem": "List Item",
-        "citationOptional": "Citation (Optional)"
+        "citationOptional": "Citation (Optional)",
+        "videoCaptionOptional": "Video Caption (Optional)",
+        "imageCaptionOptional": "Image Caption (Optional)"
     },
     "type": "Type",
     "selectType": "Select Type",

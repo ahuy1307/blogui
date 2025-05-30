@@ -75,7 +75,8 @@
             "post": "Chia sẻ kiến thức của bạn bằng cách tạo bài đăng mới",
             "comment": "Tương tác với cộng đồng bằng cách thêm bình luận",
             "share": "Giúp chia sẻ nội dung có giá trị cho người khác",
-            "login": "Đăng nhập để giữ tài khoản của bạn hoạt động"
+            "login": "Đăng nhập để giữ tài khoản của bạn hoạt động",
+            "read_blog": "Đọc các bài viết để mở rộng kiến thức của bạn"
         }
     },
     "CoinHistoryPage": {

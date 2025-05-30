@@ -62,6 +62,34 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         ;(async () => {
             const accessToken = localStorageService.getToken()
 
+            // Clean up tracked read blogs - keep only current date entries
+            try {
+                const trackedReadBlogs =
+                    localStorage.getItem('trackedReadBlogs')
+                if (trackedReadBlogs) {
+                    const trackedData = JSON.parse(trackedReadBlogs)
+                    const currentDate = new Date().toISOString().split('T')[0] // Today's date in YYYY-MM-DD format
+
+                    // Create a new object with only current date entries
+                    const cleanedData: Record<string, any[]> = {}
+
+                    // Keep only the current date's tracked blogs
+                    if (trackedData[currentDate]) {
+                        cleanedData[currentDate] = trackedData[currentDate]
+                    }
+
+                    // Update localStorage with cleaned data
+                    localStorage.setItem(
+                        'trackedReadBlogs',
+                        JSON.stringify(cleanedData)
+                    )
+                }
+            } catch (error) {
+                console.error('Error cleaning tracked read blogs:', error)
+                // If there's an error, remove the problematic data
+                localStorage.removeItem('trackedReadBlogs')
+            }
+
             if (!accessToken) {
                 return dispatch(
                     initialize({ isAuthenticated: false, user: null })

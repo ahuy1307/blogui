@@ -66,14 +66,15 @@
         "saved": "Đã lưu",
         "report": "Báo cáo",
         "copy_link": "Sao chép liên kết",
-        "related_articles": "Bài viết liên quan",
+        "related_blogs": "Bài viết liên quan",
         "more": "Thêm",
         "you": "Bạn",
         "seeWhoLikes": "Xem ai thích bài viết này",
         "totalLikes": "Lượt thích",
         "noLikes": "Chưa có lượt thích nào",
         "tableOfContents": "Mục lục",
-        "views": "lượt xem"
+        "views": "lượt xem",
+        "seeMore": "Xem thêm"
     },
     "BlogLibrary": {
         "title": "Thư viện",

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useMissionStore } from '@/store/mission-store';
+import { useAuth } from '@/contexts/auth/AuthContext';
 
 export function useMissions() {
   const { 
@@ -13,9 +14,10 @@ export function useMissions() {
     fetchTransactionHistory
   } = useMissionStore();
 
+  const { user } = useAuth()
   // Fetch missions when the hook is first used
   useEffect(() => {
-    fetchUserTasks();
+    user && fetchUserTasks();
   }, [fetchUserTasks]);
 
   // Get incomplete missions

@@ -1,7 +1,7 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/other-ui/Button'
-import { Input } from '@/components/other-ui/Input'
+import { Textarea } from '@/components/other-ui/Textarea'
 import {
     Send,
     Bot,
@@ -62,7 +62,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
     const [isLoadingHistory, setIsLoadingHistory] = useState(false)
     const [showCoinWarning, setShowCoinWarning] = useState(false)
     const messagesEndRef = useRef<HTMLDivElement>(null)
-    const inputRef = useRef<HTMLInputElement>(null)
+    const inputRef = useRef<HTMLTextAreaElement>(null)
     const { toast } = useToast()
     const t = useTranslations('blog.ChatAssistant')
     const { user, dispatch } = useAuth()
@@ -160,12 +160,14 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
         return () => clearTimeout(timer)
     }, [messages])
 
-    // Focus input when chat opens
+    // Focus input when chat opens or after receiving a response
     useEffect(() => {
-        if (isOpen && !isMinimized) {
-            inputRef.current?.focus()
+        if (isOpen && !isMinimized && !isLoading) {
+            setTimeout(() => {
+                inputRef.current?.focus()
+            }, 100)
         }
-    }, [isOpen, isMinimized])
+    }, [isOpen, isMinimized, isLoading, messages.length])
 
     // Show coin warning when opening chat
     useEffect(() => {
@@ -188,7 +190,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
         setIsMinimized(!isMinimized)
     }
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setInput(e.target.value)
     }
 
@@ -275,7 +277,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
     }
 
     return (
-        <div className={'fixed bottom-8 right-4 md:bottom-6 md:right-6 z-[49]'}>
+        <div className={'fixed bottom-6 right-4 md:bottom-6 md:right-6 z-[49]'}>
             {/* Chat Button with notification badge */}
             {!isOpen && (
                 <div className="relative">
@@ -528,7 +530,10 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
                                         <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-none p-3 max-w-[85%] shadow-sm">
                                             <div className="flex items-center gap-2 mb-2 pb-1 border-b border-gray-100">
                                                 <Avatar className="h-6 w-6">
-                                                    <AvatarImage src="/images/ai-avatar.jpg" />
+                                                    <AvatarImage
+                                                        src="/images/ai-avatar.jpg"
+                                                        className="object-cover"
+                                                    />
                                                     <AvatarFallback className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
                                                         AI
                                                     </AvatarFallback>
@@ -578,18 +583,19 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
                             {/* Chat Input - Fixed height */}
                             <div className="border-t border-gray-200 p-3 bg-gray-50">
                                 <div className="flex items-center gap-2">
-                                    <Input
+                                    <Textarea
                                         ref={inputRef}
                                         value={input}
                                         onChange={handleInputChange}
                                         onKeyDown={handleKeyPress}
                                         placeholder={t('askPlaceholder')}
-                                        className="flex-1 rounded-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        className="flex-1 min-h-[60px] max-h-[150px] py-3 px-4 resize-none rounded-xl border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         disabled={
                                             isLoading ||
                                             !coinBalance ||
                                             coinBalance < 5
                                         }
+                                        rows={2}
                                     />
                                     <Button
                                         size="icon"
@@ -600,9 +606,9 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
                                             !coinBalance ||
                                             coinBalance < 5
                                         }
-                                        className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 h-10 w-10 rounded-full flex-shrink-0 transition-transform hover:scale-105"
+                                        className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 h-12 w-12 rounded-full flex-shrink-0 transition-transform hover:scale-105"
                                     >
-                                        <Send className="h-4 w-4" />
+                                        <Send className="h-5 w-5" />
                                     </Button>
                                 </div>
                                 {/* <div className="mt-2 flex justify-between items-center">

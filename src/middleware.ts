@@ -1,22 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server'
 import createMiddleware from 'next-intl/middleware'
 import { routing } from './i18n/routing'
 
-// const intlMiddleware = createMiddleware(routing)
-
-// export default function middleware(req: NextRequest) {
-//     const { pathname, search } = req.nextUrl
-
-//     if (pathname.startsWith('/vi/')) {
-//         const newUrl = new URL(pathname.replace(/^\/vi/, '/') + search, req.url)
-//         return NextResponse.redirect(newUrl, 308)
-//     }
-
-//     return intlMiddleware(req)
-// }
-
-export default createMiddleware(routing)
+export default createMiddleware({
+    // Use the same locale configuration from routing
+    locales: routing.locales,
+    defaultLocale: routing.defaultLocale,
+    localePrefix: 'as-needed'
+})
 
 export const config = {
-    matcher: ['/', '/(vi|en)/:path*'], // Match all paths
+    // Match all pathnames except for
+    // - files with extensions (e.g. /logo.png)
+    // - api routes
+    // - _next/static and _next/image paths
+    matcher: ['/((?!api|_next|.*\\..*).*)']
 }

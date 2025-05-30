@@ -58,12 +58,12 @@ const Profile = () => {
         const findCurrentDevice = async () => {
             const finger = await getFingerprint()
             const matchedDevice = data.find(
-                (device: any) => device.idThietBi === finger
+                (device: any) => device.thietBiHienTai === true
             )
 
             setCurrentDevice(matchedDevice)
             setOtherDevices(
-                data.filter((device: any) => device.idThietBi !== finger)
+                data.filter((device: any) => device.thietBiHienTai === false)
             )
         }
 

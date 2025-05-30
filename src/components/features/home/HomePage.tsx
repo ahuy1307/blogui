@@ -29,7 +29,7 @@ const HomePage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-white text-gray-900 mt-[80px]">
+        <div className="min-h-screen bg-white text-gray-900 sm:mt-[80px] md:mt-0">
             <Header />
             <Toaster />
             <div className="flex flex-col w-full">

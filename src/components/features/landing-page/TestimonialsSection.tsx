@@ -14,25 +14,38 @@ export function TestimonialsSection() {
     const testimonials = [
         {
             id: 1,
-            content: `${brandName} has been an invaluable resource for staying updated on AI advancements. The articles are well-researched and the community is incredibly supportive.`,
+            content: `${brandName} has completely transformed how I approach content creation. The AI-powered insights help me stay ahead of trends while the user-friendly interface makes publishing a breeze. I've seen a 40% increase in my blog engagement since switching.`,
             author: 'Dr. Sarah Johnson',
-            role: 'AI Researcher at Stanford',
-            avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+            role: 'AI Researcher at Stanford University',
+            avatar: '/images/people_1.jpeg',
         },
         {
             id: 2,
-            content: `As a tech entrepreneur, I rely on ${brandName} for the latest insights in AI. The platform's AI-powered writing tools have transformed how I create content, making it faster and more efficient.`,
-            author: 'Mark Zuckerberg',
-            role: 'CEO of Meta',
-            avatar: '/images/mark-zuckerberg.jpeg',
+            content: `What impresses me most about ${brandName} is how it balances cutting-edge AI with human creativity. As someone deeply invested in the future of technology, I can confidently say this platform represents where content creation is headed. The community insights are invaluable.`,
+            author: 'Andrew Ng',
+            role: 'Co-founder of Coursera, AI Pioneer',
+            avatar: '/images/people_2.jpeg',
         },
         {
             id: 3,
-            content:
-                'The AI-powered writing tools have significantly improved my content creation process. I can now generate high-quality AI articles in half the time.',
-            author: 'Sam Altman',
-            role: 'CEO of OpenAI',
-            avatar: '/images/sam-altman.jpg',
+            content: `I was skeptical about AI writing tools until I tried ${brandName}. The quality of generated content is remarkable, saving me countless hours while maintaining my authentic voice. It's not just a tool—it's like having a brilliant writing partner available 24/7.`,
+            author: 'Melanie Mitchell',
+            role: 'Computer Science Professor, Santa Fe Institute',
+            avatar: '/images/people_3.jpeg',
+        },
+        {
+            id: 4,
+            content: `${brandName} gives me the perfect balance between AI efficiency and creative control. My team now produces twice the content in half the time, and our audience engagement metrics have never been better. This platform is truly a game-changer for content creators.`,
+            author: 'Fei-Fei Li',
+            role: 'Co-Director of Stanford Human-Centered AI Institute',
+            avatar: '/images/people_4.jpeg',
+        },
+        {
+            id: 5,
+            content: `As someone who writes about tech daily, I need tools that evolve with the industry. ${brandName} consistently surprises me with its intuitive features and how it learns my writing style. It's become an essential part of my creative workflow.`,
+            author: 'Kara Swisher',
+            role: 'Technology Journalist and Podcast Host',
+            avatar: '/images/people_5.jpeg',
         },
     ]
 
@@ -62,7 +75,9 @@ export function TestimonialsSection() {
                         {t('whatOurUsersSay')}
                     </h2>
                     <p className="text-gray-600 max-w-2xl mx-auto px-2">
-                        {t('joinThousands')} {brandName}.
+                        {t('joinThousands')}{' '}
+                        <strong className="text-purple-500">{brandName}</strong>
+                        .
                     </p>
                 </motion.div>
 
@@ -96,9 +111,9 @@ export function TestimonialsSection() {
                                 />
                             </div>
                             <div>
-                                <h4 className="font-semibold text-gray-900">
+                                <h5 className="font-semibold text-gray-900">
                                     {testimonials[activeIndex].author}
-                                </h4>
+                                </h5>
                                 <p className="text-gray-600 text-xs md:text-sm">
                                     {testimonials[activeIndex].role}
                                 </p>

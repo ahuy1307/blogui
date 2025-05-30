@@ -85,7 +85,9 @@ export default function NotificationsPage() {
                             className="h-8"
                         >
                             <Check className="mr-2 h-3 w-3" />
-                            {t('markAllAsRead')}
+                            <p className="text-sm md:text-base">
+                                {t('markAllAsRead')}
+                            </p>
                         </Button>
                     )}
                     {notifications.length > 0 && (
@@ -96,7 +98,9 @@ export default function NotificationsPage() {
                             className="h-8"
                         >
                             <X className="mr-2 h-3 w-3" />
-                            {t('clearAll')}
+                            <p className="text-sm md:text-base">
+                                {t('clearAll')}
+                            </p>
                         </Button>
                     )}
                 </div>

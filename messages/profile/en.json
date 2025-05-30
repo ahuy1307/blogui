@@ -60,7 +60,11 @@
         "otherDevices": "Logins on other devices",
         "selectDevicesLogout": "Select devices to log out",
         "back": "Back",
-        "noOtherDevices": "No other devices"
+        "noOtherDevices": "No other devices",
+        "deviceAlertUpdated": "New device login alert has been updated",
+        "errorUpdatingDeviceAlert": "An error occurred while updating the new device login alert",
+        "deviceAlertTitle": "New Device Login Alert",
+        "deviceAlertDescription": "When this alert is enabled, you will receive notifications when there is a new login to your account from another device."
     },
     "DeviceLogoutCheckbox": {
         "logoutDevices": "Log out of this device",
@@ -129,7 +133,8 @@
         "noBlogs": "No blogs available",
         "totalPosts": "Total Blogs",
         "totalLikes": "Total Likes",
-        "totalViews": "Total Views"
+        "totalViews": "Total Views",
+        "errorPublishDraft": "An error occurred while publishing the draft"
     },
     "moreTopics": "more",
     "noBlogs": "No blogs available"

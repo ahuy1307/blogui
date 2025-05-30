@@ -1,7 +1,4 @@
-import { createNavigation } from 'next-intl/navigation' // Assuming createNavigation is the new method
-import { AppConfig } from '@/core/config/appConfig'
-const { locales } = AppConfig
+import { Link, redirect, usePathname, useRouter } from './i18n/routing'
 
-export const { Link, redirect, usePathname, useRouter } = createNavigation({
-    locales /* ... */,
-})
+// Re-export the navigation components
+export { Link, redirect, usePathname, useRouter }

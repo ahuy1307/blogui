@@ -62,6 +62,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { Topic } from '@/types/interface'
 import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import { generateId } from '@/lib/utils'
+import { Spin } from 'antd'
 
 export default function EditBlogPage({ params }: any) {
     const { id } = params
@@ -779,7 +780,6 @@ export default function EditBlogPage({ params }: any) {
             setSections(
                 blogDetail.thanhPhans.map((section: any) => {
                     let content = section.noiDung
-
                     // Parse `noiDung` for `bullet-list` and `numbered-list` types
                     if (
                         section.loaiThanhPhan === 'bullet-list' ||
@@ -832,10 +832,7 @@ export default function EditBlogPage({ params }: any) {
 
                     if (section.loaiThanhPhan === 'quote') {
                         try {
-                            const parsedContent = JSON.parse(
-                                JSON.parse(section.noiDung).content
-                            )
-
+                            const parsedContent = JSON.parse(section.noiDung)
                             return {
                                 id: section.id || generateId(),
                                 type: section.loaiThanhPhan,
@@ -845,7 +842,6 @@ export default function EditBlogPage({ params }: any) {
                             }
                         } catch {
                             section.content = ''
-                            section.language = 'plaintext'
                         }
                     }
 
@@ -958,7 +954,6 @@ export default function EditBlogPage({ params }: any) {
 
     const handleTabChange = (value: string) => {
         setActiveTab(value)
-        setIsTabOpen(false)
         window.scrollTo({
             top: 0,
             behavior: 'smooth',
@@ -966,11 +961,7 @@ export default function EditBlogPage({ params }: any) {
     }
 
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
-            </div>
-        )
+        return <Spin fullscreen />
     }
 
     return (
@@ -979,17 +970,17 @@ export default function EditBlogPage({ params }: any) {
             <Toaster />
             <div className="min-h-screen bg-gradient-to-br from-gray-200 to-white text-gray-900">
                 <Header isWrite={false} />
-                <div className="fixed left-0 right-0 z-10 top-[-12px] shadow-sm border border-gray-400">
+                <div className="fixed left-0 right-0 z-10 top-[-12px] shadow-sm">
                     <div
                         className={`mt-[80px] flex flex-col gap-4 z-20 pt-4 shadow-sm  bg-white transition-all duration-500 ${
                             isTabOpen
-                                ? 'h-[150px] overflow-hidden'
+                                ? 'h-[190px] md:h-[150px] overflow-hidden'
                                 : 'h-0 overflow-hidden'
                         }`}
                     >
                         <div className="shadow-sm">
-                            <div className="mx-auto  px-4 flex items-center justify-center">
-                                <div className="flex items-center gap-4">
+                            <div className="mx-auto px-4 flex items-center justify-center">
+                                <div className="flex flex-col md:flex-row items-center gap-4">
                                     <div className="flex items-center gap-1 text-xs text-gray-500">
                                         <Clock className="h-3 w-3" />
                                         <span>
@@ -1015,36 +1006,40 @@ export default function EditBlogPage({ params }: any) {
                                             </>
                                         )}
                                     </div>
-                                    <Button
-                                        variant="outline"
-                                        onClick={() =>
-                                            setBlogGeneratorOpen(true)
-                                        }
-                                        className="border-purple-300 text-purple-700 hover:bg-purple-50 flex items-center gap-1"
-                                        disabled={
-                                            isSaving ||
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            variant="outline"
+                                            onClick={() =>
+                                                setBlogGeneratorOpen(true)
+                                            }
+                                            className="border-purple-300 text-purple-700 hover:bg-purple-50 flex items-center gap-1"
+                                            disabled={
+                                                isSaving ||
+                                                updateBlogMutation.isPending
+                                            }
+                                        >
+                                            <Sparkles className="h-4 w-4" />
+                                            {t('aiGenerate')}
+                                        </Button>
+                                        <Button
+                                            onClick={() =>
+                                                saveBlogPost(
+                                                    blogDetail?.daXuatBan
+                                                )
+                                            }
+                                            className="bg-purple-600 hover:bg-purple-700 text-white"
+                                            disabled={
+                                                isSaving ||
+                                                updateBlogMutation.isPending
+                                            }
+                                        >
+                                            <Save className="h-4 w-4 mr-2" />
+                                            {isSaving ||
                                             updateBlogMutation.isPending
-                                        }
-                                    >
-                                        <Sparkles className="h-4 w-4" />
-                                        {t('aiGenerate')}
-                                    </Button>
-                                    <Button
-                                        onClick={() =>
-                                            saveBlogPost(blogDetail?.daXuatBan)
-                                        }
-                                        className="bg-purple-600 hover:bg-purple-700 text-white"
-                                        disabled={
-                                            isSaving ||
-                                            updateBlogMutation.isPending
-                                        }
-                                    >
-                                        <Save className="h-4 w-4 mr-2" />
-                                        {isSaving ||
-                                        updateBlogMutation.isPending
-                                            ? t('updating')
-                                            : t('update')}
-                                    </Button>
+                                                ? t('updating')
+                                                : t('update')}
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1060,21 +1055,21 @@ export default function EditBlogPage({ params }: any) {
                                             value="editor"
                                             className="flex items-center gap-2 text-base"
                                         >
-                                            <FileEdit className="h-4 w-4" />
+                                            <FileEdit className="h-4 w-4 hidden md:block" />
                                             {t('editor')}
                                         </TabsTrigger>
                                         <TabsTrigger
                                             value="preview"
                                             className="flex items-center gap-2 text-base"
                                         >
-                                            <Eye className="h-4 w-4" />
+                                            <Eye className="h-4 w-4 hidden md:block" />
                                             {t('preview')}
                                         </TabsTrigger>
                                         <TabsTrigger
                                             value="layout"
                                             className="flex items-center gap-2 text-base"
                                         >
-                                            <LayoutDashboard className="h-4 w-4" />
+                                            <LayoutDashboard className="h-4 w-4 hidden md:block" />
                                             {t('layout')}
                                         </TabsTrigger>
                                     </TabsList>
@@ -1098,7 +1093,7 @@ export default function EditBlogPage({ params }: any) {
                 </div>
                 <div
                     className={`
-                    pt-36 ${isTabOpen ? 'pt-72' : 'pt-36'}
+                    pt-36 ${isTabOpen ? 'pt-64 md:pt-56' : 'pt-60'}
                     transition-all duration-500
                 `}
                 >
@@ -1110,10 +1105,7 @@ export default function EditBlogPage({ params }: any) {
                             onDragEnd={handleDragEnd}
                             modifiers={[restrictToVerticalAxis]}
                         >
-                            <main
-                                className="container mx-auto px-4 py-8"
-                                style={mainContentStyle}
-                            >
+                            <main className="container mx-auto px-2 py-8">
                                 <div className="max-w-4xl mx-auto">
                                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8 space-y-6">
                                         <div>
@@ -1351,8 +1343,8 @@ export default function EditBlogPage({ params }: any) {
                         </DndContext>
                     )}
                     {activeTab === 'preview' && (
-                        <div className="bg-gray-100 min-h-screen py-8">
-                            <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+                        <div className="container px-2 rounded-xl bg-gray-100 min-h-screen py-8">
+                            <div className="max-w-4xl p-6 mx-auto bg-white shadow-md rounded-xl overflow-hidden">
                                 {coverImage && (
                                     <div className="relative h-[400px] w-full">
                                         <Image
@@ -1363,7 +1355,7 @@ export default function EditBlogPage({ params }: any) {
                                             alt={title}
                                             width={600}
                                             height={600}
-                                            className="w-full h-full object-contain"
+                                            className="w-full h-full object-cover"
                                         />
                                     </div>
                                 )}
@@ -1375,14 +1367,6 @@ export default function EditBlogPage({ params }: any) {
                                         </h1>
                                     ) : (
                                         <div className="h-10 bg-gray-200 rounded-md mb-4 animate-pulse"></div>
-                                    )}
-
-                                    {shortDescription ? (
-                                        <p className="text-lg text-gray-600 mb-8">
-                                            {shortDescription}
-                                        </p>
-                                    ) : (
-                                        <div className="h-6 bg-gray-200 rounded-md mb-8 animate-pulse"></div>
                                     )}
 
                                     <div className="prose prose-lg max-w-none">
@@ -1404,8 +1388,8 @@ export default function EditBlogPage({ params }: any) {
                         </div>
                     )}
                     {activeTab === 'layout' && (
-                        <div className="bg-gray-100 min-h-screen py-8">
-                            <div className="max-w-4xl mx-auto">
+                        <div className="container px-2 rounded-xl bg-gray-100 min-h-screen py-8">
+                            <div className="max-w-4xl p-6 mx-auto bg-white shadow-md rounded-xl overflow-hidden">
                                 <div className="bg-white shadow-md rounded-lg overflow-hidden p-6 mb-6">
                                     <h2 className="text-xl font-bold mb-4 text-purple-700">
                                         {t('layoutPreview')}

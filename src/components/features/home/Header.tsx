@@ -50,6 +50,8 @@ import { message } from 'antd'
 import { NotificationDropdown } from '@/components/notifications/NotificationDropdown'
 import { Button as OtherButton } from '@/components/other-ui/Button'
 import { MissionsDropdown } from '@/components/mission/MissionDropdown'
+import { useNotificationStore } from '@/store/notification-store'
+import { useMissions } from '@/hooks/useMissions'
 
 const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
     const { user, dispatch, isAuthenticated } = useAuth()
@@ -143,6 +145,17 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
 
     // Update the items for the dropdown menu
     const items: IDropdownMenu['items'] = profileMenuItems
+    const { unreadCount } = useNotificationStore()
+    const {
+        missions,
+        fetchUserTasks,
+        collectTaskReward,
+        fetchTransactionHistory,
+    } = useMissions()
+    const unclaimedMissions = missions.filter(
+        (mission) => mission.completed && !mission.claimed
+    )
+    const hasUnclaimedRewards = unclaimedMissions.length > 0
 
     return (
         <>
@@ -282,10 +295,10 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                                     </Tooltip>
                                 </Link>
                             </div>
-                            <div className="hidden sm:block">
+                            <div className="hidden sm:block relative">
                                 <MissionsDropdown />
                             </div>
-                            <div className="hidden sm:block">
+                            <div className="hidden sm:block relative">
                                 <NotificationDropdown />
                             </div>
                             <Dropdown menu={{ items }} placement="bottomRight">
@@ -539,7 +552,7 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                                                 {user?.soLuongCoin || 0} coins
                                             </span>
                                         </Link>
-                                        <Link
+                                        {/* <Link
                                             href={`/library`}
                                             className="flex items-center gap-1.5"
                                             onClick={() =>
@@ -550,7 +563,7 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                                             <span className="font-medium">
                                                 {t('library')}
                                             </span>
-                                        </Link>
+                                        </Link> */}
                                     </div>
                                 </div>
 
@@ -558,7 +571,7 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                                 <div className="flex justify-between p-4 bg-white rounded-lg border border-gray-100">
                                     <Link
                                         href="/notifications"
-                                        className="flex flex-col items-center"
+                                        className="flex flex-col items-center relative"
                                         onClick={() =>
                                             setIsMobileMenuOpen(false)
                                         }
@@ -569,10 +582,17 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                                         <span className="text-xs mt-1">
                                             {t('notifications')}
                                         </span>
+                                        {unreadCount > 0 && (
+                                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-sm flex items-center justify-center rounded-full">
+                                                {unreadCount > 99
+                                                    ? '99+'
+                                                    : unreadCount}
+                                            </span>
+                                        )}
                                     </Link>
                                     <Link
                                         href="/missions"
-                                        className="flex flex-col items-center"
+                                        className="flex flex-col items-center relative"
                                         onClick={() =>
                                             setIsMobileMenuOpen(false)
                                         }
@@ -583,6 +603,11 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                                         <span className="text-xs mt-1">
                                             {t('missions')}
                                         </span>
+                                        {hasUnclaimedRewards && (
+                                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-sm flex items-center justify-center rounded-full">
+                                                {unclaimedMissions.length}
+                                            </span>
+                                        )}
                                     </Link>
                                     <Link
                                         href="/library"
