@@ -37,7 +37,7 @@ const ManageDevices = ({ currentDevice, otherDevices, refetch }: any) => {
                 canhBaoThietBi: checked,
             })
             setAlertNewDevices(checked)
-            message.success(t('deviceAlertUpdated'))
+            // message.success(t('deviceAlertUpdated'))
         } catch (error) {
             message.error(t('errorUpdatingDeviceAlert'))
         } finally {

@@ -136,8 +136,8 @@ const Register = () => {
             >
                 <Logo />
             </div>
-            <div className="flex-1 w-full px-4 py-8 md:py-0 md:px-0 max-w-full md:max-w-none">
-                <div className="w-full max-w-[450px] mx-auto px-4 sm:px-0">
+            <div className="flex-1 w-full py-8 md:py-0 md:px-0 max-w-full md:max-w-none pt-12">
+                <div className="w-full max-w-[450px] mx-auto sm:px-0">
                     <div className="flex flex-col items-center gap-4 mt-16 md:mt-0">
                         <p className="font-bold text-2xl md:text-3xl text-center">
                             {t('createYourAccount')}

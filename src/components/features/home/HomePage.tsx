@@ -19,6 +19,8 @@ import { useAppData } from '@/contexts/AppDataProvider'
 import { FeaturedBlogSection } from '../landing-page/FeaturedBlogSection'
 import Header from './Header'
 import { Toaster } from '@/components/other-ui/Toaster'
+import { Scroll } from 'lucide-react'
+import ScrollToTop from './ScrollToTop'
 
 const HomePage = () => {
     const newsletterRef = useRef<HTMLDivElement>(null)
@@ -32,6 +34,7 @@ const HomePage = () => {
         <div className="min-h-screen bg-white text-gray-900 sm:mt-[80px] md:mt-0">
             <Header />
             <Toaster />
+            <ScrollToTop />
             <div className="flex flex-col w-full">
                 <HeroSection onSubscribeClick={scrollToNewsletter} />
                 <FeaturesSection />

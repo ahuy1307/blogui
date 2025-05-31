@@ -5,7 +5,7 @@ export default function SubscriptionPage() {
     return (
         <div>
             <Header />
-            <div className="container mx-auto py-12 mt-[80px]">
+            <div className="md:container px-4 mx-auto py-12 mt-[80px]">
                 <CoinPurchase />
             </div>
         </div>

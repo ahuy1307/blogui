@@ -292,7 +292,7 @@ export default function TransactionHistoryClient() {
     }
 
     return (
-        <div className="container py-10 mt-[80px]">
+        <div className="py-10 md:container mt-[80px]">
             <div className="mb-8">
                 <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
                 <p className="text-muted-foreground">{t('description')}</p>

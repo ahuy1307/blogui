@@ -626,7 +626,7 @@ function SearchContent() {
     }
 
     return (
-        <div className="mx-auto py-8 px-4">
+        <div className="mx-auto py-8 md:px-4">
             <ScrollToTop />
             <div className="mb-[100px]">
                 <Header />

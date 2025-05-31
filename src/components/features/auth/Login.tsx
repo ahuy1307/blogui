@@ -102,20 +102,20 @@ const Login = () => {
         }
     )
     return (
-        <div className="flex justify-between items-center relative">
+        <div className="flex flex-col gap-16 md:flex-row justify-between items-center relative min-h-screen">
             <div
-                className="absolute top-0 left-0 p-10"
+                className="absolute top-0 left-0 p-4 md:p-10 z-10"
                 onClick={() => router.push('/')}
             >
                 <Logo />
             </div>
-            <div className="flex-1">
-                <div className="w-[500px] mx-auto">
-                    <div className="flex flex-col items-center gap-4">
-                        <p className="font-bold text-3xl">
+            <div className="flex-1 w-full py-8 md:py-0 md:px-0 max-w-full md:max-w-none pt-12">
+                <div className="w-full max-w-[450px] mx-auto sm:px-0">
+                    <div className="flex flex-col items-center gap-4 mt-16 md:mt-0">
+                        <p className="font-bold text-2xl md:text-3xl text-center">
                             {t('loginYourAccount')}
                         </p>
-                        <div className="flex gap-6">
+                        <div className="flex flex-col xl:flex-row xl:mr-16 gap-4 sm:gap-4 w-full">
                             <GoogleOAuthProvider clientId={clientId}>
                                 <GoogleLoginButton
                                     callback={handleGoogleLogin}
@@ -129,7 +129,9 @@ const Login = () => {
                                 icon={<FacebookIcon />}
                                 style={{
                                     border: '1px solid var(--text-color-hyperlink-auth)',
+                                    width: '100%',
                                 }}
+                                className="w-full"
                             >
                                 {t('loginWithFacebook')}
                             </Button>
@@ -154,7 +156,7 @@ const Login = () => {
                             name="password"
                             type="password"
                         />
-                        <div className="flex justify-between">
+                        <div className="flex justify-between flex-wrap sm:flex-nowrap">
                             <ConfigProvider
                                 theme={{
                                     components: {
@@ -173,7 +175,7 @@ const Login = () => {
                                     name="is_remember"
                                     valuePropName="checked"
                                 >
-                                    <Checkbox className="">
+                                    <Checkbox className="text-sm md:text-base">
                                         {t('rememberLoginInfo')}
                                     </Checkbox>
                                 </Form.Item>
@@ -196,18 +198,18 @@ const Login = () => {
                             </Button>
                         </Form.Item>
                     </Form>
+                    <p className="text-center mt-6">
+                        {t('dontHaveAccount')}{' '}
+                        <Link
+                            href={'/auth/register'}
+                            className="font-bold text-[var(--text-color-hyperlink-auth)] ml-1"
+                        >
+                            {t('register')}
+                        </Link>
+                    </p>
                 </div>
-                <p className="text-center mt-6">
-                    {t('dontHaveAccount')}{' '}
-                    <Link
-                        href={'/auth/register'}
-                        className="font-bold text-[var(--text-color-hyperlink-auth)] ml-1"
-                    >
-                        {t('register')}
-                    </Link>
-                </p>
             </div>
-            <div className="flex-1">
+            <div className="hidden lg:block flex-1">
                 <Image
                     src="/images/register_slide.webp"
                     alt=""

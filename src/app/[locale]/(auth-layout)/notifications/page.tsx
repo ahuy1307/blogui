@@ -47,7 +47,7 @@ export default function NotificationsPage() {
     const filteredNotifications = getFilteredNotifications()
 
     return (
-        <div className="container mx-auto max-w-3xl px-4 py-12 mt-[60px]">
+        <div className="md:container mx-auto max-w-3xl py-12 mt-[60px]">
             <div className="mb-6 flex items-center justify-center w-full">
                 {/* <Link href="/dashboard" className="mr-2">
                     <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
