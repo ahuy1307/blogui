@@ -29,7 +29,7 @@ export default function TopicsPage() {
     return (
         <div className="min-h-screen bg-white text-gray-900">
             <Header />
-            <main className="container mx-auto px-4 py-28">
+            <main className="md:container mx-auto md:px-4 py-28">
                 <section className="mb-12">
                     <motion.h1
                         className="text-4xl font-bold mb-2 text-center"

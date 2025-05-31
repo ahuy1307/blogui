@@ -93,7 +93,7 @@ export default function MissionPage() {
     return (
         <>
             <Toaster />
-            <div className="container px-4 py-8 max-w-3xl mx-auto pt-[80px]">
+            <div className="container px-4 mt-4 py-8 max-w-3xl mx-auto pt-[80px]">
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold flex items-center justify-center gap-2 mb-3">
                         <Award className="h-8 w-8 text-primary" />

@@ -16,7 +16,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <>
             <Header />
-            <MainLayout fontClass={robotoFont.className}>{children}</MainLayout>
+            {children}
         </>
     )
 }

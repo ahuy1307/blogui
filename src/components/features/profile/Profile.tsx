@@ -86,7 +86,7 @@ const Profile = () => {
     }
 
     return (
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-14 my-[100px] lg:mt-[100px] px-4 lg:px-0">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-14 my-[100px] lg:mt-[100px] md:px-4 lg:px-0">
             <div className="w-full lg:w-[30%]">
                 <div className="flex gap-4 lg:gap-8 items-center border border-[var(--border-color-default)] p-4 rounded-tl-md rounded-tr-md">
                     <AvatarUploadModal
@@ -137,9 +137,11 @@ const Profile = () => {
                     </div>
                 </div>
                 <ul
-                    className={`border border-[var(--border-color-default)] p-4 rounded-bl-md rounded-br-md flex flex-col gap-4 text-base ${
-                        !showMobileMenu && 'hidden lg:flex'
-                    }`}
+                    className={`border border-[var(--border-color-default)] p-4 rounded-bl-md rounded-br-md flex flex-col gap-4 text-base overflow-hidden transition-all duration-500 ease-in-out ${
+                        !showMobileMenu
+                            ? 'max-h-0 opacity-0 p-0 border-0 lg:max-h-[1000px] lg:opacity-100 lg:p-4 lg:border'
+                            : 'max-h-[1000px] opacity-100'
+                    } lg:flex`}
                 >
                     <li
                         className={`flex items-center p-3 lg:p-4 rounded-md cursor-pointer ${

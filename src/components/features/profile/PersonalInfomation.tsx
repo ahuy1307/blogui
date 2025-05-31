@@ -67,10 +67,12 @@ const PersonalInfomation = () => {
     }
 
     return (
-        <div className="border border-[var(--border-color-default)] rounded-lg px-3 lg:px-4 pt-4">
+        <div className="border border-[var(--border-color-default)] rounded-lg px-2 sm:px-3 lg:px-4 pt-2 sm:pt-3 lg:pt-4">
             <Form
                 form={form}
+                layout="vertical"
                 onFinish={onFinish}
+                className="[&_.ant-form-item]:mb-2 sm:[&_.ant-form-item]:mb-3 lg:[&_.ant-form-item]:mb-4"
                 initialValues={{
                     ho: user?.ho,
                     ten: user?.ten,
@@ -87,9 +89,9 @@ const PersonalInfomation = () => {
                 }}
             >
                 <Form.Item>
-                    <div className="flex flex-col md:flex-row gap-4 mb-1">
+                    <div className="flex flex-col md:flex-row gap-2 sm:gap-3 lg:gap-4 mb-1">
                         <div className="w-full md:w-[25%]">
-                            <span className="font-bold text-base pb-2 block">
+                            <span className="font-bold text-base pb-1 sm:pb-2 block">
                                 {t('ho')}
                                 <span className="ml-1 text-red-500">*</span>
                             </span>
@@ -101,7 +103,7 @@ const PersonalInfomation = () => {
                             />
                         </div>
                         <div className="w-full md:w-[25%]">
-                            <span className="font-bold text-base pb-2 block">
+                            <span className="font-bold text-base pb-1 sm:pb-2 block">
                                 {t('ten')}
                                 <span className="ml-1 text-red-500">*</span>
                             </span>
@@ -127,7 +129,7 @@ const PersonalInfomation = () => {
                     </div>
                     <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-6">
                         <div className="w-full md:w-[50%]">
-                            <span className="font-bold text-base pb-1 block">
+                            <span className="font-bold text-base pb-1 pt-4 md:pt-0 block">
                                 {t('role')}
                             </span>
                             <InputFormItem
@@ -151,7 +153,7 @@ const PersonalInfomation = () => {
                             />
                         </div>
                     </div>
-                    <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6 mb-1">
+                    <div className="flex pt-4 md:pt-0 flex-col md:flex-row items-start gap-4 md:gap-6 mb-1">
                         <div className="w-full md:w-[25%]">
                             <p className="font-bold text-base pb-2">
                                 {t('gioiTinh')}
@@ -215,13 +217,15 @@ const PersonalInfomation = () => {
                             </Form.Item>
                         </div>
                     </div>
-                    <CountryStateCitySelector
-                        initialCountry={user?.quocGia || 'VN'}
-                        initialState={user?.thanhPho || 'DN'}
-                        form={form}
-                    />
+                    <div className="pt-4 md:pt-0">
+                        <CountryStateCitySelector
+                            initialCountry={user?.quocGia || 'VN'}
+                            initialState={user?.thanhPho || 'DN'}
+                            form={form}
+                        />
+                    </div>
                 </Form.Item>
-                <div>
+                <div className="pt-4 md:pt-0">
                     <span className="font-bold text-base pb-1 block">
                         {t('address')}
                     </span>
@@ -233,7 +237,7 @@ const PersonalInfomation = () => {
                         value={user?.diaChi}
                     />
                 </div>
-                <Form.Item className="text-right">
+                <Form.Item className="text-right !mb-2 sm:!mb-3 lg:!mb-4">
                     <Button type="primary" shape="square" htmlType="submit">
                         {t('saveInfo')}
                     </Button>

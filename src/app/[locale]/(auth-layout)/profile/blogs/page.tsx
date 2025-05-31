@@ -145,7 +145,7 @@ export default function BlogPage() {
     }
 
     return (
-        <div className="container mx-auto py-8 px-4 md:px-6 mt-[80px]">
+        <div className="md:container mx-auto py-8 md:px-6 mt-[80px]">
             <Toaster />
             <h1 className="text-3xl font-bold mb-8 text-center md:text-left">
                 {t('title')}
@@ -223,6 +223,7 @@ export default function BlogPage() {
                             style={{
                                 width: '100%',
                             }}
+                            placement="bottomRight"
                         />
                     </div>
                 </div>
@@ -306,7 +307,7 @@ function BlogItem({
     const t = useTranslations('profile.BlogPage')
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg border border-gray-200">
+        <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg border border-gray-200">
             <div className="p-4 md:p-6">
                 <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
                     <div className="w-full">
@@ -316,7 +317,7 @@ function BlogItem({
                             </h3>
                             <StatusBadge isDraft={!blog.daXuatBan} />
                         </div>
-                        <p className="text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">
+                        <p className="text-gray-500 mb-3 line-clamp-2">
                             {blog.noiDungTomTat}
                         </p>
                         <div className="flex flex-wrap gap-2 mb-4">
@@ -330,7 +331,7 @@ function BlogItem({
                                 </Badge>
                             ))}
                         </div>
-                        <div className="flex flex-wrap items-center text-sm text-gray-500 dark:text-gray-400 gap-y-2">
+                        <div className="flex flex-wrap items-center text-sm text-gray-500  gap-y-2">
                             <span className="flex items-center mr-4">
                                 <span className="mr-1">❤️</span>{' '}
                                 {blog.luotYeuThich || 0} {t('likes')}
@@ -432,8 +433,8 @@ function StatCard({
                         className={`bg-gradient-to-r ${color} p-4 relative h-2`}
                     ></div>
 
-                    <div className="p-5 bg-white dark:bg-gray-800">
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                    <div className="p-5 bg-white ">
+                        <h3 className="text-sm font-medium text-gray-500 mb-1">
                             {title}
                         </h3>
                         <div className="flex items-baseline">

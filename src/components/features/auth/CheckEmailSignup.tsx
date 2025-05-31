@@ -56,7 +56,7 @@ const CheckEmailSignup = () => {
             >
                 <Logo />
             </div>
-            <div className="flex items-center h-screen">
+            <div className="flex items-center h-screen w-full">
                 <div className="flex-1 w-full px-4 py-16 md:py-0 md:px-0 z-0">
                     {isPending ? (
                         <div className="w-full max-w-[600px] mx-auto flex flex-col gap-6 bg-gray-100 p-4 rounded-2xl">
