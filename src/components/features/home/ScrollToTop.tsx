@@ -31,7 +31,7 @@ function ScrollToTop({ isBlogDetail = false }: { isBlogDetail?: boolean }) {
             {scrollPositon > 1500 && (
                 <button
                     onClick={handleScrollToTop}
-                    className={`fixed ${!isBlogDetail && `bottom-[40px] md:bottom-[40px]`} ${!isBlogDetail && isMobile && `bottom-[20px]`} bottom-[90px] right-4 md:bottom-24 md:right-6 -rotate-45 rounded-full bg-gray-900 aspect-square p-2 opacity-100 pointer-events-auto shadow z-[48]`}
+                    className={`fixed ${!isBlogDetail && `bottom-[40px] md:bottom-[40px]`} ${!isBlogDetail && isMobile && `bottom-[20px]`} right-4 md:bottom-24 md:right-6 -rotate-45 rounded-full bg-gray-900 aspect-square p-2 opacity-100 pointer-events-auto shadow z-[48]`}
                 >
                     <ScrollToTopIcon
                         width={isMobile ? '28px' : '36px'}
