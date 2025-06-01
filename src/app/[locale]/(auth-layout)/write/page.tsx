@@ -1167,7 +1167,7 @@ export default function WritePage() {
                                                 placeholder={t(
                                                     'titlePlaceholder'
                                                 )}
-                                                className="w-full text-xl font-bold p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                                className="w-full text-base md:text-xl font-bold p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                                             />
                                         </div>
 
@@ -1405,7 +1405,7 @@ export default function WritePage() {
                                     </div>
                                 )}
 
-                                <div className="p-8">
+                                <div className="md:p-8 py-8">
                                     {title ? (
                                         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                                             {title}
@@ -1435,7 +1435,7 @@ export default function WritePage() {
                     {activeTab === 'layout' && (
                         <div className="container px-2 rounded-xl bg-gray-100 min-h-screen py-8">
                             <div className="max-w-4xl p-6 mx-auto bg-white shadow-md rounded-xl overflow-hidden">
-                                <div className="bg-white shadow-md rounded-lg overflow-hidden p-6 mb-6">
+                                <div className="bg-white shadow-md rounded-lg overflow-hidden md:p-6 mb-6">
                                     <h2 className="text-xl font-bold mb-4 text-purple-700">
                                         {t('layoutPreview')}
                                     </h2>

@@ -23,6 +23,7 @@
         "vi": "Vietnamese",
         "en": "English"
     },
+    "coinHistory": "Coin History",
     "manageTransactions": "Manage Transactions",
     "logout": "Logout",
     "personalInfomation": "Personal Information",

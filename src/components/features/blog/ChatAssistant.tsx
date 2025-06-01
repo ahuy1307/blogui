@@ -161,13 +161,13 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
     }, [messages])
 
     // Focus input when chat opens or after receiving a response
-    useEffect(() => {
-        if (isOpen && !isMinimized && !isLoading) {
-            setTimeout(() => {
-                inputRef.current?.focus()
-            }, 100)
-        }
-    }, [isOpen, isMinimized, isLoading, messages.length])
+    // useEffect(() => {
+    //     if (isOpen && !isMinimized && !isLoading) {
+    //         setTimeout(() => {
+    //             inputRef.current?.focus()
+    //         }, 100)
+    //     }
+    // }, [isOpen, isMinimized, isLoading, messages.length])
 
     // Show coin warning when opening chat
     useEffect(() => {

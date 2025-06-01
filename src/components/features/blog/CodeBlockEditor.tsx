@@ -167,7 +167,7 @@ export function CodeBlockEditor({
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onFocus={() => setIsDropdownOpen(true)} // Open dropdown on focus
                             placeholder={t('searchLanguage')}
-                            className="w-[180px] h-[32px] pl-[32px] border-gray-300 focus:ring-purple-500"
+                            className="w-[180px] h-[32px] pl-[32px] border-gray-300 focus:ring-purple-500 text-sm md:text-base"
                         />
                         <Search className="absolute left-[8px] top-1/2 transform -translate-y-1/2 h-[16px] w-[16px] text-gray-400" />
                         {isDropdownOpen && (

@@ -27,7 +27,9 @@ interface TransactionItemProps {
 export function TransactionItem({ transaction }: TransactionItemProps) {
     // Xác định loại giao dịch dựa vào loaiNhiemVu
     const locale = useLocale()
-    const isCharge = transaction.loaiNhiemVu?.startsWith('charge_')
+    const isCharge =
+        transaction.loaiNhiemVu?.startsWith('charge_') ||
+        transaction.loaiNhiemVu?.startsWith('ask')
     const transactionType = isCharge ? 'spent' : 'earned'
 
     // Get the appropriate icon based on the loaiNhiemVu

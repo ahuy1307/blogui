@@ -237,7 +237,7 @@ const PersonalInfomation = () => {
                         value={user?.diaChi}
                     />
                 </div>
-                <Form.Item className="text-right !mb-2 sm:!mb-3 lg:!mb-4">
+                <Form.Item className="pt-4 md:pt-0 text-right !mb-2 sm:!mb-3 lg:!mb-4">
                     <Button type="primary" shape="square" htmlType="submit">
                         {t('saveInfo')}
                     </Button>

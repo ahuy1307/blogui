@@ -761,18 +761,18 @@ export function BlogDetail({
                         blogId={blogDetail.id}
                     />
                 )}
-                <div className="container mx-auto px-4 py-12 mt-[90px] flex flex-col lg:flex-row gap-6 justify-center">
+                <div className="container mx-auto px-4 py-12 mt-[80px] flex flex-col lg:flex-row gap-6 justify-center">
                     <main className="w-full lg:w-3/4 max-w-4xl">
                         <div className="mx-auto">
                             {/* Example button to trigger refetch */}
 
-                            <Link
+                            {/* <Link
                                 href="/blog"
                                 className="inline-flex items-center text-base text-gray-500 hover:text-purple-600 mb-8"
                             >
                                 <ArrowLeft className="h-4 w-4 mr-2" />
                                 {t('back_to_blogs')}
-                            </Link>
+                            </Link> */}
 
                             {/* Topics */}
                             <div className="flex flex-wrap gap-2 mb-4">

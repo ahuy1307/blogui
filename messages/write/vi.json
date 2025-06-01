@@ -158,7 +158,9 @@
         "finishingUp": "Hoàn tất...",
         "generateImageCosts": "Tạo hình ảnh bằng AI sẽ tiêu tốn",
         "uploadingGeneratedImage": "Đang tải lên hình ảnh đã tạo...",
-        "notHaveEnoughCoins": "Bạn không đủ xu để tạo hình ảnh này. Vui lòng nạp thêm xu."
+        "notHaveEnoughCoins": "Bạn không đủ xu để tạo hình ảnh này. Vui lòng nạp thêm xu.",
+        "imageFileTooLargeDescription": "Dung lượng tệp hình ảnh vượt quá giới hạn 10MB. Vui lòng chọn tệp nhỏ hơn.",
+        "videoFileTooLargeDescription": "Dung lượng tệp video vượt quá giới hạn 50MB. Vui lòng chọn tệp nhỏ hơn."
     },
     "TopicSelector": {
         "placeholder": "Tìm hoặc thêm chủ đề...",
@@ -297,6 +299,10 @@
         "startOver": "Bắt đầu lại",
         "useBlog": "Sử dụng blog này",
         "generateBlogCosts": "Tạo blog bằng AI sẽ tiêu tốn",
-        "notHaveEnoughCoins": "Bạn không đủ xu để tạo blog này. Vui lòng nạp thêm xu."
+        "notHaveEnoughCoins": "Bạn không đủ xu để tạo blog này. Vui lòng nạp thêm xu.",
+        "title": "Tiêu đề",
+        "contentPreview": "Xem trước nội dung",
+        "sectionType": "Loại phần",
+        "moreSections": "phần khác"
     }
 }

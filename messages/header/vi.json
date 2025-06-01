@@ -23,6 +23,7 @@
         "vi": "Tiếng Việt",
         "en": "Tiếng Anh"
     },
+    "coinHistory": "Lịch sử Coin",
     "manageTransactions": "Quản lý giao dịch",
     "logout": "Đăng xuất",
     "personalInfomation": "Xem thông tin cá nhân",

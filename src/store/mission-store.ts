@@ -56,7 +56,10 @@ interface MissionState {
   transactions: Transaction[]
   hasMoreTransactions: boolean
   currentTransactionPage: number
-  needsLazyLoading: boolean  // Add this property
+  needsLazyLoading: boolean
+  totalCoinEarned: number
+  totalCoinSpent: number
+  currentFilter: boolean | undefined  // Track the current filter state
 
   // API Integration
   fetchUserTasks: () => Promise<void>
@@ -64,8 +67,8 @@ interface MissionState {
   refreshMissionData: () => Promise<void>
   
   // Transaction related function
-  fetchTransactionHistory: (page?: number, reset?: boolean) => Promise<void>
-  loadMoreTransactions: () => Promise<void>
+  fetchTransactionHistory: (page?: number, reset?: boolean, charge_coin?: boolean) => Promise<void>
+  loadMoreTransactions: (charge_coin?: boolean) => Promise<void>
 }
 
 export const useMissionStore = create<MissionState>()(
@@ -78,7 +81,10 @@ export const useMissionStore = create<MissionState>()(
       transactions: [],
       hasMoreTransactions: true,
       currentTransactionPage: 1,
-      needsLazyLoading: false,  // Initialize this property
+      needsLazyLoading: false,
+      totalCoinEarned: 0,
+      totalCoinSpent: 0,
+      currentFilter: undefined,  // Initialize currentFilter as undefined (all)
 
       fetchUserTasks: async () => {
         set({ isLoading: true, error: null })
@@ -188,24 +194,43 @@ export const useMissionStore = create<MissionState>()(
         }
       },
       
-      fetchTransactionHistory: async (page = 1, reset = false) => {
+      fetchTransactionHistory: async (page = 1, reset = false, charge_coin = undefined) => {
+        const { currentFilter, isLoading, currentTransactionPage } = get();
+        
+        // Skip duplicate API calls if the filter is the same and just changing pages
+        if (isLoading) return;
+        if (!reset && page > 1 && charge_coin === currentFilter) {
+          // If we're just loading more with the same filter, proceed
+        } else if (page === 1 && charge_coin === currentFilter && !reset) {
+          // Skip duplicate API calls with the same filter
+          return;
+        }
+        
         set(state => ({ 
           isLoading: true, 
           error: null,
-          currentTransactionPage: page
+          currentTransactionPage: page,
+          currentFilter: charge_coin  // Update the current filter
         }))
         
         try {
-          const response = await authenticationService.getCoinHistory({ page, limit: 10 })
+          const response = await authenticationService.getCoinHistory({ 
+            page, 
+            limit: 10,
+            charge_coin
+          })
           const historyData = response?.data?.results || []
           const totalCount = response?.data?.count || 0
           const totalPages = Math.ceil(totalCount / 10) || 1
           
+          // Get total earned and spent from API if available
+          const totalEarned = response?.data?.totalCoinEarned || 0
+          const totalSpent = response?.data?.totalCoinSpent || 0
+          
           // Convert API historyData to our transaction format
           const newTransactions = historyData.map((item: UserTask) => {
-            // Determine transaction type based on loaiNhiemVu
-            // If it starts with "charge_", it's a "spent" transaction, otherwise "earned"
-            const type = item.loaiNhiemVu?.startsWith('charge_') ? 'spent' : 'earned'
+            // Determine transaction type based on loaiNhiemVu or charge_coin parameter
+            const type = charge_coin === true || item.loaiNhiemVu?.startsWith('charge_') ? 'spent' : 'earned'
             
             return {
               id: item.id,
@@ -223,16 +248,18 @@ export const useMissionStore = create<MissionState>()(
             }
           })
           
-          // If totalCount <= 10, we load all transactions at once and don't need lazy loading
-          // If totalCount > 10, enable lazy loading
+          // Enable lazy loading if there are more than 10 items
           const needsLazyLoading = totalCount > 10
           
-          set(state => ({ 
+          set(state => ({
             // If reset or first page, replace transactions; otherwise append to existing
             transactions: reset || page === 1 ? newTransactions : [...state.transactions, ...newTransactions],
             hasMoreTransactions: page < totalPages,
             isLoading: false,
-            needsLazyLoading
+            needsLazyLoading,
+            // Update totals only on initial load or reset
+            totalCoinEarned: reset || page === 1 ? totalEarned : state.totalCoinEarned,
+            totalCoinSpent: reset || page === 1 ? totalSpent : state.totalCoinSpent
           }))
           
           return newTransactions
@@ -245,13 +272,17 @@ export const useMissionStore = create<MissionState>()(
         }
       },
       
-      loadMoreTransactions: async () => {
-        const { currentTransactionPage, hasMoreTransactions, isLoading, needsLazyLoading } = get()
+      loadMoreTransactions: async (charge_coin = undefined) => {
+        const { currentTransactionPage, hasMoreTransactions, isLoading, needsLazyLoading, currentFilter } = get()
         
-        // Only load more if needed (count > 10) and we have more pages
+        // Only load more if needed and not already loading
         if (!needsLazyLoading || !hasMoreTransactions || isLoading) return
         
-        await get().fetchTransactionHistory(currentTransactionPage + 1, false)
+        // Use the current filter if none is provided
+        const filterToUse = charge_coin !== undefined ? charge_coin : currentFilter;
+        
+        // Pass the charge_coin parameter to maintain filter consistency
+        await get().fetchTransactionHistory(currentTransactionPage + 1, false, filterToUse)
       }
     }),
     {

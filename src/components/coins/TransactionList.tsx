@@ -1,12 +1,15 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useMissionStore } from '@/store/mission-store'
 import { TransactionItem } from './TransactionItem'
-import { Button } from '@/components/other-ui/Button'
 import { useTranslations } from 'next-intl'
 
-export function TransactionList() {
+interface TransactionListProps {
+    filter?: 'all' | 'earned' | 'spent'
+}
+
+export function TransactionList({ filter = 'all' }: TransactionListProps) {
     const {
         transactions,
         hasMoreTransactions,
@@ -14,90 +17,114 @@ export function TransactionList() {
         fetchTransactionHistory,
         loadMoreTransactions,
         needsLazyLoading,
+        currentFilter,
     } = useMissionStore()
     const t = useTranslations('header.CoinHistoryPage')
 
-    const listRef = useRef<HTMLDivElement>(null)
     const [initialLoad, setInitialLoad] = useState(true)
+    const observerRef = useRef<IntersectionObserver | null>(null)
+    const previousFilterRef = useRef<string>(filter)
 
-    // Load initial transactions only once
+    // Convert filter to charge_coin parameter
+    const getChargeCoin = useCallback(() => {
+        if (filter === 'earned') return false
+        if (filter === 'spent') return true
+        return undefined
+    }, [filter])
+
+    // Load initial transactions only once or when filter changes
     useEffect(() => {
-        if (initialLoad) {
-            fetchTransactionHistory(1, true) // Reset any existing data
+        const charge_coin = getChargeCoin()
+
+        // Check if filter actually changed to avoid unnecessary API calls
+        if (initialLoad || previousFilterRef.current !== filter) {
+            // Only fetch if we need to change the filter or haven't loaded yet
+            fetchTransactionHistory(1, true, charge_coin)
             setInitialLoad(false)
+            previousFilterRef.current = filter
         }
-    }, [fetchTransactionHistory, initialLoad])
+    }, [filter, fetchTransactionHistory, getChargeCoin, initialLoad])
 
-    // Set up scroll event listener for lazy loading
-    useEffect(() => {
-        const currentListRef = listRef.current
+    // Set up intersection observer for infinite scrolling
+    const lastElementRef = useCallback(
+        (node: HTMLDivElement | null) => {
+            if (isLoading) return
 
-        if (!currentListRef || !needsLazyLoading) return
+            // Disconnect previous observer if exists
+            if (observerRef.current) observerRef.current.disconnect()
 
-        const handleScroll = () => {
-            if (!currentListRef || isLoading || !hasMoreTransactions) return
+            // Create new observer
+            observerRef.current = new IntersectionObserver(
+                (entries) => {
+                    // If the sentinel element is visible and we have more transactions to load
+                    if (
+                        entries[0]?.isIntersecting &&
+                        hasMoreTransactions &&
+                        needsLazyLoading
+                    ) {
+                        // Pass the charge_coin parameter when loading more
+                        const charge_coin = getChargeCoin()
+                        loadMoreTransactions(charge_coin)
+                    }
+                },
+                { threshold: 0.1 }
+            )
 
-            const { scrollTop, scrollHeight, clientHeight } = currentListRef
-
-            // If we're near the bottom (within 50px), load more transactions
-            if (scrollTop + clientHeight >= scrollHeight - 100) {
-                loadMoreTransactions()
-            }
-        }
-
-        // Add event listener to the list element
-        currentListRef.addEventListener('scroll', handleScroll)
-
-        // Clean up event listener when component unmounts
-        return () => {
-            if (currentListRef) {
-                currentListRef.removeEventListener('scroll', handleScroll)
-            }
-        }
-    }, [needsLazyLoading, isLoading, hasMoreTransactions, loadMoreTransactions])
+            // Observe the sentinel element
+            if (node) observerRef.current.observe(node)
+        },
+        [
+            isLoading,
+            hasMoreTransactions,
+            loadMoreTransactions,
+            needsLazyLoading,
+            getChargeCoin,
+        ]
+    )
 
     return (
         <div className="space-y-4">
-            <div
-                ref={listRef}
-                className="space-y-3 overflow-y-auto"
-                style={{ maxHeight: '500px' }}
-            >
-                {transactions.length > 0 ? (
-                    transactions.map((transaction, index) => (
+            {transactions.length > 0 ? (
+                <>
+                    {transactions.map((transaction, index) => (
                         <TransactionItem
                             key={`${transaction.id}-${index}`}
                             transaction={transaction}
                         />
-                    ))
-                ) : (
-                    <div className="text-center py-8 text-gray-500">
-                        {isLoading
-                            ? t('loading') || 'Đang tải...'
-                            : t('noTransactionsFound')}
-                    </div>
-                )}
+                    ))}
 
-                {/* Only show loading indicator when lazy loading in progress */}
-                {isLoading && transactions.length > 0 && (
-                    <div className="text-center py-4 text-gray-500">
-                        {t('loadingMore') || 'Đang tải thêm...'}
-                    </div>
-                )}
-            </div>
-
-            {/* Only show "Load More" button when we have more than 10 items total and more pages exist */}
-            {/* {needsLazyLoading && hasMoreTransactions && !isLoading && (
-                <div className="text-center">
-                    <Button
-                        variant="outline"
-                        onClick={loadMoreTransactions}
-                        className="w-full"
-                    >
-                        Tải thêm
-                    </Button>
+                    {/* Loading indicator and sentinel element for lazy loading */}
+                    {needsLazyLoading && (
+                        <div
+                            ref={lastElementRef}
+                            className="h-10 flex items-center justify-center"
+                        >
+                            {isLoading && hasMoreTransactions && (
+                                <div className="flex items-center space-x-2">
+                                    <div className="animate-spin w-4 h-4 border-2 border-gray-300 border-t-purple-600 rounded-full"></div>
+                                    <span className="text-sm text-gray-500">
+                                        {t('loadingMore') || 'Loading more...'}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </>
+            ) : (
+                <div className="text-center py-8 text-gray-500">
+                    {isLoading ? (
+                        <div className="flex flex-col items-center">
+                            <div className="animate-spin w-8 h-8 border-4 border-gray-300 border-t-purple-600 rounded-full mb-2"></div>
+                            <span>{t('loading') || 'Loading...'}</span>
+                        </div>
+                    ) : (
+                        <span>
+                            {t('noTransactionsFound') ||
+                                'No transactions found'}
+                        </span>
+                    )}
                 </div>
-            )} */}
+            )}
         </div>
     )
 }
