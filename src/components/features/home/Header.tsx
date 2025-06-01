@@ -33,6 +33,7 @@ import {
     Target,
     Bell,
     Library,
+    History,
 } from 'lucide-react'
 
 import TextField from '@/components/ui/TextField/TextField'
@@ -542,7 +543,7 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                                         </div>
                                     </div>
 
-                                    <div className="flex justify-between mt-3 border-t border-gray-200 pt-3">
+                                    <div className="flex justify-between mt-3 border-t border-gray-200 pt-6">
                                         <Link
                                             href="/profile/coin-history"
                                             className="flex items-center gap-1.5"
@@ -552,18 +553,18 @@ const Header = ({ isWrite = false }: { isWrite?: boolean }) => {
                                                 {user?.soLuongCoin || 0} coins
                                             </span>
                                         </Link>
-                                        {/* <Link
-                                            href={`/library`}
+                                        <Link
+                                            href={`/profile/coin-history`}
                                             className="flex items-center gap-1.5"
                                             onClick={() =>
                                                 setIsMobileMenuOpen(false)
                                             }
                                         >
-                                            <Book className="h-5 w-5 text-blue-500" />
+                                            <History className="h-5 w-5 text-blue-500" />
                                             <span className="font-medium">
-                                                {t('library')}
+                                                {t('coinHistory')}
                                             </span>
-                                        </Link> */}
+                                        </Link>
                                     </div>
                                 </div>
 

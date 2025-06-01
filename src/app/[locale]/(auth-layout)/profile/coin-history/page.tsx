@@ -1,16 +1,8 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import {
-    ArrowLeft,
-    Coins,
-    Plus,
-    Minus,
-    Filter,
-    Calendar,
-    Search,
-} from 'lucide-react'
+import { ArrowLeft, Coins, Plus, Minus, Search } from 'lucide-react'
 import { format } from 'date-fns'
 import { vi } from 'date-fns/locale'
 import {
@@ -38,8 +30,16 @@ import { useAuth } from '@/contexts/auth/AuthContext'
 import { useTranslations } from 'next-intl'
 
 export default function CoinHistoryPage() {
-    const { transactions, fetchTransactionHistory, needsLazyLoading } =
-        useMissionStore()
+    const {
+        transactions,
+        fetchTransactionHistory,
+        loadMoreTransactions,
+        needsLazyLoading,
+        isLoading,
+        totalCoinEarned,
+        totalCoinSpent,
+        currentFilter,
+    } = useMissionStore()
     const t = useTranslations('header.CoinHistoryPage')
     const { user } = useAuth()
     const [filter, setFilter] = useState<'all' | 'earned' | 'spent'>('all')
@@ -50,37 +50,31 @@ export default function CoinHistoryPage() {
         Transaction[]
     >([])
     const [isFiltering, setIsFiltering] = useState(false)
+    const [previousFilter, setPreviousFilter] = useState<
+        'all' | 'earned' | 'spent'
+    >('all')
 
-    // Fetch transaction history - only on initial load
+    // Helper function to get charge_coin parameter from filter
+    const getChargeCoin = () => {
+        if (filter === 'earned') return false
+        if (filter === 'spent') return true
+        return undefined
+    }
+
+    // Fetch transaction history with filters - only when filter actually changes
     useEffect(() => {
-        // Initial fetch is now handled by the TransactionList component
-        // This ensures we don't trigger duplicate fetches
-    }, [])
+        const fetchFilteredTransactions = async () => {
+            const chargeCoin = getChargeCoin()
 
-    // Calculate total earned and spent
-    const totalEarned = transactions.reduce((sum, txn) => {
-        // Nếu có loaiNhiemVu, kiểm tra xem có phải là charge không
-        if (txn.loaiNhiemVu) {
-            if (!txn.loaiNhiemVu.startsWith('charge_')) {
-                return sum + (txn.amount || txn.coinNhanThuong || 0)
+            // Only fetch if the filter actually changed or we have no transactions
+            if (previousFilter !== filter || !transactions.length) {
+                await fetchTransactionHistory(1, true, chargeCoin)
+                setPreviousFilter(filter)
             }
-            return sum
         }
-        // Nếu không có loaiNhiemVu, sử dụng logic cũ
-        return txn.type === 'earned' ? sum + (txn.amount || 0) : sum
-    }, 0)
 
-    const totalSpent = transactions.reduce((sum, txn) => {
-        // Nếu có loaiNhiemVu, kiểm tra xem có phải là charge không
-        if (txn.loaiNhiemVu) {
-            if (txn.loaiNhiemVu.startsWith('charge_')) {
-                return sum + (txn.amount || txn.coinNhanThuong || 0)
-            }
-            return sum
-        }
-        // Nếu không có loaiNhiemVu, sử dụng logic cũ
-        return txn.type === 'spent' ? sum + (txn.amount || 0) : sum
-    }, 0)
+        fetchFilteredTransactions()
+    }, [filter, fetchTransactionHistory, transactions.length, previousFilter])
 
     // Cập nhật phần lấy unique sources để bao gồm cả loaiNhiemVu
     // Update sources to include task names
@@ -126,11 +120,10 @@ export default function CoinHistoryPage() {
         return sourceId
     }
 
-    // Apply filters
+    // Apply additional filters (source, search query, date range)
     useEffect(() => {
         setIsFiltering(
-            filter !== 'all' ||
-                sourceFilter !== 'all' ||
+            sourceFilter !== 'all' ||
                 searchQuery !== '' ||
                 !!dateRange.from ||
                 !!dateRange.to
@@ -138,24 +131,8 @@ export default function CoinHistoryPage() {
 
         let filtered = [...transactions]
 
-        // Filter by type
-        if (filter !== 'all') {
-            if (filter === 'earned') {
-                filtered = filtered.filter(
-                    (txn) =>
-                        (txn.loaiNhiemVu &&
-                            !txn.loaiNhiemVu.startsWith('charge_')) ||
-                        (!txn.loaiNhiemVu && txn.type === 'earned')
-                )
-            } else if (filter === 'spent') {
-                filtered = filtered.filter(
-                    (txn) =>
-                        (txn.loaiNhiemVu &&
-                            txn.loaiNhiemVu.startsWith('charge_')) ||
-                        (!txn.loaiNhiemVu && txn.type === 'spent')
-                )
-            }
-        }
+        // Note: Filter by type (earned/spent) is now handled by the API
+        // with the charge_coin parameter
 
         // Filter by source
         if (sourceFilter !== 'all') {
@@ -213,14 +190,32 @@ export default function CoinHistoryPage() {
         })
 
         setFilteredTransactions(filtered)
-    }, [transactions, filter, sourceFilter, searchQuery, dateRange])
+    }, [transactions, sourceFilter, searchQuery, dateRange])
 
-    // Clear all filters
+    // Load more transactions with current filter
+    const handleLoadMore = () => {
+        const chargeCoin = getChargeCoin()
+        loadMoreTransactions(chargeCoin)
+    }
+
+    // Clear all filters and refetch all transactions
     const clearFilters = () => {
+        // Only refetch if we're not already showing "all" transactions
+        const needsRefetch =
+            filter !== 'all' ||
+            sourceFilter !== 'all' ||
+            searchQuery !== '' ||
+            !!dateRange.from ||
+            !!dateRange.to
+
         setFilter('all')
         setSourceFilter('all')
         setSearchQuery('')
         setDateRange({})
+
+        if (needsRefetch) {
+            fetchTransactionHistory(1, true) // Reset and fetch all transactions
+        }
     }
 
     // Format date range for display
@@ -243,7 +238,7 @@ export default function CoinHistoryPage() {
 
     return (
         <div className="min-h-screen bg-white text-gray-900">
-            <main className="container mx-auto px-4 py-12">
+            <main className="md:container mx-auto md:px-4 py-12">
                 <Link
                     href="/"
                     className="inline-flex items-center text-gray-500 hover:text-purple-600 mb-8"
@@ -281,7 +276,7 @@ export default function CoinHistoryPage() {
                             <CardContent>
                                 <div className="flex items-center gap-2 text-2xl font-bold text-green-700">
                                     <Plus className="h-5 w-5" />
-                                    {totalEarned} {t('coin')}
+                                    {totalCoinEarned} {t('coin')}
                                 </div>
                             </CardContent>
                         </Card>
@@ -295,7 +290,7 @@ export default function CoinHistoryPage() {
                             <CardContent>
                                 <div className="flex items-center gap-2 text-2xl font-bold text-red-700">
                                     <Minus className="h-5 w-5" />
-                                    {totalSpent} {t('coin')}
+                                    {totalCoinSpent} {t('coin')}
                                 </div>
                             </CardContent>
                         </Card>
@@ -453,8 +448,14 @@ export default function CoinHistoryPage() {
                                 </div>
                             )}
 
-                            {isFiltering ? (
-                                // When filters are active, show filtered results
+                            {/* Show loading indicator when fetching data */}
+                            {isLoading && !filteredTransactions.length ? (
+                                <div className="text-center py-8 text-gray-500">
+                                    <div className="animate-spin w-8 h-8 border-4 border-gray-300 border-t-purple-600 rounded-full mx-auto mb-4"></div>
+                                    <p>{t('loading') || 'Loading...'}</p>
+                                </div>
+                            ) : isFiltering ? (
+                                // When local filters are active, show filtered results
                                 filteredTransactions.length > 0 ? (
                                     <div className="space-y-4">
                                         {filteredTransactions.map((txn) => (
@@ -474,8 +475,8 @@ export default function CoinHistoryPage() {
                                     </div>
                                 )
                             ) : (
-                                // When no filters, use the TransactionList component with lazy loading
-                                <TransactionList />
+                                // When no local filters, use the TransactionList component with lazy loading
+                                <TransactionList filter={filter} />
                             )}
                         </CardContent>
                     </Card>

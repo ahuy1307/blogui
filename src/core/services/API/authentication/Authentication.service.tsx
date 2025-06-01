@@ -562,14 +562,17 @@ class AuthenticationService implements IAuthentication {
     async getCoinHistory({
         page,
         limit,
+        charge_coin,
     }: {
         page?: number
         limit?: number
+        charge_coin?: boolean
     }): Promise<any> {
         const res = await httpService.get('/auth/tasks/history', {
             params: {
                 page,
                 limit,
+                charge_coin,
             },
         })
         return res

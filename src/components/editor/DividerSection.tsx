@@ -58,13 +58,6 @@ const DIVIDER_TYPES = [
         },
     },
     {
-        value: 'space',
-        label: {
-            en: 'Space',
-            vi: 'Khoảng cách',
-        },
-    },
-    {
         value: 'gradient',
         label: {
             en: 'Gradient Line',

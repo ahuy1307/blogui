@@ -14,6 +14,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Blog } from '@/types/interface'
 import { Spin } from 'antd'
 import { useTranslations } from 'next-intl'
+import { useIsMobile } from '@/hooks/useMobile'
 
 export function FeaturedBlogSection() {
     const t = useTranslations('landing.FeaturedBlogSection')
@@ -39,6 +40,8 @@ export function FeaturedBlogSection() {
     useEffect(() => {
         refetch()
     }, [refetch])
+
+    const isMobile = useIsMobile()
 
     return (
         <section className="py-10 bg-white">
@@ -83,6 +86,7 @@ export function FeaturedBlogSection() {
                                     blogPosts.length > 0 &&
                                     blogPosts.map((blog, index) => (
                                         <BlogFeatureCard
+                                            countTopics={isMobile ? 2 : 3}
                                             key={index}
                                             blog={blog}
                                             icon={<Clock className="h-5 w-5" />}

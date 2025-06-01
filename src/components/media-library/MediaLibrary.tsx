@@ -516,14 +516,14 @@ export function MediaLibrary({
                                 value="library"
                                 className="flex items-center gap-2 px-2 sm:px-4 text-sm sm:text-sm"
                             >
-                                <ImageIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                                <ImageIcon className="h-3 w-3 sm:h-4 sm:w-4 hidden md:block" />
                                 {t('library')}
                             </TabsTrigger>
                             <TabsTrigger
                                 value="upload"
                                 className="flex items-center gap-2 px-2 sm:px-4 text-sm sm:text-sm"
                             >
-                                <Upload className="h-3 w-3 sm:h-4 sm:w-4" />
+                                <Upload className="h-3 w-3 sm:h-4 sm:w-4 hidden md:block" />
                                 {t('upload')}
                             </TabsTrigger>
                             {/* Only show generate tab for image or all media types */}
@@ -532,7 +532,7 @@ export function MediaLibrary({
                                     value="generate"
                                     className="flex items-center gap-2 px-2 sm:px-4 text-sm sm:text-sm"
                                 >
-                                    <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+                                    <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 hidden md:block" />
                                     {t('generate')}
                                 </TabsTrigger>
                             )}

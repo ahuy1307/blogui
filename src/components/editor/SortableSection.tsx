@@ -41,6 +41,7 @@ import { SIDEBAR_SECTIONS } from '@/components/editor/constants'
 import { useLocale, useTranslations } from 'next-intl'
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import { useIsMobile } from '@/hooks/useMobile'
 
 interface SortableSectionProps {
     section: SectionType
@@ -187,7 +188,7 @@ export function SortableSection({
         return (
             <div className="space-y-2 mt-4 pt-4 border-t border-gray-200">
                 <h4 className="text-sm font-medium">{t('spacing')}</h4>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <Label className="text-xs text-gray-500">
                             {t('topMargin')}
@@ -338,7 +339,7 @@ export function SortableSection({
                             </div>
                         )}
 
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="hidden md:flex items-center gap-2 mb-2">
                             <Label className="text-sm font-medium">
                                 {t('imageSize')}:
                             </Label>
@@ -859,6 +860,8 @@ export function SortableSection({
         }
     }
 
+    const isMobile = useIsMobile()
+
     // Add a function to add a section to a specific column
     return (
         <div
@@ -880,7 +883,7 @@ export function SortableSection({
             data-id={section.id}
         >
             <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center">
                     <div
                         {...attributes}
                         {...listeners}
@@ -891,7 +894,7 @@ export function SortableSection({
                     <span className="font-medium capitalize text-gray-700">
                         {section.type.replace('-', ' ')}
                     </span>
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                    <span className="ml-2 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
                         {t('position')} {sectionIndex + 1} {t('of')}{' '}
                         {totalSections}
                     </span>
@@ -1013,7 +1016,10 @@ export function SortableSection({
                                 <Settings className="h-4 w-4" />
                             </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-80 p-4">
+                        <PopoverContent
+                            className="w-72 p-4"
+                            align={isMobile ? 'end' : 'center'}
+                        >
                             {renderSpacingControls()}
                         </PopoverContent>
                     </Popover>

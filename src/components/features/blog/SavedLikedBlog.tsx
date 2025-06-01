@@ -21,10 +21,12 @@ export function SavedLikeBlog({
     blog,
     refetch,
     type,
+    countTopics = 4,
 }: {
     blog: Blog
     type: string
     refetch: () => void
+    countTopics?: number
 }) {
     const t = useTranslations('blog')
     const locale = useLocale()
@@ -67,7 +69,7 @@ export function SavedLikeBlog({
             <CardHeader className="flex-grow">
                 <div className="flex gap-2">
                     {blog.chuDes &&
-                        blog.chuDes.slice(0, 4).map((chuDe) => (
+                        blog.chuDes.slice(0, countTopics).map((chuDe) => (
                             <span
                                 key={chuDe.id}
                                 className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full"
@@ -75,9 +77,9 @@ export function SavedLikeBlog({
                                 {chuDe.tenChuDe[locale]}
                             </span>
                         ))}
-                    {blog.chuDes && blog.chuDes.length > 4 && (
+                    {blog.chuDes && blog.chuDes.length > countTopics && (
                         <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
-                            +{blog.chuDes.length - 4}{' '}
+                            +{blog.chuDes.length - countTopics}{' '}
                             {locale === 'en' ? 'more' : 'khác'}
                         </span>
                     )}
@@ -131,12 +133,12 @@ export function SavedLikeBlog({
                             {t('unLike')}
                         </button>
                     )}
-                    <Link
+                    {/* <Link
                         href={`/blog/${blog.slug}`}
                         className="text-purple-500 hover:text-purple-700"
                     >
                         {t('readMore')} →
-                    </Link>
+                    </Link> */}
                 </div>
             </CardFooter>
         </Card>

@@ -140,7 +140,11 @@
         "startOver": "Start Over",
         "useBlog": "Use This Blog",
         "generateBlogCosts": "Genrate blog by AI costs",
-        "notHaveEnoughCoins": "You don't have enough coins to generate this blog. Please purchase more coins."
+        "notHaveEnoughCoins": "You don't have enough coins to generate this blog. Please purchase more coins.",
+        "title": "Title",
+        "contentPreview": "Content Preview",
+        "sectionType": "Type",
+        "moreSections": "more sections"
     },
     "MediaLibrary": {
         "errorFetchingMedia": "Error fetching media",
@@ -220,7 +224,9 @@
         "finishingUp": "Finishing up...",
         "generateImageCosts": "Generate image by AI costs",
         "uploadingGeneratedImage": "Uploading generated image...",
-        "notHaveEnoughCoins": "You don't have enough coins to generate this image. Please purchase more coins."
+        "notHaveEnoughCoins": "You don't have enough coins to generate this image. Please purchase more coins.",
+        "imageFileTooLargeDescription": "Image file size exceeds the 10MB limit. Please select a smaller image.",
+        "videoFileTooLargeDescription": "Video file size exceeds the 50MB limit. Please select a smaller video."
     },
     "TopicSelector": {
         "placeholder": "Search or add topics...",

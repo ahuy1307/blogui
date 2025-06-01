@@ -950,7 +950,7 @@ function SearchContent() {
                 {/* Blog results - right side */}
                 <div className="md:w-3/4 lg:w-4/5">
                     {/* Results count with loading indicator */}
-                    <div className="flex justify-between items-center mb-6 h-6">
+                    <div className="flex justify-between items-center mb-6 mt-2 h-6">
                         <div className="flex items-center">
                             {isActiveSearch ? (
                                 <div className="flex items-center text-gray-500">

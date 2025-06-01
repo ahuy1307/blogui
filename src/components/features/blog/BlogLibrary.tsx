@@ -16,6 +16,7 @@ import { SavedLikeBlog } from './SavedLikedBlog'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/other-ui/Button'
 import { Link } from '@/navigation'
+import { useIsMobile } from '@/hooks/useMobile'
 
 // Empty state component
 function EmptyState({ icon, title, description, actionText }: any) {
@@ -64,9 +65,11 @@ export function BlogLibrary() {
         refetch()
     }, [activeTab])
 
+    const isMobile = useIsMobile()
+
     return (
         <section className="py-20 bg-white">
-            <div className="container mx-auto px-4">
+            <div className="md:container mx-auto md:px-4">
                 <Tabs defaultValue="liked" onValueChange={setActiveTab}>
                     <div className="flex items-center justify-between mb-8">
                         <h2 className="text-3xl font-bold text-gray-900">
@@ -104,6 +107,7 @@ export function BlogLibrary() {
                                             blog={blog.baiViet}
                                             refetch={refetch}
                                             type={activeTab}
+                                            countTopics={isMobile ? 2 : 3}
                                         />
                                     ))}
                                 </div>

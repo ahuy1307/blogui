@@ -113,14 +113,14 @@ export function TextEditor({ value, onChange, className }: TextEditorProps) {
 
     return (
         <div className="space-y-2">
-            <div className="flex items-center gap-1 border border-gray-300 rounded-md p-1 bg-white">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center border border-gray-300 rounded-md p-1 bg-white">
                 <Select
                     value={format.fontSize}
                     onValueChange={(value) =>
                         handleFormatChange('fontSize', value)
                     }
                 >
-                    <SelectTrigger className="w-[120px] h-8 border-0 focus:ring-0">
+                    <SelectTrigger className="w-[150px] h-8 border-0 focus:ring-0">
                         <Type className="h-4 w-4 mr-2" />
                         <SelectValue placeholder="Size" />
                     </SelectTrigger>
@@ -134,69 +134,73 @@ export function TextEditor({ value, onChange, className }: TextEditorProps) {
                     </SelectContent>
                 </Select>
 
-                <div className="h-6 w-px bg-gray-300 mx-1" />
+                <div className="h-6 w-px bg-gray-300 mx-1 hidden md:block" />
 
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleFormatChange('bold', !format.bold)}
-                    className={cn(
-                        'h-8 px-2 rounded-md',
-                        format.bold ? 'bg-gray-200' : ''
-                    )}
-                >
-                    <Bold className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-4">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleFormatChange('bold', !format.bold)}
+                        className={cn(
+                            'h-8 px-2 rounded-md',
+                            format.bold ? 'bg-gray-200' : ''
+                        )}
+                    >
+                        <Bold className="h-4 w-4" />
+                    </Button>
 
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleFormatChange('italic', !format.italic)}
-                    className={cn(
-                        'h-8 px-2 rounded-md',
-                        format.italic ? 'bg-gray-200' : ''
-                    )}
-                >
-                    <Italic className="h-4 w-4" />
-                </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                            handleFormatChange('italic', !format.italic)
+                        }
+                        className={cn(
+                            'h-8 px-2 rounded-md',
+                            format.italic ? 'bg-gray-200' : ''
+                        )}
+                    >
+                        <Italic className="h-4 w-4" />
+                    </Button>
 
-                <div className="h-6 w-px bg-gray-300 mx-1" />
+                    <div className="h-6 w-px bg-gray-300 mx-1" />
 
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleFormatChange('align', 'left')}
-                    className={cn(
-                        'h-8 px-2 rounded-md',
-                        format.align === 'left' ? 'bg-gray-200' : ''
-                    )}
-                >
-                    <AlignLeft className="h-4 w-4" />
-                </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleFormatChange('align', 'left')}
+                        className={cn(
+                            'h-8 px-2 rounded-md',
+                            format.align === 'left' ? 'bg-gray-200' : ''
+                        )}
+                    >
+                        <AlignLeft className="h-4 w-4" />
+                    </Button>
 
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleFormatChange('align', 'center')}
-                    className={cn(
-                        'h-8 px-2 rounded-md',
-                        format.align === 'center' ? 'bg-gray-200' : ''
-                    )}
-                >
-                    <AlignCenter className="h-4 w-4" />
-                </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleFormatChange('align', 'center')}
+                        className={cn(
+                            'h-8 px-2 rounded-md',
+                            format.align === 'center' ? 'bg-gray-200' : ''
+                        )}
+                    >
+                        <AlignCenter className="h-4 w-4" />
+                    </Button>
 
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleFormatChange('align', 'right')}
-                    className={cn(
-                        'h-8 px-2 rounded-md',
-                        format.align === 'right' ? 'bg-gray-200' : ''
-                    )}
-                >
-                    <AlignRight className="h-4 w-4" />
-                </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleFormatChange('align', 'right')}
+                        className={cn(
+                            'h-8 px-2 rounded-md',
+                            format.align === 'right' ? 'bg-gray-200' : ''
+                        )}
+                    >
+                        <AlignRight className="h-4 w-4" />
+                    </Button>
+                </div>
             </div>
 
             <textarea

@@ -391,24 +391,24 @@ export function BlogGenerator({
             onValueChange={setActiveTab}
             className="flex-1 flex flex-col min-h-0"
         >
-            <TabsList className="grid grid-cols-2 w-full max-w-[500px] mx-auto">
+            <TabsList className="grid grid-cols-2 w-full max-w-[500px] mx-auto gap-2">
                 <TabsTrigger
                     value="idea"
                     className="flex items-center justify-center gap-2 font-bold py-3"
                 >
                     <Lightbulb className="h-4 w-4 hidden md:block" />
-                    {t('startIdea')}
+                    <p className="truncate">{t('startIdea')}</p>
                 </TabsTrigger>
                 <TabsTrigger
                     value="advanced"
                     className="flex items-center justify-center gap-2 font-bold py-3"
                 >
                     <Wand2 className="h-4 w-4 hidden md:block" />
-                    {t('advancedOptions')}
+                    <p className="truncate">{t('advancedOptions')}</p>
                 </TabsTrigger>
             </TabsList>
 
-            <div className="mt-6 overflow-y-auto flex-1 pr-2 max-h-[60vh]">
+            <div className="mt-8 md:overflow-y-auto overflow-y-hidden flex-1 pr-2">
                 <TabsContent value="idea" className="mt-0 space-y-6">
                     <div className="space-y-3 px-2">
                         <Label
@@ -447,7 +447,7 @@ export function BlogGenerator({
                             placeholder="Enter a title or leave blank to generate one"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full"
+                            className="w-full text-sm md:text-base p-2"
                             disabled={
                                 generateBlogMutation.isPending ||
                                 !!generatedBlog ||
@@ -560,7 +560,7 @@ export function BlogGenerator({
                                         onChange={(e) =>
                                             setIncludeCode(e.target.checked)
                                         }
-                                        className="mt-1 h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                                        className="mt-1 h-5 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                                     />
                                     <div className="ml-3">
                                         <Label
@@ -585,7 +585,7 @@ export function BlogGenerator({
                                         onChange={(e) =>
                                             setIncludeEmojis(e.target.checked)
                                         }
-                                        className="mt-1 h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                                        className="mt-1 h-5 w-6 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                                     />
                                     <div className="ml-3">
                                         <Label
@@ -610,15 +610,15 @@ export function BlogGenerator({
     )
 
     const renderPreview = () => (
-        <div className="flex-1 overflow-y-hidden py-4 space-y-6 h-full">
+        <div className="flex-1 overflow-y-auto py-4 space-y-6 h-full">
             <div className="bg-green-50 border border-green-200 rounded-md p-4 flex items-start gap-3">
                 <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
-                    <h3 className="font-medium text-green-800">
+                    <p className="font-medium text-2xl md:text-3xl text-green-800">
                         {t('blogGenerated')}
-                    </h3>
+                    </p>
                     <p className="text-green-700 text-sm mt-1">
                         {t('blogGeneratedDesc')}
                     </p>
@@ -627,7 +627,7 @@ export function BlogGenerator({
 
             {/* Blog title */}
             <div className="space-y-2">
-                <h3 className="font-medium">Title</h3>
+                <p className="font-medium text-2xl md:text-3xl">{t('title')}</p>
                 <div className="p-3 bg-gray-50 rounded-md">
                     <span className="font-bold">
                         {generatedBlog?.title || ''}
@@ -638,17 +638,19 @@ export function BlogGenerator({
             {/* Blog content preview */}
             <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                    <h3 className="font-medium">Content Preview</h3>
+                    <p className="font-medium text-2xl md:text-3xl">
+                        {t('contentPreview')}
+                    </p>
                     <span className="bg-purple-100 text-purple-800 text-xs font-medium rounded-full px-2.5 py-0.5">
-                        {generatedBlog?.sections?.length || 0} sections
+                        {generatedBlog?.sections?.length || 0} {t('sections')}
                     </span>
                 </div>
 
                 <div className="border rounded-md overflow-hidden">
                     <div className="bg-gray-50 border-b px-4 py-3">
-                        <h2 className="font-bold">
+                        <p className="font-bold text-2xl md:text-3xl">
                             {generatedBlog?.title || ''}
-                        </h2>
+                        </p>
                     </div>
 
                     <div className="overflow-x-auto">
@@ -659,9 +661,11 @@ export function BlogGenerator({
                                 <thead className="bg-gray-50 text-gray-600 text-sm">
                                     <tr>
                                         <th className="w-12 px-4 py-2">#</th>
-                                        <th className="px-4 py-2 w-28">Type</th>
+                                        <th className="px-4 py-2 w-28">
+                                            {t('sectionType')}
+                                        </th>
                                         <th className="px-4 py-2">
-                                            Content Preview
+                                            {t('contentPreview')}
                                         </th>
                                     </tr>
                                 </thead>
@@ -769,7 +773,8 @@ export function BlogGenerator({
                     {generatedBlog?.sections?.length > 8 && (
                         <div className="bg-gray-50 border-t px-4 py-3 text-center text-gray-500 text-sm">
                             {t('previewMore')} (
-                            {generatedBlog.sections.length - 8} more sections)
+                            {generatedBlog.sections.length - 8}{' '}
+                            {t('moreSections')})
                         </div>
                     )}
                 </div>
@@ -790,7 +795,7 @@ export function BlogGenerator({
         }
 
         return (
-            <div className="text-xs text-purple-700 mt-1 flex justify-center">
+            <div className="text-xs py-1 text-purple-700 mt-1 flex justify-center">
                 <span>{steps[generationStep as keyof typeof steps]}</span>
             </div>
         )
@@ -798,7 +803,7 @@ export function BlogGenerator({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[90vw] md:max-w-[800px] h-[90vh] flex flex-col p-6 overflow-hidden">
+            <DialogContent className="sm:max-w-[90vw] md:max-w-[800px] h-[90vh] w-[90vw] flex flex-col p-6 overflow-hidden">
                 <DialogHeader className="mb-4">
                     <DialogTitle className="flex items-center gap-2 text-xl">
                         <Sparkles className="h-5 w-5 text-purple-500" />
@@ -857,7 +862,7 @@ export function BlogGenerator({
                             <Button
                                 variant="outline"
                                 onClick={onClose}
-                                className="min-w-[100px]"
+                                className="min-w-[100px] mt-2"
                             >
                                 {t('cancel')}
                             </Button>
@@ -904,7 +909,7 @@ export function BlogGenerator({
                             </div>
                         </>
                     ) : (
-                        <>
+                        <div className="flex flex-col-reverse md:flex-row gap-2">
                             <Button
                                 variant="outline"
                                 onClick={() => setGeneratedBlog(null)}
@@ -918,7 +923,7 @@ export function BlogGenerator({
                             >
                                 {t('useBlog')}
                             </Button>
-                        </>
+                        </div>
                     )}
                 </DialogFooter>
             </DialogContent>

@@ -366,7 +366,7 @@ export default function TransactionHistoryClient() {
                                 {t('paymentMethodAll')}
                             </SelectItem>
                             <SelectItem value="VNPay">VNPay</SelectItem>
-                            <SelectItem value="Momo">Momo</SelectItem>
+                            {/* <SelectItem value="Momo">Momo</SelectItem> */}
                         </SelectContent>
                     </Select>
 
