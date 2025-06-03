@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/other-ui/Button'
 import { Badge } from '@/components/other-ui/Badge'
 import {
@@ -62,7 +62,22 @@ export function PaymentItem({
     const [isCancelling, setIsCancelling] = useState(false)
     const [remainingSeconds, setRemainingSeconds] = useState<number>(0)
     const [checkoutExpired, setCheckoutExpired] = useState<boolean>(false)
-    const [isRemoved, setIsRemoved] = useState(false)
+    const [animationCompleted, setAnimationCompleted] = useState(true)
+    const [localTransaction, setLocalTransaction] =
+        useState<Transaction>(transaction)
+
+    // Remove isRemoved since we're not using it anymore
+    // const [isRemoved, setIsRemoved] = useState(false)
+
+    // Add a ref to track component mounted state
+    const isMounted = useRef(true)
+
+    // Check component unmount
+    useEffect(() => {
+        return () => {
+            isMounted.current = false
+        }
+    }, [])
 
     // Check if transaction is still within 15 minutes for checkout
     const isCheckoutAvailable = () => {
@@ -221,46 +236,87 @@ export function PaymentItem({
         }
     }
 
+    // Save the expanded state before cancellation so we can restore it
+    const expandedBeforeCancel = useRef(expanded)
+
+    // Simplified cancel handler - ensure collapsed state after cancellation
     const handleCancel = async () => {
-        // Immediately hide dialog and mark component as being removed
+        // Close dialog
         setShowCancelDialog(false)
-        setIsRemoved(true)
+
+        // First update UI immediately to show cancelled
+        setLocalTransaction((prev) => ({
+            ...prev,
+            trangThai: 'cancel',
+        }))
+
+        // Always collapse the component
+        setExpanded(false)
 
         try {
+            // Set cancelling flag for button state
+            setIsCancelling(true)
+
             // Call API in the background
             await authenticationService.cancelPayment({
                 order_id: transaction.id,
             })
 
-            toast.success(
-                t('cancelSuccess', {
-                    defaultMessage: 'Order cancelled successfully',
-                })
-            )
+            // Only proceed if component is still mounted
+            if (isMounted.current) {
+                // Show success message
+                toast.success(
+                    t('cancelSuccess', {
+                        defaultMessage: 'Order cancelled successfully',
+                    })
+                )
 
-            // Use a long delay before triggering parent refetch to ensure component is fully unmounted
-            setTimeout(() => {
-                onCancel(transaction.id)
-            }, 500)
+                // Notify parent component after a delay
+                setTimeout(() => onCancel(transaction.id), 1000)
+            }
         } catch (error) {
             console.error('Error cancelling payment:', error)
-            toast.error(
-                t('cancelError', { defaultMessage: 'Failed to cancel order' })
-            )
+
+            // If API fails, revert the local status but keep collapsed
+            if (isMounted.current) {
+                setLocalTransaction((prev) => ({
+                    ...prev,
+                    trangThai: 'pending',
+                }))
+
+                // Show error message
+                toast.error(
+                    t('cancelError', {
+                        defaultMessage: 'Failed to cancel order',
+                    })
+                )
+            }
+        } finally {
+            // Always reset cancelling state when done
+            if (isMounted.current) {
+                setIsCancelling(false)
+            }
         }
     }
 
-    // If removed from DOM, don't render anything except a placeholder
-    if (isRemoved) {
-        // Return minimal placeholder instead of null to maintain DOM structure
-        return <div className="hidden"></div>
+    // Handle animation complete to avoid DOM errors
+    const handleAnimationComplete = () => {
+        setAnimationCompleted(true)
+    }
+
+    // Start of animation - mark as not completed
+    const handleAnimationStart = () => {
+        setAnimationCompleted(false)
     }
 
     return (
         <>
-            <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-white ">
+            <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-white">
+                {/* Main content section */}
                 <div
-                    className={`p-4 sm:p-5 bg-card flex flex-col md:flex-row md:items-center justify-between gap-3 cursor-pointer ${expanded ? 'border-b border-dashed' : ''}`}
+                    className={`p-4 sm:p-5 bg-card flex flex-col md:flex-row md:items-center justify-between gap-3 cursor-pointer ${
+                        expanded ? 'border-b border-dashed' : ''
+                    }`}
                     onClick={() => setExpanded(!expanded)}
                 >
                     {/* Transaction info - improved mobile layout */}
@@ -280,7 +336,8 @@ export function PaymentItem({
                             </div>
 
                             <div className="mt-1 md:mt-0">
-                                {getStatusBadge(transaction.trangThai)}
+                                {/* Use localTransaction to display updated status */}
+                                {getStatusBadge(localTransaction.trangThai)}
                             </div>
 
                             <div className="hidden md:block text-muted-foreground">
@@ -345,22 +402,24 @@ export function PaymentItem({
                     </div>
                 </div>
 
-                {/* Expanded details with animation */}
-                <AnimatePresence>
+                {/* Expanded details - allow viewing even after cancellation */}
+                <AnimatePresence mode="wait">
                     {expanded && (
                         <motion.div
+                            key={`expanded-content-${localTransaction.id}-${localTransaction.trangThai}`}
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{
-                                duration: 0.35,
-                                ease: [0.04, 0.62, 0.23, 0.98],
-                                opacity: { duration: 0.25 },
+                                duration: 0.2,
+                                ease: 'easeInOut',
                             }}
                             className="overflow-hidden"
+                            onAnimationStart={handleAnimationStart}
+                            onAnimationComplete={handleAnimationComplete}
                         >
                             <div className="p-4 sm:p-5 bg-muted/30">
-                                {/* Improved grid layout for mobile */}
+                                {/* Details grid */}
                                 <div className="grid grid-cols-1 gap-4 sm:gap-6">
                                     <div className="bg-white  p-3 sm:p-4 rounded-lg shadow-sm">
                                         <h4 className="font-medium mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
@@ -447,8 +506,8 @@ export function PaymentItem({
                                     </div>
                                 </div>
 
-                                {/* Action buttons for pending transactions - improved for mobile */}
-                                {transaction.trangThai === 'pending' && (
+                                {/* Only show action buttons for pending transactions */}
+                                {localTransaction.trangThai === 'pending' && (
                                     <div className="mt-4">
                                         {isCheckoutAvailable() ? (
                                             <div>
@@ -557,7 +616,7 @@ export function PaymentItem({
 
             {/* Dialog for cancel confirmation - made more mobile friendly */}
             <Dialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
-                <DialogContent className="flex flex-col z-[200] sm:max-w-md max-h-[90vh] overflow-auto">
+                <DialogContent className="flex flex-col z-[200] sm:max-w-md max-h-[90vh] overflow-auto w-[90vw] md:w-full">
                     <DialogHeader>
                         <div className="flex items-center justify-between w-full">
                             <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold">
