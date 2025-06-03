@@ -21,9 +21,33 @@ const httpService = axios.create({
     withCredentials: true, // Include credentials in requests
 })
 
+let isRefreshing = false
+let refreshSubscribers: ((token: string) => void)[] = []
+
+const onRefreshed = (token: string) => {
+    refreshSubscribers.forEach((callback) => callback(token))
+    refreshSubscribers = []
+}
+
+// Function to subscribe to token refresh
+const subscribeTokenRefresh = (callback: (token: string) => void) => {
+    refreshSubscribers.push(callback)
+}
+
 httpService.interceptors.request.use(
-    async (config: any) => {
+    async (config) => {
         const token: string | null = await localStorageService.getToken()
+
+        // Set the locale header no matter what
+        const locale =
+            typeof window !== 'undefined'
+                ? window.location.pathname.split('/')[1]
+                : ''
+        const { locales } = AppConfig
+        const currentLocale = locales.includes(locale) ? locale : 'vi'
+        config.headers['Accept-Language'] =
+            config.headers['Accept-Language'] || currentLocale
+
         if (token) {
             const currentTime = Math.floor(Date.now() / 1000)
             const decodedToken = token
@@ -32,65 +56,100 @@ httpService.interceptors.request.use(
 
             if (decodedToken.exp > currentTime) {
                 config.headers['Authorization'] = `Bearer ${token}`
+                return config
             } else {
-                const refreshToken = await localStorageService.getRefreshToken()
-                try {
-                    const { data } = await axios.get(
-                        `${BLOG_URL}/api/v1/auth/refresh-token`
-                    )
-                    localStorageService.setToken(data.access)
-                    config.headers['Authorization'] = `Bearer ${data.access}`
-                } catch (refreshError) {
-                    localStorageService.removeToken()
-                    localStorageService.removeRefreshToken()
+                // Token is expired, handle refresh
+                if (!isRefreshing) {
+                    isRefreshing = true
+
+                    try {
+                        const { data } = await axios.get(
+                            `${BLOG_URL}/api/v1/auth/refresh-token`,
+                            { withCredentials: true }
+                        )
+
+                        await localStorageService.setToken(data.access)
+                        onRefreshed(data.access)
+                        config.headers['Authorization'] =
+                            `Bearer ${data.access}`
+                        return config
+                    } catch (refreshError) {
+                        // Clear tokens on refresh error
+                        await localStorageService.removeToken()
+                        await localStorageService.removeRefreshToken()
+                        return Promise.reject(refreshError)
+                    } finally {
+                        isRefreshing = false
+                    }
+                } else {
+                    // Wait for the token to be refreshed
+                    return new Promise((resolve) => {
+                        subscribeTokenRefresh((newToken) => {
+                            config.headers['Authorization'] =
+                                `Bearer ${newToken}`
+                            resolve(config)
+                        })
+                    })
                 }
             }
         }
 
-        const locale = window.location.pathname.split('/')[1]
-        const { locales } = AppConfig
-        const currentLocale = locales.includes(locale) ? locale : 'vi'
-        config.headers['Accept-Language'] = currentLocale
-
         return config
     },
     (error) => {
-        if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            const status = error.response.status
-            switch (status) {
-                case 400:
-                    console.error('Bad Request', error.response.data)
-                    break
-                case 401:
-                case 403:
-                    // Handle unauthorized access, e.g., redirect to login or refresh token
-                    localStorageService.removeToken()
-                    localStorageService.removeRefreshToken()
-                    console.error('Unauthorized', error.response.data)
-                    break
-                case 404:
-                    console.error('Not Found', error.response.data)
-                    break
-                case 500:
-                    console.error('Internal Server Error', error.response.data)
-                    break
-                default:
-                    console.error(
-                        `Unhandled error: ${status}`,
-                        error.response.data
-                    )
-            }
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.error(
-                'The request was made but no response was received',
-                error.request
-            )
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            console.error('Error', error.message)
+        console.error('Request interceptor error:', error)
+        return Promise.reject(error)
+    }
+)
+
+httpService.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const path =
+            typeof window !== 'undefined' ? window.location.pathname : ''
+        const isEnglish = path === '/en' || path.startsWith('/en/')
+
+        if (!error.response) {
+            console.error('Unable to connect to server!')
+            return Promise.reject(error)
+        }
+
+        const { status, config } = error.response
+        const traceId =
+            error.response.headers['x-amzn-trace-id'] ||
+            error.response.headers['X-Amzn-Trace-Id']
+        const fallbackMsg = isEnglish
+            ? 'Something went wrong.'
+            : 'Đã có lỗi xảy ra.'
+        const errorMessage = error.response?.data?.message || fallbackMsg
+        const finalMessage = traceId
+            ? `${errorMessage} Trace ID: ${traceId}`
+            : errorMessage
+        // Handle other errors
+        switch (status) {
+            case 400:
+                console.error('Bad Request', error.response.data)
+                break
+            case 401:
+                await localStorageService.removeToken()
+                await localStorageService.removeRefreshToken()
+                console.error('Unauthorized', error.response.data)
+                break
+            case 403:
+                console.error('Forbidden', error.response.data)
+                break
+            case 404:
+                console.error('Not Found', error.response.data)
+                break
+            case 500:
+                console.error('Error with Trace ID', {
+                    status,
+                    traceId,
+                    data: error.response.data,
+                })
+                break
+            default:
+                console.error(`Unhandled error: ${status}`, error.response.data)
         }
 
         return Promise.reject(error)
