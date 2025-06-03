@@ -51,7 +51,7 @@ const Register = () => {
             onSuccess: async (res: any) => {
                 const { email, access } = res.data
                 localStorageService.setToken(access)
-                localStorageService.setRefreshToken(res.data.refresh)
+                // localStorageService.setRefreshToken(res.data.refresh)
                 await handleSignIn()
                 message.success(t('loginSuccess'))
             },
@@ -85,7 +85,7 @@ const Register = () => {
             onSuccess: async (res: any) => {
                 const { email, access } = res.data
                 localStorageService.setToken(access)
-                localStorageService.setRefreshToken(res.data.refresh)
+                // localStorageService.setRefreshToken(res.data.refresh)
                 await handleSignIn()
                 message.success(t('loginSuccess'))
             },

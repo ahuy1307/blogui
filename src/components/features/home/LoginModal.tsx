@@ -35,7 +35,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
             onSuccess: async (res: any) => {
                 const { email, access } = res.data
                 localStorageService.setToken(access)
-                localStorageService.setRefreshToken(res.data.refresh)
+                // localStorageService.setRefreshToken(res.data.refresh)
                 await handleSignIn()
                 onCancel()
                 message.success(t('loginSuccess'))
@@ -70,7 +70,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
             onSuccess: async (res: any) => {
                 const { email, access } = res.data
                 localStorageService.setToken(access)
-                localStorageService.setRefreshToken(res.data.refresh)
+                // localStorageService.setRefreshToken(res.data.refresh)
                 await handleSignIn()
                 message.success(t('loginSuccess'))
                 onCancel()
@@ -110,7 +110,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onOk, onCancel }) => {
         mutationFn: authenticationService.login,
         onSuccess: async (res: any) => {
             localStorageService.setToken(res.data.access)
-            localStorageService.setRefreshToken(res.data.refresh)
+            // localStorageService.setRefreshToken(res.data.refresh)
             await handleSignIn()
             message.success(t('loginSuccess'))
             onCancel()

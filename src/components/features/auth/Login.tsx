@@ -25,12 +25,16 @@ import { authenticationService } from '@/core/services/API/authentication/Authen
 import useFacebookLogin from '@/hooks/useFacebookLogin'
 import { useAuth } from '@/contexts/auth/AuthContext'
 import { signIn } from '@/contexts/auth/reducers'
+import Alert from '@/components/ui/Alert/Alert'
+import { set } from 'lodash'
 
 const Login = () => {
     const t = useTranslations('auth.Login')
     const { dispatch } = useAuth()
     const clientId = `${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`
     const router = useRouter()
+    const [form] = Form.useForm()
+    const [error, setError] = React.useState<string>('')
 
     async function handleSignIn() {
         try {
@@ -40,13 +44,28 @@ const Login = () => {
         } catch (error) {}
     }
 
+    const { mutate: loginMutation, isPending: isLoginPending } = useMutation({
+        mutationFn: authenticationService.login,
+        onSuccess: async (res) => {
+            const { access } = res.data
+            localStorageService.setToken(access)
+            await handleSignIn()
+            message.success(t('loginSuccess'))
+            setError('')
+            router.push('/')
+        },
+        onError: (error: any) => {
+            setError(error.response?.data?.errors.other[0] || t('loginError'))
+        },
+    })
+
     const { mutate: googleLoginMutation, isPending: isPendingGoogleLogin } =
         useMutation({
             mutationFn: authenticationService.signupSocial,
             onSuccess: async (res: any) => {
                 const { email, access } = res.data
                 localStorageService.setToken(access)
-                localStorageService.setRefreshToken(res.data.refresh)
+                // localStorageService.setRefreshToken(res.data.refresh)
                 await handleSignIn()
                 message.success(t('loginSuccess'))
             },
@@ -80,7 +99,7 @@ const Login = () => {
             onSuccess: async (res: any) => {
                 const { email, access } = res.data
                 localStorageService.setToken(access)
-                localStorageService.setRefreshToken(res.data.refresh)
+                // localStorageService.setRefreshToken(res.data.refresh)
                 await handleSignIn()
                 message.success(t('loginSuccess'))
             },
@@ -101,6 +120,16 @@ const Login = () => {
             }
         }
     )
+
+    const handleSubmit = (values: any) => {
+        const { email, password, is_remember } = values
+        loginMutation({
+            email,
+            password,
+            is_remember: is_remember || false,
+        })
+    }
+
     return (
         <div className="flex flex-col gap-16 md:flex-row justify-between items-center relative min-h-screen">
             <div
@@ -143,7 +172,7 @@ const Login = () => {
                             </p>
                         </div>
                     </div>
-                    <Form className="mt-6">
+                    <Form className="mt-6" form={form} onFinish={handleSubmit}>
                         <InputFormItem
                             required
                             placeholder={t('emailPlaceholder')}
@@ -187,12 +216,22 @@ const Login = () => {
                                 {t('forgotPassword')}{' '}
                             </Link>
                         </div>
+                        <div className="mb-4">
+                            {error && (
+                                <Alert
+                                    type="error"
+                                    showIcon={true}
+                                    message={error}
+                                />
+                            )}
+                        </div>
                         <Form.Item>
                             <Button
                                 htmlType="submit"
                                 type="primary"
                                 shape="square"
                                 style={{ width: '100%' }}
+                                loading={isLoginPending}
                             >
                                 {t('login')}
                             </Button>

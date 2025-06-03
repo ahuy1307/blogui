@@ -69,7 +69,7 @@ const SetPassword = () => {
             mutationFn: authenticationService.setPassword,
             onSuccess: async (res: any) => {
                 localStorageService.setToken(res.data.access)
-                localStorageService.setRefreshToken(res.data.refresh)
+                // localStorageService.setRefreshToken(res.data.refresh)
                 await handleSignIn()
             },
             onError: (error: any) => {
