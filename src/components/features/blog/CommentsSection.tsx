@@ -964,26 +964,28 @@ export function CommentsSection({
                         onChange={handleInputChange}
                         onClick={() => setCurrentInputType('comment')}
                     />
-                    <div className="justify-between items-center hidden md:flex">
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="outline" size="icon">
-                                    <Smile className="h-4 w-4" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent
-                                className="w-80 p-0 mt-[300px]"
-                                side="right"
-                            >
-                                <Picker
-                                    data={data}
-                                    onEmojiSelect={(emoji: any) =>
-                                        handleEmojiSelect(emoji, 'comment')
-                                    }
-                                    theme="light"
-                                />
-                            </PopoverContent>
-                        </Popover>
+                    <div className="justify-between items-center flex">
+                        <div className="hidden md:block">
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline" size="icon">
+                                        <Smile className="h-4 w-4" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                    className="w-80 p-0 mt-[300px]"
+                                    side="right"
+                                >
+                                    <Picker
+                                        data={data}
+                                        onEmojiSelect={(emoji: any) =>
+                                            handleEmojiSelect(emoji, 'comment')
+                                        }
+                                        theme="light"
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
 
                         <Button
                             onClick={handleSubmitComment}

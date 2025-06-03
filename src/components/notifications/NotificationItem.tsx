@@ -57,10 +57,8 @@ export function NotificationItem({
             href={`/blog/${blogSlug}`}
             passHref
             className={`flex w-full cursor-pointer items-start gap-3 p-3 ${
-                notification.daDoc ? '' : 'bg-blue-50 dark:bg-blue-900/20'
-            } hover:bg-gray-100 dark:hover:bg-gray-800 ${
-                fullWidth ? 'rounded-md' : ''
-            }`}
+                notification.daDoc ? '' : 'bg-blue-50 '
+            } hover:bg-gray-100  ${fullWidth ? 'rounded-md' : ''}`}
             onClick={() => onClick(notification)}
         >
             <div className="flex-shrink-0">
