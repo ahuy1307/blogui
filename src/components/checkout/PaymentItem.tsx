@@ -258,7 +258,7 @@ export function PaymentItem({
 
     return (
         <>
-            <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-white dark:bg-gray-800">
+            <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-white ">
                 <div
                     className={`p-4 sm:p-5 bg-card flex flex-col md:flex-row md:items-center justify-between gap-3 cursor-pointer ${expanded ? 'border-b border-dashed' : ''}`}
                     onClick={() => setExpanded(!expanded)}
@@ -362,13 +362,13 @@ export function PaymentItem({
                             <div className="p-4 sm:p-5 bg-muted/30">
                                 {/* Improved grid layout for mobile */}
                                 <div className="grid grid-cols-1 gap-4 sm:gap-6">
-                                    <div className="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm">
+                                    <div className="bg-white  p-3 sm:p-4 rounded-lg shadow-sm">
                                         <h4 className="font-medium mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
                                             <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 text-primary" />
                                             {t('orderDetails')}
                                         </h4>
                                         <div className="space-y-2 sm:space-y-3">
-                                            <div className="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                                            <div className="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-md hover:bg-gray-50 ">
                                                 <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">
@@ -382,7 +382,7 @@ export function PaymentItem({
                                                 </div>
                                             </div>
 
-                                            <div className="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                                            <div className="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-md hover:bg-gray-50 ">
                                                 <CreditCard className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">
@@ -398,13 +398,13 @@ export function PaymentItem({
                                         </div>
                                     </div>
 
-                                    <div className="bg-white dark:bg-gray-900 p-3 sm:p-4 rounded-lg shadow-sm">
+                                    <div className="bg-white  p-3 sm:p-4 rounded-lg shadow-sm">
                                         <h4 className="font-medium mb-2 sm:mb-3 flex items-center text-sm sm:text-base">
                                             <Package className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 text-primary" />
                                             {t('packageDetails')}
                                         </h4>
                                         <div className="space-y-2">
-                                            <div className="flex justify-between items-center p-1.5 sm:p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                                            <div className="flex justify-between items-center p-1.5 sm:p-2 rounded-md hover:bg-gray-50 ">
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">
                                                         {t('packageName')}
@@ -425,7 +425,7 @@ export function PaymentItem({
                                                 </div>
                                             </div>
 
-                                            <div className="flex justify-between items-center p-1.5 sm:p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                                            <div className="flex justify-between items-center p-1.5 sm:p-2 rounded-md hover:bg-gray-50 ">
                                                 <div>
                                                     <p className="text-xs text-muted-foreground">
                                                         {t('packagePrice')}

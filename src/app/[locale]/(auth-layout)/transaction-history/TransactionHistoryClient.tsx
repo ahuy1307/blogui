@@ -298,7 +298,7 @@ export default function TransactionHistoryClient() {
                 <p className="text-muted-foreground">{t('description')}</p>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 mb-6 border">
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-6 border">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-lg font-medium flex items-center gap-2">
                         <Filter className="h-4 w-4" />
@@ -330,7 +330,7 @@ export default function TransactionHistoryClient() {
                         value={statusFilter}
                         onValueChange={setStatusFilter}
                     >
-                        <SelectTrigger className="w-full md:w-[180px] bg-white dark:bg-gray-900">
+                        <SelectTrigger className="w-full md:w-[180px] bg-white ">
                             <SelectValue placeholder={t('statusPlaceholder')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -356,7 +356,7 @@ export default function TransactionHistoryClient() {
                         value={paymentMethodFilter}
                         onValueChange={setPaymentMethodFilter}
                     >
-                        <SelectTrigger className="w-full md:w-[180px] bg-white dark:bg-gray-900">
+                        <SelectTrigger className="w-full md:w-[180px] bg-white ">
                             <SelectValue
                                 placeholder={t('paymentMethodPlaceholder')}
                             />
@@ -398,7 +398,7 @@ export default function TransactionHistoryClient() {
                         {statusFilter !== 'all' && (
                             <Badge
                                 variant="secondary"
-                                className="flex gap-1.5 items-center px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 transition-colors cursor-pointer"
+                                className="flex gap-1.5 items-center px-3 py-1.5 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
                             >
                                 {t('statusLabel')}:{' '}
                                 <span className="font-medium">
@@ -443,7 +443,7 @@ export default function TransactionHistoryClient() {
                 )}
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border">
+            <div className="bg-white rounded-lg shadow-sm p-4 border">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-medium">
                         {t('transactions')}
@@ -506,7 +506,7 @@ export default function TransactionHistoryClient() {
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-16 text-center">
-                        <div className="rounded-full bg-gray-100 dark:bg-gray-700 p-3 mb-4">
+                        <div className="rounded-full bg-gray-100 p-3 mb-4">
                             <X className="h-6 w-6 text-gray-400" />
                         </div>
                         <h3 className="text-lg font-medium mb-1">
