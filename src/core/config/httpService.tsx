@@ -18,6 +18,7 @@ const httpService = axios.create({
         'Content-Type': 'application/json',
     },
     timeout: 60000, // Set timeout to 60 seconds
+    withCredentials: true, // Include credentials in requests
 })
 
 httpService.interceptors.request.use(
@@ -34,9 +35,8 @@ httpService.interceptors.request.use(
             } else {
                 const refreshToken = await localStorageService.getRefreshToken()
                 try {
-                    const { data } = await axios.post(
-                        `${BLOG_URL}/api/v1/auth/refresh-token`,
-                        { refresh: refreshToken }
+                    const { data } = await axios.get(
+                        `${BLOG_URL}/api/v1/auth/refresh-token`
                     )
                     localStorageService.setToken(data.access)
                     config.headers['Authorization'] = `Bearer ${data.access}`

@@ -47,7 +47,7 @@ const ManageDevices = ({ currentDevice, otherDevices, refetch }: any) => {
 
     return (
         <div className="px-2 md:px-0">
-            <div className="flex items-center justify-between mb-4 p-4 bg-[var(--bg-secondary)] rounded-lg shadow-sm">
+            <div className="flex items-center justify-between mb-4 p-4 bg-[var(--bg-secondary)] rounded-lg shadow-sm gap-12">
                 <div className="flex flex-col">
                     <span className="text-sm md:text-base font-semibold">
                         {t('deviceAlertTitle')}

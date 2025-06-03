@@ -45,7 +45,7 @@ export const ChangePassword = () => {
         mutationFn: authenticationService.changePassword,
         onSuccess: async (res) => {
             await localStorageService.setToken(res.data.access)
-            await localStorageService.setRefreshToken(res.data.refresh)
+            // await localStorageService.setRefreshToken(res.data.refresh)
             await handleSignIn()
             message.success(res.data.message)
         },
