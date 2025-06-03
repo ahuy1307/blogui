@@ -37,7 +37,7 @@ export const CancelPayment = () => {
     }, [router])
 
     return (
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-[60px] sm:mt-[80px] pb-8">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 mt-[60px] sm:mt-[80px] pb-8">
             <Card className="border-amber-200 shadow-lg w-full">
                 <CardHeader className="bg-amber-50 border-b border-amber-100 px-4 sm:px-6 py-5 sm:py-6">
                     <div className="flex justify-center mb-3 sm:mb-4">

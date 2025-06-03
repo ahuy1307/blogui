@@ -5,7 +5,7 @@ import Checkbox from '@/components/ui/CheckBox/CheckBox'
 
 interface Device {
     idThietBi: string
-    loaiThietBi: 'desktop' | 'tablet' | 'iphone'
+    loaiThietBi: 'desktop' | 'tablet' | 'mobile'
     tenThietBi: string
     tenHeDieuHanh: string
     tenTrinhDuyet: string
@@ -35,7 +35,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = ({
                 return <FaDesktop size={30} />
             case 'tablet':
                 return <FaTabletAlt size={30} />
-            case 'iphone':
+            case 'mobile':
                 return <FaMobileAlt size={30} />
             default:
                 return null

@@ -102,7 +102,7 @@ export default function ConfirmPage() {
 
     if (isVerifying) {
         return (
-            <div className="container mx-auto py-24 flex flex-col items-center justify-center">
+            <div className="md:container mx-auto py-24 flex flex-col items-center justify-center">
                 <Loader2 className="h-12 w-12 animate-spin mb-6 text-primary" />
                 <h2 className="text-2xl font-medium">
                     {t('Checkout.processing')}
@@ -116,14 +116,14 @@ export default function ConfirmPage() {
 
     if (isCancelled) {
         return (
-            <div className="container mx-auto py-12">
+            <div className="md:container mx-auto py-12">
                 <CancelPayment />
             </div>
         )
     }
 
     return (
-        <div className="container mx-auto py-12">
+        <div className="md:container mx-auto py-12">
             <PaymentConfirmation
                 isSuccess={isSuccess}
                 errorMessage={errorMessage}
