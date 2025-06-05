@@ -50,6 +50,8 @@ export interface Blog {
     daYeuThich: boolean
     daLuu: boolean
     blogCuaBan: boolean
+    noiDungHtml: string
+    noiDungCss: string
 }
 
 export interface BlogMedia {
