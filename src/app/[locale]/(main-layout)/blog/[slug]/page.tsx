@@ -68,7 +68,7 @@ export default function BlogPost({ params }: any) {
     }
 
     const handleReturnToBlogPage = () => {
-        router.push(`${locale}/blog`)
+        router.push(`/${locale}/blog`)
     }
 
     useEffect(() => {
