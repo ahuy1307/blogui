@@ -315,7 +315,7 @@ function SearchContent() {
             // Use the custom search method that properly handles multiple topics
             const response = await authenticationService.searchBlogs({
                 page: pageParam,
-                limit: pageSize,
+                // limit: pageSize,
                 search: search || undefined,
                 start_date: startDate || undefined,
                 end_date: endDate || undefined,
