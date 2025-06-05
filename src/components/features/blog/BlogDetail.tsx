@@ -748,25 +748,33 @@ export function BlogDetail({
         setShowFullSummary(!showFullSummary)
     }
 
+    const shoudRenderHtml =
+        blogDetail &&
+        blogDetail.noiDungHtml &&
+        blogDetail.noiDungHtml.trim() !== ''
+
     return (
         <>
             <div className="min-h-screen bg-white text-gray-900">
                 <Header />
                 <Toaster />
-                <ScrollToTop isBlogDetail={!!(blogDetail && user)} />
+                <ScrollToTop
+                    isBlogDetail={!!(!shoudRenderHtml && blogDetail && user)}
+                />
                 {/* Move ChatAssistant here to ensure it's correctly positioned */}
-                {blogDetail && user && (
+                {!shoudRenderHtml && blogDetail && user && (
                     <ChatAssistant
                         blogTitle={blogDetail.tieuDe}
                         blogId={blogDetail.id}
                     />
                 )}
-                <div className="container mx-auto px-4 py-12 mt-[80px] flex flex-col lg:flex-row gap-6 justify-center">
-                    <main className="w-full lg:w-3/4 max-w-4xl">
-                        <div className="mx-auto">
-                            {/* Example button to trigger refetch */}
+                {!shoudRenderHtml && (
+                    <div className="container mx-auto px-4 py-12 mt-[80px] flex flex-col lg:flex-row gap-6 justify-center">
+                        <main className="w-full lg:w-3/4 max-w-4xl">
+                            <div className="mx-auto">
+                                {/* Example button to trigger refetch */}
 
-                            {/* <Link
+                                {/* <Link
                                 href="/blog"
                                 className="inline-flex items-center text-base text-gray-500 hover:text-purple-600 mb-8"
                             >
@@ -774,483 +782,516 @@ export function BlogDetail({
                                 {t('back_to_blogs')}
                             </Link> */}
 
-                            {/* Topics */}
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                {blogDetail.chuDes.map((topic: any) => (
-                                    <Badge
-                                        key={topic.id}
-                                        variant="outline"
-                                        className="bg-purple-50 text-purple-600 hover:bg-purple-100 text-base"
-                                    >
-                                        {topic.tenChuDe.en}
-                                    </Badge>
-                                ))}
-                            </div>
-
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6 text-gray-900">
-                                {blogDetail.tieuDe}
-                            </h1>
-
-                            <div className="flex items-center gap-4 text-sm text-gray-500 mb-8">
-                                <div className="flex items-center gap-1">
-                                    <Clock className="h-4 w-4" />
-                                    <span>
-                                        {formatReadingTime(
-                                            blogDetail.thoiGianDoc,
-                                            locale as 'en' | 'vi'
-                                        )}
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Calendar className="h-4 w-4" />
-                                    <span>
-                                        {new Date(
-                                            blogDetail.ngayXuatBan
-                                        ).toLocaleDateString()}
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Eye className="h-4 w-4" />
-                                    <span>
-                                        {blogDetail.luotXem} {t('views')}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Summary section */}
-                            {blogDetail.noiDungTomTat && (
-                                <div className="mb-8 p-6 bg-purple-50 border-l-4 border-purple-500 rounded-r-md">
-                                    <h2 className="text-lg font-bold mb-2 text-gray-900">
-                                        {t('summary')}
-                                    </h2>
-                                    <div className="relative">
-                                        <p
-                                            ref={summaryRef}
-                                            className={`text-gray-700 text-left ${!showFullSummary && isSummaryLong ? 'line-clamp-5' : ''}`}
+                                {/* Topics */}
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    {blogDetail.chuDes.map((topic: any) => (
+                                        <Badge
+                                            key={topic.id}
+                                            variant="outline"
+                                            className="bg-purple-50 text-purple-600 hover:bg-purple-100 text-base"
                                         >
-                                            {blogDetail.noiDungTomTat}
-                                        </p>
+                                            {topic.tenChuDe.en}
+                                        </Badge>
+                                    ))}
+                                </div>
 
-                                        {isSummaryLong && (
-                                            <button
-                                                onClick={toggleSummary}
-                                                className="flex items-center mt-2 text-purple-600 hover:text-purple-800 font-medium text-sm"
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6 text-gray-900">
+                                    {blogDetail.tieuDe}
+                                </h1>
+
+                                <div className="flex items-center gap-4 text-sm text-gray-500 mb-8">
+                                    <div className="flex items-center gap-1">
+                                        <Clock className="h-4 w-4" />
+                                        <span>
+                                            {formatReadingTime(
+                                                blogDetail.thoiGianDoc,
+                                                locale as 'en' | 'vi'
+                                            )}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Calendar className="h-4 w-4" />
+                                        <span>
+                                            {new Date(
+                                                blogDetail.ngayXuatBan
+                                            ).toLocaleDateString()}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Eye className="h-4 w-4" />
+                                        <span>
+                                            {blogDetail.luotXem} {t('views')}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Summary section */}
+                                {blogDetail.noiDungTomTat && (
+                                    <div className="mb-8 p-6 bg-purple-50 border-l-4 border-purple-500 rounded-r-md">
+                                        <h2 className="text-lg font-bold mb-2 text-gray-900">
+                                            {t('summary')}
+                                        </h2>
+                                        <div className="relative">
+                                            <p
+                                                ref={summaryRef}
+                                                className={`text-gray-700 text-left ${!showFullSummary && isSummaryLong ? 'line-clamp-5' : ''}`}
                                             >
-                                                {showFullSummary ? (
-                                                    <>
-                                                        {/* <span>
+                                                {blogDetail.noiDungTomTat}
+                                            </p>
+
+                                            {isSummaryLong && (
+                                                <button
+                                                    onClick={toggleSummary}
+                                                    className="flex items-center mt-2 text-purple-600 hover:text-purple-800 font-medium text-sm"
+                                                >
+                                                    {showFullSummary ? (
+                                                        <>
+                                                            {/* <span>
                                                             {t('seeLess')}
                                                         </span>
                                                         <ChevronUp className="h-4 w-4 ml-1" /> */}
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <span>
-                                                            {t('seeMore')}
-                                                        </span>
-                                                        <ChevronDown className="h-4 w-4 ml-1" />
-                                                    </>
-                                                )}
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Author info */}
-                            <Link
-                                href={`/info/${blogDetail.tacGia.slug}`}
-                                className="flex items-center gap-4 mb-8 p-4 bg-gray-50 rounded-lg"
-                            >
-                                <Avatar className="h-16 w-16 border-2 border-white shadow-sm">
-                                    <AvatarImage
-                                        src={
-                                            blogDetail.tacGia.avatar ||
-                                            '/images/default_avatar.jpg'
-                                        }
-                                        alt={blogDetail.tacGia.fullName}
-                                        className="object-cover"
-                                    />
-                                    <AvatarFallback>
-                                        {firstCharName}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <h3 className="font-medium text-lg">
-                                        {blogDetail.tacGia.fullName}
-                                    </h3>
-                                    <p className="text-gray-500 text-sm">
-                                        {blogDetail.tacGia.ngheNghiep &&
-                                        blogDetail.tacGia.congTy
-                                            ? `${blogDetail.tacGia.ngheNghiep} - ${blogDetail.tacGia.congTy}`
-                                            : t('author')}
-                                    </p>
-                                </div>
-                            </Link>
-
-                            <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden border border-gray-200 mb-8">
-                                <AntdImage
-                                    src={
-                                        blogDetail.anhBia ||
-                                        '/images/default_image.jpg'
-                                    }
-                                    alt="Article hero image"
-                                    className="object-cover"
-                                    width="100%"
-                                    height="100%"
-                                    preview={!isMobile}
-                                />
-                            </div>
-
-                            <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-8">
-                                <div className="flex gap-2">
-                                    <FacebookShareButton
-                                        url={shareUrl}
-                                        hashtag={'Suyndy'}
-                                    >
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            className="h-8 px-3 border-gray-200 hover:bg-gray-50 text-gray-700"
-                                        >
-                                            <LuFacebook className="h-4 w-4 mr-1 text-blue-600" />
-                                            {t('share')}
-                                        </Button>
-                                    </FacebookShareButton>
-                                    <LinkedinShareButton
-                                        url={shareUrl}
-                                        title={blogDetail.tieuDe}
-                                    >
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            className="h-8 px-3 border-gray-200 hover:bg-gray-50 text-gray-700"
-                                        >
-                                            <SlSocialLinkedin className="h-4 w-4 mr-1 text-blue-700" />
-                                            {t('share')}
-                                        </Button>
-                                    </LinkedinShareButton>
-                                </div>
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <div className="flex gap-2">
-                                        <Button
-                                            variant={
-                                                blogDetail.daYeuThich
-                                                    ? 'default'
-                                                    : 'outline'
-                                            }
-                                            size="sm"
-                                            className={`h-8 px-3 ${blogDetail.daYeuThich ? 'bg-red-500 text-white hover:bg-red-400 border-red-500' : 'border-gray-300 hover:bg-gray-50 text-gray-700'}`}
-                                            onClick={handleFavorite}
-                                        >
-                                            <Heart
-                                                className={`h-4 w-4 mr-1 ${blogDetail.daYeuThich ? 'fill-white' : ''}`}
-                                            />
-                                            {/* {blogDetail.daYeuThich
-                                            ? t('favorited')
-                                            : t('favorite')} */}
-                                        </Button>
-                                        <Popover>
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <PopoverTrigger asChild>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="sm"
-                                                                className="px-3 h-8 border text-sm text-gray-600 hover:text-black"
-                                                            >
-                                                                {
-                                                                    blogDetail.luotYeuThich
-                                                                }
-                                                            </Button>
-                                                        </PopoverTrigger>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent>
-                                                        <p>
-                                                            {t('seeWhoLikes')}
-                                                        </p>
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-
-                                            <PopoverContent className="w-64 p-0 mt-4 mr-4 shadow-xl">
-                                                <div className="p-3 border-b ">
-                                                    <p className="font-bold">
-                                                        {t('totalLikes')}
-                                                    </p>
-                                                </div>
-                                                <div className="max-h-[300px] overflow-y-auto">
-                                                    {blogDetail
-                                                        .nguoiDungYeuThich
-                                                        .length > 0 ? (
-                                                        blogDetail.nguoiDungYeuThich.map(
-                                                            (liker, index) => (
-                                                                <Link
-                                                                    href={`/info/${liker.slug}`}
-                                                                    key={index}
-                                                                    className="flex items-center gap-3 p-3 hover:bg-gray-200 transition-colors"
-                                                                >
-                                                                    <div className="relative rounded-full overflow-hidden">
-                                                                        <Avatar className="border-2 border-white shadow-sm">
-                                                                            <AvatarImage
-                                                                                src={
-                                                                                    liker.avatar ||
-                                                                                    '/images/default_avatar.jpg'
-                                                                                }
-                                                                                alt={
-                                                                                    blogDetail
-                                                                                        .tacGia
-                                                                                        .fullName
-                                                                                }
-                                                                                className="object-cover"
-                                                                            />
-                                                                            <AvatarFallback>
-                                                                                {liker.hoTen !==
-                                                                                ''
-                                                                                    ? getInitials(
-                                                                                          liker.hoTen,
-                                                                                          ''
-                                                                                      )
-                                                                                    : getInitials(
-                                                                                          '',
-                                                                                          ''
-                                                                                      )}
-                                                                            </AvatarFallback>
-                                                                        </Avatar>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p className="font-medium">
-                                                                            {!liker.nguoiDungHienTai
-                                                                                ? liker.hoTen
-                                                                                : t(
-                                                                                      'you'
-                                                                                  )}
-                                                                        </p>
-                                                                    </div>
-                                                                </Link>
-                                                            )
-                                                        )
+                                                        </>
                                                     ) : (
-                                                        <div className="p-4 text-center text-gray-500">
-                                                            <p className="text-sm">
-                                                                {t('noLikes')}
-                                                            </p>
-                                                        </div>
+                                                        <>
+                                                            <span>
+                                                                {t('seeMore')}
+                                                            </span>
+                                                            <ChevronDown className="h-4 w-4 ml-1" />
+                                                        </>
                                                     )}
-                                                </div>
-                                            </PopoverContent>
-                                        </Popover>
-                                        {!blogDetail.blogCuaBan && (
-                                            <>
-                                                <Button
-                                                    variant={
-                                                        blogDetail.daLuu
-                                                            ? 'default'
-                                                            : 'outline'
-                                                    }
-                                                    size="sm"
-                                                    className={`h-8 px-3 ${blogDetail.daLuu ? 'bg-purple-600 text-white' : 'border-gray-300 hover:bg-gray-50 text-gray-700'}`}
-                                                    onClick={handleSave}
-                                                >
-                                                    <Bookmark
-                                                        className={`h-4 w-4 mr-1 ${blogDetail.daLuu ? 'fill-white' : ''}`}
-                                                    />
-                                                    {blogDetail.daLuu
-                                                        ? t('saved')
-                                                        : t('save')}
-                                                </Button>
-                                            </>
-                                        )}
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
+                                )}
 
+                                {/* Author info */}
+                                <Link
+                                    href={`/info/${blogDetail.tacGia.slug}`}
+                                    className="flex items-center gap-4 mb-8 p-4 bg-gray-50 rounded-lg"
+                                >
+                                    <Avatar className="h-16 w-16 border-2 border-white shadow-sm">
+                                        <AvatarImage
+                                            src={
+                                                blogDetail.tacGia.avatar ||
+                                                '/images/default_avatar.jpg'
+                                            }
+                                            alt={blogDetail.tacGia.fullName}
+                                            className="object-cover"
+                                        />
+                                        <AvatarFallback>
+                                            {firstCharName}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                        <h3 className="font-medium text-lg">
+                                            {blogDetail.tacGia.fullName}
+                                        </h3>
+                                        <p className="text-gray-500 text-sm">
+                                            {blogDetail.tacGia.ngheNghiep &&
+                                            blogDetail.tacGia.congTy
+                                                ? `${blogDetail.tacGia.ngheNghiep} - ${blogDetail.tacGia.congTy}`
+                                                : t('author')}
+                                        </p>
+                                    </div>
+                                </Link>
+
+                                <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden border border-gray-200 mb-8">
+                                    <AntdImage
+                                        src={
+                                            blogDetail.anhBia ||
+                                            '/images/default_image.jpg'
+                                        }
+                                        alt="Article hero image"
+                                        className="object-cover"
+                                        width="100%"
+                                        height="100%"
+                                        preview={!isMobile}
+                                    />
+                                </div>
+
+                                <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-8">
                                     <div className="flex gap-2">
-                                        {!blogDetail.blogCuaBan && (
+                                        <FacebookShareButton
+                                            url={shareUrl}
+                                            hashtag={'Suyndy'}
+                                        >
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                className="h-8 px-3 border-gray-300 hover:bg-red-50 text-gray-700 hover:text-red-500 hover:border-red-200"
-                                                onClick={handleReport}
+                                                className="h-8 px-3 border-gray-200 hover:bg-gray-50 text-gray-700"
                                             >
-                                                <AlertTriangle className="h-4 w-4 mr-1" />
-                                                {t('report')}
+                                                <LuFacebook className="h-4 w-4 mr-1 text-blue-600" />
+                                                {t('share')}
                                             </Button>
-                                        )}
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
+                                        </FacebookShareButton>
+                                        <LinkedinShareButton
+                                            url={shareUrl}
+                                            title={blogDetail.tieuDe}
+                                        >
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="h-8 px-3 border-gray-200 hover:bg-gray-50 text-gray-700"
+                                            >
+                                                <SlSocialLinkedin className="h-4 w-4 mr-1 text-blue-700" />
+                                                {t('share')}
+                                            </Button>
+                                        </LinkedinShareButton>
+                                    </div>
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        <div className="flex gap-2">
+                                            <Button
+                                                variant={
+                                                    blogDetail.daYeuThich
+                                                        ? 'default'
+                                                        : 'outline'
+                                                }
+                                                size="sm"
+                                                className={`h-8 px-3 ${blogDetail.daYeuThich ? 'bg-red-500 text-white hover:bg-red-400 border-red-500' : 'border-gray-300 hover:bg-gray-50 text-gray-700'}`}
+                                                onClick={handleFavorite}
+                                            >
+                                                <Heart
+                                                    className={`h-4 w-4 mr-1 ${blogDetail.daYeuThich ? 'fill-white' : ''}`}
+                                                />
+                                                {/* {blogDetail.daYeuThich
+                                            ? t('favorited')
+                                            : t('favorite')} */}
+                                            </Button>
+                                            <Popover>
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <PopoverTrigger
+                                                                asChild
+                                                            >
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    className="px-3 h-8 border text-sm text-gray-600 hover:text-black"
+                                                                >
+                                                                    {
+                                                                        blogDetail.luotYeuThich
+                                                                    }
+                                                                </Button>
+                                                            </PopoverTrigger>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent>
+                                                            <p>
+                                                                {t(
+                                                                    'seeWhoLikes'
+                                                                )}
+                                                            </p>
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+
+                                                <PopoverContent className="w-64 p-0 mt-4 mr-4 shadow-xl">
+                                                    <div className="p-3 border-b ">
+                                                        <p className="font-bold">
+                                                            {t('totalLikes')}
+                                                        </p>
+                                                    </div>
+                                                    <div className="max-h-[300px] overflow-y-auto">
+                                                        {blogDetail
+                                                            .nguoiDungYeuThich
+                                                            .length > 0 ? (
+                                                            blogDetail.nguoiDungYeuThich.map(
+                                                                (
+                                                                    liker,
+                                                                    index
+                                                                ) => (
+                                                                    <Link
+                                                                        href={`/info/${liker.slug}`}
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="flex items-center gap-3 p-3 hover:bg-gray-200 transition-colors"
+                                                                    >
+                                                                        <div className="relative rounded-full overflow-hidden">
+                                                                            <Avatar className="border-2 border-white shadow-sm">
+                                                                                <AvatarImage
+                                                                                    src={
+                                                                                        liker.avatar ||
+                                                                                        '/images/default_avatar.jpg'
+                                                                                    }
+                                                                                    alt={
+                                                                                        blogDetail
+                                                                                            .tacGia
+                                                                                            .fullName
+                                                                                    }
+                                                                                    className="object-cover"
+                                                                                />
+                                                                                <AvatarFallback>
+                                                                                    {liker.hoTen !==
+                                                                                    ''
+                                                                                        ? getInitials(
+                                                                                              liker.hoTen,
+                                                                                              ''
+                                                                                          )
+                                                                                        : getInitials(
+                                                                                              '',
+                                                                                              ''
+                                                                                          )}
+                                                                                </AvatarFallback>
+                                                                            </Avatar>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p className="font-medium">
+                                                                                {!liker.nguoiDungHienTai
+                                                                                    ? liker.hoTen
+                                                                                    : t(
+                                                                                          'you'
+                                                                                      )}
+                                                                            </p>
+                                                                        </div>
+                                                                    </Link>
+                                                                )
+                                                            )
+                                                        ) : (
+                                                            <div className="p-4 text-center text-gray-500">
+                                                                <p className="text-sm">
+                                                                    {t(
+                                                                        'noLikes'
+                                                                    )}
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </PopoverContent>
+                                            </Popover>
+                                            {!blogDetail.blogCuaBan && (
+                                                <>
+                                                    <Button
+                                                        variant={
+                                                            blogDetail.daLuu
+                                                                ? 'default'
+                                                                : 'outline'
+                                                        }
+                                                        size="sm"
+                                                        className={`h-8 px-3 ${blogDetail.daLuu ? 'bg-purple-600 text-white' : 'border-gray-300 hover:bg-gray-50 text-gray-700'}`}
+                                                        onClick={handleSave}
+                                                    >
+                                                        <Bookmark
+                                                            className={`h-4 w-4 mr-1 ${blogDetail.daLuu ? 'fill-white' : ''}`}
+                                                        />
+                                                        {blogDetail.daLuu
+                                                            ? t('saved')
+                                                            : t('save')}
+                                                    </Button>
+                                                </>
+                                            )}
+                                        </div>
+
+                                        <div className="flex gap-2">
+                                            {!blogDetail.blogCuaBan && (
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
-                                                    className="h-8 px-3 border-gray-300 hover:bg-gray-50 text-gray-700"
+                                                    className="h-8 px-3 border-gray-300 hover:bg-red-50 text-gray-700 hover:text-red-500 hover:border-red-200"
+                                                    onClick={handleReport}
                                                 >
-                                                    <Share2 className="h-4 w-4 mr-1" />
-                                                    {t('more')}
+                                                    <AlertTriangle className="h-4 w-4 mr-1" />
+                                                    {t('report')}
                                                 </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
-                                                <DropdownMenuItem
-                                                    onClick={() =>
-                                                        handleShare('clipboard')
-                                                    }
-                                                >
-                                                    {t('copy_link')}
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                            )}
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="h-8 px-3 border-gray-300 hover:bg-gray-50 text-gray-700"
+                                                    >
+                                                        <Share2 className="h-4 w-4 mr-1" />
+                                                        {t('more')}
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            handleShare(
+                                                                'clipboard'
+                                                            )
+                                                        }
+                                                    >
+                                                        {t('copy_link')}
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* Article content using PreviewSection */}
-                            <article className="prose prose-purple max-w-none">
-                                {sortedComponents.map((component) => {
-                                    const sectionData =
-                                        convertToSectionType(component)
-                                    if (sectionData) {
-                                        // For heading sections, add an ID for the anchor
-                                        if (
-                                            sectionData.type === 'heading' &&
-                                            sectionData.anchorId
-                                        ) {
-                                            return (
-                                                <div
-                                                    key={component.id}
-                                                    id={sectionData.anchorId}
-                                                >
-                                                    <PreviewSection
-                                                        section={
-                                                            sectionData as SectionType
+                                {/* Article content using PreviewSection */}
+                                <article className="prose prose-purple max-w-none">
+                                    {sortedComponents.map((component) => {
+                                        const sectionData =
+                                            convertToSectionType(component)
+                                        if (sectionData) {
+                                            // For heading sections, add an ID for the anchor
+                                            if (
+                                                sectionData.type ===
+                                                    'heading' &&
+                                                sectionData.anchorId
+                                            ) {
+                                                return (
+                                                    <div
+                                                        key={component.id}
+                                                        id={
+                                                            sectionData.anchorId
                                                         }
-                                                    />
-                                                </div>
+                                                    >
+                                                        <PreviewSection
+                                                            section={
+                                                                sectionData as SectionType
+                                                            }
+                                                        />
+                                                    </div>
+                                                )
+                                            }
+                                            return (
+                                                <PreviewSection
+                                                    key={component.id}
+                                                    section={
+                                                        sectionData as SectionType
+                                                    }
+                                                />
                                             )
                                         }
-                                        return (
-                                            <PreviewSection
-                                                key={component.id}
-                                                section={
-                                                    sectionData as SectionType
-                                                }
-                                            />
-                                        )
-                                    }
-                                    return null
-                                })}
-                            </article>
+                                        return null
+                                    })}
+                                </article>
 
-                            {/* Comments section */}
-                            <CommentsSection
-                                comments={comments}
-                                postId={blogDetail.id}
-                                refetchComment={refetchComment}
-                            />
-
-                            {blogsByTopic && blogsByTopic.length > 0 && (
-                                <div className="border-t border-gray-200 mt-12 pt-8">
-                                    <h3 className="text-2xl font-bold mb-6">
-                                        {t('related_blogs')}
-                                    </h3>
-                                    <div className="grid sm:grid-cols-2 gap-6">
-                                        {blogsByTopic
-                                            .slice(0, 3)
-                                            .map(
-                                                (
-                                                    relatedPost: any,
-                                                    index: number
-                                                ) => (
-                                                    <Link
-                                                        href={`/blog/${relatedPost.slug}/`}
-                                                        className="group"
-                                                        key={index}
-                                                    >
-                                                        <div className="space-y-3">
-                                                            <div className="relative h-48 rounded-lg overflow-hidden border border-gray-200 group-hover:border-purple-300 transition-colors">
-                                                                <Image
-                                                                    src={
-                                                                        relatedPost.anhBia ||
-                                                                        '/images/default_image.jpg'
-                                                                    }
-                                                                    alt={`${relatedPost.title} thumbnail`}
-                                                                    className="object-cover"
-                                                                    fill
-                                                                />{' '}
-                                                            </div>
-                                                            <div>
-                                                                <div className="flex items-center gap-4 pt-2 text-xs text-purple-600 mb-2">
-                                                                    {relatedPost.chuDes &&
-                                                                        relatedPost.chuDes
-                                                                            .slice(
-                                                                                0,
-                                                                                3
-                                                                            )
-                                                                            .map(
-                                                                                (
-                                                                                    chuDe: any
-                                                                                ) => (
-                                                                                    <span
-                                                                                        key={
-                                                                                            chuDe.id
-                                                                                        }
-                                                                                        className="bg-purple-50 text-purple-600 hover:bg-purple-100 text-sm"
-                                                                                    >
-                                                                                        {
-                                                                                            chuDe
-                                                                                                .tenChuDe[
-                                                                                                locale
-                                                                                            ]
-                                                                                        }
-                                                                                    </span>
-                                                                                )
-                                                                            )}
-                                                                    {relatedPost.chuDes &&
-                                                                        relatedPost
-                                                                            .chuDes
-                                                                            .length >
-                                                                            3 && (
-                                                                            <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
-                                                                                +
-                                                                                {relatedPost
-                                                                                    .chuDes
-                                                                                    .length -
-                                                                                    4}{' '}
-                                                                                {locale ===
-                                                                                'en'
-                                                                                    ? 'more'
-                                                                                    : 'khác'}
-                                                                            </span>
-                                                                        )}
-                                                                </div>
-                                                                <h6 className="font-medium group-hover:text-purple-600 pt-2 transition-colors">
-                                                                    {
-                                                                        relatedPost.tieuDe
-                                                                    }
-                                                                </h6>
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                )
-                                            )}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </main>
-                    {/* Table of Contents */}
-                    {convertedSections.some(
-                        (section) => section.type === 'heading'
-                    ) && (
-                        <aside className="hidden lg:block w-full lg:w-2/4 max-w-xs">
-                            <div
-                                className={`fixed top-[100px] max-h-[calc(100vh-120px)] transition-opacity duration-300 ${showTableOfContents ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-                            >
-                                <TableOfContentsBlog
-                                    sections={convertedSections}
-                                    shouldShow={showTableOfContents}
+                                {/* Comments section */}
+                                <CommentsSection
+                                    comments={comments}
+                                    postId={blogDetail.id}
+                                    refetchComment={refetchComment}
                                 />
+
+                                {blogsByTopic && blogsByTopic.length > 0 && (
+                                    <div className="border-t border-gray-200 mt-12 pt-8">
+                                        <h3 className="text-2xl font-bold mb-6">
+                                            {t('related_blogs')}
+                                        </h3>
+                                        <div className="grid sm:grid-cols-2 gap-6">
+                                            {blogsByTopic
+                                                .slice(0, 3)
+                                                .map(
+                                                    (
+                                                        relatedPost: any,
+                                                        index: number
+                                                    ) => (
+                                                        <Link
+                                                            href={`/blog/${relatedPost.slug}/`}
+                                                            className="group"
+                                                            key={index}
+                                                        >
+                                                            <div className="space-y-3">
+                                                                <div className="relative h-48 rounded-lg overflow-hidden border border-gray-200 group-hover:border-purple-300 transition-colors">
+                                                                    <Image
+                                                                        src={
+                                                                            relatedPost.anhBia ||
+                                                                            '/images/default_image.jpg'
+                                                                        }
+                                                                        alt={`${relatedPost.title} thumbnail`}
+                                                                        className="object-cover"
+                                                                        fill
+                                                                    />{' '}
+                                                                </div>
+                                                                <div>
+                                                                    <div className="flex items-center gap-4 pt-2 text-xs text-purple-600 mb-2">
+                                                                        {relatedPost.chuDes &&
+                                                                            relatedPost.chuDes
+                                                                                .slice(
+                                                                                    0,
+                                                                                    3
+                                                                                )
+                                                                                .map(
+                                                                                    (
+                                                                                        chuDe: any
+                                                                                    ) => (
+                                                                                        <span
+                                                                                            key={
+                                                                                                chuDe.id
+                                                                                            }
+                                                                                            className="bg-purple-50 text-purple-600 hover:bg-purple-100 text-sm"
+                                                                                        >
+                                                                                            {
+                                                                                                chuDe
+                                                                                                    .tenChuDe[
+                                                                                                    locale
+                                                                                                ]
+                                                                                            }
+                                                                                        </span>
+                                                                                    )
+                                                                                )}
+                                                                        {relatedPost.chuDes &&
+                                                                            relatedPost
+                                                                                .chuDes
+                                                                                .length >
+                                                                                3 && (
+                                                                                <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
+                                                                                    +
+                                                                                    {relatedPost
+                                                                                        .chuDes
+                                                                                        .length -
+                                                                                        4}{' '}
+                                                                                    {locale ===
+                                                                                    'en'
+                                                                                        ? 'more'
+                                                                                        : 'khác'}
+                                                                                </span>
+                                                                            )}
+                                                                    </div>
+                                                                    <h6 className="font-medium group-hover:text-purple-600 pt-2 transition-colors">
+                                                                        {
+                                                                            relatedPost.tieuDe
+                                                                        }
+                                                                    </h6>
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                    )
+                                                )}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                        </aside>
-                    )}
-                </div>
+                        </main>
+                        {/* Table of Contents */}
+                        {convertedSections.some(
+                            (section) => section.type === 'heading'
+                        ) && (
+                            <aside className="hidden lg:block w-full lg:w-2/4 max-w-xs">
+                                <div
+                                    className={`fixed top-[100px] max-h-[calc(100vh-120px)] transition-opacity duration-300 ${showTableOfContents ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                                >
+                                    <TableOfContentsBlog
+                                        sections={convertedSections}
+                                        shouldShow={showTableOfContents}
+                                    />
+                                </div>
+                            </aside>
+                        )}
+                    </div>
+                )}
+                {shoudRenderHtml && (
+                    <div className="prose prose-purple max-w-none -mt-6 mb-14 cursor-not-allowed">
+                        <style
+                            dangerouslySetInnerHTML={{
+                                __html: blogDetail.noiDungCss,
+                            }}
+                        />
+                        {/* Render the HTML content */}
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: blogDetail.noiDungHtml,
+                            }}
+                        />
+                    </div>
+                )}
+
                 {/* Report dialog */}
                 <ReportDialog
                     isOpen={reportDialogOpen}

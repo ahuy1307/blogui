@@ -31,6 +31,11 @@ const nextConfig = {
                 hostname: 'img.freepik.com',
                 pathname: '**',
             },
+            {
+                protocol: 'https',
+                hostname: 'miro.medium.com',
+                pathname: '**',
+            },
         ],
     },
 }
