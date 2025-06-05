@@ -1277,7 +1277,7 @@ export function BlogDetail({
                     </div>
                 )}
                 {shoudRenderHtml && (
-                    <div className="prose prose-purple max-w-none -mt-6 mb-14 cursor-not-allowed">
+                    <div className="prose prose-purple max-w-none mt-[80px] mb-14 cursor-not-allowed">
                         <style
                             dangerouslySetInnerHTML={{
                                 __html: blogDetail.noiDungCss,
