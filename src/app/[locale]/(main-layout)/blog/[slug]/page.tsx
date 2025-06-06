@@ -12,12 +12,15 @@ import Image from 'next/image'
 import Button from '@/components/ui/Button/Button'
 import { useLocale, useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
+import { useIsMobile } from '@/hooks/useMobile'
+import { is } from 'date-fns/locale'
 
 export default function BlogPost({ params }: any) {
     const { slug } = params
     const t = useTranslations('blog')
     const locale = useLocale()
     const router = useRouter()
+    const isMobile = useIsMobile()
 
     // Fetch blog details
     const {
@@ -144,6 +147,7 @@ export default function BlogPost({ params }: any) {
         )
     }
 
+
     return (
         <AppDataProvider>
             <BlogDetail
@@ -152,6 +156,7 @@ export default function BlogPost({ params }: any) {
                 comments={comments && comments.results}
                 refetch={refetchAll}
                 refetchComment={refetchComment}
+                countTopics={isMobile ? 2 : 3}
             />
         </AppDataProvider>
     )

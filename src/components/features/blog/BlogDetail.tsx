@@ -479,15 +479,18 @@ export function BlogDetail({
     comments,
     refetch,
     refetchComment,
+    countTopics = 3
 }: {
     blogDetail: Blog
     blogsByTopic: Blog[]
     comments: CommentData[]
     refetch: () => void
     refetchComment: () => void
+    countTopics?: number
 }) {
     const t = useTranslations('blog.BlogDetail')
     const { topics, isLoading, error } = useAppData()
+    console.log('BlogDetail topics:', topics)
     const { user } = useAuth()
 
     const { toast } = useToast()
@@ -1188,7 +1191,7 @@ export function BlogDetail({
                                                             key={index}
                                                         >
                                                             <div className="space-y-3">
-                                                                <div className="relative h-48 rounded-lg overflow-hidden border border-gray-200 group-hover:border-purple-300 transition-colors">
+                                                                <div className="relative h-48 rounded-xl overflow-hidden border border-gray-200 group-hover:border-purple-300 transition-colors">
                                                                     <Image
                                                                         src={
                                                                             relatedPost.anhBia ||
@@ -1205,7 +1208,7 @@ export function BlogDetail({
                                                                             relatedPost.chuDes
                                                                                 .slice(
                                                                                     0,
-                                                                                    3
+                                                                                    countTopics
                                                                                 )
                                                                                 .map(
                                                                                     (
@@ -1230,13 +1233,13 @@ export function BlogDetail({
                                                                             relatedPost
                                                                                 .chuDes
                                                                                 .length >
-                                                                                3 && (
+                                                                                countTopics && (
                                                                                 <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
                                                                                     +
                                                                                     {relatedPost
                                                                                         .chuDes
                                                                                         .length -
-                                                                                        4}{' '}
+                                                                                        countTopics}{' '}
                                                                                     {locale ===
                                                                                     'en'
                                                                                         ? 'more'
@@ -1277,7 +1280,7 @@ export function BlogDetail({
                     </div>
                 )}
                 {shoudRenderHtml && (
-                    <div className="prose prose-purple max-w-none mt-[80px] mb-14 cursor-not-allowed">
+                    <div className="max-w-none mt-[80px] mb-14 md:mx-auto md:container">
                         <style
                             dangerouslySetInnerHTML={{
                                 __html: blogDetail.noiDungCss,
@@ -1289,6 +1292,112 @@ export function BlogDetail({
                                 __html: blogDetail.noiDungHtml,
                             }}
                         />
+                        <div className='mx-auto'>
+                            <CommentsSection
+                                comments={comments}
+                                postId={blogDetail.id}
+                                refetchComment={refetchComment}
+                            />
+
+                            {blogsByTopic && blogsByTopic.length > 0 && (
+                                <div className="border-t border-gray-200 mt-12 pt-8">
+                                    <h3 className="text-2xl font-bold mb-6">
+                                        {t('related_blogs')}
+                                    </h3>
+                                    <div className="grid sm:grid-cols-2 gap-6">
+                                        {blogsByTopic
+                                            .slice(0, 3)
+                                            .map(
+                                                (
+                                                    relatedPost: any,
+                                                    index: number
+                                                ) => (
+                                                    <Link
+                                                        href={`/blog/${relatedPost.slug}/`}
+                                                        className="group"
+                                                        key={index}
+                                                        style={
+                                                            {
+                                                                textDecoration:
+                                                                    'none',
+                                                                color: 'black'
+                                                            }
+                                                        }
+                                                    >
+                                                        <div className="space-y-3">
+                                                            <div className="relative h-48 rounded-xl overflow-hidden border border-gray-200 group-hover:border-purple-300 transition-colors">
+                                                                <Image
+                                                                    src={
+                                                                        relatedPost.anhBia ||
+                                                                        '/images/default_image.jpg'
+                                                                    }
+                                                                    alt={`${relatedPost.title} thumbnail`}
+                                                                    className="object-cover"
+                                                                    fill
+                                                                    style={{
+                                                                        height: '100%',
+                                                                    }}
+                                                                />{' '}
+                                                            </div>
+                                                            <div>
+                                                                <div className="flex items-center gap-4 pt-2 text-xs text-purple-600 mb-2">
+                                                                    {relatedPost.chuDes &&
+                                                                        relatedPost.chuDes
+                                                                            .slice(
+                                                                                0,
+                                                                                countTopics
+                                                                            )
+                                                                            .map(
+                                                                                (
+                                                                                    chuDe: any
+                                                                                ) => (
+                                                                                    <span
+                                                                                        key={
+                                                                                            chuDe.id
+                                                                                        }
+                                                                                        className="bg-purple-50 text-purple-600 hover:bg-purple-100 text-sm no-underline"
+                                                                                    >
+                                                                                        {
+                                                                                            chuDe
+                                                                                                .tenChuDe[
+                                                                                                locale
+                                                                                            ]
+                                                                                        }
+                                                                                    </span>
+                                                                                )
+                                                                            )}
+                                                                    {relatedPost.chuDes &&
+                                                                        relatedPost
+                                                                            .chuDes
+                                                                            .length >
+                                                                            countTopics && (
+                                                                            <span className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full">
+                                                                                +
+                                                                                {relatedPost
+                                                                                    .chuDes
+                                                                                    .length -
+                                                                                    countTopics}{' '}
+                                                                                {locale ===
+                                                                                'en'
+                                                                                    ? 'more'
+                                                                                    : 'khác'}
+                                                                            </span>
+                                                                        )}
+                                                                </div>
+                                                                <h6 className="font-medium group-hover:text-purple-600 pt-2 transition-colors">
+                                                                    {
+                                                                        relatedPost.tieuDe
+                                                                    }
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                )
+                                            )}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 )}
 
@@ -1305,7 +1414,7 @@ export function BlogDetail({
                 />
             </div>
             <div ref={footerRef}>
-                <Footer topics={topics} />
+                <Footer topics={topics.slice(0, 10)} />
             </div>
         </>
     )
