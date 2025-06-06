@@ -1180,7 +1180,7 @@ export function BlogDetail({
                                         </h3>
                                         <div className="grid sm:grid-cols-2 gap-6">
                                             {blogsByTopic
-                                                .slice(0, 3)
+                                                .slice(0, 4)
                                                 .map(
                                                     (
                                                         relatedPost: any,
@@ -1307,7 +1307,7 @@ export function BlogDetail({
                                     </h3>
                                     <div className="grid sm:grid-cols-2 gap-6">
                                         {blogsByTopic
-                                            .slice(0, 3)
+                                            .slice(0, 4)
                                             .map(
                                                 (
                                                     relatedPost: any,
