@@ -1171,6 +1171,7 @@ export function BlogDetail({
                                     postId={blogDetail.id}
                                     refetchComment={refetchComment}
                                 />
+                                {/*  */}
 
                                 {blogsByTopic && blogsByTopic.length > 0 && (
                                     <div className="border-t border-gray-200 mt-12 pt-8">
