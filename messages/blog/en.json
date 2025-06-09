@@ -114,7 +114,8 @@
     "loadingMore": "Loading more...",
     "show": "Show",
     "more": "more",
-    "addYourThoughts": "Add your thoughts..."
+    "addYourThoughts": "Add your thoughts...",
+    "deleted": "Deleted"
   },
   "ChatAssistant": {
     "chatTitle": "Trợ lý AI",

@@ -72,6 +72,7 @@ export interface CommentData {
     updatedAt: string
     binhLuanCuaBan?: boolean
     totalChild: number // Add this property to track total child comments
+    isDeleted: boolean // Add this property to track if the comment is deleted
 }
 
 interface CommentsSectionProps {
@@ -165,6 +166,37 @@ const CommentItem = ({
     const handleEmojiSelectForEdit = (emoji: any) => {
         handleEmojiSelect(emoji, 'edit')
         setEditContent((prev) => prev + emoji.native)
+    }
+
+    // If comment is deleted, show a different UI
+    if (comment.isDeleted) {
+        return (
+            <div
+                className={`${isReply ? 'pl-6 border-l-2 border-gray-100 mt-4' : 'mb-6'}`}
+            >
+                <div className="p-4 bg-gray-100 rounded-lg border border-gray-200">
+                    <div className="flex items-center gap-3 mb-2 opacity-60">
+                        <Avatar className="h-10 w-10 opacity-50">
+                            <AvatarFallback>
+                                {t('deleted').charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col gap-1">
+                            <div className="font-medium text-base text-gray-500">
+                                {t('deleted')}
+                            </div>
+                            <div className="text-xs text-gray-400">
+                                {formatRelativeTime(comment.updatedAt)}
+                            </div>
+                        </div>
+                    </div>
+
+                    <p className="text-gray-500 italic mb-2 mt-6">
+                        {t('commentDeleted')}
+                    </p>
+                </div>
+            </div>
+        )
     }
 
     return (

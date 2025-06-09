@@ -31,7 +31,7 @@ export function BlogFeatureCard({
             <Card className="bg-white border-gray-200 overflow-hidden hover:border-purple-500/50 transition-all shadow-sm h-full flex flex-col cursor-pointer duration-300 rounded-xl">
                 <div className="relative h-52">
                     <Image
-                        src={blog.anhBia}
+                        src={blog.anhBia || '/images/default_cover_photo.jpg'}
                         alt={blog.tieuDe}
                         fill
                         className="object-cover"
@@ -43,7 +43,7 @@ export function BlogFeatureCard({
                             blog.chuDes.slice(0, countTopics).map((chuDe) => (
                                 <span
                                     key={chuDe.id}
-                                    className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full"
+                                    className="text-xs text-purple-500 w-fit bg-purple-100 px-2 py-1 rounded-full truncate"
                                 >
                                     {chuDe.tenChuDe[locale]}
                                 </span>

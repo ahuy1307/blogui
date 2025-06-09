@@ -115,7 +115,8 @@
         "loadingMore": "Đang tải thêm...",
         "show": "Hiển thị",
         "more": "thêm",
-        "addYourThoughts": "Thêm suy nghĩ của bạn..."
+        "addYourThoughts": "Thêm suy nghĩ của bạn...",
+        "deleted": "Đã xóa"
     },
     "ChatAssistant": {
         "chatTitle": "Trợ lý AI",
