@@ -30,6 +30,7 @@ interface IUser {
     soLuongThichBaiViet: number
     soLuongThongBao: number
     soLuongCoin: number
+    ngonNgu: string
 }
 
 interface IMenuItem {

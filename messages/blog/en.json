@@ -73,7 +73,8 @@
     "noLikes": "No likes yet",
     "tableOfContents": "Table of Contents",
     "views": "views",
-    "seeMore": "See more"
+    "seeMore": "See more",
+    "vpnNotification": "You need to enable VPN to view the full content of this blog."
   },
   "BlogLibrary": {
     "title": "Library",

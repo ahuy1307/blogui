@@ -68,6 +68,7 @@ import { ChatAssistant } from './ChatAssistant'
 import { TASK_TYPE } from '@/types/constants'
 import { useIsMobile } from '@/hooks/useMobile'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { X, AlertCircle } from 'lucide-react' // Add X icon import
 
 // Helper function to convert API component to SectionType
 const convertToSectionType = (component: any): SectionType | null => {
@@ -479,7 +480,7 @@ export function BlogDetail({
     comments,
     refetch,
     refetchComment,
-    countTopics = 3
+    countTopics = 3,
 }: {
     blogDetail: Blog
     blogsByTopic: Blog[]
@@ -505,6 +506,7 @@ export function BlogDetail({
 
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false)
     const isMobile = useIsMobile()
+    const [showVpnNotification, setShowVpnNotification] = useState(true) // State for VPN notification
 
     useUnlockBodyScroll()
 
@@ -1282,6 +1284,28 @@ export function BlogDetail({
                 )}
                 {shoudRenderHtml && (
                     <div className="max-w-none mt-[80px] mb-14 md:mx-auto md:container">
+                        {/* VPN Notification */}
+                        {showVpnNotification && (
+                            <div className="bg-amber-50 border-l-4 border-amber-400 p-4 mb-4 mx-4 md:mx-auto rounded shadow-sm">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center">
+                                        <AlertCircle className="h-5 w-5 text-amber-500 mr-2" />
+                                        <span className="text-amber-800">
+                                            {t('vpnNotification') ||
+                                                'You may need to use a VPN to view this content properly.'}
+                                        </span>
+                                    </div>
+                                    <button
+                                        onClick={() =>
+                                            setShowVpnNotification(false)
+                                        }
+                                        className="text-amber-500 hover:text-amber-700"
+                                    >
+                                        <X className="h-4 w-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                         <style
                             dangerouslySetInnerHTML={{
                                 __html: blogDetail.noiDungCss,
@@ -1293,7 +1317,7 @@ export function BlogDetail({
                                 __html: blogDetail.noiDungHtml,
                             }}
                         />
-                        <div className='mx-auto'>
+                        <div className="mx-auto">
                             <div className="flex pt-8 flex-col gap-4 md:flex-row md:justify-between md:items-center mb-8">
                                 <div className="flex gap-2">
                                     <FacebookShareButton
@@ -1346,9 +1370,7 @@ export function BlogDetail({
                                             <TooltipProvider>
                                                 <Tooltip>
                                                     <TooltipTrigger asChild>
-                                                        <PopoverTrigger
-                                                            asChild
-                                                        >
+                                                        <PopoverTrigger asChild>
                                                             <Button
                                                                 variant="ghost"
                                                                 size="sm"
@@ -1362,9 +1384,7 @@ export function BlogDetail({
                                                     </TooltipTrigger>
                                                     <TooltipContent>
                                                         <p>
-                                                            {t(
-                                                                'seeWhoLikes'
-                                                            )}
+                                                            {t('seeWhoLikes')}
                                                         </p>
                                                     </TooltipContent>
                                                 </Tooltip>
@@ -1381,15 +1401,10 @@ export function BlogDetail({
                                                         .nguoiDungYeuThich
                                                         .length > 0 ? (
                                                         blogDetail.nguoiDungYeuThich.map(
-                                                            (
-                                                                liker,
-                                                                index
-                                                            ) => (
+                                                            (liker, index) => (
                                                                 <Link
                                                                     href={`/info/${liker.slug}`}
-                                                                    key={
-                                                                        index
-                                                                    }
+                                                                    key={index}
                                                                     className="flex items-center gap-3 p-3 hover:bg-gray-200 transition-colors"
                                                                 >
                                                                     <div className="relative rounded-full overflow-hidden">
@@ -1400,8 +1415,8 @@ export function BlogDetail({
                                                                                     '/images/default_avatar.jpg'
                                                                                 }
                                                                                 alt={
-                                                                                    liker
-                                                                                        .hoTen ||                                                                                   ''
+                                                                                    liker.hoTen ||
+                                                                                    ''
                                                                                 }
                                                                                 className="object-cover"
                                                                             />
@@ -1409,13 +1424,13 @@ export function BlogDetail({
                                                                                 {liker.hoTen !==
                                                                                 ''
                                                                                     ? getInitials(
-                                                                                            liker.hoTen,
-                                                                                            ''
-                                                                                        )
+                                                                                          liker.hoTen,
+                                                                                          ''
+                                                                                      )
                                                                                     : getInitials(
-                                                                                            '',
-                                                                                            ''
-                                                                                        )}
+                                                                                          '',
+                                                                                          ''
+                                                                                      )}
                                                                             </AvatarFallback>
                                                                         </Avatar>
                                                                     </div>
@@ -1424,8 +1439,8 @@ export function BlogDetail({
                                                                             {!liker.nguoiDungHienTai
                                                                                 ? liker.hoTen
                                                                                 : t(
-                                                                                        'you'
-                                                                                    )}
+                                                                                      'you'
+                                                                                  )}
                                                                         </p>
                                                                     </div>
                                                                 </Link>
@@ -1434,9 +1449,7 @@ export function BlogDetail({
                                                     ) : (
                                                         <div className="p-4 text-center text-gray-500">
                                                             <p className="text-sm">
-                                                                {t(
-                                                                    'noLikes'
-                                                                )}
+                                                                {t('noLikes')}
                                                             </p>
                                                         </div>
                                                     )}
@@ -1492,9 +1505,7 @@ export function BlogDetail({
                                             <DropdownMenuContent>
                                                 <DropdownMenuItem
                                                     onClick={() =>
-                                                        handleShare(
-                                                            'clipboard'
-                                                        )
+                                                        handleShare('clipboard')
                                                     }
                                                 >
                                                     {t('copy_link')}
@@ -1527,13 +1538,11 @@ export function BlogDetail({
                                                         href={`/blog/${relatedPost.slug}/`}
                                                         className="group"
                                                         key={index}
-                                                        style={
-                                                            {
-                                                                textDecoration:
-                                                                    'none',
-                                                                color: 'black'
-                                                            }
-                                                        }
+                                                        style={{
+                                                            textDecoration:
+                                                                'none',
+                                                            color: 'black',
+                                                        }}
                                                     >
                                                         <div className="space-y-3">
                                                             <div className="relative h-48 rounded-xl overflow-hidden border border-gray-200 group-hover:border-purple-300 transition-colors">

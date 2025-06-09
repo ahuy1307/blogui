@@ -74,7 +74,8 @@
         "noLikes": "Chưa có lượt thích nào",
         "tableOfContents": "Mục lục",
         "views": "lượt xem",
-        "seeMore": "Xem thêm"
+        "seeMore": "Xem thêm",
+        "vpnNotification": "Bạn cần bật VPN để xem toàn bộ nội dung của bài viết này."
     },
     "BlogLibrary": {
         "title": "Thư viện",
