@@ -39,6 +39,7 @@ import {
     ChevronDown,
     Sparkles,
     SquareArrowDown,
+    CheckCircle,
 } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/other-ui/Tabs'
 import { SortableSection } from '@/components/editor/SortableSection'
@@ -58,7 +59,7 @@ import ScrollToTop from '@/components/features/home/ScrollToTop'
 import { BlogMedia } from '@/types/interface'
 import { Toaster } from '@/components/other-ui/Toaster'
 import { authenticationService } from '@/core/services/API/authentication/Authentication.service'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Topic } from '@/types/interface'
 import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import { generateId } from '@/lib/utils'
@@ -66,6 +67,7 @@ import { Spin } from 'antd'
 
 export default function EditBlogPage({ params }: any) {
     const { id } = params
+    const queryClient = useQueryClient()
 
     const { data: blogDetail, isLoading } = useQuery({
         queryKey: ['blogDetail', id],
@@ -964,6 +966,31 @@ export default function EditBlogPage({ params }: any) {
         return <Spin fullscreen />
     }
 
+    const handlePusblish = async (blogId: string, publish: boolean) => {
+        try {
+            const res = await authenticationService.publishOrDraftBlog({
+                id: blogId,
+            })
+            // onSuccess callback
+            toast({
+                title: publish ? t('publishBlog') : t('draftBlogMessage'),
+                description: res.data.message,
+                variant: 'default',
+            })
+
+            // Invalidate and refetch the blog detail to update daXuatBan status
+            queryClient.invalidateQueries({ queryKey: ['blogDetail', id] })
+        } catch (error: any) {
+            // onError callback
+            console.error('Error publishing/drafting blog:', error)
+            toast({
+                title: t('errorPublishDraft'),
+                description: error?.response.data.errors.other[0],
+                variant: 'destructive',
+            })
+        }
+    }
+
     return (
         <>
             <ScrollToTop />
@@ -976,7 +1003,9 @@ export default function EditBlogPage({ params }: any) {
                             isTabOpen
                                 ? 'h-[190px] md:h-[150px] overflow-hidden'
                                 : 'h-0 overflow-hidden'
-                        }`}
+                        } ${!blogDetail?.daXuatBan && 'h-[230px]'}
+                        
+                        `}
                     >
                         <div className="shadow-sm">
                             <div className="mx-auto px-4 flex items-center justify-center">
@@ -1006,45 +1035,74 @@ export default function EditBlogPage({ params }: any) {
                                             </>
                                         )}
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <Button
-                                            variant="outline"
-                                            onClick={() =>
-                                                setBlogGeneratorOpen(true)
-                                            }
-                                            className="border-purple-300 text-purple-700 hover:bg-purple-50 flex items-center gap-1"
-                                            disabled={
-                                                isSaving ||
+                                    <div
+                                        className={`flex items-center gap-2 ${
+                                            !blogDetail?.daXuatBan &&
+                                            'flex-col md:flex-row'
+                                        }`}
+                                    >
+                                        <div className="flex gap-2">
+                                            <Button
+                                                variant="outline"
+                                                onClick={() =>
+                                                    setBlogGeneratorOpen(true)
+                                                }
+                                                className="border-purple-300 text-purple-700 hover:bg-purple-50 flex items-center gap-1"
+                                                disabled={
+                                                    isSaving ||
+                                                    updateBlogMutation.isPending
+                                                }
+                                            >
+                                                <Sparkles className="h-4 w-4" />
+                                                {t('aiGenerate')}
+                                            </Button>
+                                            <Button
+                                                onClick={() =>
+                                                    saveBlogPost(
+                                                        blogDetail?.daXuatBan
+                                                    )
+                                                }
+                                                className="bg-purple-600 hover:bg-purple-700 text-white"
+                                                disabled={
+                                                    isSaving ||
+                                                    updateBlogMutation.isPending
+                                                }
+                                            >
+                                                <Save className="h-4 w-4 mr-2" />
+                                                {isSaving ||
                                                 updateBlogMutation.isPending
-                                            }
-                                        >
-                                            <Sparkles className="h-4 w-4" />
-                                            {t('aiGenerate')}
-                                        </Button>
-                                        <Button
-                                            onClick={() =>
-                                                saveBlogPost(
-                                                    blogDetail?.daXuatBan
-                                                )
-                                            }
-                                            className="bg-purple-600 hover:bg-purple-700 text-white"
-                                            disabled={
-                                                isSaving ||
-                                                updateBlogMutation.isPending
-                                            }
-                                        >
-                                            <Save className="h-4 w-4 mr-2" />
-                                            {isSaving ||
-                                            updateBlogMutation.isPending
-                                                ? t('updating')
-                                                : t('update')}
-                                        </Button>
+                                                    ? t('updating')
+                                                    : t('update')}
+                                            </Button>
+                                        </div>
+                                        {blogDetail &&
+                                            !blogDetail.daXuatBan && (
+                                                <Button
+                                                    onClick={() =>
+                                                        handlePusblish(
+                                                            blogDetail.id,
+                                                            true
+                                                        )
+                                                    }
+                                                    className="bg-purple-600 hover:bg-purple-700 text-white"
+                                                    disabled={
+                                                        isSaving ||
+                                                        updateBlogMutation.isPending
+                                                    }
+                                                >
+                                                    <CheckCircle className="h-4 w-4 mr-2" />
+                                                    {isSaving ||
+                                                    updateBlogMutation.isPending
+                                                        ? t('publishing')
+                                                        : t('publish')}
+                                                </Button>
+                                            )}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div ref={tabRef} className="z-20 shadow-sm">
-                            <div className="container mx-auto py-2 px-4">
+                            <div className={`container mx-auto py-2 px-4`}>
                                 <Tabs
                                     value={activeTab}
                                     onValueChange={handleTabChange}
@@ -1093,7 +1151,7 @@ export default function EditBlogPage({ params }: any) {
                 </div>
                 <div
                     className={`
-                    pt-36 ${isTabOpen ? 'pt-64 md:pt-56' : 'pt-60'}
+                    pt-36 ${isTabOpen ? 'pt-64 md:pt-56' : 'pt-60'} ${!blogDetail?.daXuatBan && 'pt-72'}    
                     transition-all duration-500
                 `}
                 >

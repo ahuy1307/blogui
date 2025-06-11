@@ -862,7 +862,7 @@ export function BlogGenerator({
                             <Button
                                 variant="outline"
                                 onClick={onClose}
-                                className="min-w-[100px] mt-2"
+                                className="min-w-[100px] mt-2 sm:mt-0"
                             >
                                 {t('cancel')}
                             </Button>

@@ -1,6 +1,7 @@
 {
     "cancel": "Cancel",
     "readingTime": "{time} min read",
+    "publishBlog": "Publish Blog",
     "wordCount": "{count} words",
     "lastSaved": "Saved at {time}",
     "aiGenerate": "AI Generate",
