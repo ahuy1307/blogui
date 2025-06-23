@@ -50,12 +50,14 @@ import { comment } from 'postcss'
 import { useAuth } from '@/contexts/auth/AuthContext'
 import { useTranslations } from 'next-intl'
 import { useMissions } from '@/hooks/useMissions'
+import { Link } from '@/navigation'
 
 interface CommentUser {
     id: string
     ho: string
     ten: string
     avatar: string
+    slug: string
 }
 
 export interface CommentData {
@@ -205,20 +207,25 @@ const CommentItem = ({
         >
             <div className="p-4 bg-gray-50 rounded-lg">
                 <div className="flex items-start gap-3 mb-2">
-                    <Avatar className="h-10 w-10">
-                        <AvatarImage
-                            src={
-                                comment.nguoiDung.avatar ||
-                                '/images/default_avatar.jpg'
-                            }
-                            alt={`alt`}
-                            className="object-cover"
-                        />
-                        <AvatarFallback>
-                            {comment.nguoiDung.ho.charAt(0).toUpperCase()}
-                            {comment.nguoiDung.ten.charAt(0).toUpperCase()}
-                        </AvatarFallback>
-                    </Avatar>
+                    <Link
+                        href={`/info/${comment.nguoiDung.slug}`}
+                        className="hover:opacity-80 transition-opacity duration-200"
+                    >
+                        <Avatar className="h-10 w-10">
+                            <AvatarImage
+                                src={
+                                    comment.nguoiDung.avatar ||
+                                    '/images/default_avatar.jpg'
+                                }
+                                alt={`alt`}
+                                className="object-cover"
+                            />
+                            <AvatarFallback>
+                                {comment.nguoiDung.ho.charAt(0).toUpperCase()}
+                                {comment.nguoiDung.ten.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                        </Avatar>
+                    </Link>
                     <div className="flex flex-col gap-1">
                         <div className="font-medium text-base">
                             {user && comment.binhLuanCuaBan ? (
@@ -358,19 +365,25 @@ const CommentItem = ({
             {replyingTo === comment.id && (
                 <div className="mt-4 pl-6">
                     <div className="flex gap-8 items-start">
-                        <Avatar className="h-10 w-10">
-                            <AvatarImage
-                                src={
-                                    user?.avatar || '/images/default_avatar.jpg'
-                                }
-                                alt={user?.ten.charAt(0).toUpperCase()}
-                                className="object-cover"
-                            />
-                            <AvatarFallback>
-                                {user?.ho.charAt(0).toUpperCase()}
-                                {user?.ten.charAt(0).toUpperCase()}
-                            </AvatarFallback>
-                        </Avatar>
+                        <Link
+                            href={`/info/${user?.slug}`}
+                            className="hover:opacity-80 transition-opacity duration-200"
+                        >
+                            <Avatar className="h-10 w-10">
+                                <AvatarImage
+                                    src={
+                                        user?.avatar ||
+                                        '/images/default_avatar.jpg'
+                                    }
+                                    alt={user?.ten.charAt(0).toUpperCase()}
+                                    className="object-cover"
+                                />
+                                <AvatarFallback>
+                                    {user?.ho.charAt(0).toUpperCase()}
+                                    {user?.ten.charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                            </Avatar>
+                        </Link>
                         <div className="flex-1">
                             <div className="mb-2 text-sm text-gray-500">
                                 <span className="font-medium">
