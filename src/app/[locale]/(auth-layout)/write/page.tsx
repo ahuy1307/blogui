@@ -41,6 +41,7 @@ import {
     Sparkles,
     SquareArrowDown,
     Loader2,
+    Smile,
 } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/other-ui/Tabs'
 import { SortableSection } from '@/components/editor/SortableSection'
@@ -66,6 +67,13 @@ import { useUnlockBodyScroll } from '@/hooks/useUnlockBodyScroll'
 import { generateId } from '@/lib/utils'
 import { useRouter } from '@/navigation'
 import { useMissions } from '@/hooks/useMissions'
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
+import {
+    PopoverContent,
+    PopoverTrigger,
+    Popover,
+} from '@/components/other-ui/Popover'
 
 export default function WritePage() {
     const t = useTranslations('write') // Initialize translations for the 'write' namespace
@@ -983,6 +991,7 @@ export default function WritePage() {
             behavior: 'smooth',
         })
     }
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
     return (
         <>
@@ -1147,16 +1156,54 @@ export default function WritePage() {
                             >
                                 <div className="max-w-4xl mx-auto">
                                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8 space-y-6">
-                                        <div>
-                                            <Label
-                                                htmlFor="title"
-                                                className="text-lg font-medium mb-2 block"
-                                            >
-                                                {t('blogTitle')}{' '}
-                                                <span className="text-red-500">
-                                                    *
-                                                </span>
-                                            </Label>
+                                        <div className="relative">
+                                            <div>
+                                                <Label
+                                                    htmlFor="title"
+                                                    className="text-lg font-medium mb-2 block relative"
+                                                >
+                                                    {t('blogTitle')}{' '}
+                                                    <span className="text-red-500">
+                                                        *
+                                                    </span>
+                                                </Label>
+                                            </div>
+                                            <div className="absolute top-[50%] translate-y-[8%] right-2 hidden md:block">
+                                                <Popover
+                                                    open={showEmojiPicker}
+                                                    onOpenChange={
+                                                        setShowEmojiPicker
+                                                    }
+                                                >
+                                                    <PopoverTrigger asChild>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="h-8 w-8 p-0 rounded-full"
+                                                        >
+                                                            <Smile className="h-4 w-4" />
+                                                        </Button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent
+                                                        className="w-auto p-0 border-none shadow-lg"
+                                                        align="end"
+                                                    >
+                                                        <Picker
+                                                            data={data}
+                                                            onEmojiSelect={(
+                                                                emoji: any
+                                                            ) => {
+                                                                setTitle(
+                                                                    (prev) =>
+                                                                        prev +
+                                                                        emoji.native
+                                                                )
+                                                            }}
+                                                            locale={locale}
+                                                        />
+                                                    </PopoverContent>
+                                                </Popover>
+                                            </div>
                                             <input
                                                 id="title"
                                                 value={title}
