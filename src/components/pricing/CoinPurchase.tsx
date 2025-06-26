@@ -29,6 +29,8 @@ import { authenticationService } from '@/core/services/API/authentication/Authen
 import { useTranslations } from 'next-intl'
 import { motion } from 'framer-motion'
 import { useRouter } from '@/navigation'
+import { useAuth } from '@/contexts/auth/AuthContext'
+import LoginModal from '../features/home/LoginModal'
 
 export interface CoinPackage {
     id: string
@@ -63,6 +65,20 @@ export function CoinPurchase() {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
+    const [isLoginModalVisible, setIsLoginModalVisible] = useState(false)
+
+    const showModal = () => {
+        setIsLoginModalVisible(true)
+    }
+
+    const handleOk = () => {
+        setIsLoginModalVisible(false)
+    }
+
+    const handleCancel = () => {
+        setIsLoginModalVisible(false)
+    }
+    const { isAuthenticated } = useAuth()
 
     // Fetch packages from the service
     useEffect(() => {
@@ -119,6 +135,10 @@ export function CoinPurchase() {
     useEffect(() => {}, [packages])
 
     const handleSelectPackage = (pkg: CoinPackage) => {
+        if (!isAuthenticated) {
+            showModal()
+            return
+        }
         setSelectedPackage(pkg)
         saveCart([pkg])
         setCartItems(1)
@@ -178,6 +198,11 @@ export function CoinPurchase() {
 
     return (
         <>
+            <LoginModal
+                visible={isLoginModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            />
             <motion.div
                 className="text-center mb-12"
                 initial="hidden"
