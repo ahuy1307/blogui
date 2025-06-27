@@ -133,12 +133,12 @@ export function SavedLikeBlog({
                             {t('unLike')}
                         </button>
                     )}
-                    {/* <Link
+                    <Link
                         href={`/blog/${blog.slug}`}
                         className="text-purple-500 hover:text-purple-700"
                     >
                         {t('readMore')} →
-                    </Link> */}
+                    </Link>
                 </div>
             </CardFooter>
         </Card>
