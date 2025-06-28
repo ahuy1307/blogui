@@ -4,6 +4,14 @@ import type React from 'react'
 
 import { useState, useRef, useEffect } from 'react'
 import {
+    ReactCrop,
+    centerCrop,
+    makeAspectCrop,
+    type Crop,
+    type PixelCrop,
+} from 'react-image-crop'
+import 'react-image-crop/dist/ReactCrop.css'
+import {
     Dialog,
     DialogContent,
     DialogHeader,
@@ -72,6 +80,14 @@ export function MediaLibrary({
     const fileInputRef = useRef<HTMLInputElement>(null)
     const { toast } = useToast()
     const { dispatch, user } = useAuth()
+
+    // State for image cropping
+    const [imgSrc, setImgSrc] = useState('')
+    const [crop, setCrop] = useState<Crop>()
+    const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
+    const imgRef = useRef<HTMLImageElement>(null)
+    const previewCanvasRef = useRef<HTMLCanvasElement>(null)
+
     // AI image generation states
     const [imagePrompt, setImagePrompt] = useState('')
     const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(
@@ -79,6 +95,24 @@ export function MediaLibrary({
     )
     const [isGeneratingImage, setIsGeneratingImage] = useState(false)
     const [generationProgress, setGenerationProgress] = useState(0)
+
+    function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
+        const { width, height } = e.currentTarget
+        const newCrop = centerCrop(
+            makeAspectCrop(
+                {
+                    unit: '%',
+                    width: 90,
+                },
+                16 / 9,
+                width,
+                height
+            ),
+            width,
+            height
+        )
+        setCrop(newCrop)
+    }
 
     async function handleSignIn() {
         try {
@@ -169,6 +203,65 @@ export function MediaLibrary({
         },
     })
 
+    const handleCropAndUpload = async () => {
+        if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
+            toast({
+                title: 'Crop error',
+                description: 'Could not process the crop.',
+                variant: 'destructive',
+            })
+            return
+        }
+
+        const image = imgRef.current
+        const canvas = previewCanvasRef.current
+        const scaleX = image.naturalWidth / image.width
+        const scaleY = image.naturalHeight / image.height
+        const ctx = canvas.getContext('2d')
+
+        if (!ctx) {
+            throw new Error('No 2d context')
+        }
+
+        canvas.width = completedCrop.width
+        canvas.height = completedCrop.height
+
+        ctx.drawImage(
+            image,
+            completedCrop.x * scaleX,
+            completedCrop.y * scaleY,
+            completedCrop.width * scaleX,
+            completedCrop.height * scaleY,
+            0,
+            0,
+            completedCrop.width,
+            completedCrop.height
+        )
+
+        canvas.toBlob((blob) => {
+            if (!blob) {
+                toast({
+                    title: 'Error creating image',
+                    description: 'Could not create image file for upload.',
+                    variant: 'destructive',
+                })
+                return
+            }
+
+            const croppedFile = new File([blob], 'cropped-image.png', {
+                type: 'image/png',
+            })
+
+            setIsUploading(true)
+            setUploadProgress(10)
+            uploadMediaMutation.mutate({
+                loaiMedia: 'image',
+                mediaFile: croppedFile,
+            })
+            setImgSrc('') // Go back to dropzone
+        }, 'image/png')
+    }
+
     const simulateProgressTo100 = (
         newMedia: BlogMedia,
         onComplete: () => void
@@ -257,8 +350,11 @@ export function MediaLibrary({
         const file = e.target.files?.[0]
         if (!file) return
 
+        const isImage = file.type.startsWith('image/')
+        const isVideo = file.type.startsWith('video/')
+
         // Check if file is an image or video based on mediaType
-        if (mediaType === 'image' && !file.type.startsWith('image/')) {
+        if (mediaType === 'image' && !isImage) {
             toast({
                 title: t('invalidFileType'),
                 description: t('invalidFileTypeDescriptionImage'),
@@ -267,7 +363,7 @@ export function MediaLibrary({
             return
         }
 
-        if (mediaType === 'video' && !file.type.startsWith('video/')) {
+        if (mediaType === 'video' && !isVideo) {
             toast({
                 title: t('invalidFileType'),
                 description: t('invalidFileTypeDescriptionVideo'),
@@ -276,15 +372,28 @@ export function MediaLibrary({
             return
         }
 
-        // Check file size (max 10MB)
-        if (mediaType === 'image' && file.size > MAX_IMAGE_SIZE) {
+        if (
+            mediaType === 'all' &&
+            !file.type.startsWith('image/') &&
+            !file.type.startsWith('video/')
+        ) {
+            toast({
+                title: t('invalidFileType'),
+                description: t('supportedFormatsAll'),
+                variant: 'destructive',
+            })
+            return
+        }
+
+        // Check file size
+        if (isImage && file.size > MAX_IMAGE_SIZE) {
             toast({
                 title: t('fileTooLarge'),
                 description: t('imageFileTooLargeDescription'),
                 variant: 'destructive',
             })
             return
-        } else if (mediaType === 'video' && file.size > MAX_VIDEO_SIZE) {
+        } else if (isVideo && file.size > MAX_VIDEO_SIZE) {
             toast({
                 title: t('fileTooLarge'),
                 description: t('videoFileTooLargeDescription'),
@@ -293,11 +402,21 @@ export function MediaLibrary({
             return
         }
 
-        // Simulate upload progress and upload the file
+        if (isImage) {
+            setCrop(undefined) // Reset crop state
+            const reader = new FileReader()
+            reader.addEventListener('load', () =>
+                setImgSrc(reader.result?.toString() || '')
+            )
+            reader.readAsDataURL(file)
+            return
+        }
+
+        // It's a video, upload directly
         setIsUploading(true)
         setUploadProgress(10) // Start progress at 10%
         uploadMediaMutation.mutate({
-            loaiMedia: file.type.startsWith('image/') ? 'image' : 'video',
+            loaiMedia: 'video',
             mediaFile: file,
         })
     }
@@ -488,6 +607,10 @@ export function MediaLibrary({
             setIsGeneratingImage(false)
             setGenerationProgress(0)
             setUploadProgress(0)
+            // Reset cropper state
+            setImgSrc('')
+            setCrop(undefined)
+            setCompletedCrop(undefined)
         }
     }, [isOpen])
 
@@ -738,13 +861,13 @@ export function MediaLibrary({
                                                                 .name
                                                         }
                                                     </div>
-                                                    <div className="text-xs text-gray-500 flex flex-wrap gap-2 sm:gap-3">
-                                                        <span>
+                                                    <div className="text-xs mt-2 text-gray-500 flex flex-wrap gap-2 sm:gap-3">
+                                                        {/* <span>
                                                             {media.loaiMedia ===
                                                             'image'
                                                                 ? 'Dimensions Unknown'
                                                                 : 'Duration Unknown'}
-                                                        </span>
+                                                        </span> */}
                                                         <span>
                                                             {bytesToMB(
                                                                 media
@@ -811,72 +934,132 @@ export function MediaLibrary({
                         value="upload"
                         className="mt-4 flex-1 overflow-auto"
                     >
-                        <div className="border-2 border-dashed border-gray-300 rounded-md p-4 sm:p-8 text-center">
-                            <input
-                                type="file"
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                                accept={
-                                    mediaType === 'image'
-                                        ? 'image/*'
-                                        : mediaType === 'video'
-                                          ? 'video/*'
-                                          : 'image/*,video/*'
-                                }
-                                className="hidden"
-                            />
-
-                            {mediaType === 'video' ? (
-                                <Video className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-gray-400 mb-4" />
-                            ) : (
-                                <ImageIcon className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-gray-400 mb-4" />
-                            )}
-
-                            <p className="text-gray-600 mb-4 text-sm sm:text-base">
-                                {t('uploadFile', {
-                                    type:
-                                        mediaType === 'all'
-                                            ? t('files')
-                                            : mediaType === 'image'
-                                              ? t('images')
-                                              : t('videos'),
-                                })}
-                            </p>
-
-                            <p className="text-xs text-gray-500 mb-4">
-                                {mediaType === 'image'
-                                    ? t('supportedFormatsImage')
-                                    : mediaType === 'video'
-                                      ? t('supportedFormatsVideo')
-                                      : t('supportedFormatsAll')}
-                                <br />
-                                {mediaType === 'image' && t('maxFileSizeImage')}
-                                {mediaType === 'video' && t('maxFileSizeVideo')}
-                            </p>
-
-                            {isUploading ? (
-                                <div className="w-full max-w-md mx-auto space-y-4">
-                                    <Progress
-                                        value={uploadProgress}
-                                        className="h-2"
-                                    />
-                                    <p className="text-sm text-gray-600">
-                                        {t('uploading', {
-                                            progress: uploadProgress,
-                                        })}
-                                    </p>
-                                </div>
-                            ) : (
-                                <Button
-                                    onClick={() =>
-                                        fileInputRef.current?.click()
+                        {imgSrc ? (
+                            <div className="flex flex-col items-center gap-4">
+                                <ReactCrop
+                                    crop={crop}
+                                    onChange={(_, percentCrop) =>
+                                        setCrop(percentCrop)
                                     }
-                                    className="bg-purple-600 hover:bg-purple-700 h-10"
+                                    onComplete={(c) => setCompletedCrop(c)}
+                                    aspect={16 / 9}
+                                    className="max-w-full"
                                 >
-                                    {t('selectFile')}
-                                </Button>
-                            )}
-                        </div>
+                                    <Image
+                                        ref={imgRef}
+                                        alt="Crop me"
+                                        src={imgSrc}
+                                        onLoad={onImageLoad}
+                                        width={600}
+                                        height={600}
+                                        style={{
+                                            maxHeight: '50vh',
+                                            objectFit: 'contain',
+                                        }}
+                                    />
+                                </ReactCrop>
+                                <div className="flex gap-2">
+                                    <Button
+                                        onClick={() => setImgSrc('')}
+                                        variant="outline"
+                                        disabled={isUploading}
+                                    >
+                                        {t('cancel')}
+                                    </Button>
+                                    <Button
+                                        onClick={handleCropAndUpload}
+                                        disabled={isUploading}
+                                        className="bg-purple-600 hover:bg-purple-700"
+                                    >
+                                        {isUploading
+                                            ? t('uploadingInProgress')
+                                            : t('cropAndUpload')}
+                                    </Button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div
+                                className="border-2 border-dashed border-gray-300 rounded-md p-4 sm:p-8 text-center"
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={(e) => {
+                                    e.preventDefault()
+                                    if (e.dataTransfer.files.length > 0) {
+                                        handleFileChange({
+                                            target: {
+                                                files: e.dataTransfer.files,
+                                            },
+                                        } as unknown as React.ChangeEvent<HTMLInputElement>)
+                                    }
+                                }}
+                            >
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    onChange={handleFileChange}
+                                    accept={
+                                        mediaType === 'image'
+                                            ? 'image/*'
+                                            : mediaType === 'video'
+                                              ? 'video/*'
+                                              : 'image/*,video/*'
+                                    }
+                                    className="hidden"
+                                />
+
+                                {mediaType === 'video' ? (
+                                    <Video className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-gray-400 mb-4" />
+                                ) : (
+                                    <ImageIcon className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-gray-400 mb-4" />
+                                )}
+
+                                <p className="text-gray-600 mb-4 text-sm sm:text-base">
+                                    {t('uploadFile', {
+                                        type:
+                                            mediaType === 'all'
+                                                ? t('files')
+                                                : mediaType === 'image'
+                                                  ? t('images')
+                                                  : t('videos'),
+                                    })}
+                                </p>
+
+                                <p className="text-xs text-gray-500 mb-4">
+                                    {mediaType === 'image'
+                                        ? t('supportedFormatsImage')
+                                        : mediaType === 'video'
+                                          ? t('supportedFormatsVideo')
+                                          : t('supportedFormatsAll')}
+                                    <br />
+                                    {mediaType === 'image' &&
+                                        t('maxFileSizeImage')}
+                                    {mediaType === 'video' &&
+                                        t('maxFileSizeVideo')}
+                                </p>
+
+                                {isUploading ? (
+                                    <div className="w-full max-w-md mx-auto space-y-4">
+                                        <Progress
+                                            value={uploadProgress}
+                                            className="h-2"
+                                        />
+                                        <p className="text-sm text-gray-600">
+                                            {t('uploading', {
+                                                progress: uploadProgress,
+                                            })}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <Button
+                                        onClick={() =>
+                                            fileInputRef.current?.click()
+                                        }
+                                        className="bg-purple-600 hover:bg-purple-700 h-10"
+                                    >
+                                        {t('selectFile')}
+                                    </Button>
+                                )}
+                            </div>
+                        )}
                     </TabsContent>
 
                     {/* New Generate Image Tab */}
@@ -1098,6 +1281,17 @@ export function MediaLibrary({
                         </div>
                     </TabsContent>
                 </Tabs>
+
+                {/* Hidden canvas for cropping */}
+                <canvas
+                    ref={previewCanvasRef}
+                    style={{
+                        display: 'none',
+                        objectFit: 'contain',
+                        width: completedCrop?.width ?? 0,
+                        height: completedCrop?.height ?? 0,
+                    }}
+                />
 
                 <Separator className="my-3 sm:my-4" />
 

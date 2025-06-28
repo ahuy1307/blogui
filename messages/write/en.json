@@ -227,7 +227,8 @@
         "uploadingGeneratedImage": "Uploading generated image...",
         "notHaveEnoughCoins": "You don't have enough coins to generate this image. Please purchase more coins.",
         "imageFileTooLargeDescription": "Image file size exceeds the 10MB limit. Please select a smaller image.",
-        "videoFileTooLargeDescription": "Video file size exceeds the 50MB limit. Please select a smaller video."
+        "videoFileTooLargeDescription": "Video file size exceeds the 50MB limit. Please select a smaller video.",
+        "cropAndUpload": "Crop and upload"
     },
     "TopicSelector": {
         "placeholder": "Search or add topics...",

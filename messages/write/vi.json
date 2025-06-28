@@ -161,7 +161,8 @@
         "uploadingGeneratedImage": "Đang tải lên hình ảnh đã tạo...",
         "notHaveEnoughCoins": "Bạn không đủ xu để tạo hình ảnh này. Vui lòng nạp thêm xu.",
         "imageFileTooLargeDescription": "Dung lượng tệp hình ảnh vượt quá giới hạn 10MB. Vui lòng chọn tệp nhỏ hơn.",
-        "videoFileTooLargeDescription": "Dung lượng tệp video vượt quá giới hạn 50MB. Vui lòng chọn tệp nhỏ hơn."
+        "videoFileTooLargeDescription": "Dung lượng tệp video vượt quá giới hạn 50MB. Vui lòng chọn tệp nhỏ hơn.",
+        "cropAndUpload": "Cắt và tải lên"
     },
     "TopicSelector": {
         "placeholder": "Tìm hoặc thêm chủ đề...",

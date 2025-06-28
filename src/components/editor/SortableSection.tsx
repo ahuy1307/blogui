@@ -106,6 +106,18 @@ export function SortableSection({
         }, 300) // Delay matches the CSS transition duration
     }
 
+    function placeCaretAtEnd(el: HTMLElement) {
+        el.focus()
+
+        const range = document.createRange()
+        range.selectNodeContents(el)
+        range.collapse(false) // Đặt con trỏ ở cuối
+
+        const sel = window.getSelection()
+        sel?.removeAllRanges()
+        sel?.addRange(range)
+    }
+
     const handleInsertEmoji = (emoji: { native: string }) => {
         if (section.type === 'heading') {
             // For heading, set a default cursor position if none exists
@@ -138,25 +150,45 @@ export function SortableSection({
         } else if (section.type === 'text') {
             // For text editor, we need a different approach
             // First check if content is in JSON format
+            console.log(section)
             try {
-                const contentObj =
-                    typeof section.content === 'string' &&
-                    section.content.startsWith('{')
-                        ? JSON.parse(section.content)
-                        : null
+                const parser = new DOMParser()
+                const doc = parser.parseFromString(section.content, 'text/html')
 
-                if (contentObj && contentObj.text !== undefined) {
-                    // It's in JSON format, append to the text property
-                    contentObj.text += emoji.native
-                    updateSection(section.id, {
-                        content: JSON.stringify(contentObj),
-                    })
-                } else {
-                    // It's plain text, just append normally
-                    updateSection(section.id, {
-                        content: section.content + emoji.native,
-                    })
+                // Tìm phần tử có nội dung cuối cùng
+                const body = doc.body
+                const elements = Array.from(body.childNodes).filter(
+                    (n) =>
+                        n.nodeType === Node.ELEMENT_NODE ||
+                        n.nodeType === Node.TEXT_NODE
+                )
+
+                if (elements.length > 0) {
+                    const lastEl = elements[elements.length - 1]
+
+                    if (
+                        lastEl.nodeType === Node.ELEMENT_NODE &&
+                        lastEl instanceof HTMLElement
+                    ) {
+                        lastEl.innerHTML += emoji.native
+                    } else if (lastEl.nodeType === Node.TEXT_NODE) {
+                        lastEl.textContent += emoji.native
+                    }
                 }
+
+                // Lấy lại HTML đã chỉnh sửa
+                const updatedHtml = body.innerHTML
+                updateSection(section.id, {
+                    content: updatedHtml,
+                })
+                setTimeout(() => {
+                    const editor = document.querySelector(
+                        '[contenteditable="true"]'
+                    )
+                    if (editor instanceof HTMLElement) {
+                        placeCaretAtEnd(editor)
+                    }
+                }, 5) // Delay vừa đủ để DOM render xong
             } catch (e) {
                 // Not JSON, just append normally
                 updateSection(section.id, {

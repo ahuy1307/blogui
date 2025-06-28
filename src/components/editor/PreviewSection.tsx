@@ -26,7 +26,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
     }
     // Helper function to apply text formatting based on class names
     const formatTextContent = (content: string) => {
-        // Check if content is a JSON string with formatting
+        // Check if content is a JSON string with formatting (old format)
         if (
             typeof content === 'string' &&
             content.startsWith('{') &&
@@ -49,22 +49,30 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                         format.fontSize === 'small' ? 'text-sm' : '',
                         format.fontSize === 'normal' ? 'text-base' : '',
                         format.fontSize === 'large' ? 'text-lg' : '',
-                        format.fontSize === 'xlarge' ? 'text-xl' : '',
-                        'whitespace-pre-wrap break-words',
-                        className
+                        format.fontSize === 'xlarge' ? 'text-xl' : ''
+                        // 'whitespace-pre-wrap break-words'
                     )
                     return <div className={formatClassName}>{text}</div>
                 }
             } catch (e) {
-                // Not valid JSON with format
+                // Not valid JSON with format, fall through to treat as HTML
             }
         }
 
-        // Default case - just wrap in a div
+        // Default case - treat as HTML from react-quill
+        // We need to render the HTML without prose styles to respect quill's output.
         return (
-            <div className={cn('whitespace-pre-wrap break-words', className)}>
-                {content}
-            </div>
+            <div
+                className={cn(
+                    'ql-editor',
+                    className,
+                    '[&_a]:text-blue-600 [&_a]:underline'
+                )}
+                style={{
+                    textAlign: 'justify',
+                }}
+                dangerouslySetInnerHTML={{ __html: content }}
+            />
         )
     }
 
@@ -84,7 +92,7 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
         case 'text':
             return (
                 <div
-                    className="mb-4 text-justify text-base md:text-lg"
+                    className="text-justify text-base md:text-lg"
                     style={{
                         ...spacingStyles,
                     }}
