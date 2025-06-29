@@ -690,7 +690,7 @@ export function MediaLibrary({
                 >
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
                         <TabsList
-                            className={`grid ${mediaType === 'video' ? 'grid-cols-3 w-full sm:w-[450px]' : 'grid-cols-4 w-full sm:w-[600px]'}`}
+                            className={`grid ${mediaType === 'video' ? 'grid-cols-3 w-full sm:w-[450px]' : 'grid-cols-3 w-full sm:w-[600px]'}`}
                         >
                             <TabsTrigger
                                 value="library"
@@ -706,7 +706,7 @@ export function MediaLibrary({
                                 <Upload className="h-3 w-3 sm:h-4 sm:w-4 hidden md:block" />
                                 {t('upload')}
                             </TabsTrigger>
-                            {mediaType == 'video' && (
+                            {mediaType === 'video' && (
                                 <TabsTrigger
                                     value="from-url"
                                     className="flex items-center gap-2 px-2 sm:px-4 text-sm sm:text-sm"

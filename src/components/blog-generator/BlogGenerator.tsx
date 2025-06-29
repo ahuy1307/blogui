@@ -560,7 +560,7 @@ export function BlogGenerator({
                                         onChange={(e) =>
                                             setIncludeCode(e.target.checked)
                                         }
-                                        className="mt-1 h-5 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                                        className="mt-1 h-5 w-6 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                                     />
                                     <div className="ml-3">
                                         <Label
