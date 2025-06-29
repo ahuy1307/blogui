@@ -304,7 +304,7 @@ export function CheckoutClient() {
         <>
             <div className="max-w-6xl mx-auto mt-[80px]">
                 <Link
-                    href="/subscription"
+                    href="/pricing"
                     className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6 transition-colors"
                 >
                     <ArrowLeft className="mr-2 h-4 w-4" />
