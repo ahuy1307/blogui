@@ -426,6 +426,17 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
             }
 
         case 'video':
+            let videoUrl = section.url
+            if (videoUrl && videoUrl.includes('youtube.com/embed/')) {
+                // URL is already in embed format, do nothing
+            } else if (videoUrl && videoUrl.includes('youtube.com/watch?v=')) {
+                const videoId = new URL(videoUrl).searchParams.get('v')
+                videoUrl = `https://www.youtube.com/embed/${videoId}`
+            } else if (videoUrl && videoUrl.includes('youtu.be/')) {
+                const videoId = videoUrl.split('youtu.be/')[1].split('?')[0]
+                videoUrl = `https://www.youtube.com/embed/${videoId}`
+            }
+
             return (
                 <figure
                     className="mb-6"
@@ -433,10 +444,10 @@ export function PreviewSection({ section, className }: PreviewSectionProps) {
                         ...spacingStyles,
                     }}
                 >
-                    {section.url ? (
+                    {videoUrl ? (
                         <div className="aspect-video rounded-md overflow-hidden shadow-md">
                             <iframe
-                                src={section.url}
+                                src={videoUrl}
                                 title={section.caption || 'Video'}
                                 className="w-full h-full"
                                 frameBorder="0"

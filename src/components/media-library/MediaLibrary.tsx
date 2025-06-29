@@ -40,6 +40,7 @@ import {
     Sparkles,
     OctagonAlert,
     TriangleAlert,
+    Link,
 } from 'lucide-react'
 import { Progress } from '@/components/other-ui/Progress'
 import { Separator } from '@/components/other-ui/Separator'
@@ -80,6 +81,7 @@ export function MediaLibrary({
     const fileInputRef = useRef<HTMLInputElement>(null)
     const { toast } = useToast()
     const { dispatch, user } = useAuth()
+    const [url, setUrl] = useState('')
 
     // State for image cropping
     const [imgSrc, setImgSrc] = useState('')
@@ -112,6 +114,61 @@ export function MediaLibrary({
             height
         )
         setCrop(newCrop)
+    }
+
+    const handleAddFromUrl = () => {
+        if (!url.trim()) {
+            toast({
+                title: t('emptyUrl'),
+                description: t('emptyUrlDescription'),
+                variant: 'destructive',
+            })
+            return
+        }
+
+        let finalUrl = url.trim()
+        let type: 'image' | 'video' = 'image' // Default to image
+
+        // Basic check for video URLs
+        if (
+            finalUrl.includes('youtube.com/watch?v=') ||
+            finalUrl.includes('youtu.be/')
+        ) {
+            type = 'video'
+            const videoId = finalUrl.includes('youtu.be/')
+                ? finalUrl.split('youtu.be/')[1].split('?')[0]
+                : new URL(finalUrl).searchParams.get('v')
+            finalUrl = `https://www.youtube.com/embed/${videoId}`
+        } else if (finalUrl.match(/\.(mp4|webm|ogg)$/)) {
+            type = 'video'
+        }
+
+        if (mediaType !== 'all' && mediaType !== type) {
+            toast({
+                title: t('invalidFileType'),
+                description:
+                    mediaType === 'image'
+                        ? t('invalidFileTypeDescriptionImage')
+                        : t('invalidFileTypeDescriptionVideo'),
+                variant: 'destructive',
+            })
+            return
+        }
+
+        // Create a mock media object to pass back
+        const media: BlogMedia = {
+            id: `url-${Date.now()}`,
+            loaiMedia: type,
+            noiDungMedia: {
+                url: finalUrl,
+                name: finalUrl,
+                size: 0,
+                date: new Date().toISOString(),
+            },
+        }
+
+        onMediaSelected(media)
+        onClose()
     }
 
     async function handleSignIn() {
@@ -633,7 +690,7 @@ export function MediaLibrary({
                 >
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
                         <TabsList
-                            className={`grid ${mediaType === 'video' ? 'grid-cols-2 w-full sm:w-[300px]' : 'grid-cols-3 w-full sm:w-[450px]'}`}
+                            className={`grid ${mediaType === 'video' ? 'grid-cols-3 w-full sm:w-[450px]' : 'grid-cols-4 w-full sm:w-[600px]'}`}
                         >
                             <TabsTrigger
                                 value="library"
@@ -649,6 +706,15 @@ export function MediaLibrary({
                                 <Upload className="h-3 w-3 sm:h-4 sm:w-4 hidden md:block" />
                                 {t('upload')}
                             </TabsTrigger>
+                            {mediaType == 'video' && (
+                                <TabsTrigger
+                                    value="from-url"
+                                    className="flex items-center gap-2 px-2 sm:px-4 text-sm sm:text-sm"
+                                >
+                                    <Link className="h-3 w-3 sm:h-4 sm:w-4 hidden md:block" />
+                                    {t('fromUrl')}
+                                </TabsTrigger>
+                            )}
                             {/* Only show generate tab for image or all media types */}
                             {(mediaType === 'image' || mediaType === 'all') && (
                                 <TabsTrigger
@@ -1060,6 +1126,45 @@ export function MediaLibrary({
                                 )}
                             </div>
                         )}
+                    </TabsContent>
+
+                    <TabsContent
+                        value="from-url"
+                        className="mt-4 flex-1 overflow-auto"
+                    >
+                        <div className="border rounded-md p-4 sm:p-6">
+                            <h3 className="text-base sm:text-lg font-medium mb-4">
+                                {t('addFromUrlTitle')}
+                            </h3>
+                            <div className="space-y-4">
+                                <div>
+                                    <label
+                                        htmlFor="media-url"
+                                        className="block text-sm font-medium mb-2"
+                                    >
+                                        {t('mediaUrlLabel')}
+                                    </label>
+                                    <Input
+                                        id="media-url"
+                                        placeholder={t('mediaUrlPlaceholder')}
+                                        value={url}
+                                        onChange={(e) => setUrl(e.target.value)}
+                                    />
+                                    <p className="text-xs text-gray-500 mt-2">
+                                        {t('mediaUrlDescription')}
+                                    </p>
+                                </div>
+                                <div>
+                                    <Button
+                                        onClick={handleAddFromUrl}
+                                        className="bg-purple-600 hover:bg-purple-700 h-10 w-full sm:w-auto"
+                                        disabled={!url.trim()}
+                                    >
+                                        {t('addMedia')}
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
                     </TabsContent>
 
                     {/* New Generate Image Tab */}

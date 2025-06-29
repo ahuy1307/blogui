@@ -228,7 +228,13 @@
         "notHaveEnoughCoins": "You don't have enough coins to generate this image. Please purchase more coins.",
         "imageFileTooLargeDescription": "Image file size exceeds the 10MB limit. Please select a smaller image.",
         "videoFileTooLargeDescription": "Video file size exceeds the 50MB limit. Please select a smaller video.",
-        "cropAndUpload": "Crop and upload"
+        "cropAndUpload": "Crop and upload",
+        "addFromUrlTitle": "Add video from URL",
+        "mediaUrlLabel": "Video URL",
+        "mediaUrlPlaceholder": "Enter the URL of the media (YouTube, Vimeo, or direct image link)",
+        "mediaUrlDescription": "You can add a YouTube or Vimeo video URL, or a direct link to an image file.",
+        "addMedia": "Add video from URL",
+        "fromUrl": "From URL"
     },
     "TopicSelector": {
         "placeholder": "Search or add topics...",

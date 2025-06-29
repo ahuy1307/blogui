@@ -162,7 +162,13 @@
         "notHaveEnoughCoins": "Bạn không đủ xu để tạo hình ảnh này. Vui lòng nạp thêm xu.",
         "imageFileTooLargeDescription": "Dung lượng tệp hình ảnh vượt quá giới hạn 10MB. Vui lòng chọn tệp nhỏ hơn.",
         "videoFileTooLargeDescription": "Dung lượng tệp video vượt quá giới hạn 50MB. Vui lòng chọn tệp nhỏ hơn.",
-        "cropAndUpload": "Cắt và tải lên"
+        "cropAndUpload": "Cắt và tải lên",
+        "addFromUrlTitle": "Thêm video từ URL",
+        "mediaUrlLabel": "Video URL",
+        "mediaUrlPlaceholder": "Nhập URL của phương tiện (YouTube, Vimeo hoặc liên kết video trực tiếp)",
+        "mediaUrlDescription": "Bạn có thể thêm URL video từ YouTube hoặc Vimeo, hoặc liên kết trực tiếp đến tệp video.",
+        "addMedia": "Thêm video từ URL",
+        "fromUrl": "Từ URL"
     },
     "TopicSelector": {
         "placeholder": "Tìm hoặc thêm chủ đề...",
